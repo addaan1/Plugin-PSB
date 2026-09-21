@@ -34,7 +34,7 @@ add_action( 'admin_enqueue_scripts', function( $hook ) {
 /* ══════════════════════════════════════════════════════
    DEFINE CONSTANTS
    ══════════════════════════════════════════════════════ */
-define( 'ASSIE4_PAMERAN_VER',  '2.9.1' );
+define( 'ASSIE4_PAMERAN_VER',  '2.9.2' );
 define( 'ASSIE4_PAMERAN_DIR',  plugin_dir_path( __FILE__ ) );
 define( 'ASSIE4_PAMERAN_URL',  plugin_dir_url( __FILE__ ) );
 define( 'ASSIE4_PAMERAN_SLUG', 'pameran-assie4' );
@@ -111,42 +111,51 @@ function assie4_pameran_enqueue() {
     $tenants = get_option( 'assie4_pameran_tenants', [] );
     $tenants = is_array($tenants) ? array_map( 'assie4_normalize_tenant', $tenants ) : [];
 
-    $a4_slides = get_option( 'assie4_pameran_slides', assie4_default_slides() );
-    if ( ! is_array($a4_slides) || empty($a4_slides) ) {
-        $a4_slides = assie4_default_slides();
-    }
-    $has_industry_slide = false;
-    foreach ( $a4_slides as $s ) {
-        if ( isset($s['title']) && stripos($s['title'], 'Industry Matching') !== false ) {
-            $has_industry_slide = true;
-            break;
-        }
-    }
-    if ( ! $has_industry_slide ) {
-        $a4_slides[] = [
-            'title'    => 'Industry Matching',
-            'subtitle' => 'ASSIE IV 2026',
-            'desc'     => 'Airlangga Startup Summit & Innovation Expo 2026 — Kolaborasi Riset, Startup & Mitra Industri.',
+        $a4_slides = [
+        [
+            'title'    => 'ASSIE IV 2026',
+            'subtitle' => 'Airlangga Startup Summit & Innovation Expo',
+            'desc'     => 'Ajang pameran startup & inovasi terbesar di Jawa Timur.',
             'cta'      => 'Jelajahi Pameran',
             'link'     => '#denah',
+            'bg'       => ASSIE4_PAMERAN_URL . 'assets/kegiatan-assie-1.jpg',
+        ],
+        [
+            'title'    => 'Inovasi Tanpa Batas',
+            'subtitle' => 'Grand City Convention Hall · Surabaya',
+            'desc'     => 'Temui inovator muda dan ekosistem startup Jawa Timur.',
+            'cta'      => 'Lihat Denah Booth',
+            'link'     => '#denah',
+            'bg'       => ASSIE4_PAMERAN_URL . 'assets/kegiatan-assie-4.jpg',
+        ],
+        [
+            'title'    => 'Dukung Startup Lokal',
+            'subtitle' => 'TokoUA · tokoua.unair.ac.id',
+            'desc'     => 'Beli produk tenant pameran secara online melalui TokoUA.',
+            'cta'      => 'Kunjungi TokoUA',
+            'link'     => 'https://tokoua.unair.ac.id/',
+            'bg'       => ASSIE4_PAMERAN_URL . 'assets/kegiatan-assie-3.jpg',
+        ],
+        [
+            'title'    => 'Kompetisi & Talenta Digital',
+            'subtitle' => 'Roblox & E-Sport Competition · Grand City',
+            'desc'     => 'Wadah kreativitas talenta digital dan generasi inovator masa depan.',
+            'cta'      => 'Lihat Rundown Acara',
+            'link'     => '#rundown',
+            'bg'       => ASSIE4_PAMERAN_URL . 'assets/kegiatan-assie-2.jpg',
+        ],
+        [
+            'title'    => 'Industry Matching',
+            'subtitle' => 'ASSIE IV 2026',
+            'desc'     => '',
+            'cta'      => '',
+            'link'     => '#denah',
             'bg'       => 'linear-gradient(135deg,#03050e 0%,#0c1a40 100%)',
-        ];
-        update_option( 'assie4_pameran_slides', $a4_slides );
-    }
-    foreach ( $a4_slides as &$s ) {
-        if ( isset($s['title']) && stripos($s['title'], 'Inovasi Tanpa Batas') !== false ) {
-            $s['photos'] = [
-                ASSIE4_PAMERAN_URL . 'assets/kegiatan-assie-1.jpg',
-                ASSIE4_PAMERAN_URL . 'assets/kegiatan-assie-2.jpg',
-            ];
-            $s['bg'] = 'radial-gradient(circle at 20% 50%, rgba(30,58,138,0.35) 0%, transparent 60%), radial-gradient(circle at 80% 50%, rgba(16,185,129,0.25) 0%, transparent 60%), linear-gradient(135deg, #03050e 0%, #091938 50%, #051c14 100%)';
-        }
-        if ( isset($s['title']) && stripos($s['title'], 'Industry Matching') !== false ) {
-            $s['logo']    = ASSIE4_PAMERAN_URL . 'assets/logo-assie4.png';
-            $s['is_logo'] = true;
-        }
-    }
-    unset($s);
+            'logo'     => ASSIE4_PAMERAN_URL . 'assets/logo-assie4.png',
+            'is_logo'  => true,
+        ],
+    ];
+    update_option( 'assie4_pameran_slides', $a4_slides );
 
     $db  = wp_json_encode([
         'info'    => get_option( 'assie4_pameran_info',    assie4_default_info() ),

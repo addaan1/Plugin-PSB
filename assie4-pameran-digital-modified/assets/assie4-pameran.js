@@ -104,7 +104,7 @@
       var div=document.createElement('div');
       div.className='a4-sl'+(i===0?' on':'');
       var bg    = s.bg||'#03050e';
-      var isImg = /^https?:\/\//i.test(bg.trim());
+      var isImg = /^https?:\/\//i.test(bg.trim()) || /\.(jpe?g|png|webp)/i.test(bg.trim());
       // Untuk URL gambar: gunakan langsung tanpa escH agar URL tidak rusak
       var bgCss = isImg
         ? 'background-image:url(' + bg.replace(/[()]/g,'') + ');background-size:cover;background-position:center center;background-repeat:no-repeat'

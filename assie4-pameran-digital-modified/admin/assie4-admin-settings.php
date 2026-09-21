@@ -39,10 +39,48 @@ function assie4_default_info() {
 }
 function assie4_default_slides() {
     return [
-        ['title'=>'ASSIE IV 2026','subtitle'=>'Airlangga Startup Summit & Innovation Expo','desc'=>'Ajang pameran startup & inovasi terbesar di Jawa Timur.','cta'=>'Jelajahi Pameran','link'=>'#denah','bg'=>'linear-gradient(135deg,#03050e 0%,#0c1a40 100%)'],
-        ['title'=>'Inovasi Tanpa Batas','subtitle'=>'Grand City Convention Hall · Surabaya','desc'=>'Temui inovator muda dan ekosistem startup Jawa Timur.','cta'=>'Lihat Denah Booth','link'=>'#denah','bg'=>'radial-gradient(circle at 20% 50%, rgba(30,58,138,0.35) 0%, transparent 60%), radial-gradient(circle at 80% 50%, rgba(16,185,129,0.25) 0%, transparent 60%), linear-gradient(135deg, #03050e 0%, #091938 50%, #051c14 100%)','photos'=>[ASSIE4_PAMERAN_URL . 'assets/kegiatan-assie-1.jpg', ASSIE4_PAMERAN_URL . 'assets/kegiatan-assie-2.jpg']],
-        ['title'=>'Dukung Startup Lokal','subtitle'=>'TokoUA · tokoua.unair.ac.id','desc'=>'Beli produk tenant pameran secara online melalui TokoUA.','cta'=>'Kunjungi TokoUA','link'=>'https://tokoua.unair.ac.id/','bg'=>'linear-gradient(135deg,#03050e 0%,#1a0a00 100%)'],
-        ['title'=>'Industry Matching','subtitle'=>'ASSIE IV 2026','desc'=>'Airlangga Startup Summit & Innovation Expo 2026 — Menghubungkan Inovasi dan Industri.','cta'=>'Jelajahi Pameran','link'=>'#denah','bg'=>'linear-gradient(135deg,#03050e 0%,#0c1a40 100%)'],
+        [
+            'title'    => 'ASSIE IV 2026',
+            'subtitle' => 'Airlangga Startup Summit & Innovation Expo',
+            'desc'     => 'Ajang pameran startup & inovasi terbesar di Jawa Timur.',
+            'cta'      => 'Jelajahi Pameran',
+            'link'     => '#denah',
+            'bg'       => ASSIE4_PAMERAN_URL . 'assets/kegiatan-assie-1.jpg',
+        ],
+        [
+            'title'    => 'Inovasi Tanpa Batas',
+            'subtitle' => 'Grand City Convention Hall · Surabaya',
+            'desc'     => 'Temui inovator muda dan ekosistem startup Jawa Timur.',
+            'cta'      => 'Lihat Denah Booth',
+            'link'     => '#denah',
+            'bg'       => ASSIE4_PAMERAN_URL . 'assets/kegiatan-assie-4.jpg',
+        ],
+        [
+            'title'    => 'Dukung Startup Lokal',
+            'subtitle' => 'TokoUA · tokoua.unair.ac.id',
+            'desc'     => 'Beli produk tenant pameran secara online melalui TokoUA.',
+            'cta'      => 'Kunjungi TokoUA',
+            'link'     => 'https://tokoua.unair.ac.id/',
+            'bg'       => ASSIE4_PAMERAN_URL . 'assets/kegiatan-assie-3.jpg',
+        ],
+        [
+            'title'    => 'Kompetisi & Talenta Digital',
+            'subtitle' => 'Roblox & E-Sport Competition · Grand City',
+            'desc'     => 'Wadah kreativitas talenta digital dan generasi inovator masa depan.',
+            'cta'      => 'Lihat Rundown Acara',
+            'link'     => '#rundown',
+            'bg'       => ASSIE4_PAMERAN_URL . 'assets/kegiatan-assie-2.jpg',
+        ],
+        [
+            'title'    => 'Industry Matching',
+            'subtitle' => 'ASSIE IV 2026',
+            'desc'     => '',
+            'cta'      => '',
+            'link'     => '#denah',
+            'bg'       => 'linear-gradient(135deg,#03050e 0%,#0c1a40 100%)',
+            'logo'     => ASSIE4_PAMERAN_URL . 'assets/logo-assie4.png',
+            'is_logo'  => true,
+        ],
     ];
 }
 function assie4_default_ticker() {
