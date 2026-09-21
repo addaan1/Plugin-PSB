@@ -110,15 +110,32 @@
         ? 'background-image:url(' + bg.replace(/[()]/g,'') + ');background-size:cover;background-position:center center;background-repeat:no-repeat'
         : 'background:' + bg;
       var bgCls = isImg ? 'a4-sl-bg a4-sl-bg-img' : 'a4-sl-bg';
-      div.innerHTML =
-        '<div class="'+bgCls+'" style="'+bgCss+'"></div>'+
-        '<div class="a4-sl-overlay"></div>'+
-        '<div class="a4-sl-content">'+
-          '<div class="a4-sl-eyebrow">'+escH(s.subtitle||'ASSIE IV 2026')+'</div>'+
-          '<h1 class="a4-sl-h1">'+escH(s.title||'')+'</h1>'+
-          '<p class="a4-sl-p">'+escH(s.desc||'')+'</p>'+
-          '<a href="'+escH(s.link||'#denah')+'" class="a4-sl-cta">'+escH(s.cta||'Selengkapnya')+' &#8594;</a>'+
-        '</div>';
+      var isLogoSlide = s.is_logo || s.logo_only || (s.title && s.title.trim().toLowerCase() === 'industry matching');
+      if (isLogoSlide) {
+        var lUrl = s.logo || (window.ASSIE4_CFG && window.ASSIE4_CFG.pluginUrl ? window.ASSIE4_CFG.pluginUrl + 'assets/logo-assie4.png' : '');
+        if (!lUrl) {
+          var nImg = document.querySelector('.a4-nav-logo-img');
+          lUrl = nImg ? nImg.src : '/wp-content/plugins/assie4-pameran-digital/assets/logo-assie4.png';
+        }
+        div.innerHTML =
+          '<div class="'+bgCls+'" style="'+bgCss+'"></div>'+
+          '<div class="a4-sl-overlay"></div>'+
+          '<div class="a4-sl-content a4-sl-content-solo-logo">'+
+            '<div class="a4-hero-solo-logo-wrap">'+
+              '<img src="'+escH(lUrl)+'" alt="Industry Matching ASSIE IV 2026" class="a4-hero-solo-logo">'+
+            '</div>'+
+          '</div>';
+      } else {
+        div.innerHTML =
+          '<div class="'+bgCls+'" style="'+bgCss+'"></div>'+
+          '<div class="a4-sl-overlay"></div>'+
+          '<div class="a4-sl-content">'+
+            '<div class="a4-sl-eyebrow">'+escH(s.subtitle||'ASSIE IV 2026')+'</div>'+
+            '<h1 class="a4-sl-h1">'+escH(s.title||'')+'</h1>'+
+            '<p class="a4-sl-p">'+escH(s.desc||'')+'</p>'+
+            '<a href="'+escH(s.link||'#denah')+'" class="a4-sl-cta">'+escH(s.cta||'Selengkapnya')+' &#8594;</a>'+
+          '</div>';
+      }
       wrap.appendChild(div);
       var dot=document.createElement('button');
       dot.className='a4-dot'+(i===0?' on':'');

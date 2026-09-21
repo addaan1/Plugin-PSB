@@ -34,7 +34,7 @@ add_action( 'admin_enqueue_scripts', function( $hook ) {
 /* ══════════════════════════════════════════════════════
    DEFINE CONSTANTS
    ══════════════════════════════════════════════════════ */
-define( 'ASSIE4_PAMERAN_VER',  '2.8.7' );
+define( 'ASSIE4_PAMERAN_VER',  '2.9.0' );
 define( 'ASSIE4_PAMERAN_DIR',  plugin_dir_path( __FILE__ ) );
 define( 'ASSIE4_PAMERAN_URL',  plugin_dir_url( __FILE__ ) );
 define( 'ASSIE4_PAMERAN_SLUG', 'pameran-assie4' );
@@ -111,9 +111,39 @@ function assie4_pameran_enqueue() {
     $tenants = get_option( 'assie4_pameran_tenants', [] );
     $tenants = is_array($tenants) ? array_map( 'assie4_normalize_tenant', $tenants ) : [];
 
+    $a4_slides = get_option( 'assie4_pameran_slides', assie4_default_slides() );
+    if ( ! is_array($a4_slides) || empty($a4_slides) ) {
+        $a4_slides = assie4_default_slides();
+    }
+    $has_industry_slide = false;
+    foreach ( $a4_slides as $s ) {
+        if ( isset($s['title']) && stripos($s['title'], 'Industry Matching') !== false ) {
+            $has_industry_slide = true;
+            break;
+        }
+    }
+    if ( ! $has_industry_slide ) {
+        $a4_slides[] = [
+            'title'    => 'Industry Matching',
+            'subtitle' => 'ASSIE IV 2026',
+            'desc'     => 'Airlangga Startup Summit & Innovation Expo 2026 — Kolaborasi Riset, Startup & Mitra Industri.',
+            'cta'      => 'Jelajahi Pameran',
+            'link'     => '#denah',
+            'bg'       => 'linear-gradient(135deg,#03050e 0%,#0c1a40 100%)',
+        ];
+        update_option( 'assie4_pameran_slides', $a4_slides );
+    }
+    foreach ( $a4_slides as &$s ) {
+        if ( isset($s['title']) && stripos($s['title'], 'Industry Matching') !== false ) {
+            $s['logo']    = ASSIE4_PAMERAN_URL . 'assets/logo-assie4.png';
+            $s['is_logo'] = true;
+        }
+    }
+    unset($s);
+
     $db  = wp_json_encode([
         'info'    => get_option( 'assie4_pameran_info',    assie4_default_info() ),
-        'slides'  => get_option( 'assie4_pameran_slides',  assie4_default_slides() ),
+        'slides'  => $a4_slides,
         'ticker'  => get_option( 'assie4_pameran_ticker',  assie4_default_ticker() ),
         'rundown' => get_option( 'assie4_pameran_rundown', assie4_default_rundown() ),
         'tenants' => $tenants,
@@ -122,6 +152,7 @@ function assie4_pameran_enqueue() {
 
     $cfg = wp_json_encode([
         'presensiUrl' => home_url('/presensi-booth-assie4/'),
+        'pluginUrl'   => ASSIE4_PAMERAN_URL,
         'ajaxUrl'     => admin_url('admin-ajax.php'),
         'nonce'       => wp_create_nonce('assie4_pameran_nonce'),
         'pasinbis'    => [

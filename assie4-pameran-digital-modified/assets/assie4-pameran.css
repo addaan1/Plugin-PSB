@@ -65,11 +65,36 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
   border-bottom: 1px solid var(--a4-border);
 }
 .a4-nav-logo {
+  display: flex;
+  align-items: center;
   font-family: 'Syne', sans-serif;
   font-size: 19px; font-weight: 800;
-  background: linear-gradient(90deg, var(--a4-gold), var(--a4-gold2));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
+}
+.a4-nav-logo-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+.a4-nav-logo-link:hover {
+  transform: translateY(-1px) scale(1.02);
+}
+.a4-nav-logo-link:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
+}
+.a4-nav-logo-img {
+  height: 42px;
+  width: auto;
+  max-width: 185px;
+  object-fit: contain;
+  display: block;
+  background: transparent !important;
+  filter: none !important;
 }
 .a4-nav-menu { display: flex; gap: 2px }
 .a4-nb {
@@ -593,7 +618,12 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
 /* ── RESPONSIVE ── */
 @media (max-width:768px) {
   .a4-nav-menu { display:none }
-  .a4-sl-h1 { letter-spacing:-1px }
+  .a4-sl-h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(30px,7vw,76px);
+  font-weight: 800; line-height: 1.02;
+  letter-spacing: -2px; margin-bottom: 14px;
+}
   .a4-istrip { gap:20px; padding:14px 16px }
   .a4-sec { padding:48px 16px }
   .a4-map-legend { display:none }
@@ -852,4 +882,50 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
 }
 .a4-tenant-section-sub {
   font-size: 13px; color: var(--a4-muted); margin: 0;
+}
+
+.a4-footer-logo-img {
+  height: 52px;
+  width: auto;
+  max-width: 240px;
+  object-fit: contain;
+  display: inline-block;
+  background: transparent !important;
+  padding: 0 !important;
+  filter: none !important;
+}
+
+/* Solo Logo Slide */
+.a4-sl-content-solo-logo {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 380px !important;
+  padding: 20px !important;
+}
+.a4-hero-solo-logo-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.a4-hero-solo-logo {
+  max-width: min(85vw, 640px);
+  max-height: min(48vh, 290px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 8px 30px rgba(0, 0, 0, 0.6));
+  transition: transform 0.3s ease;
+}
+.a4-hero-solo-logo:hover {
+  transform: scale(1.02);
+}
+@media (max-width: 768px) {
+  .a4-hero-solo-logo {
+    max-width: 90vw;
+    max-height: 200px;
+  }
 }
