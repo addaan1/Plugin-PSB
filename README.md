@@ -50,15 +50,22 @@ GET  /wp-json/assie4/v1/summary
 
 ## Struktur source
 
-```text
-assie4-pameran-digital-v2_8_7-updated/
-└── assie4-pameran-digital-modified/
+Repository ini menggunakan struktur yang langsung dapat dipasang ke folder
+`wp-content/plugins/`:
 
-assie4-presensi plg/
-└── assie4-presensi/
+```text
+assie4-pameran-digital-modified/
+├── assie4-pameran-digital.php
+├── admin/
+├── assets/
+└── templates/
+
+assie4-presensi/
+├── assie4-presensi.php
+└── templates/
 ```
 
-File utama setiap plugin adalah file PHP dengan nama plugin masing-masing.
+File utama setiap plugin adalah file PHP di dalam folder plugin masing-masing.
 
 ## Instalasi manual
 
