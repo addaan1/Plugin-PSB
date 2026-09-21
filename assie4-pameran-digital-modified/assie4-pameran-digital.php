@@ -34,7 +34,7 @@ add_action( 'admin_enqueue_scripts', function( $hook ) {
 /* ══════════════════════════════════════════════════════
    DEFINE CONSTANTS
    ══════════════════════════════════════════════════════ */
-define( 'ASSIE4_PAMERAN_VER',  '2.9.0' );
+define( 'ASSIE4_PAMERAN_VER',  '2.9.1' );
 define( 'ASSIE4_PAMERAN_DIR',  plugin_dir_path( __FILE__ ) );
 define( 'ASSIE4_PAMERAN_URL',  plugin_dir_url( __FILE__ ) );
 define( 'ASSIE4_PAMERAN_SLUG', 'pameran-assie4' );
@@ -134,6 +134,13 @@ function assie4_pameran_enqueue() {
         update_option( 'assie4_pameran_slides', $a4_slides );
     }
     foreach ( $a4_slides as &$s ) {
+        if ( isset($s['title']) && stripos($s['title'], 'Inovasi Tanpa Batas') !== false ) {
+            $s['photos'] = [
+                ASSIE4_PAMERAN_URL . 'assets/kegiatan-assie-1.jpg',
+                ASSIE4_PAMERAN_URL . 'assets/kegiatan-assie-2.jpg',
+            ];
+            $s['bg'] = 'radial-gradient(circle at 20% 50%, rgba(30,58,138,0.35) 0%, transparent 60%), radial-gradient(circle at 80% 50%, rgba(16,185,129,0.25) 0%, transparent 60%), linear-gradient(135deg, #03050e 0%, #091938 50%, #051c14 100%)';
+        }
         if ( isset($s['title']) && stripos($s['title'], 'Industry Matching') !== false ) {
             $s['logo']    = ASSIE4_PAMERAN_URL . 'assets/logo-assie4.png';
             $s['is_logo'] = true;

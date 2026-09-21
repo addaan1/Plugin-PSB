@@ -111,6 +111,7 @@
         : 'background:' + bg;
       var bgCls = isImg ? 'a4-sl-bg a4-sl-bg-img' : 'a4-sl-bg';
       var isLogoSlide = s.is_logo || s.logo_only || (s.title && s.title.trim().toLowerCase() === 'industry matching');
+      var hasPhotos = Array.isArray(s.photos) && s.photos.length > 0;
       if (isLogoSlide) {
         var lUrl = s.logo || (window.ASSIE4_CFG && window.ASSIE4_CFG.pluginUrl ? window.ASSIE4_CFG.pluginUrl + 'assets/logo-assie4.png' : '');
         if (!lUrl) {
@@ -123,6 +124,52 @@
           '<div class="a4-sl-content a4-sl-content-solo-logo">'+
             '<div class="a4-hero-solo-logo-wrap">'+
               '<img src="'+escH(lUrl)+'" alt="Industry Matching ASSIE IV 2026" class="a4-hero-solo-logo">'+
+            '</div>'+
+          '</div>';
+      } else if (hasPhotos) {
+        var p1 = s.photos[0];
+        var p2 = s.photos.length > 1 ? s.photos[1] : s.photos[0];
+        div.innerHTML =
+          '<div class="'+bgCls+'" style="'+bgCss+'"></div>'+
+          '<div class="a4-sl-overlay"></div>'+
+          '<div class="a4-sl-content a4-sl-content-showcase">'+
+            '<div class="a4-sl-showcase-grid">'+
+              '<!-- Left Photo Card (Desktop) -->'+
+              '<div class="a4-sl-photo-card a4-sl-photo-card-left a4-sl-photo-desktop" title="Opening Ceremony ASSIE">'+
+                '<div class="a4-sl-photo-frame">'+
+                  '<img src="'+escH(p1)+'" alt="Opening Ceremony ASSIE" loading="lazy" class="a4-sl-img">'+
+                  '<div class="a4-sl-photo-tag"><span class="a4-photo-dot"></span>Opening Ceremony</div>'+
+                '</div>'+
+              '</div>'+
+              '<!-- Center Text -->'+
+              '<div class="a4-sl-center-text">'+
+                '<div class="a4-sl-eyebrow">'+escH(s.subtitle||'ASSIE IV 2026')+'</div>'+
+                '<h1 class="a4-sl-h1">'+escH(s.title||'')+'</h1>'+
+                '<p class="a4-sl-p">'+escH(s.desc||'')+'</p>'+
+                '<a href="'+escH(s.link||'#denah')+'" class="a4-sl-cta">'+escH(s.cta||'Selengkapnya')+' &#8594;</a>'+
+                '<!-- Compact Photos (Mobile/Tablet) -->'+
+                '<div class="a4-sl-mobile-photos">'+
+                  '<div class="a4-sl-photo-card a4-sl-photo-card-mob">'+
+                    '<div class="a4-sl-photo-frame">'+
+                      '<img src="'+escH(p1)+'" alt="Opening Ceremony ASSIE" loading="lazy" class="a4-sl-img">'+
+                      '<div class="a4-sl-photo-tag"><span class="a4-photo-dot"></span>Opening</div>'+
+                    '</div>'+
+                  '</div>'+
+                  '<div class="a4-sl-photo-card a4-sl-photo-card-mob">'+
+                    '<div class="a4-sl-photo-frame">'+
+                      '<img src="'+escH(p2)+'" alt="E-Sport Competition ASSIE" loading="lazy" class="a4-sl-img">'+
+                      '<div class="a4-sl-photo-tag"><span class="a4-photo-dot gold"></span>E-Sport</div>'+
+                    '</div>'+
+                  '</div>'+
+                '</div>'+
+              '</div>'+
+              '<!-- Right Photo Card (Desktop) -->'+
+              '<div class="a4-sl-photo-card a4-sl-photo-card-right a4-sl-photo-desktop" title="Roblox E-Sport Competition">'+
+                '<div class="a4-sl-photo-frame">'+
+                  '<img src="'+escH(p2)+'" alt="Roblox E-Sport Competition" loading="lazy" class="a4-sl-img">'+
+                  '<div class="a4-sl-photo-tag"><span class="a4-photo-dot gold"></span>E-Sport Competition</div>'+
+                '</div>'+
+              '</div>'+
             '</div>'+
           '</div>';
       } else {
