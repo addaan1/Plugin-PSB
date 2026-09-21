@@ -67,12 +67,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
   <div class="a4-sec">
     <span class="a4-sec-tag">Denah</span>
     <h2 class="a4-sec-h">Layout Booth Pameran</h2>
-    <p class="a4-sec-sub">Pilih area untuk melihat booth. Klik booth untuk detail tenant, klik Stage untuk jadwal acara.</p>
+    <p class="a4-sec-sub">Pilih klaster untuk melihat booth. Klik booth untuk detail tenant, klik Main Stage untuk jadwal acara.</p>
 
-    <!-- Filter area -->
+    <!-- Filter klaster denah. Filter Area A-E pada daftar tenant tetap terpisah. -->
     <div class="a4-denah-filters" id="a4DenahFilters"></div>
 
-    <!-- SVG Map -->
+    <!-- Denah venue asli + overlay SVG interaktif -->
     <div class="a4-map-container">
       <div class="a4-map-controls">
         <div class="a4-map-zoom">
@@ -82,10 +82,15 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         </div>
         <div class="a4-map-legend" id="a4MapLegend"></div>
       </div>
-      <div class="a4-map-svg-wrap" id="a4MapWrap">
-        <svg id="a4FloorMap" viewBox="0 0 960 400" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div class="a4-map-svg-wrap" id="a4MapWrap" aria-label="Denah booth pameran interaktif">
+        <div class="a4-map-stage" id="a4MapStage">
+          <img id="a4FloorMapImage" src="" alt="Denah venue ASSIE IV di Grand City Convention Hall">
+          <svg id="a4FloorMap" viewBox="0 0 1820 1024" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="Hotspot booth dan Main Stage"></svg>
+        </div>
       </div>
+      <div class="a4-mobile-booth-list" id="a4MobileBoothList" aria-live="polite"></div>
     </div>
+    <button type="button" class="a4-denah-pasinbis" onclick="a4BoothClickPasinbis()">🏛️ PASINBIS UNAIR <span>• Info penyelenggara</span></button>
 
     <!-- Gambar denah upload (jika ada) -->
     <div class="a4-denah-imgs" id="a4DenahImgs" style="display:none">

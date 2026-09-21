@@ -415,19 +415,32 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
 .a4-ml { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--a4-muted2) }
 .a4-ml-box { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0 }
 .a4-map-svg-wrap {
-  overflow-x: auto;
-  overflow-y: visible;  /* jangan clip tinggi SVG */
-  cursor: grab; padding: 16px;
+  overflow: auto;
+  padding: 14px;
+  background: #050914;
   -webkit-overflow-scrolling: touch;
-  /* pastikan wrapper mengikuti tinggi SVG */
-  height: auto;
+  max-height: min(76vh, 760px);
 }
-.a4-map-svg-wrap:active { cursor: grabbing }
-#a4FloorMap {
-  display: block;
-  width: 100%;
-  height: auto;       /* ikuti viewBox */
-  overflow: visible;  /* jangan clip konten SVG */
+.a4-map-stage { position:relative; width:100%; min-width:900px; aspect-ratio:1820 / 1024; transform-origin:top left; transition:transform .2s ease }
+#a4FloorMapImage, #a4FloorMap { position:absolute; inset:0; width:100%; height:100% }
+#a4FloorMapImage { display:block; object-fit:contain; background:#f3f4f6 }
+#a4FloorMap { overflow:visible }
+.a4-map-booth { cursor:pointer; outline:none }
+.a4-map-booth rect { fill:rgba(37,132,255,.25); stroke:#63b3ff; stroke-width:2; transition:fill .16s ease,stroke .16s ease,opacity .16s ease }
+.a4-map-booth text { fill:#061426; font:700 12px 'Plus Jakarta Sans',sans-serif; paint-order:stroke; stroke:rgba(255,255,255,.86); stroke-width:3px }
+.a4-map-booth:hover rect, .a4-map-booth:focus rect, .a4-map-booth.is-selected rect { fill:rgba(212,168,67,.48); stroke:#f5c84c; stroke-width:4 }
+.a4-map-booth:focus rect, .a4-map-stage-hotspot:focus rect { filter:drop-shadow(0 0 7px #f5c84c) }
+.a4-map-booth.is-dim { opacity:.17; pointer-events:none }
+.a4-map-stage-hotspot { cursor:pointer; outline:none }
+.a4-map-stage-hotspot rect { fill:rgba(239,68,68,.18); stroke:#fb7185; stroke-width:3; transition:all .16s ease }
+.a4-map-stage-hotspot text { fill:#fff; font:800 15px 'Syne',sans-serif; paint-order:stroke; stroke:#7f1d1d; stroke-width:4px }
+.a4-map-stage-hotspot:hover rect, .a4-map-stage-hotspot:focus rect { fill:rgba(239,68,68,.42); stroke:#fecdd3; stroke-width:5 }
+.a4-map-key { background:#2584ff; border:1px solid #63b3ff }
+.a4-map-key-active { background:#d4a843; border-color:#f5c84c }
+.a4-mobile-booth-list { display:none }
+.a4-denah-pasinbis { margin-top:12px; min-height:44px; padding:10px 15px; border-radius:10px; color:var(--a4-gold); background:rgba(212,168,67,.08); border:1px solid rgba(212,168,67,.38); font:700 13px 'Plus Jakarta Sans',sans-serif; cursor:pointer }
+.a4-denah-pasinbis:hover, .a4-denah-pasinbis:focus { background:rgba(212,168,67,.17); border-color:var(--a4-gold) }
+.a4-denah-pasinbis span { color:var(--a4-muted2); font-weight:500 }
 }
 
 /* ── TOOLTIP ── */
@@ -597,7 +610,19 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
   .a4-istrip { gap:20px; padding:14px 16px }
   .a4-sec { padding:48px 16px }
   .a4-map-legend { display:none }
+  .a4-map-svg-wrap { padding:8px; max-height:58vh }
+  .a4-map-stage { width:820px; min-width:820px }
+  .a4-map-booth text { font-size:14px }
+  .a4-mobile-booth-list { display:block; padding:14px; border-top:1px solid var(--a4-border) }
+  .a4-mobile-booth-label { color:var(--a4-text); font:700 13px 'Syne',sans-serif; margin-bottom:10px }
+  .a4-mobile-booth-label span { color:var(--a4-muted2); font:400 11px 'Plus Jakarta Sans',sans-serif; margin-left:6px }
+  .a4-mobile-booth-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px }
+  .a4-mobile-booth-btn { min-height:48px; border-radius:8px; border:1px solid rgba(99,179,255,.42); background:rgba(37,132,255,.12); color:var(--a4-text); font:700 14px 'Plus Jakarta Sans',sans-serif; cursor:pointer }
+  .a4-mobile-booth-btn small { display:block; margin-top:2px; color:var(--a4-muted2); font:400 9px 'Plus Jakarta Sans',sans-serif }
+  .a4-mobile-booth-btn.is-selected, .a4-mobile-booth-btn:focus { background:rgba(212,168,67,.25); border-color:#f5c84c; outline:none }
 }
+
+@media (prefers-reduced-motion:reduce) { .a4-map-stage,.a4-map-booth rect,.a4-map-stage-hotspot rect { transition:none } }
 
 /* ════════════════════════════════════════════════════════
    DENAH FILTER TOMBOL AREA

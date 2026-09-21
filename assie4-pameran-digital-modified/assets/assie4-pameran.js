@@ -532,6 +532,93 @@
   };
   window.a4CloseModal=function(){var m=document.getElementById('a4Modal');if(m){m.classList.remove('on');document.body.style.overflow='';}};
 
+  /* ── DENAH VENUE ASLI + HOTSPOT BOOTH ────────────────────
+     Koordinat mengikuti slide 5 (1820 × 1024). Nomor booth sengaja
+     independen dari Area A–E, sehingga tenant dapat diumumkan bertahap. */
+  var denahActiveCluster='all',denahSelectedBooth=null;
+  var clusterMeta=[
+    {key:1,label:'Klaster 1',count:'1–21'}, {key:2,label:'Klaster 2',count:'22–44'},
+    {key:3,label:'Klaster 3',count:'45–50'}, {key:4,label:'Klaster 4',count:'51–72'},
+    {key:5,label:'Klaster 5',count:'73–80'}, {key:6,label:'Klaster 6',count:'81–96'},
+    {key:7,label:'Klaster 7',count:'97–106'}
+  ];
+  var boothShapes=[];
+  function addBoothSeries(cluster,start,count,x,y,w,h,dx,dy){
+    for(var i=0;i<count;i++) boothShapes.push({n:start+i,cluster:cluster,x:x+(dx*i),y:y+(dy*i),w:w,h:h});
+  }
+  /* Urutan: kelompok booth paling atas/kiri menuju bawah/kanan pada referensi. */
+  addBoothSeries(1,1,7,505,260,17,45,18,0); addBoothSeries(1,8,7,658,260,17,45,18,0); addBoothSeries(1,15,7,811,260,17,45,18,0);
+  addBoothSeries(2,22,8,449,282,17,23,9,20); addBoothSeries(2,30,8,444,470,17,22,17,16); addBoothSeries(2,38,7,538,565,18,22,17,17);
+  addBoothSeries(3,45,6,951,344,18,23,22,8);
+  addBoothSeries(4,51,8,952,420,43,20,0,26); addBoothSeries(4,59,8,953,492,42,20,0,26); addBoothSeries(4,67,6,953,565,42,20,0,26);
+  addBoothSeries(5,73,8,675,628,20,20,0,23);
+  addBoothSeries(6,81,8,1019,663,20,22,0,24); addBoothSeries(6,89,8,1090,663,20,22,0,24);
+  addBoothSeries(7,97,4,1157,261,22,44,25,0); addBoothSeries(7,101,4,1308,261,22,44,25,0); addBoothSeries(7,105,2,1098,247,22,22,0,25);
+
+  function boothTenant(no){return (DATA.tenants||[]).find(function(t){return String(t.id)===String(no);});}
+  function boothStatus(no){var tenant=boothTenant(no);return tenant?tenant.name:'Tenant belum diumumkan';}
+  function mapTip(e,no){
+    if(!ttEl) return;
+    ttEl.innerHTML='<div class="a4-tt-num">Booth '+escH(no)+'</div><div class="a4-tt-name">'+escH(boothStatus(no))+'</div>';
+    ttEl.style.left=((e.clientX||0)+14)+'px';ttEl.style.top=((e.clientY||0)-10)+'px';ttEl.style.opacity='1';
+  }
+  window.a4MapTip=mapTip;
+  window.a4OpenBooth=function(no){
+    var tenant=boothTenant(no);
+    if(tenant){window.a4OpenModal(String(tenant.id));return;}
+    var head=document.getElementById('a4ModalHead'),body=document.getElementById('a4ModalBody');
+    if(!head||!body) return;
+    head.innerHTML='<button class="a4-m-close" onclick="a4CloseModal()">&#x2715;</button><div class="a4-m-num" style="color:#d4a843">BOOTH '+escH(no)+'</div><div class="a4-m-name">Tenant belum diumumkan</div><div class="a4-m-area">ASSIE IV 2026</div>';
+    body.innerHTML='<div class="a4-m-desc">Informasi tenant untuk Booth '+escH(no)+' akan diumumkan oleh panitia. Silakan cek kembali nanti.</div>';
+    var modal=document.getElementById('a4Modal');if(modal){modal.classList.add('on');document.body.style.overflow='hidden';}
+  };
+  function renderDenahFilters(){
+    var el=document.getElementById('a4DenahFilters');if(!el) return;
+    var filters=[{key:'all',label:'Semua Klaster'}].concat(clusterMeta);
+    el.innerHTML=filters.map(function(filter){var on=String(denahActiveCluster)===String(filter.key);return '<button type="button" class="a4-df-btn'+(on?' on':'')+'" aria-pressed="'+on+'" onclick="a4SetDenahCluster(\''+filter.key+'\')">'+escH(filter.label)+'</button>';}).join('');
+  }
+  window.a4SetDenahCluster=function(cluster){denahActiveCluster=cluster==='all'?'all':parseInt(cluster,10);denahSelectedBooth=null;renderDenahFilters();renderMap();};
+  window.a4SetDenahArea=window.a4SetDenahCluster;
+  function renderMapLegend(){
+    var el=document.getElementById('a4MapLegend');if(!el) return;
+    el.innerHTML='<span class="a4-ml"><span class="a4-ml-box a4-map-key"></span>Booth interaktif</span><span class="a4-ml"><span class="a4-ml-box a4-map-key a4-map-key-active"></span>Booth terpilih</span>';
+  }
+  function setSelectedBooth(no){
+    denahSelectedBooth=String(no);
+    document.querySelectorAll('.a4-map-booth[data-booth]').forEach(function(node){node.classList.toggle('is-selected',node.getAttribute('data-booth')===denahSelectedBooth);});
+    document.querySelectorAll('.a4-mobile-booth-btn').forEach(function(node){node.classList.toggle('is-selected',node.getAttribute('data-booth')===denahSelectedBooth);});
+  }
+  window.a4MobileBoothClick=function(no){setSelectedBooth(no);window.a4OpenBooth(no);};
+  function renderMobileBoothList(){
+    var list=document.getElementById('a4MobileBoothList');if(!list) return;
+    var visible=boothShapes.filter(function(booth){return denahActiveCluster==='all'||booth.cluster===denahActiveCluster;});
+    var label=denahActiveCluster==='all'?'Semua booth':'Booth '+clusterMeta[denahActiveCluster-1].count;
+    list.innerHTML='<div class="a4-mobile-booth-label">'+escH(label)+' <span>Pilih nomor booth</span></div><div class="a4-mobile-booth-grid">'+visible.map(function(booth){var hasTenant=!!boothTenant(booth.n);return '<button type="button" class="a4-mobile-booth-btn'+(String(booth.n)===denahSelectedBooth?' is-selected':'')+'" data-booth="'+booth.n+'" onclick="a4MobileBoothClick('+booth.n+')">'+booth.n+'<small>'+ (hasTenant?'Lihat tenant':'Segera hadir')+'</small></button>';}).join('')+'</div>';
+  }
+  function renderMap(){
+    var svg=document.getElementById('a4FloorMap'),image=document.getElementById('a4FloorMapImage');if(!svg||!image) return;
+    var src=DATA.denahBaseImage||DATA.denahDefaultImage||'';
+    if(image.getAttribute('src')!==src) image.setAttribute('src',src);
+    svg.setAttribute('viewBox','0 0 1820 1024');
+    var html=boothShapes.map(function(booth){
+      var dim=denahActiveCluster!=='all'&&booth.cluster!==denahActiveCluster;
+      var title='Booth '+booth.n+' — '+boothStatus(booth.n);
+      return '<g class="a4-map-booth'+(dim?' is-dim':'')+(String(booth.n)===denahSelectedBooth?' is-selected':'')+'" data-booth="'+booth.n+'" data-cluster="'+booth.cluster+'" role="button" tabindex="0" aria-label="'+escH(title)+'" onmouseenter="a4MapTip(event,'+booth.n+')" onmouseleave="a4HideTip()"><title>'+escH(title)+'</title><rect x="'+booth.x+'" y="'+booth.y+'" width="'+booth.w+'" height="'+booth.h+'" rx="3"></rect><text x="'+(booth.x+booth.w/2)+'" y="'+(booth.y+booth.h/2+4)+'" text-anchor="middle" pointer-events="none">'+booth.n+'</text></g>';
+    }).join('');
+    html+='<g class="a4-map-stage-hotspot" data-fn="stage" role="button" tabindex="0" aria-label="Main Stage, buka jadwal acara"><title>Main Stage — buka jadwal acara</title><rect x="1490" y="175" width="178" height="185" rx="18"></rect><text x="1579" y="272" text-anchor="middle" pointer-events="none">MAIN STAGE</text></g>';
+    svg.innerHTML=html;renderMobileBoothList();
+    var wrap=document.getElementById('a4MapWrap');
+    if(wrap&&!wrap._a4denahEvents){
+      wrap._a4denahEvents=true;
+      function activate(target){if(target.getAttribute('data-fn')==='stage'){window.a4OpenStage();return;}var booth=target.getAttribute('data-booth');if(booth){setSelectedBooth(booth);window.a4OpenBooth(booth);}}
+      wrap.addEventListener('click',function(e){var target=e.target.closest?e.target.closest('.a4-map-booth,.a4-map-stage-hotspot'):null;if(target&&wrap.contains(target)) activate(target);});
+      wrap.addEventListener('keydown',function(e){if(e.key!=='Enter'&&e.key!==' ') return;var target=e.target.closest?e.target.closest('.a4-map-booth,.a4-map-stage-hotspot'):null;if(target&&wrap.contains(target)){e.preventDefault();activate(target);}});
+    }
+  }
+  var mapScale=1;
+  window.a4ZoomMap=function(f){var stage=document.getElementById('a4MapStage');if(!stage)return;mapScale=Math.min(2.5,Math.max(.75,mapScale*f));stage.style.transform='scale('+mapScale+')';};
+  window.a4ResetZoom=function(){var stage=document.getElementById('a4MapStage');if(stage){mapScale=1;stage.style.transform='';}};
+
   /* ══════════════════════════════════════════════════════
      STATS
      ═══════════════════════════════════════════════════════ */

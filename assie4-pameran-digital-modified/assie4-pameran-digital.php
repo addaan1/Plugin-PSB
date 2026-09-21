@@ -118,6 +118,8 @@ function assie4_pameran_enqueue() {
         'rundown' => get_option( 'assie4_pameran_rundown', assie4_default_rundown() ),
         'tenants' => $tenants,
         'denah'   => get_option( 'assie4_pameran_denah', [] ),
+        'denahBaseImage'    => esc_url_raw( get_option( 'assie4_pameran_denah_base_image', '' ) ),
+        'denahDefaultImage' => ASSIE4_PAMERAN_URL . 'assets/denah-assie-iv-reference.png',
     ], JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT );
 
     $cfg = wp_json_encode([

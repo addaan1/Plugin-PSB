@@ -583,6 +583,11 @@ function assie4_admin_tenants() {
 function assie4_admin_denah() {
     if ( ! current_user_can('manage_options') ) return;
     if ( isset($_POST['_nd']) && wp_verify_nonce($_POST['_nd'],'a4_denah') ) {
+        if ( isset($_POST['d_base_reset']) ) {
+            delete_option('assie4_pameran_denah_base_image');
+        } else {
+            update_option('assie4_pameran_denah_base_image', esc_url_raw(trim($_POST['d_base_url'] ?? '')));
+        }
         $imgs = [];
         foreach ( ($_POST['d_url']??[]) as $i => $url ) {
             $url = esc_url_raw(trim($url));
@@ -591,14 +596,31 @@ function assie4_admin_denah() {
         }
         update_option('assie4_pameran_denah', $imgs);
         assie4_rebuild_js_data();
-        a4_notice('✅ Gambar denah disimpan! Halaman pameran terupdate.');
+        a4_notice(isset($_POST['d_base_reset']) ? '✅ Denah kembali memakai gambar bawaan plugin.' : '✅ Gambar denah disimpan! Halaman pameran terupdate.');
     }
     $imgs = get_option('assie4_pameran_denah', []);
+    $base_url = get_option('assie4_pameran_denah_base_image', '');
+    $default_url = ASSIE4_PAMERAN_URL . 'assets/denah-assie-iv-reference.png';
     a4_header('Denah & Galeri Foto', count($imgs).' gambar');
     ?>
     <div class="a4-card">
+        <div class="a4-card-head">Denah Interaktif Utama</div>
+        <p class="u-text-sm u-text-muted u-mb-md">Denah bawaan memakai referensi venue ASSIE IV dari plugin. Anda dapat memilih gambar baru dari Media Library; posisi hotspot booth tetap mengikuti denah referensi.</p>
+        <form method="post"><?php wp_nonce_field('a4_denah','_nd'); ?>
+            <div class="a4-denah-preview" id="a4BasePreview" style="margin-bottom:12px">
+                <img src="<?php echo esc_url($base_url ?: $default_url); ?>" style="max-width:100%;max-height:260px;border-radius:6px;object-fit:contain" alt="Preview denah interaktif">
+            </div>
+            <div class="a4-field" style="margin-bottom:10px"><label>URL Gambar Override</label><input type="url" name="d_base_url" id="a4BaseUrl" value="<?php echo esc_attr($base_url); ?>" placeholder="Kosongkan untuk menggunakan gambar bawaan"></div>
+            <div class="u-flex u-gap-sm">
+                <button type="button" class="a4-btn-gold u-text-xs u-whitespace-nowrap" style="padding:7px 14px;background:#0073aa" onclick="a4PickBase()">📁 Pilih dari Media</button>
+                <button type="submit" class="a4-btn-primary">💾 Simpan Denah Utama</button>
+                <button type="submit" class="a4-btn-del" name="d_base_reset" value="1">↺ Reset ke bawaan</button>
+            </div>
+        </form>
+    </div>
+    <div class="a4-card">
         <div class="a4-card-head">Upload Gambar Denah</div>
-        <p class="u-text-sm u-text-muted u-mb-md">Gambar ditampilkan di bawah SVG denah di halaman pameran. Klik untuk perbesar (lightbox). Gunakan tombol <strong>📁 Pilih dari Media</strong> untuk upload dari Library WordPress.</p>
+        <p class="u-text-sm u-text-muted u-mb-md">Gambar ditampilkan di bawah denah interaktif di halaman pameran. Klik untuk perbesar (lightbox). Gunakan tombol <strong>📁 Pilih dari Media</strong> untuk upload dari Library WordPress.</p>
         <form method="post"><?php wp_nonce_field('a4_denah','_nd'); ?>
         <div id="a4DW">
         <?php if (empty($imgs)) : ?>
@@ -642,6 +664,7 @@ function assie4_admin_denah() {
     function a4PrevImg(i){var u=document.getElementById('a4du_'+i).value,p=document.getElementById('a4dp_'+i);p.innerHTML=u?'<img src="'+u+'" style="max-width:100%;max-height:180px;border-radius:6px;object-fit:contain" onerror="this.parentNode.innerHTML=\'<span style=color:#94a3b8>❌ URL tidak valid</span>\'">':'<span style="color:#94a3b8;font-size:13px">📷 Belum ada gambar</span>';}
     function a4AddImg(){var i=a4DI++;document.getElementById('a4DW').insertAdjacentHTML('beforeend','<div class="a4-item-box" id="a4di_'+i+'"><div class="a4-denah-preview" id="a4dp_'+i+'"><span style="color:#94a3b8;font-size:13px">📷 Belum ada gambar</span></div><div class="a4-row" style="margin-top:10px"><div class="a4-field"><label>URL Gambar</label><input type="url" name="d_url[]" id="a4du_'+i+'" placeholder="https://..." onchange="a4PrevImg('+i+')"></div><div class="a4-field"><label>Keterangan</label><input type="text" name="d_cap[]"></div></div><div style="margin-top:8px;display:flex;gap:8px"><button type="button" class="a4-btn-gold" style="font-size:12px;padding:7px 14px;margin-top:0;background:#0073aa" onclick="a4Pick('+i+')">📁 Pilih dari Media</button><button type="button" class="a4-btn-del" onclick="this.closest(\'.a4-item-box\').remove()">✕</button></div></div>');}
     function a4Pick(i){a4MT=i;if(a4MF){a4MF.open();return;}a4MF=wp.media({title:'Pilih Gambar Denah',button:{text:'Gunakan Gambar'},multiple:false,library:{type:'image'}});a4MF.on('select',function(){var att=a4MF.state().get('selection').first().toJSON();document.getElementById('a4du_'+a4MT).value=att.url||'';a4PrevImg(a4MT);});a4MF.open();}
+    function a4PickBase(){var frame=wp.media({title:'Pilih Denah Interaktif',button:{text:'Gunakan sebagai denah utama'},multiple:false,library:{type:'image'}});frame.on('select',function(){var att=frame.state().get('selection').first().toJSON(),url=att.url||'';document.getElementById('a4BaseUrl').value=url;document.getElementById('a4BasePreview').innerHTML='<img src="'+url+'" style="max-width:100%;max-height:260px;border-radius:6px;object-fit:contain" alt="Preview denah interaktif">';});frame.open();}
     </script>
     <?php
 }
@@ -922,5 +945,4 @@ function assie4_admin_berita_ext() {
     </script>
     <?php
 }
-
 
