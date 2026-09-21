@@ -39,6 +39,8 @@
     },
     denah:   [],
     tenants: [],
+    denahBaseImage: '',
+    denahDefaultImage: '',
   };
 
   /* ══════════════════════════════════════════════════════
@@ -57,6 +59,8 @@
     if (db.ticker  && db.ticker.length)                       DATA.ticker  = db.ticker;
     if (db.rundown && db.rundown.events && db.rundown.events.length) DATA.rundown = db.rundown;
     if (db.denah   && Array.isArray(db.denah))                DATA.denah   = db.denah;
+    if (typeof db.denahBaseImage === 'string')                DATA.denahBaseImage = db.denahBaseImage;
+    if (typeof db.denahDefaultImage === 'string')             DATA.denahDefaultImage = db.denahDefaultImage;
     if (db.tenants && Array.isArray(db.tenants) && db.tenants.length > 0) {
       DATA.tenants = db.tenants.map(normTenant);
     }
