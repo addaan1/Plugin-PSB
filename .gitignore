@@ -1,0 +1,16 @@
+# WordPress/local environment
+wp-config.php
+*.log
+*.sql
+*.sql.gz
+debug.log
+
+# Local development and operating-system files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+node_modules/
+
+# Sensitive/demo helper files
+create-demo-user.php

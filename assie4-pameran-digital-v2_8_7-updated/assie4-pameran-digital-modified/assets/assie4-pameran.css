@@ -1,0 +1,855 @@
+/* ═══════════════════════════════════════════════════════
+   ASSIE IV 2026 — Pameran Digital · WordPress CSS
+   Prefix: a4- (menghindari konflik dengan tema WP)
+   ═══════════════════════════════════════════════════════ */
+
+/* ── RESET & ROOT ── */
+.assie4-fullpage body,
+.assie4-fullpage .site-header,
+.assie4-fullpage .site-footer,
+.assie4-fullpage header,
+.assie4-fullpage footer:not(.a4-footer) { display:none!important }
+
+:root {
+  --a4-bg:     #03050e;
+  --a4-surf:   #080c1a;
+  --a4-card:   #0d1426;
+  --a4-card2:  #111d35;
+  --a4-border: rgba(255,255,255,0.06);
+  --a4-bord2:  rgba(255,255,255,0.11);
+  --a4-gold:   #d4a843;
+  --a4-gold2:  #f5cc6a;
+  --a4-goldx:  rgba(212,168,67,0.12);
+  --a4-blue:   #2563eb;
+  --a4-teal:   #0d9488;
+  --a4-teal2:  #2dd4bf;
+  --a4-text:   #eef2ff;
+  --a4-muted:  #64748b;
+  --a4-muted2: #94a3b8;
+  --a4-green:  #22c55e;
+  --a4-red:    #ef4444;
+  --a4-r:      12px;
+  --a4-r2:     20px;
+}
+
+/* ── BASE ── */
+#page.assie4-page,
+.a4-wrap {
+  background: var(--a4-bg);
+  color: var(--a4-text);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Ketika fullpage */
+body.assie4-fullpage {
+  background: var(--a4-bg);
+  color: var(--a4-text);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+body.assie4-fullpage ::-webkit-scrollbar { width: 3px }
+body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); border-radius: 2px }
+
+/* ── NAV ── */
+.a4-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px;
+  background: rgba(3,5,14,0.92);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--a4-border);
+}
+.a4-nav-logo {
+  font-family: 'Syne', sans-serif;
+  font-size: 19px; font-weight: 800;
+  background: linear-gradient(90deg, var(--a4-gold), var(--a4-gold2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.a4-nav-menu { display: flex; gap: 2px }
+.a4-nb {
+  background: none; border: none; cursor: pointer;
+  color: var(--a4-muted2);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px; font-weight: 500;
+  padding: 7px 13px; border-radius: 7px;
+  transition: all .18s;
+}
+.a4-nb:hover, .a4-nb.on { background: rgba(255,255,255,0.07); color: var(--a4-text) }
+.a4-nb.on { color: var(--a4-gold) }
+
+.a4-live-pill {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; color: var(--a4-green);
+  background: rgba(34,197,94,0.1);
+  border: 1px solid rgba(34,197,94,0.2);
+  padding: 5px 12px; border-radius: 100px;
+}
+.a4-pulse {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--a4-green);
+  animation: a4pulse 1.8s ease-in-out infinite;
+}
+@keyframes a4pulse {
+  0%,100% { opacity:1; transform:scale(1) }
+  50% { opacity:.4; transform:scale(1.4) }
+}
+
+/* ── HERO ── */
+.a4-hero {
+  position: relative;
+  /* Rasio 21:9 — tidak memakan seluruh layar vertikal */
+  aspect-ratio: 21 / 9;
+  min-height: 280px;
+  max-height: 56vw;   /* tutup agar di layar sangat lebar tidak terlalu tinggi */
+  overflow: hidden; margin-top: 60px;
+}
+.a4-sl-wrap { position: absolute; inset: 0 }
+.a4-sl {
+  position: absolute; inset: 0; opacity: 0;
+  transition: opacity 1.1s ease;
+  display: flex; align-items: center; justify-content: center;
+}
+.a4-sl.on { opacity: 1 }
+.a4-sl-bg {
+  position: absolute; inset: 0;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  transition: transform 9s ease;
+}
+/* Khusus slide dengan gambar URL */
+.a4-sl-bg-img {
+  background-size: cover !important;
+  background-position: center center !important;
+}
+.a4-sl.on .a4-sl-bg { transform: scale(1.06) }
+.a4-sl-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom,rgba(3,5,14,.15) 0%,rgba(3,5,14,.55) 60%,rgba(3,5,14,.92) 100%);
+}
+.a4-sl-content {
+  position: relative; z-index: 2;
+  text-align: center; padding: 0 24px; max-width: 880px;
+}
+.a4-sl-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--a4-gold);
+  background: rgba(212,168,67,0.1);
+  border: 1px solid rgba(212,168,67,0.25);
+  padding: 5px 16px; border-radius: 100px; margin-bottom: 18px;
+}
+.a4-sl-h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(30px,7vw,76px);
+  font-weight: 800; line-height: 1.02;
+  letter-spacing: -2px; margin-bottom: 14px;
+}
+.a4-sl-p {
+  font-size: 15px; color: var(--a4-muted2);
+  max-width: 520px; margin: 0 auto 26px; line-height: 1.65;
+}
+.a4-sl-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--a4-gold); color: #0c0800;
+  font-family: 'Syne', sans-serif;
+  font-size: 13px; font-weight: 700;
+  padding: 12px 26px; border-radius: 100px;
+  border: none; cursor: pointer; text-decoration: none;
+  transition: all .2s; letter-spacing: .5px;
+}
+.a4-sl-cta:hover { background: var(--a4-gold2); transform: translateY(-2px); color: #0c0800 }
+
+.a4-sl-dots { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); display: flex; gap: 7px; z-index: 10 }
+.a4-dot { width: 22px; height: 3px; border-radius: 2px; background: rgba(255,255,255,.22); border: none; cursor: pointer; transition: all .3s }
+.a4-dot.on { background: var(--a4-gold); width: 38px }
+.a4-sl-arrows { position: absolute; bottom: 28px; right: 28px; display: flex; gap: 7px; z-index: 10 }
+.a4-arr {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: rgba(255,255,255,.08);
+  border: 1px solid var(--a4-bord2);
+  color: var(--a4-text); font-size: 18px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .2s;
+}
+.a4-arr:hover { background: var(--a4-goldx); border-color: var(--a4-gold) }
+
+/* ── TICKER ── */
+.a4-ticker {
+  background: rgba(212,168,67,.07);
+  border-top: 1px solid rgba(212,168,67,.15);
+  border-bottom: 1px solid rgba(212,168,67,.15);
+  overflow: hidden; padding: 9px 0; white-space: nowrap;
+}
+.a4-ticker-inner { display: inline-flex; animation: a4tick 38s linear infinite }
+.a4-ticker-item { font-size: 12px; color: var(--a4-gold); letter-spacing: .8px; padding: 0 30px }
+.a4-ticker-item::before { content: '◆ '; opacity: .4 }
+@keyframes a4tick { from { transform:translateX(0) } to { transform:translateX(-50%) } }
+
+/* ── INFO STRIP ── */
+.a4-istrip {
+  background: var(--a4-surf);
+  border-bottom: 1px solid var(--a4-border);
+  padding: 18px 28px;
+  display: flex; align-items: center; justify-content: center;
+  gap: 44px; flex-wrap: wrap;
+}
+.a4-iitem { display: flex; align-items: center; gap: 10px }
+.a4-iico { font-size: 18px }
+.a4-ilbl { font-size: 10px; color: var(--a4-muted); text-transform: uppercase; letter-spacing: 1.2px }
+.a4-ival { font-size: 14px; font-weight: 600; color: var(--a4-text) }
+
+/* ── SECTION ── */
+.a4-sec { padding: 72px 28px; max-width: 1200px; margin: 0 auto }
+.a4-sec-bg { background: var(--a4-surf) }
+.a4-sec-tag {
+  display: inline-block; font-size: 10px; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--a4-gold);
+  background: var(--a4-goldx);
+  border: 1px solid rgba(212,168,67,.2);
+  padding: 3px 12px; border-radius: 100px; margin-bottom: 10px;
+}
+.a4-sec-h {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(24px,4vw,44px);
+  font-weight: 800; letter-spacing: -1px; line-height: 1.08;
+  margin-bottom: 8px; color: var(--a4-text);
+}
+.a4-sec-sub {
+  font-size: 14px; color: var(--a4-muted2);
+  max-width: 500px; line-height: 1.6; margin-bottom: 40px;
+}
+
+/* ── STATS ── */
+.a4-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(160px,1fr));
+  gap: 1px; background: var(--a4-border);
+  border: 1px solid var(--a4-border);
+  border-radius: var(--a4-r2); overflow: hidden; margin-bottom: 56px;
+}
+.a4-st { background: var(--a4-card); padding: 24px; text-align: center }
+.a4-st-n {
+  font-family: 'Syne', sans-serif;
+  font-size: 38px; font-weight: 800;
+  color: var(--a4-gold); line-height: 1; display: block; margin-bottom: 4px;
+}
+.a4-st-l { font-size: 10px; color: var(--a4-muted); text-transform: uppercase; letter-spacing: 1.5px }
+
+/* ── RUNDOWN ── */
+.a4-day-tabs { display: flex; gap: 7px; margin-bottom: 32px; flex-wrap: wrap }
+.a4-dt {
+  padding: 7px 20px; border-radius: 100px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--a4-bord2);
+  color: var(--a4-muted2);
+  font-size: 12px; font-weight: 600; cursor: pointer;
+  transition: all .18s;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.a4-dt:hover { border-color: var(--a4-gold); color: var(--a4-gold) }
+.a4-dt.on { background: rgba(212,168,67,.14); border-color: var(--a4-gold); color: var(--a4-gold) }
+
+.a4-timeline { position: relative; padding-left: 52px }
+.a4-timeline::before {
+  content: ''; position: absolute; left: 20px; top: 4px; bottom: 4px;
+  width: 1px;
+  background: linear-gradient(to bottom,var(--a4-gold) 0%,rgba(212,168,67,.15) 100%);
+}
+.a4-tli { position: relative; margin-bottom: 18px }
+.a4-tli-dot {
+  position: absolute; left: -38px; top: 6px;
+  width: 13px; height: 13px; border-radius: 50%;
+  background: var(--a4-bg); border: 2px solid var(--a4-gold);
+}
+.a4-tli-dot.now { background: var(--a4-gold); box-shadow: 0 0 10px rgba(212,168,67,.5) }
+.a4-tl-card {
+  background: var(--a4-card);
+  border: 1px solid var(--a4-border);
+  border-radius: var(--a4-r); padding: 14px 18px;
+  transition: border-color .2s;
+}
+.a4-tl-card:hover { border-color: var(--a4-bord2) }
+.a4-tl-card.now { border-color: rgba(212,168,67,.35); background: rgba(212,168,67,.04) }
+.a4-tl-time { font-size: 11px; color: var(--a4-gold); font-weight: 700; margin-bottom: 4px }
+.a4-tl-name { font-size: 14px; font-weight: 600; color: var(--a4-text); margin-bottom: 3px }
+.a4-tl-meta { font-size: 11px; color: var(--a4-muted2) }
+.a4-ev-badge {
+  display: inline-block; font-size: 9px; letter-spacing: 1.2px;
+  text-transform: uppercase; padding: 2px 7px; border-radius: 4px;
+  font-weight: 600; margin-right: 6px;
+}
+.a4-eb-keynote { background:rgba(212,168,67,.15); color:var(--a4-gold) }
+.a4-eb-panel   { background:rgba(37,99,235,.15);  color:#93c5fd }
+.a4-eb-workshop{ background:rgba(13,148,136,.15); color:var(--a4-teal2) }
+.a4-eb-break   { background:rgba(100,116,139,.12);color:var(--a4-muted2) }
+.a4-eb-networking{ background:rgba(139,92,246,.15);color:#c4b5fd }
+.a4-eb-award   { background:rgba(239,68,68,.15);  color:#fca5a5 }
+
+/* ── TENANT CARD ── */
+.a4-ss-banner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 14px; flex-wrap: wrap;
+  background: linear-gradient(135deg,rgba(212,168,67,.08),rgba(212,168,67,.03));
+  border: 1px solid rgba(212,168,67,.2);
+  border-radius: var(--a4-r); padding: 14px 20px; margin-bottom: 24px;
+}
+.a4-ss-text { font-size: 13px; color: var(--a4-muted2) }
+.a4-ss-text strong { color: var(--a4-text) }
+
+.a4-btn-gold {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--a4-gold); color: #0c0800;
+  font-family: 'Syne', sans-serif;
+  font-size: 12px; font-weight: 700;
+  padding: 9px 20px; border-radius: 100px;
+  border: none; cursor: pointer; text-decoration: none;
+  transition: all .2s; letter-spacing: .5px;
+}
+.a4-btn-gold:hover { background: var(--a4-gold2); transform: translateY(-1px); color: #0c0800 }
+.a4-btn-out {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: transparent;
+  color: var(--a4-muted2);
+  font-size: 12px; font-weight: 600;
+  padding: 9px 18px; border-radius: 100px;
+  border: 1px solid var(--a4-bord2); cursor: pointer; text-decoration: none;
+  transition: all .2s;
+}
+.a4-btn-out:hover { border-color: var(--a4-gold); color: var(--a4-gold) }
+
+.a4-area-filters { display: flex; gap: 7px; margin-bottom: 20px; flex-wrap: wrap }
+.a4-af {
+  padding: 6px 16px; border-radius: 100px;
+  font-size: 12px; font-weight: 600;
+  cursor: pointer; border: 1px solid; transition: all .18s;
+  background: transparent;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.a4-af-all { border-color: var(--a4-gold); color: var(--a4-gold) }
+.a4-af-all.on { background: var(--a4-goldx) }
+.a4-af-a { border-color:#3b82f6; color:#93c5fd } .a4-af-a.on { background:rgba(59,130,246,.12) }
+.a4-af-b { border-color:#22c55e; color:#86efac } .a4-af-b.on { background:rgba(34,197,94,.12) }
+.a4-af-c { border-color:#f59e0b; color:#fcd34d } .a4-af-c.on { background:rgba(245,158,11,.12) }
+.a4-af-d { border-color:#a855f7; color:#d8b4fe } .a4-af-d.on { background:rgba(168,85,247,.12) }
+.a4-af-e { border-color:#06b6d4; color:#67e8f9 } .a4-af-e.on { background:rgba(6,182,212,.12) }
+
+.a4-tenant-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(220px,1fr)); gap: 14px }
+.a4-tc {
+  background: var(--a4-card);
+  border: 1px solid var(--a4-border);
+  border-radius: var(--a4-r2); padding: 20px; cursor: pointer;
+  transition: all .22s; position: relative; overflow: hidden;
+  display: flex; flex-direction: column; gap: 0;
+}
+.a4-tc:hover { border-color: rgba(212,168,67,.35); transform: translateY(-3px); box-shadow: 0 8px 32px rgba(212,168,67,.08) }
+
+/* Row atas: logo + area badge */
+.a4-tc-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px }
+.a4-tc-logo {
+  width: 48px; height: 48px; border-radius: 10px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid var(--a4-border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; overflow: hidden; flex-shrink: 0;
+}
+.a4-tc-area-badge {
+  font-size: 9px; font-weight: 800; letter-spacing: 1px;
+  text-transform: uppercase; padding: 3px 8px; border-radius: 6px;
+}
+
+/* Konten kartu */
+.a4-tc-num { font-family:'Syne',sans-serif; font-size:22px; font-weight:800; line-height:1; margin-bottom:5px }
+.a4-tc-name { font-size:13px; font-weight:600; color:var(--a4-text); margin-bottom:2px; line-height:1.4 }
+.a4-tc-cat { font-size:10px; color:var(--a4-muted); text-transform:uppercase; letter-spacing:1.2px; margin-bottom:8px }
+.a4-tc-desc { font-size:11px; color:var(--a4-muted2); line-height:1.5; margin-bottom:8px;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden }
+.a4-tc-tags { display:flex; gap:4px; flex-wrap:wrap; margin-bottom:10px }
+.a4-tag { font-size:9px; padding:2px 7px; border-radius:4px; background:rgba(45,212,191,.1); color:var(--a4-teal2); letter-spacing:.8px }
+
+/* Ikon sosmed mini di kartu */
+.a4-tc-icons { display:flex; gap:5px; flex-wrap:wrap; margin-bottom:10px }
+.a4-tc-ico { font-size:13px; opacity:.6; transition:opacity .2s }
+.a4-tc:hover .a4-tc-ico { opacity:1 }
+
+/* Tombol lihat detail di bawah kartu */
+.a4-tc-cta {
+  margin-top: auto;
+  font-size: 11px; font-weight: 700; color: var(--a4-gold);
+  letter-spacing: .5px; padding-top: 10px;
+  border-top: 1px solid var(--a4-border);
+  transition: letter-spacing .2s;
+}
+.a4-tc:hover .a4-tc-cta { letter-spacing: 1px }
+
+/* ── MAP ── */
+.a4-map-container {
+  background: var(--a4-card);
+  border: 1px solid var(--a4-border);
+  border-radius: var(--a4-r2);
+  /* overflow: visible — jangan hidden, SVG map bisa sangat tinggi */
+  overflow: visible;
+}
+.a4-map-controls {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 18px; border-bottom: 1px solid var(--a4-border);
+  gap: 10px; flex-wrap: wrap;
+}
+.a4-map-zoom { display: flex; gap: 6px }
+.a4-mz-btn {
+  width: 30px; height: 30px; border-radius: 7px;
+  background: rgba(255,255,255,.07);
+  border: 1px solid var(--a4-bord2);
+  color: var(--a4-text); font-size: 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s;
+}
+.a4-mz-btn:hover { background: var(--a4-goldx); border-color: var(--a4-gold) }
+.a4-map-legend { display: flex; gap: 14px; flex-wrap: wrap }
+.a4-ml { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--a4-muted2) }
+.a4-ml-box { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0 }
+.a4-map-svg-wrap {
+  overflow-x: auto;
+  overflow-y: visible;  /* jangan clip tinggi SVG */
+  cursor: grab; padding: 16px;
+  -webkit-overflow-scrolling: touch;
+  /* pastikan wrapper mengikuti tinggi SVG */
+  height: auto;
+}
+.a4-map-svg-wrap:active { cursor: grabbing }
+#a4FloorMap {
+  display: block;
+  width: 100%;
+  height: auto;       /* ikuti viewBox */
+  overflow: visible;  /* jangan clip konten SVG */
+}
+
+/* ── TOOLTIP ── */
+.a4-tooltip {
+  position: fixed; z-index: 9999;
+  background: var(--a4-card2);
+  border: 1px solid var(--a4-bord2);
+  border-radius: var(--a4-r); padding: 14px 18px;
+  min-width: 200px; pointer-events: none;
+  opacity: 0; transition: opacity .15s;
+  box-shadow: 0 8px 32px rgba(0,0,0,.5);
+}
+.a4-tt-num { font-family:'Syne',sans-serif; font-size:22px; font-weight:800; color:var(--a4-gold); line-height:1 }
+.a4-tt-name { font-size:13px; font-weight:600; color:var(--a4-text); margin-top:2px }
+.a4-tt-cat { font-size:11px; color:var(--a4-muted2); margin-top:1px }
+
+/* ── MODAL ── */
+.a4-modal {
+  position: fixed; inset: 0; background: rgba(0,0,0,.78);
+  z-index: 9999; display: flex; align-items: center; justify-content: center;
+  padding: 20px; opacity: 0; pointer-events: none;
+  transition: opacity .25s; backdrop-filter: blur(6px);
+}
+.a4-modal.on { opacity: 1; pointer-events: all }
+.a4-mbox {
+  background: var(--a4-card2);
+  border: 1px solid var(--a4-bord2);
+  border-radius: var(--a4-r2); padding: 0;
+  max-width: 580px; width: 100%; max-height: 88vh; overflow-y: auto;
+  transform: translateY(16px); transition: transform .25s;
+}
+.a4-modal.on .a4-mbox { transform: translateY(0) }
+.a4-mbox-head { padding: 24px 28px 0; position: relative }
+.a4-m-close {
+  position: absolute; top: 16px; right: 18px;
+  width: 30px; height: 30px; border-radius: 7px;
+  background: rgba(255,255,255,.07); border: none;
+  color: var(--a4-muted2); font-size: 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .18s;
+}
+.a4-m-close:hover { background: rgba(239,68,68,.15); color: var(--a4-red) }
+.a4-m-num { font-family:'Syne',sans-serif; font-size:52px; font-weight:800; color:var(--a4-gold); line-height:1 }
+.a4-m-name { font-size:20px; font-weight:700; margin-top:4px; color:var(--a4-text) }
+.a4-m-area { font-size:11px; color:var(--a4-muted2); text-transform:uppercase; letter-spacing:2px; margin-top:2px }
+.a4-mbox-body { padding: 20px 28px 28px }
+.a4-m-tags { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px }
+.a4-m-tag { font-size:11px; padding:3px 10px; border-radius:6px; background:rgba(45,212,191,.1); color:var(--a4-teal2) }
+.a4-m-desc { font-size:13px; color:var(--a4-muted2); line-height:1.65; margin-bottom:16px }
+.a4-m-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px }
+.a4-mg-item { background:var(--a4-card); border-radius:var(--a4-r); padding:12px 14px }
+.a4-mg-label { font-size:10px; color:var(--a4-muted); text-transform:uppercase; letter-spacing:1.2px; margin-bottom:4px }
+.a4-mg-val { font-size:15px; font-weight:700; color:var(--a4-text) }
+.a4-m-divider { border:none; border-top:1px solid var(--a4-border); margin:16px 0 }
+.a4-m-shop {
+  display:inline-flex; align-items:center; gap:6px;
+  background: linear-gradient(135deg,var(--a4-gold),var(--a4-gold2));
+  color: #0c0800; font-size:13px; font-weight:700;
+  padding:10px 20px; border-radius:100px; text-decoration:none;
+  transition:all .2s;
+}
+.a4-m-shop:hover { transform:translateY(-1px); color:#0c0800 }
+
+/* ── PRESENSI ── */
+.a4-pres-box {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 28px; flex-wrap: wrap;
+}
+@media (max-width:640px) { .a4-pres-box { grid-template-columns:1fr } }
+.a4-pres-left, .a4-pres-right {
+  background: var(--a4-card);
+  border: 1px solid var(--a4-border);
+  border-radius: var(--a4-r2); padding: 28px;
+}
+.a4-pres-left h3, .a4-pres-right h3 {
+  font-family:'Syne',sans-serif; font-size:20px; font-weight:800;
+  margin-bottom:10px; color:var(--a4-text);
+}
+.a4-pres-left p { font-size:13px; color:var(--a4-muted2); margin-bottom:20px; line-height:1.65 }
+.a4-pres-left .a4-btn-gold { margin-right:10px; margin-bottom:10px }
+.a4-lb-grid { display:flex; flex-direction:column; gap:8px; margin-top:14px }
+.a4-lbc {
+  display:flex; align-items:center; gap:12px;
+  background:var(--a4-card2); border-radius:var(--a4-r); padding:10px 14px;
+}
+.a4-lb-r { font-size:18px; width:28px; text-align:center; flex-shrink:0 }
+.a4-lb-info {}
+.a4-lb-b { font-size:13px; font-weight:700; color:var(--a4-text) }
+.a4-lb-c { font-size:11px; color:var(--a4-muted2) }
+.a4-muted-note { color:var(--a4-muted); font-size:13px }
+
+/* ── MODAL HEADER ── */
+.a4-m-head-top {
+  display: flex; align-items: flex-start; gap: 14px; padding-bottom: 4px;
+}
+.a4-m-logo-img {
+  width: 56px; height: 56px; border-radius: 10px;
+  object-fit: contain; border: 1px solid var(--a4-border);
+  background: rgba(255,255,255,.05); flex-shrink: 0;
+}
+.a4-m-logo-ph {
+  width: 56px; height: 56px; border-radius: 10px;
+  background: rgba(255,255,255,.06); border: 1px solid var(--a4-border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; flex-shrink: 0;
+}
+.a4-m-area-badge {
+  display: inline-block; font-size: 10px; font-weight: 700;
+  letter-spacing: 1px; padding: 2px 8px; border-radius: 6px;
+  text-transform: uppercase;
+}
+.a4-m-cat {
+  font-size: 11px; color: var(--a4-muted2); margin-left: 4px;
+}
+
+/* ── MODAL SECTION LABEL ── */
+.a4-m-section-label {
+  font-size: 10px; font-weight: 800; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--a4-gold);
+  margin: 16px 0 8px; padding-bottom: 6px;
+  border-bottom: 1px solid rgba(212,168,67,.15);
+}
+
+/* ── KONTAK LIST (field 8–12 persis seperti admin) ── */
+.a4-m-kontak-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 4px }
+.a4-m-kr {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--a4-card); border-radius: 8px; padding: 8px 12px;
+}
+.a4-m-ki { font-size: 14px; flex-shrink: 0; width: 22px; text-align: center }
+.a4-m-kl {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .8px; color: var(--a4-muted); min-width: 90px; flex-shrink: 0;
+}
+.a4-m-kv {
+  font-size: 12px; color: var(--a4-teal2); text-decoration: none;
+  word-break: break-all; flex: 1;
+}
+.a4-m-kv:hover { text-decoration: underline }
+
+/* ── SOSMED BUTTONS di modal ── */
+.a4-m-sosmed { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; margin-bottom:4px }
+.a4-social-btn {
+  display:inline-flex; align-items:center; gap:5px;
+  font-size:12px; font-weight:600; padding:6px 14px;
+  border-radius:100px; text-decoration:none; transition:all .2s;
+  background:rgba(255,255,255,.06); color:var(--a4-muted2);
+  border:1px solid var(--a4-border);
+}
+.a4-social-btn:hover { border-color:var(--a4-gold); color:var(--a4-gold) }
+.a4-sb-ig:hover { border-color:#e1306c; color:#e1306c }
+.a4-sb-fb:hover { border-color:#1877f2; color:#1877f2 }
+.a4-sb-tw:hover { border-color:#1da1f2; color:#1da1f2 }
+
+.a4-footer {
+  background: var(--a4-surf);
+  border-top: 1px solid var(--a4-border);
+  padding: 28px; text-align: center;
+}
+.a4-footer p { font-size:13px; color:var(--a4-muted2) }
+.a4-footer strong { color:var(--a4-text) }
+.a4-footer-sub { font-size:11px; color:var(--a4-muted); margin-top:4px }
+
+/* ── RESPONSIVE ── */
+@media (max-width:768px) {
+  .a4-nav-menu { display:none }
+  .a4-sl-h1 { letter-spacing:-1px }
+  .a4-istrip { gap:20px; padding:14px 16px }
+  .a4-sec { padding:48px 16px }
+  .a4-map-legend { display:none }
+}
+
+/* ════════════════════════════════════════════════════════
+   DENAH FILTER TOMBOL AREA
+   ════════════════════════════════════════════════════════ */
+.a4-denah-filters {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;
+}
+.a4-df-btn {
+  padding: 7px 16px; border-radius: 100px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.12);
+  color: var(--a4-muted2); font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all .18s;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.a4-df-btn:hover { border-color: var(--a4-gold); color: var(--a4-gold) }
+.a4-df-btn.on   { color: var(--a4-gold) }
+
+/* ════════════════════════════════════════════════════════
+   DENAH GALERI FOTO (di bawah SVG map)
+   ════════════════════════════════════════════════════════ */
+.a4-denah-imgs { margin-top: 32px }
+.a4-denah-imgs-title {
+  font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700;
+  color: var(--a4-text); margin-bottom: 14px;
+}
+.a4-denah-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
+  gap: 14px;
+}
+.a4-denah-card {
+  cursor: pointer; border-radius: var(--a4-r2); overflow: hidden;
+  background: var(--a4-card); border: 1px solid var(--a4-border);
+  transition: all .22s;
+}
+.a4-denah-card:hover { border-color: rgba(212,168,67,.4); transform: translateY(-3px) }
+.a4-denah-img-wrap {
+  position: relative; aspect-ratio: 16/10; overflow: hidden;
+  background: rgba(255,255,255,.03);
+}
+.a4-denah-img-wrap img { width:100%;height:100%;object-fit:cover;transition:transform .3s }
+.a4-denah-card:hover .a4-denah-img-wrap img { transform:scale(1.04) }
+.a4-denah-overlay {
+  position:absolute;inset:0;background:rgba(3,5,14,.55);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .2s;
+}
+.a4-denah-card:hover .a4-denah-overlay { opacity:1 }
+.a4-denah-overlay span {
+  color:#fff;font-size:13px;font-weight:600;
+  background:rgba(212,168,67,.2);border:1px solid rgba(212,168,67,.4);
+  padding:6px 16px;border-radius:100px;
+}
+.a4-denah-caption { padding:9px 14px;font-size:12px;color:var(--a4-muted2);border-top:1px solid var(--a4-border) }
+
+/* ════════════════════════════════════════════════════════
+   LIGHTBOX
+   ════════════════════════════════════════════════════════ */
+.a4-lightbox {
+  position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.92);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .25s;padding:20px;
+}
+.a4-lightbox.on { opacity:1;pointer-events:all }
+.a4-lb-wrap { position:relative;max-width:90vw;max-height:88vh;display:flex;flex-direction:column;align-items:center }
+.a4-lb-wrap img { max-width:90vw;max-height:80vh;object-fit:contain;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.6) }
+.a4-lb-caption { color:rgba(255,255,255,.75);font-size:13px;margin-top:12px;text-align:center }
+.a4-lb-close { position:fixed;top:18px;right:22px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s }
+.a4-lb-close:hover { background:rgba(239,68,68,.3) }
+.a4-lb-prev,.a4-lb-next { position:fixed;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:#fff;font-size:26px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;z-index:2 }
+.a4-lb-prev { left:16px } .a4-lb-next { right:16px }
+.a4-lb-prev:hover,.a4-lb-next:hover { background:rgba(212,168,67,.3) }
+
+/* ════════════════════════════════════════════════════════
+   BERITA — News Grid
+   ════════════════════════════════════════════════════════ */
+.a4-news-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px }
+.a4-news-loading,.a4-news-empty { grid-column:1/-1;text-align:center;color:var(--a4-muted);font-size:13px;padding:32px;background:var(--a4-card);border-radius:var(--a4-r2);border:1px solid var(--a4-border) }
+.a4-news-card { cursor:pointer;display:flex;flex-direction:column;background:var(--a4-card);border:1px solid var(--a4-border);border-radius:var(--a4-r2);overflow:hidden;text-decoration:none;transition:all .22s }
+.a4-news-card:hover { border-color:rgba(212,168,67,.4);transform:translateY(-3px);box-shadow:0 8px 28px rgba(212,168,67,.08) }
+.a4-nc-img { aspect-ratio:16/9;overflow:hidden;background:rgba(255,255,255,.04);display:flex;align-items:center;justify-content:center }
+.a4-nc-img img { width:100%;height:100%;object-fit:cover;transition:transform .3s }
+.a4-news-card:hover .a4-nc-img img { transform:scale(1.05) }
+.a4-nc-img-ph { font-size:36px;color:var(--a4-muted) }
+.a4-nc-img-err { font-size:36px;color:var(--a4-muted) }
+.a4-nc-body { padding:14px 16px;flex:1;display:flex;flex-direction:column;gap:5px }
+.a4-nc-date { font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--a4-gold) }
+.a4-nc-title { font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--a4-text);line-height:1.4 }
+.a4-nc-desc { font-size:11px;color:var(--a4-muted2);line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden }
+
+/* Slide background gambar */
+.a4-sl-bg-img { background-size:cover!important;background-position:center!important }
+
+
+/* ════════════════════════════════════════════════════════
+   TOKOUA — Popup Modal & Nav Button
+   ════════════════════════════════════════════════════════ */
+
+/* Nav button khusus TokoUA */
+.a4-nb-tokoua {
+  background: linear-gradient(135deg, #d4a843, #b8861e) !important;
+  color: #03050e !important;
+  font-weight: 700 !important;
+  border-radius: 20px !important;
+  padding: 5px 14px !important;
+  border: none !important;
+  transition: transform .2s, box-shadow .2s !important;
+}
+.a4-nb-tokoua:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 16px rgba(212,168,67,.4) !important;
+  background: linear-gradient(135deg, #e0b94f, #c9921e) !important;
+  color: #03050e !important;
+}
+
+/* Modal overlay */
+.a4-tokoua-modal {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0,0,0,.78); backdrop-filter: blur(10px);
+  display: none; align-items: center; justify-content: center;
+  padding: 16px;
+}
+.a4-tokoua-modal.open { display: flex; }
+
+/* Modal box */
+.a4-tku-box {
+  background: var(--a4-card, #0d0f14);
+  border: 1px solid rgba(212,168,67,.3);
+  border-radius: 20px;
+  width: 100%; max-width: 520px;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,.7), 0 0 0 1px rgba(212,168,67,.08);
+  animation: a4tkuIn .22s ease;
+}
+@keyframes a4tkuIn {
+  from { opacity:0; transform: scale(.95) translateY(12px); }
+  to   { opacity:1; transform: scale(1)  translateY(0); }
+}
+
+/* Header */
+.a4-tku-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 22px 16px;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.a4-tku-brand { display: flex; align-items: center; gap: 12px; }
+.a4-tku-logo { font-size: 30px; }
+.a4-tku-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px; font-weight: 800; color: var(--a4-gold, #d4a843);
+  line-height: 1.1;
+}
+.a4-tku-sub { font-size: 11px; color: var(--a4-muted, #7a8299); margin-top: 2px; }
+.a4-tku-close {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12);
+  color: #fff; font-size: 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s, transform .15s;
+  flex-shrink: 0;
+}
+.a4-tku-close:hover { background: rgba(255,255,255,.18); transform: rotate(90deg); }
+
+/* Body */
+.a4-tku-body { padding: 22px; display: flex; flex-direction: column; gap: 18px; }
+
+/* Visual card — pengganti iframe */
+.a4-tku-visual {
+  border-radius: 14px;
+  background: linear-gradient(135deg, #0c1830 0%, #0d1a0a 50%, #1a0f00 100%);
+  border: 1px solid rgba(212,168,67,.2);
+  overflow: hidden; position: relative;
+  padding: 28px 24px 24px;
+  text-align: center;
+}
+.a4-tku-visual::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% -20%, rgba(212,168,67,.12) 0%, transparent 65%);
+  pointer-events: none;
+}
+.a4-tku-domain {
+  font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--a4-gold, #d4a843); font-weight: 600; margin-bottom: 10px;
+}
+.a4-tku-tagline {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px; font-weight: 800; color: #fff;
+  line-height: 1.3; margin-bottom: 16px;
+}
+.a4-tku-tagline strong { color: var(--a4-gold, #d4a843); }
+.a4-tku-url-bar {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(0,0,0,.4); border: 1px solid rgba(255,255,255,.12);
+  border-radius: 8px; padding: 6px 14px;
+  font-size: 12px; color: rgba(255,255,255,.6);
+  font-family: monospace;
+}
+.a4-tku-lock { font-size: 13px; }
+
+/* Info text + badges */
+.a4-tku-desc {
+  font-size: 13px; color: var(--a4-muted, #7a8299);
+  line-height: 1.65; margin: 0 0 12px;
+}
+.a4-tku-badges {
+  display: flex; flex-wrap: wrap; gap: 7px;
+}
+.a4-tku-badge {
+  font-size: 11px; color: var(--a4-muted2, #9aa0b8);
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 20px; padding: 4px 11px;
+}
+
+/* Footer */
+.a4-tku-footer {
+  padding: 0 22px 20px;
+  display: flex; gap: 10px; align-items: center;
+}
+.a4-tku-cta {
+  flex: 1; text-align: center;
+  padding: 11px 0 !important;
+  font-size: 14px !important; font-weight: 700 !important;
+  text-decoration: none;
+  border-radius: 10px !important;
+  display: block;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .a4-tku-tagline { font-size: 18px; }
+  .a4-tku-body { padding: 16px; }
+  .a4-tku-footer { padding: 0 16px 16px; flex-direction: column; }
+  .a4-tku-cta { width: 100%; }
+}
+
+/* ════════════════════════════════════════════════════════
+   TENANT SECTION — di dalam Denah
+   ════════════════════════════════════════════════════════ */
+.a4-tenant-section {
+  border-top: 1px solid rgba(255,255,255,.07);
+  padding-top: 32px;
+}
+.a4-tenant-section-head { margin-bottom: 16px; }
+.a4-tenant-section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px; font-weight: 800; color: var(--a4-text);
+  margin: 0 0 4px;
+}
+.a4-tenant-section-sub {
+  font-size: 13px; color: var(--a4-muted); margin: 0;
+}
