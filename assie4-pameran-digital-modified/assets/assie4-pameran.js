@@ -216,9 +216,10 @@
       var matchesSearch=!tenantSearch||[t.name,t.id,t.cat,(t.tags||[]).join(' ')].join(' ').toLowerCase().indexOf(tenantSearch)>=0;
       return matchesArea&&matchesSearch;
     });
+    var visibleLimit=window.innerWidth<=560?6:9;
+    var visibleList=tenantListExpanded?list:list.slice(0,visibleLimit);
     var count=document.getElementById('a4TenantCount');
-    if(count) count.textContent=list.length+' tenant'+(list.length===1?'':' terdaftar');
-    var visibleList=tenantListExpanded?list:list.slice(0,12);
+    if(count) count.textContent=visibleList.length+' dari '+list.length+' tenant ditampilkan';
     grid.innerHTML=visibleList.map(function(t){
       var areaColor=tenantAreaColors[t.area]||'#d4a843';
       return '<button type="button" class="a4-tc" style="--a4-area-color:'+areaColor+'" data-tenant-id="'+escH(t.id)+'" aria-label="Lihat detail '+escH(t.name)+'">'+
@@ -229,7 +230,7 @@
         '</span><span class="a4-tc-arrow" aria-hidden="true">&#8599;</span></button>';
     }).join('')||'<p class="a4-tenant-empty">'+(DATA.tenants.length?'Tidak ada tenant yang cocok. Coba area atau kata kunci lain.':'Daftar tenant belum tersedia.')+'</p>';
     var more=document.getElementById('a4TenantMore');
-    if(more){more.hidden=list.length<=12;more.textContent=tenantListExpanded?'Tampilkan lebih sedikit':'Lihat semua '+list.length+' tenant';more.setAttribute('aria-expanded',tenantListExpanded?'true':'false');}
+    if(more){more.hidden=list.length<=visibleLimit;more.textContent=tenantListExpanded?'Tampilkan lebih sedikit':'Lihat semua '+list.length+' tenant';more.setAttribute('aria-expanded',tenantListExpanded?'true':'false');}
     if(!grid._a4TenantEvents){
       grid._a4TenantEvents=true;
       grid.addEventListener('click',function(e){var item=e.target.closest('.a4-tc[data-tenant-id]');if(item) window.a4OpenModal(item.getAttribute('data-tenant-id'));});

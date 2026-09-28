@@ -117,15 +117,21 @@ function assie4_default_tenants() {
     ];
 }
 function assie4_default_tenant_logos() {
-    $unair = 'https://unair.ac.id/wp-content/uploads/2021/04/Logo-Universitas-Airlangga-UNAIR-300x300.png';
+    $base = ASSIE4_PAMERAN_URL . 'assets/tenant-logos/';
     return [
-        'a7' => $unair, 'a8' => $unair,
-        'a9' => 'https://fkg.unair.ac.id/en/wp-content/uploads/2024/09/Logo-FKG-New-Final.png',
-        'b2' => 'https://www.telkom.co.id/minio/show/data/image_upload/page/1594108255409_compress_logo%20telkom%20indonesia.png',
-        'b7' => $unair, 'b8' => $unair, 'b9' => $unair, 'b15' => $unair,
-        'b16' => 'https://api.kai.id/msvc-webcorp/api/v2/media/742/KAI.webp',
-        'b22' => $unair, 'c9' => $unair,
-        'e13' => 'https://www.bankmandiri.co.id/documents/20143/44881086/ag-branding-logo-1.png/842d8cf8-b7fb-3014-9620-21f0f88d8377?t=1623309819034',
+        'a7' => $base . 'fib.jpg',
+        'a8' => $base . 'fkm.jpg',
+        'a9' => $base . 'fkg.png',
+        'b2' => $base . 'telkom.png',
+        'b4' => $base . 'pertamina.svg',
+        'b16' => $base . 'kai.png',
+        'e1' => $base . 'poltekpel.png',
+        'e2' => $base . 'ciputra.png',
+        'e10' => $base . 'unand.png',
+        'e11' => $base . 'bsi.png',
+        'e12' => $base . 'bri.png',
+        'e13' => $base . 'mandiri.png',
+        'e14' => $base . 'bni.png',
     ];
 }
 function assie4_default_rundown() {
@@ -159,25 +165,39 @@ function assie4_get_tenants() {
     if ( ! is_array($raw) ) $raw = [];
     $seed_state = get_option( 'assie4_directory_seed_state' );
     // Seed the tenant directory only once; a deliberate admin reset stays empty.
-    if ( empty($raw) && ! in_array( $seed_state, ['v1', 'v2'], true ) ) {
+    if ( empty($raw) && ! in_array( $seed_state, ['v1', 'v2', 'v3'], true ) ) {
         $raw = assie4_default_tenants();
         update_option( ASSIE4_OPT_TENANTS, $raw, false );
     }
-    // Backfill verified organization marks, without replacing logos chosen in admin.
-    if ( $seed_state !== 'v2' ) {
+    // Replace only our earlier remote defaults; preserve logos chosen by an admin.
+    if ( $seed_state !== 'v3' ) {
         $logos = assie4_default_tenant_logos();
+        $unair = 'https://unair.ac.id/wp-content/uploads/2021/04/Logo-Universitas-Airlangga-UNAIR-300x300.png';
+        $previous = [
+            'a7' => $unair, 'a8' => $unair,
+            'a9' => 'https://fkg.unair.ac.id/en/wp-content/uploads/2024/09/Logo-FKG-New-Final.png',
+            'b2' => 'https://www.telkom.co.id/minio/show/data/image_upload/page/1594108255409_compress_logo%20telkom%20indonesia.png',
+            'b7' => $unair, 'b8' => $unair, 'b9' => $unair, 'b15' => $unair,
+            'b16' => 'https://api.kai.id/msvc-webcorp/api/v2/media/742/KAI.webp',
+            'b22' => $unair, 'c9' => $unair,
+            'e13' => 'https://www.bankmandiri.co.id/documents/20143/44881086/ag-branding-logo-1.png/842d8cf8-b7fb-3014-9620-21f0f88d8377?t=1623309819034',
+        ];
         $changed = false;
         foreach ( $raw as &$tenant ) {
             $tenant = (array) $tenant;
             $id = sanitize_key( $tenant['id'] ?? '' );
-            if ( empty( $tenant['logo'] ) && isset( $logos[$id] ) ) {
+            $current_logo = $tenant['logo'] ?? '';
+            if ( ( $current_logo === '' || ( isset( $previous[$id] ) && $current_logo === $previous[$id] ) ) && isset( $logos[$id] ) ) {
                 $tenant['logo'] = $logos[$id];
+                $changed = true;
+            } elseif ( isset( $previous[$id] ) && $current_logo === $previous[$id] ) {
+                $tenant['logo'] = '';
                 $changed = true;
             }
         }
         unset( $tenant );
         if ( $changed ) update_option( ASSIE4_OPT_TENANTS, $raw, false );
-        update_option( 'assie4_directory_seed_state', 'v2', false );
+        update_option( 'assie4_directory_seed_state', 'v3', false );
     }
     return array_values( array_map( 'assie4_normalize_tenant', $raw ) );
 }
@@ -185,7 +205,7 @@ function assie4_save_tenants( $tenants ) {
     $tenants = array_values( array_map( 'assie4_normalize_tenant', $tenants ) );
     usort( $tenants, fn($a,$b) => strcmp($a['id'], $b['id']) );
     update_option( ASSIE4_OPT_TENANTS, $tenants, false );
-    update_option( 'assie4_directory_seed_state', 'v2', false );
+    update_option( 'assie4_directory_seed_state', 'v3', false );
     assie4_rebuild_js_data();
     return $tenants;
 }
@@ -826,7 +846,7 @@ function assie4_admin_export() {
             delete_option('assie4_tenants_seeded');
             delete_option('assie4_seed_ver');
             update_option('assie4_pameran_tenants', [], false);
-            update_option('assie4_directory_seed_state', 'v2', false);
+            update_option('assie4_directory_seed_state', 'v3', false);
             a4_notice('✅ Semua tenant dihapus. Tambahkan tenant baru dari menu Kelola Tenant.');
         }
         if (isset($_POST['rn'])) {
