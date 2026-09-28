@@ -8,18 +8,18 @@
      DATA MASTER — default, akan di-override dari ASSIE4_DB
      ═══════════════════════════════════════════════════════ */
   var DATA = {
-    info:    { date:'14–16 Mei 2026', location:'Grand City Convention Hall, Surabaya', org:'PASINBIS Universitas Airlangga', timeOpen:'08:00', timeClose:'20:00' },
+    info:    { date:'6-8 November 2026', location:'Grand City Atrium, Surabaya', org:'PASINBIS Universitas Airlangga', timeOpen:'10:00', timeClose:'22:00' },
     slides:  [
       { title:'ASSIE IV 2026', subtitle:'Airlangga Startup Summit & Innovation Expo', desc:'Ajang pameran startup & inovasi terbesar di Jawa Timur. 3 hari penuh inovasi.', cta:'Jelajahi Pameran', link:'#denah', bg:'linear-gradient(135deg,#03050e 0%,#0c1a40 100%)' },
-      { title:'Inovasi Tanpa Batas', subtitle:'Grand City Convention Hall · Surabaya', desc:'Temui inovator muda dan ekosistem startup Jawa Timur.', cta:'Lihat Denah Booth', link:'#denah', bg:'linear-gradient(135deg,#03050e 0%,#0d200e 100%)' },
+      { title:'Inovasi Tanpa Batas', subtitle:'Grand City Atrium · Surabaya', desc:'Temui inovator muda dan ekosistem startup Jawa Timur.', cta:'Lihat Denah Booth', link:'#denah', bg:'linear-gradient(135deg,#03050e 0%,#0d200e 100%)' },
       { title:'Dukung Startup Lokal', subtitle:'TokoUA · tokoua.unair.ac.id', desc:'Beli produk tenant pameran secara online melalui TokoUA.', cta:'Kunjungi TokoUA', link:'https://tokoua.unair.ac.id/', bg:'linear-gradient(135deg,#03050e 0%,#1a0a00 100%)' },
     ],
-    ticker:  ['Selamat datang di ASSIE IV 2026','14–16 Mei 2026 · Grand City Convention Hall Surabaya','Booth startup & inovasi','Belanja produk tenant online di tokoua.unair.ac.id','Presensi digital tersedia di setiap booth','PASINBIS Universitas Airlangga'],
+    ticker:  ['Selamat datang di ASSIE IV 2026','6-8 November 2026 · Grand City Atrium Surabaya','Booth startup & inovasi','Belanja produk tenant online di tokoua.unair.ac.id','Presensi digital tersedia di setiap booth','PASINBIS Universitas Airlangga'],
     rundown: {
-      days:   [{ label:"Jum'at, 14 Nov" },{ label:'Sabtu, 15 Nov' },{ label:'Minggu, 16 Nov' }],
+      days:   [{ label:'Jumat, 6 November 2026' },{ label:'Sabtu, 7 November 2026' },{ label:'Minggu, 8 November 2026' }],
       events: [
-        { day:0,time:'13.00',end:'15.30',name:'Airlangga Business Matching 2025',  type:'keynote',    loc:'Ruang Business Matching' },
-        { day:0,time:'15.30',end:'17.00',name:'Opening Ceremony + Launching Produk',type:'keynote',   loc:'Main Stage' },
+        { day:0,time:'13.00',end:'15.30',name:'Airlangga Business Matching 2026 - ATAVI',type:'panel',loc:'Ruang Business Matching' },
+        { day:0,time:'15.30',end:'17.00',name:'Opening Ceremony + Launching Produk Inovasi',type:'keynote',loc:'Main Stage' },
         { day:0,time:'17.00',end:'17.30',name:'Break',                              type:'break',     loc:'—' },
         { day:0,time:'17.30',end:'19.30',name:'Roblox Competition',                 type:'workshop',  loc:'Hall' },
         { day:0,time:'19.45',end:'20.45',name:'Acoustic Band Performance',          type:'networking',loc:'Main Stage' },
@@ -158,8 +158,14 @@
   function renderRundown(){
     var tabs=document.getElementById('a4DayTabs'); if(!tabs) return;
     tabs.innerHTML=DATA.rundown.days.map(function(d,i){
-      return '<button class="a4-dt'+(i===activeDay?' on':'')+'" onclick="a4SwitchDay('+i+')">'+escH(d.label)+'</button>';
+      return '<button type="button" class="a4-dt'+(i===activeDay?' on':'')+'" aria-pressed="'+(i===activeDay?'true':'false')+'" onclick="a4SwitchDay('+i+')">'+escH(d.label)+'</button>';
     }).join('');
+    var dayIntro=document.getElementById('a4RundownDayIntro');
+    if(dayIntro){
+      var selectedDay=DATA.rundown.days[activeDay]||{};
+      var dayCount=DATA.rundown.events.filter(function(e){return e.day===activeDay;}).length;
+      dayIntro.innerHTML='<span class="a4-rundown-selected-date">'+escH(selectedDay.label||'Jadwal acara')+'</span><span class="a4-rundown-event-count">'+dayCount+' agenda</span>';
+    }
     renderTimeline();
   }
   window.a4SwitchDay=function(i){activeDay=i;renderRundown();};
@@ -168,18 +174,23 @@
     var tl=document.getElementById('a4Timeline'); if(!tl) return;
     var now=new Date(), nowMin=now.getHours()*60+now.getMinutes();
     var evs=DATA.rundown.events.filter(function(e){return e.day===activeDay;});
-    tl.innerHTML=evs.map(function(e){
+    var monthIndex={januari:0,februari:1,maret:2,april:3,mei:4,juni:5,juli:6,agustus:7,september:8,oktober:9,november:10,desember:11,jan:0,feb:1,mar:2,apr:3,jun:5,jul:6,agu:7,sep:8,okt:9,nov:10,des:11};
+    var selectedLabel=(DATA.rundown.days[activeDay]||{}).label||'';
+    var dateMatch=selectedLabel.match(/(\d{1,2})\s+([a-z]+)\s+(\d{4})/i);
+    var dateIsToday=false;
+    if(dateMatch&&Object.prototype.hasOwnProperty.call(monthIndex,dateMatch[2].toLowerCase())){
+      dateIsToday=now.getFullYear()===parseInt(dateMatch[3],10)&&now.getMonth()===monthIndex[dateMatch[2].toLowerCase()]&&now.getDate()===parseInt(dateMatch[1],10);
+    }
+    tl.innerHTML=evs.map(function(e,index){
       var tm=typeMap[e.type]||typeMap.break;
-      var eMin=parseInt((e.time||'0').split('.')[0])*60+parseInt((e.time||'0').split('.')[1]||0);
-      var endMin=e.end?parseInt(e.end.split('.')[0])*60+parseInt(e.end.split('.')[1]||0):eMin+60;
-      var isnow=(nowMin>=eMin&&nowMin<endMin);
-      return '<div class="a4-tli"><div class="a4-tli-dot'+(isnow?' now':'')+'"></div>'+
-        '<div class="a4-tl-card'+(isnow?' now':'')+'">'+
-        '<div class="a4-tl-time"><span class="a4-ev-badge '+tm.cls+'">'+tm.lbl+'</span>'+escH(e.time)+(e.end?' – '+escH(e.end):'')+'</div>'+
-        '<div class="a4-tl-name">'+escH(e.name)+'</div>'+
-        (e.loc&&e.loc!=='—'?'<div class="a4-tl-meta">&#128205; '+escH(e.loc)+'</div>':'')+
-        '</div></div>';
-    }).join('');
+      function toMinutes(value){var parts=String(value||'0').split(/[.:]/);return parseInt(parts[0],10)*60+parseInt(parts[1]||0,10);}
+      var isnow=dateIsToday&&nowMin>=toMinutes(e.time)&&nowMin<toMinutes(e.end||'23.59');
+      return '<article class="a4-tli'+(isnow?' now':'')+'">'+
+        '<div class="a4-tl-time"><span>'+escH(e.time)+'</span><span class="a4-tl-time-separator">'+(e.end?'sampai':'')+'</span>'+(e.end?'<span>'+escH(e.end)+'</span>':'')+'</div>'+
+        '<div class="a4-tl-content"><span class="a4-tl-category">'+escH(tm.lbl)+'</span><h3 class="a4-tl-name">'+escH(e.name)+'</h3>'+
+        (e.loc&&e.loc!=='—'?'<div class="a4-tl-meta">'+escH(e.loc)+'</div>':'')+'</div>'+
+        '<span class="a4-tl-index" aria-hidden="true">'+String(index+1).padStart(2,'0')+'</span></article>';
+    }).join('')||'<p class="a4-timeline-empty">Jadwal untuk tanggal ini belum diumumkan.</p>';
   }
 
   /* ══════════════════════════════════════════════════════
@@ -388,7 +399,7 @@
     head.innerHTML='<button class="a4-m-close" onclick="a4CloseModal()">&#x2715;</button>'+
       '<div class="a4-m-num" style="color:#ef4444">&#127908;</div>'+
       '<div class="a4-m-name">Main Stage</div>'+
-      '<div class="a4-m-area">Grand City Convention Hall</div>';
+      '<div class="a4-m-area">Grand City Atrium</div>';
     var now=new Date(),nowMin=now.getHours()*60+now.getMinutes();
     var events=DATA.rundown&&DATA.rundown.events?DATA.rundown.events:[];
     var dayMap={};

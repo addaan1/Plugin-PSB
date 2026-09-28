@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 <!-- NAV -->
 <nav class="a4-nav" id="a4Nav">
-  <div class="a4-nav-logo">ASSIE <span>IV</span></div>
+  <a class="a4-nav-logo" href="#home" aria-label="ASSIE IV 2026, Beranda"><img src="<?php echo esc_url( ASSIE4_PAMERAN_URL . 'assets/assie-iv-wordmark.png' ); ?>" alt="Industry Matching ASSIE IV 2026"></a>
   <div class="a4-nav-menu">
     <button class="a4-nb on" onclick="a4GoTo('home')">Beranda</button>
     <button class="a4-nb" onclick="a4GoTo('rundown')">Rundown</button>
@@ -56,7 +56,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     <span class="a4-sec-tag">Agenda</span>
     <h2 class="a4-sec-h">Rundown Acara</h2>
     <p class="a4-sec-sub">Jadwal lengkap kegiatan selama 3 hari pameran berlangsung.</p>
-    <div class="a4-day-tabs" id="a4DayTabs"></div>
+    <div class="a4-day-tabs" id="a4DayTabs" role="group" aria-label="Pilih tanggal rundown"></div>
+    <div class="a4-rundown-dayline" id="a4RundownDayIntro" aria-live="polite"></div>
     <div class="a4-timeline" id="a4Timeline"></div>
   </div>
 </section>
@@ -84,7 +85,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
       </div>
       <div class="a4-map-svg-wrap" id="a4MapWrap" aria-label="Denah booth pameran interaktif">
         <div class="a4-map-stage" id="a4MapStage">
-          <img id="a4FloorMapImage" src="" alt="Denah venue ASSIE IV di Grand City Convention Hall">
+          <img id="a4FloorMapImage" src="" alt="Denah venue ASSIE IV di Grand City Atrium">
           <svg id="a4FloorMap" viewBox="0 0 1820 1024" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="Hotspot booth dan Main Stage"></svg>
         </div>
       </div>
@@ -232,5 +233,5 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 <!-- FOOTER -->
 <footer class="a4-footer">
   <p>© 2026 <strong>PASINBIS Universitas Airlangga</strong> · ASSIE IV 2026</p>
-  <p class="a4-footer-sub">Airlangga Startup Summit &amp; Innovation Expo · Grand City Convention Hall, Surabaya</p>
+  <p class="a4-footer-sub">Airlangga Startup Summit &amp; Innovation Expo · Grand City Atrium, Surabaya</p>
 </footer>

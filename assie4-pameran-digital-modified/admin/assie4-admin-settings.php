@@ -35,17 +35,17 @@ function assie4_normalize_tenant( $t ) {
 
 /* ═══ DEFAULT DATA ══════════════════════════════════════ */
 function assie4_default_info() {
-    return [ 'date'=>'14–16 Mei 2026', 'location'=>'Grand City Convention Hall, Surabaya', 'org'=>'PASINBIS Universitas Airlangga', 'timeOpen'=>'08:00', 'timeClose'=>'20:00' ];
+    return [ 'date'=>'6-8 November 2026', 'location'=>'Grand City Atrium, Surabaya', 'org'=>'PASINBIS Universitas Airlangga', 'timeOpen'=>'10:00', 'timeClose'=>'22:00' ];
 }
 function assie4_default_slides() {
     return [
         ['title'=>'ASSIE IV 2026','subtitle'=>'Airlangga Startup Summit & Innovation Expo','desc'=>'Ajang pameran startup & inovasi terbesar di Jawa Timur.','cta'=>'Jelajahi Pameran','link'=>'#denah','bg'=>'linear-gradient(135deg,#03050e 0%,#0c1a40 100%)'],
-        ['title'=>'Inovasi Tanpa Batas','subtitle'=>'Grand City Convention Hall · Surabaya','desc'=>'Temui inovator muda dan ekosistem startup Jawa Timur.','cta'=>'Lihat Denah Booth','link'=>'#denah','bg'=>'linear-gradient(135deg,#03050e 0%,#0d200e 100%)'],
+        ['title'=>'Inovasi Tanpa Batas','subtitle'=>'Grand City Atrium · Surabaya','desc'=>'Temui inovator muda dan ekosistem startup Jawa Timur.','cta'=>'Lihat Denah Booth','link'=>'#denah','bg'=>'linear-gradient(135deg,#03050e 0%,#0d200e 100%)'],
         ['title'=>'Dukung Startup Lokal','subtitle'=>'TokoUA · tokoua.unair.ac.id','desc'=>'Beli produk tenant pameran secara online melalui TokoUA.','cta'=>'Kunjungi TokoUA','link'=>'https://tokoua.unair.ac.id/','bg'=>'linear-gradient(135deg,#03050e 0%,#1a0a00 100%)'],
     ];
 }
 function assie4_default_ticker() {
-    return ['Selamat datang di ASSIE IV 2026','14–16 Mei 2026 · Grand City Convention Hall Surabaya','Booth startup & inovasi','Belanja produk tenant online di tokoua.unair.ac.id','Presensi digital tersedia di setiap booth','PASINBIS Universitas Airlangga'];
+    return ['Selamat datang di ASSIE IV 2026','6-8 November 2026 · Grand City Atrium Surabaya','Booth startup & inovasi','Belanja produk tenant online di tokoua.unair.ac.id','Presensi digital tersedia di setiap booth','PASINBIS Universitas Airlangga'];
 }
 function assie4_default_tenants() {
     return [
@@ -136,10 +136,10 @@ function assie4_default_tenant_logos() {
 }
 function assie4_default_rundown() {
     return [
-        'days'   => [['label'=>"Jum'at, 14 Nov"],['label'=>'Sabtu, 15 Nov'],['label'=>'Minggu, 16 Nov']],
+        'days'   => [['label'=>'Jumat, 6 November 2026'],['label'=>'Sabtu, 7 November 2026'],['label'=>'Minggu, 8 November 2026']],
         'events' => [
-            ['day'=>0,'time'=>'13.00','end'=>'15.30','name'=>'Airlangga Business Matching 2025',  'type'=>'keynote',   'loc'=>'Ruang Business Matching'],
-            ['day'=>0,'time'=>'15.30','end'=>'17.00','name'=>'Opening Ceremony + Launching Produk','type'=>'keynote',  'loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'13.00','end'=>'15.30','name'=>'Airlangga Business Matching 2026 - ATAVI','type'=>'panel','loc'=>'Ruang Business Matching'],
+            ['day'=>0,'time'=>'15.30','end'=>'17.00','name'=>'Opening Ceremony + Launching Produk Inovasi','type'=>'keynote','loc'=>'Main Stage'],
             ['day'=>0,'time'=>'17.00','end'=>'17.30','name'=>'Break',                              'type'=>'break',    'loc'=>'—'],
             ['day'=>0,'time'=>'17.30','end'=>'19.30','name'=>'Roblox Competition',                 'type'=>'workshop', 'loc'=>'Hall'],
             ['day'=>0,'time'=>'19.45','end'=>'20.45','name'=>'Acoustic Band Performance',          'type'=>'networking','loc'=>'Main Stage'],
@@ -359,7 +359,7 @@ function assie4_admin_info() {
         <div class="a4-card-head">Informasi Acara</div>
         <form method="post"><?php wp_nonce_field('a4_info','_n'); ?>
         <div class="a4-row">
-            <div class="a4-field"><label>Tanggal Acara</label><input name="date" value="<?php echo esc_attr($i['date']); ?>" placeholder="14–16 Mei 2026"></div>
+            <div class="a4-field"><label>Tanggal Acara</label><input name="date" value="<?php echo esc_attr($i['date']); ?>" placeholder="6-8 November 2026"></div>
             <div class="a4-field"><label>Penyelenggara</label><input name="org" value="<?php echo esc_attr($i['org']); ?>"></div>
         </div>
             <div class="a4-field" style="margin-bottom:14px"><label>Lokasi / Venue</label><input name="location" value="<?php echo esc_attr($i['location']); ?>"></div>
