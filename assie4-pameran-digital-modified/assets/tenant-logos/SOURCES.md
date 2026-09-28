@@ -17,3 +17,6 @@ These images identify participating organizations in the exhibition directory. T
 | `poltekpel.png` | [Poltekpel Surabaya official PPID](https://ppid.poltekpel-sby.ac.id/) |
 | `unand.png` | [Universitas Andalas official website](https://www.unand.ac.id/) |
 | `ciputra.png` | [Universitas Ciputra wordmark](https://commons.wikimedia.org/wiki/File:Universitas_Ciputra_Wordmark.png) |
+| `lembaga-penyakit-tropis.webp` | [Image supplied by the project maintainer](https://tse4.mm.bing.net/th/id/OIP.qEDKKOB0sPkiQ1--vpmQOQHaKe?r=0&rs=1&pid=ImgDetMain&o=7&rm=3) |
+| `entative-hub.webp` | [Image supplied by the project maintainer](https://tse4.mm.bing.net/th/id/OIP.YAcwY0BbaG_jHhibk4N8twHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3) |
+| `bionas-lab.png` | [Image supplied by the project maintainer via Google Drive image proxy](https://proxyimagedownloader.apipedia.workers.dev/?url=https://drive.google.com/file/d/1EsMMQ8-jSsPtvmtKqUPnscNYNT_xVL90/view?usp=drive_link) |
