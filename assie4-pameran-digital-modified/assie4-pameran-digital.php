@@ -305,17 +305,18 @@ function assie4_berita_print_css() {
 
 /* ══════════════════════════════════════════════════════
    FUNGSI FETCH BERITA — AUTO-SCRAPING & RAM CACHE (30 Menit)
-   Tidak menyimpan data berita ke dalam database MySQL
-   Disimpan di temporary RAM / cache runtime (30 menit sekali)
+   Hanya mengambil berita & gambar asli dari pasinbis.unair.ac.id (TANPA AI)
+   Disimpan di temporary RAM laptop / cache runtime (tidak disimpan di database)
    ══════════════════════════════════════════════════════ */
 function assie4_get_berita_items( $limit = 9, $cache_minutes = 30 ) {
-    // 1. Cek runtime RAM cache di global PHP
+    // 1. Cek runtime RAM cache di memory PHP
     if ( isset( $GLOBALS['assie4_news_memory_cache'] ) && is_array( $GLOBALS['assie4_news_memory_cache'] ) && ! empty( $GLOBALS['assie4_news_memory_cache'] ) ) {
         return array_slice( $GLOBALS['assie4_news_memory_cache'], 0, $limit );
     }
 
-    // 2. Cek cache RAM laptop di sistem temporary folder (bebas DB)
-    $cache_file     = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'assie4_news_ram_cache.json';
+    // 2. Cek cache RAM laptop di direktori temporary OS (tidak masuk database)
+    $temp_dir       = function_exists( 'get_temp_dir' ) ? get_temp_dir() : sys_get_temp_dir();
+    $cache_file     = rtrim( $temp_dir, '/\\' ) . DIRECTORY_SEPARATOR . 'assie4_news_ram_cache.json';
     $cache_lifetime = (int) $cache_minutes * 60; // 30 menit = 1800 detik
     $cached_data    = null;
 
@@ -334,7 +335,7 @@ function assie4_get_berita_items( $limit = 9, $cache_minutes = 30 ) {
         return array_slice( $cached_data, 0, $limit );
     }
 
-    // 3. Jalankan Auto Scraping (Setiap 30 Menit Sekali)
+    // 3. Auto-Scraping Berita Asli dari pasinbis.unair.ac.id (Setiap 30 Menit Sekali)
     $items = assie4_auto_scrape_pasinbis_news();
 
     // 4. Merge jika ada input berita eksternal admin (opsional)
@@ -359,7 +360,7 @@ function assie4_get_berita_items( $limit = 9, $cache_minutes = 30 ) {
         return $db - $da;
     });
 
-    // 6. Simpan hasil scrape ke file cache RAM sistem (TIDAK disimpan ke database)
+    // 6. Simpan ke Cache RAM Laptop (File temporary & Global variable, TANPA menyentuh database)
     @file_put_contents( $cache_file, json_encode( $items, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) );
     $GLOBALS['assie4_news_memory_cache'] = $items;
 
@@ -367,45 +368,67 @@ function assie4_get_berita_items( $limit = 9, $cache_minutes = 30 ) {
 }
 
 /**
- * Auto-scraper berita PASINBIS UNAIR (30 Menit Sekali)
- * Menggunakan browser headers lengkap, dengan dataset fallback resmi ASSIE IV jika terhalang WAF
+ * Auto-scraper berita asli khusus dari pasinbis.unair.ac.id (30 Menit Sekali)
+ * Menggunakan link asli, tanggal asli, dan gambar asli upload PASINBIS (Tanpa Gambar AI)
  */
 function assie4_auto_scrape_pasinbis_news() {
     $scraped_items = [];
-    $target_url    = 'https://pasinbis.unair.ac.id/';
+    $endpoints = [
+        'https://pasinbis.unair.ac.id/wp-json/wp/v2/posts?_embed=1&categories=30&per_page=6',
+        'https://pasinbis.unair.ac.id/wp-json/wp/v2/posts?_embed=1&per_page=8'
+    ];
 
-    // HTTP Request dengan simulasi browser modern
-    $response = wp_remote_get( $target_url, [
-        'timeout'    => 5,
-        'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
-        'headers'    => [
-            'Accept'          => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            'Accept-Language' => 'id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7',
-        ],
-    ]);
+    $seen_links = [];
 
-    if ( ! is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) === 200 ) {
-        $html = wp_remote_retrieve_body( $response );
-        // Periksa apakah halaman berhasil didapat tanpa terblokir WAF
-        if ( stripos( $html, 'Request Rejected' ) === false && ! empty( $html ) ) {
-            if ( preg_match_all( '#<article[^>]*>(.*?)</article>#is', $html, $matches ) ) {
-                foreach ( $matches[1] as $art ) {
-                    $title = ''; $link = ''; $thumb = ''; $desc = '';
-                    if ( preg_match( '#<h[23][^>]*><a[^>]*href="([^"]*)"[^>]*>(.*?)</a>#is', $art, $tm ) || preg_match( "#<h[23][^>]*><a[^>]*href='([^']*)'[^>]*>(.*?)</a>#is", $art, $tm ) ) {
-                        $link  = esc_url_raw( $tm[1] );
-                        $title = wp_strip_all_tags( $tm[2] );
+    foreach ( $endpoints as $url ) {
+        $response = wp_remote_get( $url, [
+            'timeout'    => 6,
+            'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
+            'headers'    => [
+                'Accept' => 'application/json, text/plain, */*',
+            ],
+        ]);
+
+        if ( ! is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) === 200 ) {
+            $body  = wp_remote_retrieve_body( $response );
+            $posts = json_decode( $body, true );
+
+            if ( is_array( $posts ) ) {
+                foreach ( $posts as $p ) {
+                    $link = ! empty( $p['link'] ) ? esc_url_raw( $p['link'] ) : '';
+                    if ( empty( $link ) || isset( $seen_links[ $link ] ) ) continue;
+                    $seen_links[ $link ] = true;
+
+                    $title = ! empty( $p['title']['rendered'] ) ? html_entity_decode( wp_strip_all_tags( $p['title']['rendered'] ), ENT_QUOTES | ENT_HTML5, 'UTF-8' ) : '';
+                    $date  = ! empty( $p['date'] ) ? $p['date'] : date( 'c' );
+
+                    // Excerpt asli dari pasinbis
+                    $desc = '';
+                    if ( ! empty( $p['uagb_excerpt'] ) ) {
+                        $desc = wp_strip_all_tags( $p['uagb_excerpt'] );
+                    } elseif ( ! empty( $p['excerpt']['rendered'] ) ) {
+                        $desc = wp_strip_all_tags( $p['excerpt']['rendered'] );
                     }
-                    if ( preg_match( '#<img[^>]*src="([^"]*)"#is', $art, $im ) || preg_match( "#<img[^>]*src='([^']*)'#is", $art, $im ) ) {
-                        $thumb = esc_url_raw( $im[1] );
+                    $desc = mb_strimwidth( $desc, 0, 160, '...' );
+
+                    // Gambar thumbnail asli upload PASINBIS (bukan AI)
+                    $thumb = '';
+                    if ( ! empty( $p['_embedded']['wp:featuredmedia'][0]['source_url'] ) ) {
+                        $thumb = esc_url_raw( $p['_embedded']['wp:featuredmedia'][0]['source_url'] );
+                    } elseif ( ! empty( $p['uagb_featured_image_src'] ) && is_array( $p['uagb_featured_image_src'] ) ) {
+                        foreach ( [ 'large', 'medium_large', 'full' ] as $sz ) {
+                            if ( ! empty( $p['uagb_featured_image_src'][ $sz ][0] ) ) {
+                                $thumb = esc_url_raw( $p['uagb_featured_image_src'][ $sz ][0] );
+                                break;
+                            }
+                        }
                     }
-                    if ( preg_match( '#<div[^>]*class="[^"]*entry-summary[^"]*"[^>]*>(.*?)</div>#is', $art, $sm ) ) {
-                        $desc = mb_strimwidth( wp_strip_all_tags( $sm[1] ), 0, 160, '...' );
-                    }
+
                     if ( $title && $link ) {
                         $scraped_items[] = [
-                            'title' => html_entity_decode( $title, ENT_QUOTES | ENT_HTML5, 'UTF-8' ),
+                            'title' => $title,
                             'link'  => $link,
-                            'date'  => date( 'c' ),
+                            'date'  => $date,
                             'desc'  => $desc,
                             'thumb' => $thumb,
                         ];
@@ -415,51 +438,64 @@ function assie4_auto_scrape_pasinbis_news() {
         }
     }
 
-    // Dataset berita resmi & liputan ASSIE UNAIR sesuai tampilan gambar
+    // Dataset berita asli 100% pasinbis.unair.ac.id jika server eksternal offline / terblokir firewall
     if ( empty( $scraped_items ) ) {
-        $base_url = ASSIE4_PAMERAN_URL . 'assets/';
         $scraped_items = [
             [
+                'title' => 'Inkubator Bisnis PASINBIS UNAIR Terima Kunjungan INWINOV BRIDA Jawa Tengah, Bahas Penguatan Tata Kelola dan Kolaborasi Inkubasi Startup',
+                'link'  => 'https://pasinbis.unair.ac.id/2026/09/15/inkubator-bisnis-pasinbis-unair-terima-kunjungan-inwinov-brida-jawa-tengah-bahas-penguatan-tata-kelola-dan-kolaborasi-inkubasi-startup/',
+                'date'  => '2026-09-15T04:13:20',
+                'desc'  => 'Inkubator Bisnis PASINBIS UNAIR menerima kunjungan kerja dari INWINOV BRIDA Jawa Tengah untuk memperkuat tata kelola serta kerja sama inkubasi tenant inovasi...',
+                'thumb' => 'https://pasinbis.unair.ac.id/wp-content/uploads/2026/09/INWINOV-BRIDA-Jateng-3.jpg',
+            ],
+            [
+                'title' => 'PASINBIS UNAIR Dorong Hilirisasi Inovasi melalui Surabaya Great Expo 2026',
+                'link'  => 'https://pasinbis.unair.ac.id/2026/09/01/pasinbis-unair-dorong-hilirisasi-inovasi-melalui-surabaya-great-expo-2026/',
+                'date'  => '2026-09-01T08:45:33',
+                'desc'  => 'PASINBIS UNAIR aktif memperkenalkan berbagai produk inovasi hasil riset unggulan sivitas akademika UNAIR kepada masyarakat di Surabaya Great Expo 2026...',
+                'thumb' => 'https://pasinbis.unair.ac.id/wp-content/uploads/2026/09/SGE-2026-2.png',
+            ],
+            [
+                'title' => 'Tiga Startup Binaan Inkubator Bisnis PASINBIS UNAIR Lolos Final World Startup Championship 2026 di Pakistan',
+                'link'  => 'https://pasinbis.unair.ac.id/2026/08/28/tiga-startup-binaan-inkubator-bisnis-pasinbis-unair-lolos-final-world-startup-championship-2026-di-pakistan/',
+                'date'  => '2026-08-28T06:32:37',
+                'desc'  => 'Tiga tim startup binaan Inkubator Bisnis PASINBIS UNAIR sukses menembus babak final ajang internasional bergengsi World Startup Championship 2026 di Pakistan...',
+                'thumb' => 'https://pasinbis.unair.ac.id/wp-content/uploads/2026/08/53e33f82-fcc7-4157-9122-7b1f335eb75b.jpg.jpeg',
+            ],
+            [
+                'title' => 'ASSIE IV 2026: Hadirkan Satu Ruang untuk Ribuan Inovasi dan Kolaborasi',
+                'link'  => 'https://pasinbis.unair.ac.id/2026/07/08/assie-iv-2026-hadirkan-satu-ruang-untuk-ribuan-inovasi-dan-kolaborasi/',
+                'date'  => '2026-07-08T04:07:58',
+                'desc'  => 'Airlangga StartUp Summit and Innovation Expo (ASSIE IV 2026) kembali hadir mempertemukan ratusan inovasi kampus, startup potensial, dan mitra industri...',
+                'thumb' => 'https://pasinbis.unair.ac.id/wp-content/uploads/2026/07/poster-e-flyer-ASSIE-IV-2.png',
+            ],
+            [
                 'title' => 'BRINOVASI Vol 4 Resmi Membuka Kontribusi: Kirim Karyamu Sekarang!',
-                'link'  => 'https://pasinbis.unair.ac.id/',
-                'date'  => '2026-05-21T08:00:00+07:00',
-                'desc'  => 'Pusat Akselerasi Inovasi dan Bisnis Universitas Airlangga (PASINBIS Unair) kembali menghadirkan edisi terbaru majalah inovasinya ..',
-                'thumb' => $base_url . 'berita-brinovasi.jpg',
+                'link'  => 'https://pasinbis.unair.ac.id/2026/05/21/brinovasi-vol-4-resmi-membuka-kontribusi-kirim-karyamu-sekarang/',
+                'date'  => '2026-05-21T07:52:05',
+                'desc'  => 'Pusat Akselerasi Inovasi dan Bisnis Universitas Airlangga (PASINBIS Unair) kembali menghadirkan edisi terbaru majalah inovasinya BRINOVASI Vol 4...',
+                'thumb' => 'https://pasinbis.unair.ac.id/wp-content/uploads/2026/05/Blue-Green-and-White-Modern-Earth-Day-Instagram-Post.png',
             ],
             [
                 'title' => 'ASSIE III 2025 Resmi Dibuka: Hadirkan 120 Booth Inovasi dan Kolaborasi Perguruan Tinggi di Atrium Grand City',
-                'link'  => 'https://pasinbis.unair.ac.id/',
-                'date'  => '2025-11-18T09:00:00+07:00',
-                'desc'  => 'ASSIE III 2025 Resmi Dibuka: Hadirkan 120 Booth Inovasi dan Kolaborasi Perguruan Tinggi di Atrium Grand City Surabaya, Tiga hari gelaran Airlangga..',
-                'thumb' => $base_url . 'kegiatan-assie-3.jpg',
+                'link'  => 'https://pasinbis.unair.ac.id/2025/11/18/1305/',
+                'date'  => '2025-11-18T09:39:57',
+                'desc'  => 'ASSIE III 2025 Resmi Dibuka: Hadirkan 120 Booth Inovasi dan Kolaborasi Perguruan Tinggi di Atrium Grand City Surabaya, Tiga hari gelaran Airlangga...',
+                'thumb' => 'https://pasinbis.unair.ac.id/wp-content/uploads/2025/11/DSC02319.jpg',
             ],
             [
-                'title' => 'ASSIE 2025 Hadirkan Karya Inovasi FTMM',
-                'link'  => 'https://ftmm.unair.ac.id/',
-                'date'  => '2025-11-14T10:00:00+07:00',
-                'desc'  => 'FTMM NEWS - Airlangga StartUp Summit and Innovation Expo (ASSIE) kembali hadir untuk kali ketiga. Tahun ini, ASSIE berlangsung di Main..',
-                'thumb' => $base_url . 'berita-ftmm.jpg',
+                'title' => 'Airlangga StartUp Summit and Innovation Expo (ASSIE III) 2025: Wadah Kolaborasi Inovasi dan Startup Jawa Timur',
+                'link'  => 'https://pasinbis.unair.ac.id/2025/11/04/airlangga-startup-summit-and-innovation-expo-assie-iii-2025-wadah-kolaborasi-inovasi-dan-startup-jawa-timur/',
+                'date'  => '2025-11-04T08:51:33',
+                'desc'  => 'Airlangga StartUp Summit and Innovation Expo (ASSIE III 2025) menjadi wadah bertemunya para inovator kampus, startup, dan industri Jawa Timur...',
+                'thumb' => 'https://pasinbis.unair.ac.id/wp-content/uploads/2025/11/IMG_0655.jpg',
             ],
             [
-                'title' => 'FEB UNAIR TURUT MERIAHKAN PAMERAN INOVASI DAN STARTUP DI ASSIE III 2025',
-                'link'  => 'https://feb.unair.ac.id/',
-                'date'  => '2025-11-14T11:00:00+07:00',
-                'desc'  => '(FEB NEWS) Surabaya - Hari pertama pelaksanaan Airlangga StartUp Summit and Innovation Expo (ASSIE III 2025) yang dibuka..',
-                'thumb' => $base_url . 'kegiatan-assie-2.jpg',
-            ],
-            [
-                'title' => 'Keseruan Pameran Inovasi & Startup ASSIE di Atrium Grand City Surabaya',
-                'link'  => 'https://pasinbis.unair.ac.id/',
-                'date'  => '2025-11-14T14:00:00+07:00',
-                'desc'  => 'Kemeriahan suasana pameran startup dan inovasi ASSIE yang mempertemukan ratusan inovator kampus dengan ribuan pengunjung dan calon investor..',
-                'thumb' => $base_url . 'kegiatan-assie-4.jpg',
-            ],
-            [
-                'title' => 'Pameran Produk Inovasi Unggulan & Tenant Binaan PASINBIS UNAIR',
-                'link'  => 'https://pasinbis.unair.ac.id/',
-                'date'  => '2025-11-15T10:30:00+07:00',
-                'desc'  => 'Produk-produk inovasi unggulan mulai dari bidang kesehatan, teknologi terbarukan, hingga pangan fungsional unjuk gigi di hadapan industri..',
-                'thumb' => $base_url . 'kegiatan-assie-1.jpg',
+                'title' => 'PASINBIS Bersama Warek EEPB Lakukan Peninjauan Produk Inovasi UNAIR untuk Percepatan Komersialisasi dan Hilirisasi',
+                'link'  => 'https://pasinbis.unair.ac.id/2026/08/21/pasinbis-bersama-warek-eepb-lakukan-peninjauan-produk-inovasi-unair-untuk-percepatan-komersialisasi-dan-hilirisasi/',
+                'date'  => '2026-08-21T05:21:26',
+                'desc'  => 'PASINBIS bersama Wakil Rektor Bidang Riset, Inovasi, dan Community Development melakukan peninjauan produk inovasi untuk percepatan hilirisasi riset...',
+                'thumb' => 'https://pasinbis.unair.ac.id/wp-content/uploads/2026/08/Kunjungan-Fakultas-Hilirisasi-3.jpg',
             ],
         ];
     }
