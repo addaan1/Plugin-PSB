@@ -108,21 +108,85 @@
       var div=document.createElement('div');
       div.className='a4-sl'+(i===0?' on':'');
       var bg    = s.bg||'#03050e';
-      var isImg = /^https?:\/\//i.test(bg.trim());
+      var isImg = /^https?:\/\//i.test(bg.trim()) || /\.(jpe?g|png|webp)/i.test(bg.trim());
       // Untuk URL gambar: gunakan langsung tanpa escH agar URL tidak rusak
       var bgCss = isImg
         ? 'background-image:url(' + bg.replace(/[()]/g,'') + ');background-size:cover;background-position:center center;background-repeat:no-repeat'
         : 'background:' + bg;
       var bgCls = isImg ? 'a4-sl-bg a4-sl-bg-img' : 'a4-sl-bg';
-      div.innerHTML =
-        '<div class="'+bgCls+'" style="'+bgCss+'"></div>'+
-        '<div class="a4-sl-overlay"></div>'+
-        '<div class="a4-sl-content">'+
-          '<div class="a4-sl-eyebrow">'+escH(s.subtitle||'ASSIE IV 2026')+'</div>'+
-          '<h1 class="a4-sl-h1">'+escH(s.title||'')+'</h1>'+
-          '<p class="a4-sl-p">'+escH(s.desc||'')+'</p>'+
-          '<a href="'+escH(s.link||'#denah')+'" class="a4-sl-cta">'+escH(s.cta||'Selengkapnya')+' &#8594;</a>'+
-        '</div>';
+      var isLogoSlide = s.is_logo || s.logo_only || (s.title && s.title.trim().toLowerCase() === 'industry matching');
+      var hasPhotos = Array.isArray(s.photos) && s.photos.length > 0;
+      if (isLogoSlide) {
+        var lUrl = s.logo || (window.ASSIE4_CFG && window.ASSIE4_CFG.pluginUrl ? window.ASSIE4_CFG.pluginUrl + 'assets/logo-assie4.png' : '');
+        if (!lUrl) {
+          var nImg = document.querySelector('.a4-nav-logo-img');
+          lUrl = nImg ? nImg.src : '/wp-content/plugins/assie4-pameran-digital/assets/logo-assie4.png';
+        }
+        div.innerHTML =
+          '<div class="'+bgCls+'" style="'+bgCss+'"></div>'+
+          '<div class="a4-sl-overlay"></div>'+
+          '<div class="a4-sl-content a4-sl-content-solo-logo">'+
+            '<div class="a4-hero-solo-logo-wrap">'+
+              '<img src="'+escH(lUrl)+'" alt="Industry Matching ASSIE IV 2026" class="a4-hero-solo-logo">'+
+            '</div>'+
+          '</div>';
+      } else if (hasPhotos) {
+        var p1 = s.photos[0];
+        var p2 = s.photos.length > 1 ? s.photos[1] : s.photos[0];
+        div.innerHTML =
+          '<div class="'+bgCls+'" style="'+bgCss+'"></div>'+
+          '<div class="a4-sl-overlay"></div>'+
+          '<div class="a4-sl-content a4-sl-content-showcase">'+
+            '<div class="a4-sl-showcase-grid">'+
+              '<!-- Left Photo Card (Desktop) -->'+
+              '<div class="a4-sl-photo-card a4-sl-photo-card-left a4-sl-photo-desktop" title="Opening Ceremony ASSIE">'+
+                '<div class="a4-sl-photo-frame">'+
+                  '<img src="'+escH(p1)+'" alt="Opening Ceremony ASSIE" loading="lazy" class="a4-sl-img">'+
+                  '<div class="a4-sl-photo-tag"><span class="a4-photo-dot"></span>Opening Ceremony</div>'+
+                '</div>'+
+              '</div>'+
+              '<!-- Center Text -->'+
+              '<div class="a4-sl-center-text">'+
+                '<div class="a4-sl-eyebrow">'+escH(s.subtitle||'ASSIE IV 2026')+'</div>'+
+                '<h1 class="a4-sl-h1">'+escH(s.title||'')+'</h1>'+
+                '<p class="a4-sl-p">'+escH(s.desc||'')+'</p>'+
+                '<a href="'+escH(s.link||'#denah')+'" class="a4-sl-cta">'+escH(s.cta||'Selengkapnya')+' &#8594;</a>'+
+                '<!-- Compact Photos (Mobile/Tablet) -->'+
+                '<div class="a4-sl-mobile-photos">'+
+                  '<div class="a4-sl-photo-card a4-sl-photo-card-mob">'+
+                    '<div class="a4-sl-photo-frame">'+
+                      '<img src="'+escH(p1)+'" alt="Opening Ceremony ASSIE" loading="lazy" class="a4-sl-img">'+
+                      '<div class="a4-sl-photo-tag"><span class="a4-photo-dot"></span>Opening</div>'+
+                    '</div>'+
+                  '</div>'+
+                  '<div class="a4-sl-photo-card a4-sl-photo-card-mob">'+
+                    '<div class="a4-sl-photo-frame">'+
+                      '<img src="'+escH(p2)+'" alt="E-Sport Competition ASSIE" loading="lazy" class="a4-sl-img">'+
+                      '<div class="a4-sl-photo-tag"><span class="a4-photo-dot gold"></span>E-Sport</div>'+
+                    '</div>'+
+                  '</div>'+
+                '</div>'+
+              '</div>'+
+              '<!-- Right Photo Card (Desktop) -->'+
+              '<div class="a4-sl-photo-card a4-sl-photo-card-right a4-sl-photo-desktop" title="Roblox E-Sport Competition">'+
+                '<div class="a4-sl-photo-frame">'+
+                  '<img src="'+escH(p2)+'" alt="Roblox E-Sport Competition" loading="lazy" class="a4-sl-img">'+
+                  '<div class="a4-sl-photo-tag"><span class="a4-photo-dot gold"></span>E-Sport Competition</div>'+
+                '</div>'+
+              '</div>'+
+            '</div>'+
+          '</div>';
+      } else {
+        div.innerHTML =
+          '<div class="'+bgCls+'" style="'+bgCss+'"></div>'+
+          '<div class="a4-sl-overlay"></div>'+
+          '<div class="a4-sl-content">'+
+            '<div class="a4-sl-eyebrow">'+escH(s.subtitle||'ASSIE IV 2026')+'</div>'+
+            '<h1 class="a4-sl-h1">'+escH(s.title||'')+'</h1>'+
+            '<p class="a4-sl-p">'+escH(s.desc||'')+'</p>'+
+            '<a href="'+escH(s.link||'#denah')+'" class="a4-sl-cta">'+escH(s.cta||'Selengkapnya')+' &#8594;</a>'+
+          '</div>';
+      }
       wrap.appendChild(div);
       var dot=document.createElement('button');
       dot.className='a4-dot'+(i===0?' on':'');
@@ -744,7 +808,7 @@
           var ds='';
           try{var d=new Date(item.date);ds=d.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});}catch(e){ds=item.date||'';}
           var thumb=item.thumb
-            ?'<div class="a4-nc-img"><img src="'+escH(item.thumb)+'" alt="" loading="lazy" onerror="this.className+=\' a4-nc-img-err\'"></div>'
+            ?'<div class="a4-nc-img"><img src="'+escH(item.thumb)+'" alt="" loading="lazy" referrerpolicy="no-referrer"></div>'
             :'<div class="a4-nc-img a4-nc-img-ph"><span>&#128240;</span></div>';
           return '<a href="'+escH(item.link)+'" target="_blank" class="a4-news-card" title="Baca selengkapnya">'+thumb+
             '<div class="a4-nc-body"><div class="a4-nc-date">'+escH(ds)+'</div>'+
@@ -782,6 +846,7 @@
     init();
   }
   setInterval(refreshStats,60000);
+  setInterval(loadBerita, 30*60*1000); // Auto-refresh scrape tiap 30 menit
 })();
 
 /* ── TokoUA Modal ─────────────────────────────────────── */

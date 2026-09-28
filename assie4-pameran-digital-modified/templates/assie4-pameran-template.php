@@ -3,11 +3,19 @@
  * Template konten — ASSIE IV Pameran Digital v2.6.0
  */
 if ( ! defined( 'ABSPATH' ) ) exit;
+
+$a4_info_data = get_option( ASSIE4_OPT_INFO, assie4_default_info() );
+$a4_info_data = is_array($a4_info_data) ? $a4_info_data : assie4_default_info();
+$a4_logo_url  = !empty($a4_info_data['logo']) ? $a4_info_data['logo'] : (ASSIE4_PAMERAN_URL . 'assets/logo-assie4.png');
 ?>
 
 <!-- NAV -->
 <nav class="a4-nav" id="a4Nav">
-  <a class="a4-nav-logo" href="#home" aria-label="ASSIE IV 2026, Beranda"><img src="<?php echo esc_url( ASSIE4_PAMERAN_URL . 'assets/assie-iv-wordmark.png' ); ?>" alt="Industry Matching ASSIE IV 2026"></a>
+  <div class="a4-nav-logo">
+    <a href="#home" onclick="a4GoTo('home')" class="a4-nav-logo-link" title="Industry Matching ASSIE IV 2026">
+      <img src="<?php echo esc_url( $a4_logo_url ); ?>" alt="Industry Matching ASSIE IV 2026" class="a4-nav-logo-img">
+    </a>
+  </div>
   <div class="a4-nav-menu">
     <button class="a4-nb on" onclick="a4GoTo('home')">Beranda</button>
     <button class="a4-nb" onclick="a4GoTo('rundown')">Rundown</button>
@@ -232,6 +240,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 <!-- FOOTER -->
 <footer class="a4-footer">
+  <div class="a4-footer-logo-wrap" style="margin-bottom:16px">
+    <img src="<?php echo esc_url( $a4_logo_url ); ?>" alt="Industry Matching ASSIE IV 2026" class="a4-footer-logo-img">
+  </div>
   <p>© 2026 <strong>PASINBIS Universitas Airlangga</strong> · ASSIE IV 2026</p>
   <p class="a4-footer-sub">Airlangga Startup Summit &amp; Innovation Expo · Grand City Atrium, Surabaya</p>
 </footer>

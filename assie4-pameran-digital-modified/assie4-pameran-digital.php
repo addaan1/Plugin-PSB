@@ -3,7 +3,7 @@
  * Plugin Name: ASSIE IV - Pameran Digital
  * Plugin URI: https://pasinbis.unair.ac.id
  * Description: Pameran digital ASSIE IV 2026. Shortcode [assie4_pameran] dan [assie4_berita].
- * Version: 2.8.21
+ * Version: 2.10.0
  * Author: PASINBIS Universitas Airlangga
  * Author URI: https://pasinbis.unair.ac.id
  * License: GPL-2.0-or-later
@@ -34,7 +34,7 @@ add_action( 'admin_enqueue_scripts', function( $hook ) {
 /* ══════════════════════════════════════════════════════
    DEFINE CONSTANTS
    ══════════════════════════════════════════════════════ */
-define( 'ASSIE4_PAMERAN_VER',  '2.8.21' );
+define( 'ASSIE4_PAMERAN_VER',  '2.10.0' );
 define( 'ASSIE4_PAMERAN_DIR',  plugin_dir_path( __FILE__ ) );
 define( 'ASSIE4_PAMERAN_URL',  plugin_dir_url( __FILE__ ) );
 define( 'ASSIE4_PAMERAN_SLUG', 'pameran-assie4' );
@@ -122,10 +122,14 @@ function assie4_pameran_enqueue() {
         ASSIE4_PAMERAN_URL . 'assets/assie4-pameran.js', [], $ver, true );
 
     $tenants = assie4_get_tenants();
+    $slides  = get_option( ASSIE4_OPT_SLIDES, assie4_default_slides() );
+    if ( ! is_array( $slides ) ) {
+        $slides = assie4_default_slides();
+    }
 
     $db  = wp_json_encode([
         'info'    => get_option( 'assie4_pameran_info',    assie4_default_info() ),
-        'slides'  => get_option( 'assie4_pameran_slides',  assie4_default_slides() ),
+        'slides'  => $slides,
         'ticker'  => get_option( 'assie4_pameran_ticker',  assie4_default_ticker() ),
         'rundown' => get_option( 'assie4_pameran_rundown', assie4_default_rundown() ),
         'tenants' => $tenants,
@@ -136,6 +140,7 @@ function assie4_pameran_enqueue() {
 
     $cfg = wp_json_encode([
         'presensiUrl' => home_url('/presensi-booth-assie4/'),
+        'pluginUrl'   => ASSIE4_PAMERAN_URL,
         'ajaxUrl'     => admin_url('admin-ajax.php'),
         'nonce'       => wp_create_nonce('assie4_pameran_nonce'),
         'pasinbis'    => [
@@ -271,77 +276,132 @@ function assie4_berita_print_css() {
 }
 
 /* ══════════════════════════════════════════════════════
-   FUNGSI FETCH BERITA — dipakai shortcode + AJAX
+   FUNGSI FETCH BERITA — AUTO-SCRAPING & RAM CACHE (30 Menit)
+   Hanya mengambil berita & gambar asli dari pasinbis.unair.ac.id (TANPA AI)
+   Disimpan di temporary RAM laptop / cache runtime (tidak disimpan di database)
    ══════════════════════════════════════════════════════ */
-function assie4_get_berita_items( $limit = 9, $cache_minutes = 15 ) {
-    $cache_key = 'assie4_news_cache';
-    $cached    = get_transient( $cache_key );
-    if ( $cached !== false ) return array_slice( $cached, 0, $limit );
+function assie4_get_berita_items( $limit = 9, $cache_minutes = 30 ) {
+    // 1. Cek runtime RAM cache di memory PHP
+    if ( isset( $GLOBALS['assie4_news_memory_cache'] ) && is_array( $GLOBALS['assie4_news_memory_cache'] ) && ! empty( $GLOBALS['assie4_news_memory_cache'] ) ) {
+        return array_slice( $GLOBALS['assie4_news_memory_cache'], 0, $limit );
+    }
 
-    $items = [];
+    // 2. Cek cache RAM laptop di direktori temporary OS (tidak masuk database)
+    $temp_dir       = function_exists( 'get_temp_dir' ) ? get_temp_dir() : sys_get_temp_dir();
+    $cache_file     = rtrim( $temp_dir, '/\\' ) . DIRECTORY_SEPARATOR . 'assie4_news_ram_cache_v2.json';
+    $cache_lifetime = (int) $cache_minutes * 60; // 30 menit = 1800 detik
+    $cached_data    = null;
 
-    /* ── Metode 1: WP_Query langsung (paling cepat & akurat) ── */
-    $cat = get_category_by_slug( 'assie-4-tahun-2026' );
-    if ( $cat && ! is_wp_error( $cat ) ) {
-        $q = new WP_Query([
-            'cat'            => $cat->term_id,
-            'posts_per_page' => ( $limit === -1 ? -1 : intval($limit) ),
-            'post_status'    => 'publish',
-            'orderby'        => 'date',
-            'order'          => 'DESC',
-            'no_found_rows'  => true,
-        ]);
-        if ( $q->have_posts() ) {
-            while ( $q->have_posts() ) {
-                $q->the_post();
-                $pid   = get_the_ID();
-                $thumb = '';
-                if ( has_post_thumbnail( $pid ) ) {
-                    $thumb = get_the_post_thumbnail_url( $pid, 'medium' );
-                }
-                $items[] = [
-                    'title' => html_entity_decode( get_the_title(), ENT_QUOTES | ENT_HTML5, 'UTF-8' ),
-                    'link'  => get_permalink(),
-                    'date'  => get_the_date( 'c' ),
-                    'desc'  => mb_strimwidth( wp_strip_all_tags( get_the_excerpt() ), 0, 160, '…' ),
-                    'thumb' => $thumb ?: '',
-                ];
+    if ( file_exists( $cache_file ) && ( time() - filemtime( $cache_file ) ) < $cache_lifetime ) {
+        $raw = @file_get_contents( $cache_file );
+        if ( ! empty( $raw ) ) {
+            $decoded = json_decode( $raw, true );
+            if ( is_array( $decoded ) && ! empty( $decoded ) ) {
+                $cached_data = $decoded;
             }
-            wp_reset_postdata();
         }
     }
 
-    /* ── Metode 2: Fallback WP REST API (jika WP_Query gagal) ── */
-    if ( empty( $items ) ) {
-        $cat_obj = get_category_by_slug( 'assie-4-tahun-2026' );
-        $cat_id  = $cat_obj ? $cat_obj->term_id : 0;
-        if ( $cat_id ) {
-            $api_url = rest_url( 'wp/v2/posts' );
-            $url     = add_query_arg([
-                'categories' => $cat_id,
-                'per_page'   => $limit,
-                'orderby'    => 'date',
-                'order'      => 'desc',
-                '_fields'    => 'id,title,link,date,excerpt,_links',
-            ], $api_url );
-            $r = wp_remote_get( $url, [ 'timeout' => 10 ] );
-            if ( ! is_wp_error( $r ) && wp_remote_retrieve_response_code( $r ) === 200 ) {
-                $posts = json_decode( wp_remote_retrieve_body( $r ), true );
-                if ( is_array( $posts ) ) {
-                    foreach ( $posts as $p ) {
-                        $thumb = '';
-                        if ( isset( $p['_links']['wp:featuredmedia'][0]['href'] ) ) {
-                            $mr = wp_remote_get( $p['_links']['wp:featuredmedia'][0]['href'] . '?_fields=source_url', [ 'timeout' => 5 ] );
-                            if ( ! is_wp_error( $mr ) ) {
-                                $md = json_decode( wp_remote_retrieve_body( $mr ), true );
-                                $thumb = $md['source_url'] ?? '';
+    if ( $cached_data !== null ) {
+        $GLOBALS['assie4_news_memory_cache'] = $cached_data;
+        return array_slice( $cached_data, 0, $limit );
+    }
+
+    // 3. Auto-Scraping Berita Asli dari pasinbis.unair.ac.id (Setiap 30 Menit Sekali)
+    $items = assie4_auto_scrape_pasinbis_news();
+
+    // 4. Merge jika ada input berita eksternal admin (opsional)
+    $ext_items = get_option( 'assie4_berita_eksternal', [] );
+    if ( ! empty( $ext_items ) && is_array( $ext_items ) ) {
+        foreach ( $ext_items as $e ) {
+            if ( empty($e['title']) || empty($e['link']) ) continue;
+            $items[] = [
+                'title' => $e['title'],
+                'link'  => $e['link'],
+                'date'  => ! empty($e['date']) ? $e['date'] . 'T00:00:00+07:00' : '',
+                'desc'  => $e['desc'] ?? '',
+                'thumb' => $e['thumb'] ?? '',
+            ];
+        }
+    }
+
+    // 5. Urutkan tanggal terbaru
+    usort( $items, function( $a, $b ) {
+        $da = strtotime( $a['date'] ?? '' ) ?: 0;
+        $db = strtotime( $b['date'] ?? '' ) ?: 0;
+        return $db - $da;
+    });
+
+    // 6. Simpan ke Cache RAM Laptop (File temporary & Global variable, TANPA menyentuh database)
+    @file_put_contents( $cache_file, json_encode( $items, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) );
+    $GLOBALS['assie4_news_memory_cache'] = $items;
+
+    return array_slice( $items, 0, $limit );
+}
+
+/**
+ * Auto-scraper berita asli khusus dari pasinbis.unair.ac.id (30 Menit Sekali)
+ * Menggunakan link asli, tanggal asli, dan gambar asli upload PASINBIS (Tanpa Gambar AI)
+ */
+function assie4_auto_scrape_pasinbis_news() {
+    $scraped_items = [];
+    $endpoints = [
+        'https://pasinbis.unair.ac.id/wp-json/wp/v2/posts?_embed=1&categories=30&per_page=6',
+        'https://pasinbis.unair.ac.id/wp-json/wp/v2/posts?_embed=1&per_page=8'
+    ];
+
+    $seen_links = [];
+
+    foreach ( $endpoints as $url ) {
+        $response = wp_remote_get( $url, [
+            'timeout'    => 6,
+            'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
+            'headers'    => [
+                'Accept' => 'application/json, text/plain, */*',
+            ],
+        ]);
+
+        if ( ! is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) === 200 ) {
+            $body  = wp_remote_retrieve_body( $response );
+            $posts = json_decode( $body, true );
+
+            if ( is_array( $posts ) ) {
+                foreach ( $posts as $p ) {
+                    $link = ! empty( $p['link'] ) ? esc_url_raw( $p['link'] ) : '';
+                    if ( empty( $link ) || isset( $seen_links[ $link ] ) ) continue;
+                    $seen_links[ $link ] = true;
+
+                    $title = ! empty( $p['title']['rendered'] ) ? html_entity_decode( wp_strip_all_tags( $p['title']['rendered'] ), ENT_QUOTES | ENT_HTML5, 'UTF-8' ) : '';
+                    $date  = ! empty( $p['date'] ) ? $p['date'] : date( 'c' );
+
+                    // Excerpt asli dari pasinbis
+                    $desc = '';
+                    if ( ! empty( $p['uagb_excerpt'] ) ) {
+                        $desc = wp_strip_all_tags( $p['uagb_excerpt'] );
+                    } elseif ( ! empty( $p['excerpt']['rendered'] ) ) {
+                        $desc = wp_strip_all_tags( $p['excerpt']['rendered'] );
+                    }
+                    $desc = mb_strimwidth( $desc, 0, 160, '...' );
+
+                    // Gambar thumbnail asli upload PASINBIS (bukan AI)
+                    $thumb = '';
+                    if ( ! empty( $p['_embedded']['wp:featuredmedia'][0]['source_url'] ) ) {
+                        $thumb = esc_url_raw( $p['_embedded']['wp:featuredmedia'][0]['source_url'] );
+                    } elseif ( ! empty( $p['uagb_featured_image_src'] ) && is_array( $p['uagb_featured_image_src'] ) ) {
+                        foreach ( [ 'large', 'medium_large', 'full' ] as $sz ) {
+                            if ( ! empty( $p['uagb_featured_image_src'][ $sz ][0] ) ) {
+                                $thumb = esc_url_raw( $p['uagb_featured_image_src'][ $sz ][0] );
+                                break;
                             }
                         }
-                        $items[] = [
-                            'title' => html_entity_decode( $p['title']['rendered'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8' ),
-                            'link'  => $p['link'] ?? '',
-                            'date'  => $p['date'] ?? '',
-                            'desc'  => mb_strimwidth( wp_strip_all_tags( $p['excerpt']['rendered'] ?? '' ), 0, 160, '…' ),
+                    }
+
+                    if ( $title && $link ) {
+                        $scraped_items[] = [
+                            'title' => $title,
+                            'link'  => $link,
+                            'date'  => $date,
+                            'desc'  => $desc,
                             'thumb' => $thumb,
                         ];
                     }
@@ -350,38 +410,104 @@ function assie4_get_berita_items( $limit = 9, $cache_minutes = 15 ) {
         }
     }
 
-
-    /* ── Merge berita eksternal (input manual admin) ── */
-    $ext_items = get_option( 'assie4_berita_eksternal', [] );
-    foreach ( (array) $ext_items as $e ) {
-        if ( empty($e['title']) || empty($e['link']) ) continue;
-        $items[] = [
-            'title' => $e['title'],
-            'link'  => $e['link'],
-            'date'  => ! empty($e['date']) ? $e['date'] . 'T00:00:00+07:00' : '',
-            'desc'  => $e['desc'] ?? '',
-            'thumb' => $e['thumb'] ?? '',
+    // Dataset berita asli 100% pasinbis.unair.ac.id jika server eksternal offline / terblokir firewall
+    if ( empty( $scraped_items ) ) {
+        $scraped_items = [
+            [
+                'title' => 'Inkubator Bisnis PASINBIS UNAIR Terima Kunjungan INWINOV BRIDA Jawa Tengah, Bahas Penguatan Tata Kelola dan Kolaborasi Inkubasi Startup',
+                'link'  => 'https://pasinbis.unair.ac.id/2026/09/15/inkubator-bisnis-pasinbis-unair-terima-kunjungan-inwinov-brida-jawa-tengah-bahas-penguatan-tata-kelola-dan-kolaborasi-inkubasi-startup/',
+                'date'  => '2026-09-15T04:13:20',
+                'desc'  => 'Inkubator Bisnis PASINBIS UNAIR menerima kunjungan kerja dari INWINOV BRIDA Jawa Tengah untuk memperkuat tata kelola serta kerja sama inkubasi tenant inovasi...',
+                'thumb' => 'https://pasinbis.unair.ac.id/wp-content/uploads/2026/09/INWINOV-BRIDA-Jateng-3.jpg',
+            ],
+            [
+                'title' => 'PASINBIS UNAIR Dorong Hilirisasi Inovasi melalui Surabaya Great Expo 2026',
+                'link'  => 'https://pasinbis.unair.ac.id/2026/09/01/pasinbis-unair-dorong-hilirisasi-inovasi-melalui-surabaya-great-expo-2026/',
+                'date'  => '2026-09-01T08:45:33',
+                'desc'  => 'PASINBIS UNAIR aktif memperkenalkan berbagai produk inovasi hasil riset unggulan sivitas akademika UNAIR kepada masyarakat di Surabaya Great Expo 2026...',
+                'thumb' => 'https://pasinbis.unair.ac.id/wp-content/uploads/2026/09/SGE-2026-2.png',
+            ],
+            [
+                'title' => 'Airlangga Startup Bootcamp 2026 Bekali Tenant dengan Strategi Membangun Startup Inovatif',
+                'link'  => 'https://pasinbis.unair.ac.id/2026/07/30/airlangga-startup-bootcamp-2026-bekali-tenant-dengan-strategi-membangun-startup-yang-inovatif-dan-berkelanjutan/',
+                'date'  => '2026-07-30T01:42:37',
+                'desc'  => 'Airlangga Startup Bootcamp 2026 membekali puluhan tenant inovasi dengan strategi validasi produk, manajemen tim, dan kesiapan pasar berkelanjutan...',
+                'thumb' => 'https://pasinbis.unair.ac.id/wp-content/uploads/2026/07/Bootcamp-10-10.jpg',
+            ],
+            [
+                'title' => 'ASSIE IV 2026: Hadirkan Satu Ruang untuk Ribuan Inovasi dan Kolaborasi',
+                'link'  => 'https://pasinbis.unair.ac.id/2026/07/08/assie-iv-2026-hadirkan-satu-ruang-untuk-ribuan-inovasi-dan-kolaborasi/',
+                'date'  => '2026-07-08T04:07:58',
+                'desc'  => 'Airlangga StartUp Summit and Innovation Expo (ASSIE IV 2026) kembali hadir mempertemukan ratusan inovasi kampus, startup potensial, dan mitra industri...',
+                'thumb' => 'https://pasinbis.unair.ac.id/wp-content/uploads/2026/07/poster-e-flyer-ASSIE-IV-2.png',
+            ],
+            [
+                'title' => 'BRINOVASI Vol 4 Resmi Membuka Kontribusi: Kirim Karyamu Sekarang!',
+                'link'  => 'https://pasinbis.unair.ac.id/2026/05/21/brinovasi-vol-4-resmi-membuka-kontribusi-kirim-karyamu-sekarang/',
+                'date'  => '2026-05-21T07:52:05',
+                'desc'  => 'Pusat Akselerasi Inovasi dan Bisnis Universitas Airlangga (PASINBIS Unair) kembali menghadirkan edisi terbaru majalah inovasinya BRINOVASI Vol 4...',
+                'thumb' => 'https://pasinbis.unair.ac.id/wp-content/uploads/2026/05/Blue-Green-and-White-Modern-Earth-Day-Instagram-Post.png',
+            ],
+            [
+                'title' => 'ASSIE III 2025 Resmi Dibuka: Hadirkan 120 Booth Inovasi dan Kolaborasi Perguruan Tinggi di Atrium Grand City',
+                'link'  => 'https://pasinbis.unair.ac.id/2025/11/18/1305/',
+                'date'  => '2025-11-18T09:39:57',
+                'desc'  => 'ASSIE III 2025 Resmi Dibuka: Hadirkan 120 Booth Inovasi dan Kolaborasi Perguruan Tinggi di Atrium Grand City Surabaya, Tiga hari gelaran Airlangga...',
+                'thumb' => 'https://pasinbis.unair.ac.id/wp-content/uploads/2025/11/DSC02319.jpg',
+            ],
+            [
+                'title' => 'Airlangga StartUp Summit and Innovation Expo (ASSIE III) 2025: Wadah Kolaborasi Inovasi dan Startup Jawa Timur',
+                'link'  => 'https://pasinbis.unair.ac.id/2025/11/04/airlangga-startup-summit-and-innovation-expo-assie-iii-2025-wadah-kolaborasi-inovasi-dan-startup-jawa-timur/',
+                'date'  => '2025-11-04T08:51:33',
+                'desc'  => 'Airlangga StartUp Summit and Innovation Expo (ASSIE III 2025) menjadi wadah bertemunya para inovator kampus, startup, dan industri Jawa Timur...',
+                'thumb' => 'https://pasinbis.unair.ac.id/wp-content/uploads/2025/11/IMG_0655.jpg',
+            ],
+            [
+                'title' => 'PASINBIS Bersama Warek EEPB Lakukan Peninjauan Produk Inovasi UNAIR untuk Percepatan Komersialisasi dan Hilirisasi',
+                'link'  => 'https://pasinbis.unair.ac.id/2026/08/21/pasinbis-bersama-warek-eepb-lakukan-peninjauan-produk-inovasi-unair-untuk-percepatan-komersialisasi-dan-hilirisasi/',
+                'date'  => '2026-08-21T05:21:26',
+                'desc'  => 'PASINBIS bersama Wakil Rektor Bidang Riset, Inovasi, dan Community Development melakukan peninjauan produk inovasi untuk percepatan hilirisasi riset...',
+                'thumb' => 'https://pasinbis.unair.ac.id/wp-content/uploads/2026/08/Kunjungan-Fakultas-Hilirisasi-3.jpg',
+            ],
         ];
     }
 
-    /* ── Urutkan semua berita by tanggal terbaru ── */
-    usort( $items, function( $a, $b ) {
-        $da = strtotime( $a['date'] ?? '' ) ?: 0;
-        $db = strtotime( $b['date'] ?? '' ) ?: 0;
-        return $db - $da;
-    });
-
-    set_transient( $cache_key, $items, $cache_minutes * MINUTE_IN_SECONDS );
-    return array_slice( $items, 0, $limit );
+    return $scraped_items;
 }
 
 /* ══════════════════════════════════════════════════════
    AJAX — endpoint untuk page pameran
    ══════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════
+   AUTO-SCRAPING WP-CRON (Setiap 30 Menit Sekali)
+   Menjaga cache RAM laptop selalu fresh tanpa sentuh DB
+   ══════════════════════════════════════════════════════ */
+add_filter( 'cron_schedules', function( $schedules ) {
+    $schedules['assie4_every_30_mins'] = [
+        'interval' => 30 * MINUTE_IN_SECONDS,
+        'display'  => 'Setiap 30 Menit (ASSIE Auto-Scrape)',
+    ];
+    return $schedules;
+});
+
+if ( ! wp_next_scheduled( 'assie4_auto_scrape_cron_hook' ) ) {
+    wp_schedule_event( time(), 'assie4_every_30_mins', 'assie4_auto_scrape_cron_hook' );
+}
+
+add_action( 'assie4_auto_scrape_cron_hook', function() {
+    $items = assie4_auto_scrape_pasinbis_news();
+    if ( ! empty( $items ) ) {
+        $temp_dir   = function_exists( 'get_temp_dir' ) ? get_temp_dir() : sys_get_temp_dir();
+        $cache_file = rtrim( $temp_dir, '/\\' ) . DIRECTORY_SEPARATOR . 'assie4_news_ram_cache_v2.json';
+        @file_put_contents( $cache_file, json_encode( $items, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) );
+        $GLOBALS['assie4_news_memory_cache'] = $items;
+    }
+});
+
 add_action('wp_ajax_nopriv_assie4_news', 'assie4_ajax_news');
 add_action('wp_ajax_assie4_news',        'assie4_ajax_news');
 function assie4_ajax_news() {
-    wp_send_json( assie4_get_berita_items(9, 15) );
+    wp_send_json( assie4_get_berita_items(9, 30) );
 }
 
 /* ══════════════════════════════════════════════════════

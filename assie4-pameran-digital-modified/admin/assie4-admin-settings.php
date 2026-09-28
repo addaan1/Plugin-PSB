@@ -35,13 +35,52 @@ function assie4_normalize_tenant( $t ) {
 
 /* ═══ DEFAULT DATA ══════════════════════════════════════ */
 function assie4_default_info() {
-    return [ 'date'=>'6-8 November 2026', 'location'=>'Grand City Atrium, Surabaya', 'org'=>'PASINBIS Universitas Airlangga', 'timeOpen'=>'10:00', 'timeClose'=>'22:00' ];
+    return [ 'date'=>'6-8 November 2026', 'location'=>'Grand City Atrium, Surabaya', 'org'=>'PASINBIS Universitas Airlangga', 'timeOpen'=>'10:00', 'timeClose'=>'22:00', 'logo'=>ASSIE4_PAMERAN_URL . 'assets/logo-assie4.png' ];
 }
 function assie4_default_slides() {
     return [
-        ['title'=>'ASSIE IV 2026','subtitle'=>'Airlangga Startup Summit & Innovation Expo','desc'=>'Ajang pameran startup & inovasi terbesar di Jawa Timur.','cta'=>'Jelajahi Pameran','link'=>'#denah','bg'=>'linear-gradient(135deg,#03050e 0%,#0c1a40 100%)'],
-        ['title'=>'Inovasi Tanpa Batas','subtitle'=>'Grand City Atrium · Surabaya','desc'=>'Temui inovator muda dan ekosistem startup Jawa Timur.','cta'=>'Lihat Denah Booth','link'=>'#denah','bg'=>'linear-gradient(135deg,#03050e 0%,#0d200e 100%)'],
-        ['title'=>'Dukung Startup Lokal','subtitle'=>'TokoUA · tokoua.unair.ac.id','desc'=>'Beli produk tenant pameran secara online melalui TokoUA.','cta'=>'Kunjungi TokoUA','link'=>'https://tokoua.unair.ac.id/','bg'=>'linear-gradient(135deg,#03050e 0%,#1a0a00 100%)'],
+        [
+            'title'    => 'ASSIE IV 2026',
+            'subtitle' => 'Airlangga Startup Summit & Innovation Expo',
+            'desc'     => 'Ajang pameran startup & inovasi terbesar di Jawa Timur.',
+            'cta'      => 'Jelajahi Pameran',
+            'link'     => '#denah',
+            'bg'       => ASSIE4_PAMERAN_URL . 'assets/kegiatan-assie-1.jpg',
+        ],
+        [
+            'title'    => 'Inovasi Tanpa Batas',
+            'subtitle' => 'Grand City Atrium · Surabaya',
+            'desc'     => 'Temui inovator muda dan ekosistem startup Jawa Timur.',
+            'cta'      => 'Lihat Denah Booth',
+            'link'     => '#denah',
+            'bg'       => ASSIE4_PAMERAN_URL . 'assets/kegiatan-assie-4.jpg',
+        ],
+        [
+            'title'    => 'Dukung Startup Lokal',
+            'subtitle' => 'TokoUA · tokoua.unair.ac.id',
+            'desc'     => 'Beli produk tenant pameran secara online melalui TokoUA.',
+            'cta'      => 'Kunjungi TokoUA',
+            'link'     => 'https://tokoua.unair.ac.id/',
+            'bg'       => ASSIE4_PAMERAN_URL . 'assets/kegiatan-assie-3.jpg',
+        ],
+        [
+            'title'    => 'Kompetisi & Talenta Digital',
+            'subtitle' => 'Roblox & E-Sport Competition · Grand City Atrium',
+            'desc'     => 'Wadah kreativitas talenta digital dan generasi inovator masa depan.',
+            'cta'      => 'Lihat Rundown Acara',
+            'link'     => '#rundown',
+            'bg'       => ASSIE4_PAMERAN_URL . 'assets/kegiatan-assie-2.jpg',
+        ],
+        [
+            'title'    => 'Industry Matching',
+            'subtitle' => 'ASSIE IV 2026',
+            'desc'     => '',
+            'cta'      => '',
+            'link'     => '#denah',
+            'bg'       => ASSIE4_PAMERAN_URL . 'assets/kegiatan-assie-5.jpg',
+            'logo'     => ASSIE4_PAMERAN_URL . 'assets/logo-assie4.png',
+            'is_logo'  => true,
+        ],
     ];
 }
 function assie4_default_ticker() {
@@ -343,6 +382,7 @@ function assie4_admin_info() {
     if ( ! current_user_can('manage_options') ) return;
     if ( isset($_POST['_n']) && wp_verify_nonce($_POST['_n'],'a4_info') ) {
         update_option( ASSIE4_OPT_INFO, [
+            'logo'      => esc_url_raw($_POST['logo']      ?? ''),
             'date'      => sanitize_text_field($_POST['date']      ?? ''),
             'location'  => sanitize_text_field($_POST['location']  ?? ''),
             'org'       => sanitize_text_field($_POST['org']       ?? ''),
@@ -358,6 +398,17 @@ function assie4_admin_info() {
     <div class="a4-card">
         <div class="a4-card-head">Informasi Acara</div>
         <form method="post"><?php wp_nonce_field('a4_info','_n'); ?>
+        <div class="a4-field" style="margin-bottom:14px">
+            <label>Logo Kegiatan <small>(URL gambar atau path aset)</small></label>
+            <div style="display:flex;gap:12px;align-items:center">
+                <input name="logo" value="<?php echo esc_attr(!empty($i['logo']) ? $i['logo'] : (ASSIE4_PAMERAN_URL . 'assets/logo-assie4.png')); ?>" style="flex:1">
+                <?php
+                $cur_logo = !empty($i['logo']) ? $i['logo'] : (ASSIE4_PAMERAN_URL . 'assets/logo-assie4.png');
+                ?>
+                <img src="<?php echo esc_url($cur_logo); ?>" style="height:36px;background:#fff;padding:3px 8px;border-radius:6px;border:1px solid #ddd;box-shadow:0 1px 3px rgba(0,0,0,0.1)" alt="Preview Logo">
+            </div>
+            <small style="color:#666">Logo default: <code>assets/logo-assie4.png</code> (Industry Matching ASSIE IV 2026)</small>
+        </div>
         <div class="a4-row">
             <div class="a4-field"><label>Tanggal Acara</label><input name="date" value="<?php echo esc_attr($i['date']); ?>" placeholder="6-8 November 2026"></div>
             <div class="a4-field"><label>Penyelenggara</label><input name="org" value="<?php echo esc_attr($i['org']); ?>"></div>
