@@ -682,6 +682,7 @@
     init();
   }
   setInterval(refreshStats,60000);
+  setInterval(loadBerita, 30*60*1000); // Auto-refresh scrape tiap 30 menit
 })();
 
 /* ── TokoUA Modal ─────────────────────────────────────── */

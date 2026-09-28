@@ -506,10 +506,36 @@ function assie4_auto_scrape_pasinbis_news() {
 /* ══════════════════════════════════════════════════════
    AJAX — endpoint untuk page pameran
    ══════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════
+   AUTO-SCRAPING WP-CRON (Setiap 30 Menit Sekali)
+   Menjaga cache RAM laptop selalu fresh tanpa sentuh DB
+   ══════════════════════════════════════════════════════ */
+add_filter( 'cron_schedules', function( $schedules ) {
+    $schedules['assie4_every_30_mins'] = [
+        'interval' => 30 * MINUTE_IN_SECONDS,
+        'display'  => 'Setiap 30 Menit (ASSIE Auto-Scrape)',
+    ];
+    return $schedules;
+});
+
+if ( ! wp_next_scheduled( 'assie4_auto_scrape_cron_hook' ) ) {
+    wp_schedule_event( time(), 'assie4_every_30_mins', 'assie4_auto_scrape_cron_hook' );
+}
+
+add_action( 'assie4_auto_scrape_cron_hook', function() {
+    $items = assie4_auto_scrape_pasinbis_news();
+    if ( ! empty( $items ) ) {
+        $temp_dir   = function_exists( 'get_temp_dir' ) ? get_temp_dir() : sys_get_temp_dir();
+        $cache_file = rtrim( $temp_dir, '/\\' ) . DIRECTORY_SEPARATOR . 'assie4_news_ram_cache_v2.json';
+        @file_put_contents( $cache_file, json_encode( $items, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) );
+        $GLOBALS['assie4_news_memory_cache'] = $items;
+    }
+});
+
 add_action('wp_ajax_nopriv_assie4_news', 'assie4_ajax_news');
 add_action('wp_ajax_assie4_news',        'assie4_ajax_news');
 function assie4_ajax_news() {
-    wp_send_json( assie4_get_berita_items(9, 15) );
+    wp_send_json( assie4_get_berita_items(9, 30) );
 }
 
 /* ══════════════════════════════════════════════════════
