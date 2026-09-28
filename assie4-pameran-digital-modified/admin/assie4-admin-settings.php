@@ -163,7 +163,10 @@ function assie4_default_tenant_logos() {
         'a9' => $base . 'fkg.png',
         'b2' => $base . 'telkom.png',
         'b4' => $base . 'pertamina.svg',
+        'b15' => $base . 'lembaga-penyakit-tropis.webp',
         'b16' => $base . 'kai.png',
+        'b20' => $base . 'bionas-lab.png',
+        'b21' => $base . 'entative-hub.webp',
         'e1' => $base . 'poltekpel.png',
         'e2' => $base . 'ciputra.png',
         'e10' => $base . 'unand.png',
@@ -237,6 +240,28 @@ function assie4_get_tenants() {
         unset( $tenant );
         if ( $changed ) update_option( ASSIE4_OPT_TENANTS, $raw, false );
         update_option( 'assie4_directory_seed_state', 'v3', false );
+    }
+
+    // Apply newly bundled logo assets once on existing sites; keep custom tenant logos intact.
+    if ( get_option( 'assie4_directory_logo_assets_state' ) !== 'v1' ) {
+        $logos = assie4_default_tenant_logos();
+        $legacy_logos = [
+            'b15' => 'https://unair.ac.id/wp-content/uploads/2021/04/Logo-Universitas-Airlangga-UNAIR-300x300.png',
+        ];
+        $changed = false;
+        foreach ( $raw as &$tenant ) {
+            $tenant = (array) $tenant;
+            $id = sanitize_key( $tenant['id'] ?? '' );
+            $current_logo = $tenant['logo'] ?? '';
+            $is_legacy_logo = isset( $legacy_logos[$id] ) && $current_logo === $legacy_logos[$id];
+            if ( isset( $logos[$id] ) && ( $current_logo === '' || $is_legacy_logo ) ) {
+                $tenant['logo'] = $logos[$id];
+                $changed = true;
+            }
+        }
+        unset( $tenant );
+        if ( $changed ) update_option( ASSIE4_OPT_TENANTS, $raw, false );
+        update_option( 'assie4_directory_logo_assets_state', 'v1', false );
     }
     return array_values( array_map( 'assie4_normalize_tenant', $raw ) );
 }

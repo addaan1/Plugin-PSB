@@ -1000,9 +1000,9 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
   .a4-tc-name { font-size:15px }
 }
 
-/* Official ASSIE mark in the fixed site navigation. */
-.a4-nav-logo { box-sizing:border-box; display:flex; align-items:center; width:clamp(116px,11vw,154px); padding:4px 6px; flex:none; overflow:hidden; border-radius:4px; background:#fff; -webkit-text-fill-color:initial; line-height:0; }
-.a4-nav-logo img { display:block; width:100%; height:auto; max-height:44px; object-fit:contain; }
+/* Header and footer use the same event-logo asset; keep the header mark legible. */
+.a4-nav-logo { box-sizing:border-box; display:flex; align-items:center; width:auto; max-width:190px; padding:0; flex:none; overflow:hidden; border-radius:0; background:transparent; -webkit-text-fill-color:initial; line-height:0; }
+.a4-nav-logo img { display:block; width:auto; height:42px; max-width:190px; max-height:42px; object-fit:contain; background:transparent; }
 
 /* The schedule reads like a compact festival programme. */
 #rundown .a4-sec { max-width:1120px; padding-top:76px; padding-bottom:84px; }
@@ -1103,6 +1103,11 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
   .a4-tc { min-height:92px; grid-template-columns:52px minmax(0,1fr) 18px; padding:12px 10px }
   .a4-tc-mark { width:52px; height:52px }
   .a4-tc-name { font-size:15px }
+}
+
+@media (max-width:560px) {
+  .a4-nav-logo { max-width:126px; }
+  .a4-nav-logo img { height:34px; max-height:34px; max-width:126px; }
 }
 
 .a4-footer-logo-img {

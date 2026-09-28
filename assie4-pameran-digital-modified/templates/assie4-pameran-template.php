@@ -6,14 +6,14 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 $a4_info_data = get_option( ASSIE4_OPT_INFO, assie4_default_info() );
 $a4_info_data = is_array($a4_info_data) ? $a4_info_data : assie4_default_info();
-$a4_logo_url  = !empty($a4_info_data['logo']) ? $a4_info_data['logo'] : (ASSIE4_PAMERAN_URL . 'assets/logo-assie4.png');
+$a4_brand_logo_url = !empty($a4_info_data['logo']) ? $a4_info_data['logo'] : (ASSIE4_PAMERAN_URL . 'assets/logo-assie4.png');
 ?>
 
 <!-- NAV -->
 <nav class="a4-nav" id="a4Nav">
   <div class="a4-nav-logo">
     <a href="#home" onclick="a4GoTo('home')" class="a4-nav-logo-link" title="Industry Matching ASSIE IV 2026">
-      <img src="<?php echo esc_url( $a4_logo_url ); ?>" alt="Industry Matching ASSIE IV 2026" class="a4-nav-logo-img">
+      <img src="<?php echo esc_url( $a4_brand_logo_url ); ?>" alt="Industry Matching ASSIE IV 2026" class="a4-nav-logo-img" decoding="async">
     </a>
   </div>
   <div class="a4-nav-menu">
@@ -241,7 +241,7 @@ $a4_logo_url  = !empty($a4_info_data['logo']) ? $a4_info_data['logo'] : (ASSIE4_
 <!-- FOOTER -->
 <footer class="a4-footer">
   <div class="a4-footer-logo-wrap" style="margin-bottom:16px">
-    <img src="<?php echo esc_url( $a4_logo_url ); ?>" alt="Industry Matching ASSIE IV 2026" class="a4-footer-logo-img">
+    <img src="<?php echo esc_url( $a4_brand_logo_url ); ?>" alt="Industry Matching ASSIE IV 2026" class="a4-footer-logo-img" decoding="async">
   </div>
   <p>© 2026 <strong>PASINBIS Universitas Airlangga</strong> · ASSIE IV 2026</p>
   <p class="a4-footer-sub">Airlangga Startup Summit &amp; Innovation Expo · Grand City Atrium, Surabaya</p>
