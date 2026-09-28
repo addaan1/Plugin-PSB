@@ -8,18 +8,18 @@
      DATA MASTER — default, akan di-override dari ASSIE4_DB
      ═══════════════════════════════════════════════════════ */
   var DATA = {
-    info:    { date:'14–16 Mei 2026', location:'Grand City Convention Hall, Surabaya', org:'PASINBIS Universitas Airlangga', timeOpen:'08:00', timeClose:'20:00' },
+    info:    { date:'6-8 November 2026', location:'Grand City Atrium, Surabaya', org:'PASINBIS Universitas Airlangga', timeOpen:'10:00', timeClose:'22:00' },
     slides:  [
       { title:'ASSIE IV 2026', subtitle:'Airlangga Startup Summit & Innovation Expo', desc:'Ajang pameran startup & inovasi terbesar di Jawa Timur. 3 hari penuh inovasi.', cta:'Jelajahi Pameran', link:'#denah', bg:'linear-gradient(135deg,#03050e 0%,#0c1a40 100%)' },
-      { title:'Inovasi Tanpa Batas', subtitle:'Grand City Convention Hall · Surabaya', desc:'Temui inovator muda dan ekosistem startup Jawa Timur.', cta:'Lihat Denah Booth', link:'#denah', bg:'linear-gradient(135deg,#03050e 0%,#0d200e 100%)' },
+      { title:'Inovasi Tanpa Batas', subtitle:'Grand City Atrium · Surabaya', desc:'Temui inovator muda dan ekosistem startup Jawa Timur.', cta:'Lihat Denah Booth', link:'#denah', bg:'linear-gradient(135deg,#03050e 0%,#0d200e 100%)' },
       { title:'Dukung Startup Lokal', subtitle:'TokoUA · tokoua.unair.ac.id', desc:'Beli produk tenant pameran secara online melalui TokoUA.', cta:'Kunjungi TokoUA', link:'https://tokoua.unair.ac.id/', bg:'linear-gradient(135deg,#03050e 0%,#1a0a00 100%)' },
     ],
-    ticker:  ['Selamat datang di ASSIE IV 2026','14–16 Mei 2026 · Grand City Convention Hall Surabaya','Booth startup & inovasi','Belanja produk tenant online di tokoua.unair.ac.id','Presensi digital tersedia di setiap booth','PASINBIS Universitas Airlangga'],
+    ticker:  ['Selamat datang di ASSIE IV 2026','6-8 November 2026 · Grand City Atrium Surabaya','Booth startup & inovasi','Belanja produk tenant online di tokoua.unair.ac.id','Presensi digital tersedia di setiap booth','PASINBIS Universitas Airlangga'],
     rundown: {
-      days:   [{ label:"Jum'at, 14 Nov" },{ label:'Sabtu, 15 Nov' },{ label:'Minggu, 16 Nov' }],
+      days:   [{ label:'Jumat, 6 November 2026' },{ label:'Sabtu, 7 November 2026' },{ label:'Minggu, 8 November 2026' }],
       events: [
-        { day:0,time:'13.00',end:'15.30',name:'Airlangga Business Matching 2025',  type:'keynote',    loc:'Ruang Business Matching' },
-        { day:0,time:'15.30',end:'17.00',name:'Opening Ceremony + Launching Produk',type:'keynote',   loc:'Main Stage' },
+        { day:0,time:'13.00',end:'15.30',name:'Airlangga Business Matching 2026 - ATAVI',type:'panel',loc:'Ruang Business Matching' },
+        { day:0,time:'15.30',end:'17.00',name:'Opening Ceremony + Launching Produk Inovasi',type:'keynote',loc:'Main Stage' },
         { day:0,time:'17.00',end:'17.30',name:'Break',                              type:'break',     loc:'—' },
         { day:0,time:'17.30',end:'19.30',name:'Roblox Competition',                 type:'workshop',  loc:'Hall' },
         { day:0,time:'19.45',end:'20.45',name:'Acoustic Band Performance',          type:'networking',loc:'Main Stage' },
@@ -39,6 +39,8 @@
     },
     denah:   [],
     tenants: [],
+    denahBaseImage: '',
+    denahDefaultImage: '',
   };
 
   /* ══════════════════════════════════════════════════════
@@ -57,6 +59,8 @@
     if (db.ticker  && db.ticker.length)                       DATA.ticker  = db.ticker;
     if (db.rundown && db.rundown.events && db.rundown.events.length) DATA.rundown = db.rundown;
     if (db.denah   && Array.isArray(db.denah))                DATA.denah   = db.denah;
+    if (typeof db.denahBaseImage === 'string')                DATA.denahBaseImage = db.denahBaseImage;
+    if (typeof db.denahDefaultImage === 'string')             DATA.denahDefaultImage = db.denahDefaultImage;
     if (db.tenants && Array.isArray(db.tenants) && db.tenants.length > 0) {
       DATA.tenants = db.tenants.map(normTenant);
     }
@@ -104,21 +108,85 @@
       var div=document.createElement('div');
       div.className='a4-sl'+(i===0?' on':'');
       var bg    = s.bg||'#03050e';
-      var isImg = /^https?:\/\//i.test(bg.trim());
+      var isImg = /^https?:\/\//i.test(bg.trim()) || /\.(jpe?g|png|webp)/i.test(bg.trim());
       // Untuk URL gambar: gunakan langsung tanpa escH agar URL tidak rusak
       var bgCss = isImg
         ? 'background-image:url(' + bg.replace(/[()]/g,'') + ');background-size:cover;background-position:center center;background-repeat:no-repeat'
         : 'background:' + bg;
       var bgCls = isImg ? 'a4-sl-bg a4-sl-bg-img' : 'a4-sl-bg';
-      div.innerHTML =
-        '<div class="'+bgCls+'" style="'+bgCss+'"></div>'+
-        '<div class="a4-sl-overlay"></div>'+
-        '<div class="a4-sl-content">'+
-          '<div class="a4-sl-eyebrow">'+escH(s.subtitle||'ASSIE IV 2026')+'</div>'+
-          '<h1 class="a4-sl-h1">'+escH(s.title||'')+'</h1>'+
-          '<p class="a4-sl-p">'+escH(s.desc||'')+'</p>'+
-          '<a href="'+escH(s.link||'#denah')+'" class="a4-sl-cta">'+escH(s.cta||'Selengkapnya')+' &#8594;</a>'+
-        '</div>';
+      var isLogoSlide = s.is_logo || s.logo_only || (s.title && s.title.trim().toLowerCase() === 'industry matching');
+      var hasPhotos = Array.isArray(s.photos) && s.photos.length > 0;
+      if (isLogoSlide) {
+        var lUrl = s.logo || (window.ASSIE4_CFG && window.ASSIE4_CFG.pluginUrl ? window.ASSIE4_CFG.pluginUrl + 'assets/logo-assie4.png' : '');
+        if (!lUrl) {
+          var nImg = document.querySelector('.a4-nav-logo-img');
+          lUrl = nImg ? nImg.src : '/wp-content/plugins/assie4-pameran-digital/assets/logo-assie4.png';
+        }
+        div.innerHTML =
+          '<div class="'+bgCls+'" style="'+bgCss+'"></div>'+
+          '<div class="a4-sl-overlay"></div>'+
+          '<div class="a4-sl-content a4-sl-content-solo-logo">'+
+            '<div class="a4-hero-solo-logo-wrap">'+
+              '<img src="'+escH(lUrl)+'" alt="Industry Matching ASSIE IV 2026" class="a4-hero-solo-logo">'+
+            '</div>'+
+          '</div>';
+      } else if (hasPhotos) {
+        var p1 = s.photos[0];
+        var p2 = s.photos.length > 1 ? s.photos[1] : s.photos[0];
+        div.innerHTML =
+          '<div class="'+bgCls+'" style="'+bgCss+'"></div>'+
+          '<div class="a4-sl-overlay"></div>'+
+          '<div class="a4-sl-content a4-sl-content-showcase">'+
+            '<div class="a4-sl-showcase-grid">'+
+              '<!-- Left Photo Card (Desktop) -->'+
+              '<div class="a4-sl-photo-card a4-sl-photo-card-left a4-sl-photo-desktop" title="Opening Ceremony ASSIE">'+
+                '<div class="a4-sl-photo-frame">'+
+                  '<img src="'+escH(p1)+'" alt="Opening Ceremony ASSIE" loading="lazy" class="a4-sl-img">'+
+                  '<div class="a4-sl-photo-tag"><span class="a4-photo-dot"></span>Opening Ceremony</div>'+
+                '</div>'+
+              '</div>'+
+              '<!-- Center Text -->'+
+              '<div class="a4-sl-center-text">'+
+                '<div class="a4-sl-eyebrow">'+escH(s.subtitle||'ASSIE IV 2026')+'</div>'+
+                '<h1 class="a4-sl-h1">'+escH(s.title||'')+'</h1>'+
+                '<p class="a4-sl-p">'+escH(s.desc||'')+'</p>'+
+                '<a href="'+escH(s.link||'#denah')+'" class="a4-sl-cta">'+escH(s.cta||'Selengkapnya')+' &#8594;</a>'+
+                '<!-- Compact Photos (Mobile/Tablet) -->'+
+                '<div class="a4-sl-mobile-photos">'+
+                  '<div class="a4-sl-photo-card a4-sl-photo-card-mob">'+
+                    '<div class="a4-sl-photo-frame">'+
+                      '<img src="'+escH(p1)+'" alt="Opening Ceremony ASSIE" loading="lazy" class="a4-sl-img">'+
+                      '<div class="a4-sl-photo-tag"><span class="a4-photo-dot"></span>Opening</div>'+
+                    '</div>'+
+                  '</div>'+
+                  '<div class="a4-sl-photo-card a4-sl-photo-card-mob">'+
+                    '<div class="a4-sl-photo-frame">'+
+                      '<img src="'+escH(p2)+'" alt="E-Sport Competition ASSIE" loading="lazy" class="a4-sl-img">'+
+                      '<div class="a4-sl-photo-tag"><span class="a4-photo-dot gold"></span>E-Sport</div>'+
+                    '</div>'+
+                  '</div>'+
+                '</div>'+
+              '</div>'+
+              '<!-- Right Photo Card (Desktop) -->'+
+              '<div class="a4-sl-photo-card a4-sl-photo-card-right a4-sl-photo-desktop" title="Roblox E-Sport Competition">'+
+                '<div class="a4-sl-photo-frame">'+
+                  '<img src="'+escH(p2)+'" alt="Roblox E-Sport Competition" loading="lazy" class="a4-sl-img">'+
+                  '<div class="a4-sl-photo-tag"><span class="a4-photo-dot gold"></span>E-Sport Competition</div>'+
+                '</div>'+
+              '</div>'+
+            '</div>'+
+          '</div>';
+      } else {
+        div.innerHTML =
+          '<div class="'+bgCls+'" style="'+bgCss+'"></div>'+
+          '<div class="a4-sl-overlay"></div>'+
+          '<div class="a4-sl-content">'+
+            '<div class="a4-sl-eyebrow">'+escH(s.subtitle||'ASSIE IV 2026')+'</div>'+
+            '<h1 class="a4-sl-h1">'+escH(s.title||'')+'</h1>'+
+            '<p class="a4-sl-p">'+escH(s.desc||'')+'</p>'+
+            '<a href="'+escH(s.link||'#denah')+'" class="a4-sl-cta">'+escH(s.cta||'Selengkapnya')+' &#8594;</a>'+
+          '</div>';
+      }
       wrap.appendChild(div);
       var dot=document.createElement('button');
       dot.className='a4-dot'+(i===0?' on':'');
@@ -154,8 +222,19 @@
   function renderRundown(){
     var tabs=document.getElementById('a4DayTabs'); if(!tabs) return;
     tabs.innerHTML=DATA.rundown.days.map(function(d,i){
-      return '<button class="a4-dt'+(i===activeDay?' on':'')+'" onclick="a4SwitchDay('+i+')">'+escH(d.label)+'</button>';
+      var label=String(d.label||'Hari '+(i+1));
+      var dateParts=label.match(/^([^,]+),\s*(\d{1,2})\s+(.+?)\s+(\d{4})$/);
+      var dayText=dateParts?dateParts[1]:label;
+      var dateText=dateParts?dateParts[2]+' '+dateParts[3]:'';
+      return '<button type="button" class="a4-dt'+(i===activeDay?' on':'')+'" aria-label="'+escH(label)+'" aria-pressed="'+(i===activeDay?'true':'false')+'" onclick="a4SwitchDay('+i+')">'+
+        '<span class="a4-dt-order" aria-hidden="true">'+String(i+1).padStart(2,'0')+'</span><span class="a4-dt-copy"><strong>'+escH(dayText)+'</strong>'+(dateText?'<small>'+escH(dateText)+'</small>':'')+'</span></button>';
     }).join('');
+    var dayIntro=document.getElementById('a4RundownDayIntro');
+    if(dayIntro){
+      var selectedDay=DATA.rundown.days[activeDay]||{};
+      var dayCount=DATA.rundown.events.filter(function(e){return e.day===activeDay;}).length;
+      dayIntro.innerHTML='<span class="a4-rundown-selected-date">'+escH(selectedDay.label||'Jadwal acara')+'</span><span class="a4-rundown-event-count">'+dayCount+' agenda</span>';
+    }
     renderTimeline();
   }
   window.a4SwitchDay=function(i){activeDay=i;renderRundown();};
@@ -164,18 +243,22 @@
     var tl=document.getElementById('a4Timeline'); if(!tl) return;
     var now=new Date(), nowMin=now.getHours()*60+now.getMinutes();
     var evs=DATA.rundown.events.filter(function(e){return e.day===activeDay;});
+    var monthIndex={januari:0,februari:1,maret:2,april:3,mei:4,juni:5,juli:6,agustus:7,september:8,oktober:9,november:10,desember:11,jan:0,feb:1,mar:2,apr:3,jun:5,jul:6,agu:7,sep:8,okt:9,nov:10,des:11};
+    var selectedLabel=(DATA.rundown.days[activeDay]||{}).label||'';
+    var dateMatch=selectedLabel.match(/(\d{1,2})\s+([a-z]+)\s+(\d{4})/i);
+    var dateIsToday=false;
+    if(dateMatch&&Object.prototype.hasOwnProperty.call(monthIndex,dateMatch[2].toLowerCase())){
+      dateIsToday=now.getFullYear()===parseInt(dateMatch[3],10)&&now.getMonth()===monthIndex[dateMatch[2].toLowerCase()]&&now.getDate()===parseInt(dateMatch[1],10);
+    }
     tl.innerHTML=evs.map(function(e){
       var tm=typeMap[e.type]||typeMap.break;
-      var eMin=parseInt((e.time||'0').split('.')[0])*60+parseInt((e.time||'0').split('.')[1]||0);
-      var endMin=e.end?parseInt(e.end.split('.')[0])*60+parseInt(e.end.split('.')[1]||0):eMin+60;
-      var isnow=(nowMin>=eMin&&nowMin<endMin);
-      return '<div class="a4-tli"><div class="a4-tli-dot'+(isnow?' now':'')+'"></div>'+
-        '<div class="a4-tl-card'+(isnow?' now':'')+'">'+
-        '<div class="a4-tl-time"><span class="a4-ev-badge '+tm.cls+'">'+tm.lbl+'</span>'+escH(e.time)+(e.end?' – '+escH(e.end):'')+'</div>'+
-        '<div class="a4-tl-name">'+escH(e.name)+'</div>'+
-        (e.loc&&e.loc!=='—'?'<div class="a4-tl-meta">&#128205; '+escH(e.loc)+'</div>':'')+
-        '</div></div>';
-    }).join('');
+      function toMinutes(value){var parts=String(value||'0').split(/[.:]/);return parseInt(parts[0],10)*60+parseInt(parts[1]||0,10);}
+      var isnow=dateIsToday&&nowMin>=toMinutes(e.time)&&nowMin<toMinutes(e.end||'23.59');
+      return '<article class="a4-tli'+(isnow?' now':'')+'">'+
+        '<div class="a4-tl-time"><span>'+escH(e.time)+'</span>'+(e.end?'<span class="a4-tl-time-separator">—</span><span>'+escH(e.end)+'</span>':'')+'</div>'+
+        '<div class="a4-tl-content"><div class="a4-tl-main"><span class="a4-tl-category">'+escH(tm.lbl)+(isnow?' · Sedang berlangsung':'')+'</span><h3 class="a4-tl-name">'+escH(e.name)+'</h3></div>'+
+        (e.loc&&e.loc!=='—'?'<div class="a4-tl-meta">'+escH(e.loc)+'</div>':'')+'</div></article>';
+    }).join('')||'<p class="a4-timeline-empty">Jadwal untuk tanggal ini belum diumumkan.</p>';
   }
 
   /* ══════════════════════════════════════════════════════
@@ -187,38 +270,58 @@
     var areas=[{key:'all',lbl:'Semua',cls:'a4-af-all'},{key:'A',lbl:'Area A – UNAIR',cls:'a4-af-a'},{key:'B',lbl:'Area B – Mitra',cls:'a4-af-b'},{key:'C',lbl:'Area C – Eksternal',cls:'a4-af-c'},{key:'D',lbl:'Area D – Startup',cls:'a4-af-d'},{key:'E',lbl:'Area E – Institusi',cls:'a4-af-e'}];
     el.innerHTML=areas.map(function(a){return '<button class="a4-af '+a.cls+(activeArea===a.key?' on':'')+'" onclick="a4FilterArea(\''+a.key+'\')">'+a.lbl+'</button>';}).join('');
   }
-  window.a4FilterArea=function(area){activeArea=area;renderAreaFilters();renderTenants();};
+  window.a4FilterArea=function(area){activeArea=area;tenantListExpanded=false;renderAreaFilters();renderTenants();};
 
+  var tenantAreaColors={A:'#3185ff',B:'#13ce78',C:'#ffad1f',D:'#bd67ff',E:'#13c9e8'};
+  var tenantListExpanded=false;
+  function tenantIconSvg(t){
+    var details=((t.cat||'')+' '+(t.name||'')).toLowerCase(),paths;
+    if(/bank|perbankan|keuangan/.test(details)) paths='<path d="M3 9h18L12 4 3 9Zm2 2v7m4-7v7m6-7v7m4-7v7M3 20h18"/>';
+    else if(/riset|lab|stem cell|bionas|science/.test(details)) paths='<path d="M9 3h6m-5 0v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3m-6 11h8"/>';
+    else if(/kuliner|cookie|kopi|minuman|beras|food/.test(details)) paths='<path d="M5 8h14l-1 12H6L5 8Zm3 0V5a4 4 0 0 1 8 0v3m-9 4h10m-5-9v2"/>';
+    else if(/kesehatan|kedokteran|medis|health|penyakit/.test(details)) paths='<path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/>';
+    else if(/fashion|batik|craft|kerajinan|quilter|tanaman/.test(details)) paths='<path d="M7 4c2 0 3 2 5 2s3-2 5-2m-10 0 10 16M17 4 7 20m-4-8h18"/>';
+    else if(/energi|ev\/|teknologi|telkom|transportasi|kai|produksi|industri/.test(details)) paths='<path d="M13 2 5 13h6l-1 9 9-12h-6l1-8Z"/>';
+    else if(/pendidikan|universitas|unair|fakultas|press|bahasa/.test(details)) paths='<path d="M3 9 12 4l9 5M5 10v9m4-9v9m6-9v9m4-9v9M3 20h18"/>';
+    else if(/musik|band/.test(details)) paths='<path d="M9 18V5l12-2v13M9 10l12-2"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>';
+    else if(/properti/.test(details)) paths='<path d="m3 11 9-8 9 8v9H3v-9Zm6 9v-6h6v6m-9-9h.01M18 11h.01"/>';
+    else paths='<path d="m12 3 2.4 5.2 5.6.7-4.1 3.8 1.1 5.5-5-2.8-5 2.8 1.1-5.5L4 8.9l5.6-.7L12 3Z"/>';
+    return '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'+paths+'</svg>';
+  }
   function renderTenants(){
     var grid=document.getElementById('a4TenantGrid'); if(!grid) return;
-    var list=activeArea==='all'?DATA.tenants:DATA.tenants.filter(function(t){return t.area===activeArea;});
-    var areaClrCard={A:'#3b82f6',B:'#22c55e',C:'#f59e0b',D:'#a855f7',E:'#06b6d4'};
-    grid.innerHTML=list.map(function(t){
-      var c=areaClrCard[t.area]||'#d4a843';
-      var icons='';
-      if(t.web) icons+='<span class="a4-tc-ico" title="Website">&#127760;</span>';
-      if(t.instagram) icons+='<span class="a4-tc-ico" title="Instagram">&#128247;</span>';
-      if(t.facebook) icons+='<span class="a4-tc-ico" title="Facebook">&#128077;</span>';
-      if(t.twitter) icons+='<span class="a4-tc-ico" title="X/Twitter">&#128038;</span>';
-      if(t.contact) icons+='<span class="a4-tc-ico" title="'+escH(t.contact)+'">&#128231;</span>';
-      return '<div class="a4-tc" onclick="a4OpenModal(\''+escH(t.id)+'\')">'+
-        '<div class="a4-tc-top">'+
-          '<div class="a4-tc-logo">'+(t.logo?'<img src="'+escH(t.logo)+'" alt="'+escH(t.name)+'" style="width:100%;height:100%;object-fit:contain;border-radius:8px">':'&#127970;')+'</div>'+
-          '<div class="a4-tc-area-badge" style="background:'+c+'22;color:'+c+';border:1px solid '+c+'44">Area '+escH(t.area)+'</div>'+
-        '</div>'+
-        '<div class="a4-tc-num" style="color:'+c+'">'+escH(t.id)+'</div>'+
-        '<div class="a4-tc-name">'+escH(t.name)+'</div>'+
-        '<div class="a4-tc-cat">'+escH(t.cat)+'</div>'+
-        (t.desc?'<div class="a4-tc-desc">'+escH(t.desc)+'</div>':'')+
-        '<div class="a4-tc-tags">'+(t.tags||[]).map(function(g){return '<span class="a4-tag">'+escH(g)+'</span>';}).join('')+'</div>'+
-        (icons?'<div class="a4-tc-icons">'+icons+'</div>':'')+
-        '<div class="a4-tc-cta">Lihat Detail &#8594;</div>'+
-      '</div>';
-    }).join('');
+    var list=DATA.tenants.filter(function(t){
+      var matchesArea=activeArea==='all'||t.area===activeArea;
+      var matchesSearch=!tenantSearch||[t.name,t.id,t.cat,(t.tags||[]).join(' ')].join(' ').toLowerCase().indexOf(tenantSearch)>=0;
+      return matchesArea&&matchesSearch;
+    });
+    var visibleLimit=window.innerWidth<=560?6:9;
+    var visibleList=tenantListExpanded?list:list.slice(0,visibleLimit);
+    var count=document.getElementById('a4TenantCount');
+    if(count) count.textContent=visibleList.length+' dari '+list.length+' tenant ditampilkan';
+    grid.innerHTML=visibleList.map(function(t){
+      var areaColor=tenantAreaColors[t.area]||'#d4a843';
+      return '<button type="button" class="a4-tc" style="--a4-area-color:'+areaColor+'" data-tenant-id="'+escH(t.id)+'" aria-label="Lihat detail '+escH(t.name)+'">'+
+        '<span class="a4-tc-mark'+(t.logo?'':' is-fallback')+'">'+(t.logo?'<img src="'+escH(t.logo)+'" alt="Logo '+escH(t.name)+'" loading="lazy" onerror="this.parentNode.classList.add(&quot;is-fallback&quot;)">':'')+'<span class="a4-tc-fallback" aria-hidden="true">'+tenantIconSvg(t)+'</span></span>'+
+        '<span class="a4-tc-copy"><span class="a4-tc-overline"><span class="a4-tc-area-dot a4-tc-area-'+escH(t.area)+'"></span>AREA '+escH(t.area)+' <span class="a4-tc-sep">/</span> BOOTH '+escH(String(t.id).toUpperCase())+'</span>'+
+        '<span class="a4-tc-name">'+escH(t.name)+'</span>'+
+        '<span class="a4-tc-cat">'+escH(t.cat||'Peserta pameran')+'</span>'+
+        '</span><span class="a4-tc-arrow" aria-hidden="true">&#8599;</span></button>';
+    }).join('')||'<p class="a4-tenant-empty">'+(DATA.tenants.length?'Tidak ada tenant yang cocok. Coba area atau kata kunci lain.':'Daftar tenant belum tersedia.')+'</p>';
+    var more=document.getElementById('a4TenantMore');
+    if(more){more.hidden=list.length<=visibleLimit;more.textContent=tenantListExpanded?'Tampilkan lebih sedikit':'Lihat semua '+list.length+' tenant';more.setAttribute('aria-expanded',tenantListExpanded?'true':'false');}
+    if(!grid._a4TenantEvents){
+      grid._a4TenantEvents=true;
+      grid.addEventListener('click',function(e){var item=e.target.closest('.a4-tc[data-tenant-id]');if(item) window.a4OpenModal(item.getAttribute('data-tenant-id'));});
+    }
     var stEl=document.getElementById('a4stTenant'),stEl2=document.getElementById('a4stTotal');
     if(stEl) stEl.textContent=DATA.tenants.length;
     if(stEl2) stEl2.textContent=DATA.tenants.length;
   }
+  var tenantSearch='';
+  window.a4SearchTenants=function(value){tenantSearch=String(value||'').trim().toLowerCase();tenantListExpanded=false;renderTenants();};
+  window.a4ToggleTenants=function(){tenantListExpanded=!tenantListExpanded;renderTenants();};
+  window.a4ShowAllTenants=function(){tenantListExpanded=true;renderTenants();var section=document.getElementById('tenant-directory');if(section)section.scrollIntoView({behavior:'smooth',block:'start'});};
 
   /* ══════════════════════════════════════════════════════
      DENAH SVG — area-grouped, sinkron dari tenant DB + PASINBIS
@@ -364,7 +467,7 @@
     head.innerHTML='<button class="a4-m-close" onclick="a4CloseModal()">&#x2715;</button>'+
       '<div class="a4-m-num" style="color:#ef4444">&#127908;</div>'+
       '<div class="a4-m-name">Main Stage</div>'+
-      '<div class="a4-m-area">Grand City Convention Hall</div>';
+      '<div class="a4-m-area">Grand City Atrium</div>';
     var now=new Date(),nowMin=now.getHours()*60+now.getMinutes();
     var events=DATA.rundown&&DATA.rundown.events?DATA.rundown.events:[];
     var dayMap={};
@@ -532,6 +635,131 @@
   };
   window.a4CloseModal=function(){var m=document.getElementById('a4Modal');if(m){m.classList.remove('on');document.body.style.overflow='';}};
 
+  /* ── DENAH VENUE ASLI + HOTSPOT BOOTH ────────────────────
+     Koordinat mengikuti slide 5 (1820 × 1024). Nomor booth sengaja
+     independen dari Area A–E, sehingga tenant dapat diumumkan bertahap. */
+  var denahActiveCluster='all',denahSelectedBooth=null;
+  var clusterMeta=[
+    {key:1,label:'Klaster 1',count:'1–21',color:'#267cff'}, {key:2,label:'Klaster 2',count:'22–44',color:'#00a5b5'},
+    {key:3,label:'Klaster 3',count:'45–50',color:'#8665db'}, {key:4,label:'Klaster 4',count:'51–72',color:'#15a776'},
+    {key:5,label:'Klaster 5',count:'73–80',color:'#d3624d'}, {key:6,label:'Klaster 6',count:'81–96',color:'#d89a23'},
+    {key:7,label:'Klaster 7',count:'97–106',color:'#c756a1'}
+  ];
+  var boothShapes=[];
+  function addBooth(cluster,n,cx,cy,w,h,angle){
+    boothShapes.push({n:n,cluster:cluster,x:cx-w/2,y:cy-h/2,cx:cx,cy:cy,w:w,h:h,angle:angle||0});
+  }
+  function addBoothRow(cluster,start,count,cx,cy,dx,dy,w,h,angle){
+    for(var i=0;i<count;i++) addBooth(cluster,start+i,cx+dx*i,cy+dy*i,w,h,angle);
+  }
+  function addBoothGrid(cluster,start,rows,xs,ys,w,h){
+    var n=start;
+    ys.slice(0,rows).forEach(function(y){xs.forEach(function(x){addBooth(cluster,n++,x,y,w,h);});});
+  }
+  /* Koordinat pusat booth diukur dari gambar slide 5 (1820 × 1024). */
+  addBoothRow(1,1,7,516,281,18,0,15,41); addBoothRow(1,8,7,668,281,18,0,15,41); addBoothRow(1,15,7,820,281,14,0,12,41);
+  [[462,294,-29],[472,315,-20],[478,338,-9],[480,362,0],[469,384,12],[466,400,25],[452,421,34],[454,458,43]].forEach(function(p,i){addBooth(2,22+i,p[0],p[1],15,18,p[2]);});
+  addBoothRow(2,30,7,464,470,12,12,16,21,-43); addBooth(2,37,544,550,16,21,-43);
+  addBoothRow(2,38,7,545,577,15,16,17,21,-43);
+  [[964,353,-44],[982,362,-30],[1002,374,-15],[1019,374,0],[1044,370,19],[1064,356,35]].forEach(function(p,i){addBooth(3,45+i,p[0],p[1],17,18,p[2]);});
+  addBoothGrid(4,51,2,[961,984],[426,442],18,14);
+  addBoothGrid(4,55,4,[961,984],[482,498,514,530],18,14);
+  addBoothGrid(4,63,5,[961,984],[568,580,592,604,616],18,11);
+  addBoothGrid(5,73,4,[683,705],[641,670,699,728],17,23);
+  addBoothGrid(6,81,4,[1029,1052],[680,710,740,770],18,24);
+  addBoothGrid(6,89,4,[1099,1122],[680,710,740,770],18,24);
+  addBoothRow(7,97,4,1173,281,32,0,28,41); addBoothRow(7,101,4,1325,281,32,0,28,41);
+  addBooth(7,105,1108,257,17,19); addBooth(7,106,1108,310,17,19);
+
+  function boothTenant(no){return (DATA.tenants||[]).find(function(t){return String(t.id)===String(no);});}
+  function boothStatus(no){var tenant=boothTenant(no);return tenant?tenant.name:(DATA.tenants.length?'Tenant tersedia di daftar; kode belum dipetakan ke nomor denah':'Tenant belum diumumkan');}
+  function mapTip(e,no){
+    if(!ttEl) return;
+    ttEl.innerHTML='<div class="a4-tt-num">Booth '+escH(no)+'</div><div class="a4-tt-name">'+escH(boothStatus(no))+'</div>';
+    ttEl.style.left=((e.clientX||0)+14)+'px';ttEl.style.top=((e.clientY||0)-10)+'px';ttEl.style.opacity='1';
+  }
+  window.a4MapTip=mapTip;
+  window.a4OpenBooth=function(no){
+    var tenant=boothTenant(no);
+    if(tenant){window.a4OpenModal(String(tenant.id));return;}
+    var head=document.getElementById('a4ModalHead'),body=document.getElementById('a4ModalBody');
+    if(!head||!body) return;
+    var hasTenantData=DATA.tenants.length>0;
+    head.innerHTML='<button class="a4-m-close" onclick="a4CloseModal()">&#x2715;</button><div class="a4-m-num" style="color:#d4a843">BOOTH '+escH(no)+'</div><div class="a4-m-name">'+(hasTenantData?'Belum terhubung ke kode tenant':'Tenant belum diumumkan')+'</div><div class="a4-m-area">ASSIE IV 2026</div>';
+    body.innerHTML=hasTenantData?'<div class="a4-m-desc">Daftar tenant saat ini memakai kode area seperti a7, sedangkan hotspot denah memakai nomor 1–106. Data tenant sudah tersedia, tetapi perlu tabel pemetaan resmi agar nama tampil di titik yang tepat.</div><button type="button" class="a4-m-shop" onclick="a4CloseModal();a4ShowAllTenants()">Buka Daftar Booth &amp; Tenant</button>':'<div class="a4-m-desc">Informasi tenant untuk Booth '+escH(no)+' akan diumumkan oleh panitia. Silakan cek kembali nanti.</div>';
+    var modal=document.getElementById('a4Modal');if(modal){modal.classList.add('on');document.body.style.overflow='hidden';}
+  };
+  function renderDenahFilters(){
+    var el=document.getElementById('a4DenahFilters');if(!el) return;
+    var filters=[{key:'all',label:'Semua Klaster'}].concat(clusterMeta);
+    el.innerHTML=filters.map(function(filter){var on=String(denahActiveCluster)===String(filter.key);return '<button type="button" class="a4-df-btn'+(on?' on':'')+'" style="--a4-cluster:'+(filter.color||'#d4a843')+'" aria-pressed="'+on+'" onclick="a4SetDenahCluster(\''+filter.key+'\')">'+(filter.color?'<span class="a4-cluster-dot" aria-hidden="true"></span>':'')+escH(filter.label)+'</button>';}).join('');
+  }
+  window.a4SetDenahCluster=function(cluster){
+    denahActiveCluster=cluster==='all'?'all':parseInt(cluster,10);
+    denahSelectedBooth=null;renderDenahFilters();renderMap();
+    if(window.matchMedia('(max-width:768px)').matches){
+      window.requestAnimationFrame(function(){
+        var wrap=document.getElementById('a4MapWrap');
+        if(denahActiveCluster==='all'){if(wrap) wrap.scrollTo({left:0,top:0,behavior:'smooth'});return;}
+        scrollMapToHotspot(document.querySelector('.a4-map-booth[data-cluster="'+denahActiveCluster+'"]'));
+      });
+    }
+  };
+  window.a4SetDenahArea=window.a4SetDenahCluster;
+  function renderMapLegend(){
+    var el=document.getElementById('a4MapLegend');if(!el) return;
+    el.innerHTML=clusterMeta.map(function(c){return '<span class="a4-ml" style="--a4-cluster:'+c.color+'"><span class="a4-ml-box"></span>'+escH(c.label)+'</span>';}).join('')+'<span class="a4-ml a4-ml-selected"><span class="a4-ml-box"></span>Dipilih</span>';
+  }
+  function setSelectedBooth(no){
+    denahSelectedBooth=String(no);
+    document.querySelectorAll('.a4-map-booth[data-booth]').forEach(function(node){node.classList.toggle('is-selected',node.getAttribute('data-booth')===denahSelectedBooth);});
+    document.querySelectorAll('.a4-mobile-booth-btn').forEach(function(node){node.classList.toggle('is-selected',node.getAttribute('data-booth')===denahSelectedBooth);});
+    if(window.matchMedia('(max-width:768px)').matches) scrollMapToHotspot(document.querySelector('.a4-map-booth[data-booth="'+denahSelectedBooth+'"]'));
+  }
+  function scrollMapToHotspot(node){
+    var wrap=document.getElementById('a4MapWrap');if(!wrap||!node) return;
+    var box=node.getBoundingClientRect(),view=wrap.getBoundingClientRect();
+    wrap.scrollTo({
+      left:wrap.scrollLeft+box.left-view.left+box.width/2-wrap.clientWidth/2,
+      top:wrap.scrollTop+box.top-view.top+box.height/2-wrap.clientHeight/2,
+      behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'
+    });
+  }
+  window.a4MobileBoothClick=function(no){setSelectedBooth(no);window.a4OpenBooth(no);};
+  function renderMobileBoothList(){
+    var list=document.getElementById('a4MobileBoothList');if(!list) return;
+    function buttons(items){return '<div class="a4-mobile-booth-grid">'+items.map(function(booth){var hasTenant=!!boothTenant(booth.n);var color=clusterMeta[booth.cluster-1].color;return '<button type="button" class="a4-mobile-booth-btn'+(String(booth.n)===denahSelectedBooth?' is-selected':'')+'" style="--a4-cluster:'+color+'" data-booth="'+booth.n+'" onclick="a4MobileBoothClick('+booth.n+')">'+booth.n+'<small>'+(hasTenant?'Lihat tenant':(DATA.tenants.length?'Belum dipetakan':'Segera hadir'))+'</small></button>';}).join('')+'</div>';}
+    if(denahActiveCluster==='all'){
+      list.innerHTML='<div class="a4-mobile-booth-label">Pilih booth <span>menurut klaster</span></div>'+clusterMeta.map(function(meta,i){return '<details class="a4-mobile-cluster"'+(i===0?' open':'')+'><summary style="--a4-cluster:'+meta.color+'"><span class="a4-cluster-dot"></span>'+escH(meta.label)+' <small>Booth '+escH(meta.count)+'</small></summary>'+buttons(boothShapes.filter(function(b){return b.cluster===meta.key;}))+'</details>';}).join('');
+    } else {
+      list.innerHTML='<div class="a4-mobile-booth-label">'+escH(clusterMeta[denahActiveCluster-1].label)+' <span>Booth '+escH(clusterMeta[denahActiveCluster-1].count)+'</span></div>'+buttons(boothShapes.filter(function(b){return b.cluster===denahActiveCluster;}));
+    }
+  }
+  function renderMap(){
+    var svg=document.getElementById('a4FloorMap'),image=document.getElementById('a4FloorMapImage');if(!svg||!image) return;
+    var src=DATA.denahBaseImage||DATA.denahDefaultImage||'';
+    if(image.getAttribute('src')!==src) image.setAttribute('src',src);
+    svg.setAttribute('viewBox','0 0 1820 1024');
+    var html=boothShapes.map(function(booth){
+      var dim=denahActiveCluster!=='all'&&booth.cluster!==denahActiveCluster;
+      var title='Booth '+booth.n+' — '+boothStatus(booth.n);
+      var color=clusterMeta[booth.cluster-1].color;
+      return '<g class="a4-map-booth'+(dim?' is-dim':'')+(String(booth.n)===denahSelectedBooth?' is-selected':'')+'" style="--a4-cluster:'+color+'" data-booth="'+booth.n+'" data-cluster="'+booth.cluster+'" role="button" tabindex="0" aria-label="'+escH(title)+'" onmouseenter="a4MapTip(event,'+booth.n+')" onmouseleave="a4HideTip()"><title>'+escH(title)+'</title><rect x="'+booth.x+'" y="'+booth.y+'" width="'+booth.w+'" height="'+booth.h+'" rx="2"'+(booth.angle?' transform="rotate('+booth.angle+' '+booth.cx+' '+booth.cy+')"':'')+'></rect><text x="'+booth.cx+'" y="'+(booth.cy+3)+'" text-anchor="middle" pointer-events="none">'+booth.n+'</text></g>';
+    }).join('');
+    html+='<g class="a4-map-stage-hotspot" data-fn="stage" role="button" tabindex="0" aria-label="Main Stage, buka jadwal acara"><title>Main Stage — buka jadwal acara</title><rect x="1496" y="185" width="95" height="147" rx="32"></rect><text x="1543" y="266" text-anchor="middle" pointer-events="none">MAIN</text><text x="1543" y="281" text-anchor="middle" pointer-events="none">STAGE</text></g>';
+    svg.innerHTML=html;renderMobileBoothList();
+    var wrap=document.getElementById('a4MapWrap');
+    if(wrap&&!wrap._a4denahEvents){
+      wrap._a4denahEvents=true;
+      function activate(target){if(target.getAttribute('data-fn')==='stage'){window.a4OpenStage();return;}var booth=target.getAttribute('data-booth');if(booth){setSelectedBooth(booth);window.a4OpenBooth(booth);}}
+      wrap.addEventListener('click',function(e){var target=e.target.closest?e.target.closest('.a4-map-booth,.a4-map-stage-hotspot'):null;if(target&&wrap.contains(target)) activate(target);});
+      wrap.addEventListener('keydown',function(e){if(e.key!=='Enter'&&e.key!==' ') return;var target=e.target.closest?e.target.closest('.a4-map-booth,.a4-map-stage-hotspot'):null;if(target&&wrap.contains(target)){e.preventDefault();activate(target);}});
+    }
+  }
+  var mapScale=1;
+  window.a4ZoomMap=function(f){var stage=document.getElementById('a4MapStage');if(!stage)return;mapScale=Math.min(2.5,Math.max(.75,mapScale*f));stage.style.transform='scale('+mapScale+')';};
+  window.a4ResetZoom=function(){var stage=document.getElementById('a4MapStage');if(stage){mapScale=1;stage.style.transform='';}};
+
   /* ══════════════════════════════════════════════════════
      STATS
      ═══════════════════════════════════════════════════════ */
@@ -580,7 +808,7 @@
           var ds='';
           try{var d=new Date(item.date);ds=d.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});}catch(e){ds=item.date||'';}
           var thumb=item.thumb
-            ?'<div class="a4-nc-img"><img src="'+escH(item.thumb)+'" alt="" loading="lazy" onerror="this.className+=\' a4-nc-img-err\'"></div>'
+            ?'<div class="a4-nc-img"><img src="'+escH(item.thumb)+'" alt="" loading="lazy" referrerpolicy="no-referrer"></div>'
             :'<div class="a4-nc-img a4-nc-img-ph"><span>&#128240;</span></div>';
           return '<a href="'+escH(item.link)+'" target="_blank" class="a4-news-card" title="Baca selengkapnya">'+thumb+
             '<div class="a4-nc-body"><div class="a4-nc-date">'+escH(ds)+'</div>'+
@@ -618,6 +846,7 @@
     init();
   }
   setInterval(refreshStats,60000);
+  setInterval(loadBerita, 30*60*1000); // Auto-refresh scrape tiap 30 menit
 })();
 
 /* ── TokoUA Modal ─────────────────────────────────────── */

@@ -3,18 +3,26 @@
  * Template konten — ASSIE IV Pameran Digital v2.6.0
  */
 if ( ! defined( 'ABSPATH' ) ) exit;
+
+$a4_info_data = get_option( ASSIE4_OPT_INFO, assie4_default_info() );
+$a4_info_data = is_array($a4_info_data) ? $a4_info_data : assie4_default_info();
+$a4_logo_url  = !empty($a4_info_data['logo']) ? $a4_info_data['logo'] : (ASSIE4_PAMERAN_URL . 'assets/logo-assie4.png');
 ?>
 
 <!-- NAV -->
 <nav class="a4-nav" id="a4Nav">
-  <div class="a4-nav-logo">ASSIE <span>IV</span></div>
+  <div class="a4-nav-logo">
+    <a href="#home" onclick="a4GoTo('home')" class="a4-nav-logo-link" title="Industry Matching ASSIE IV 2026">
+      <img src="<?php echo esc_url( $a4_logo_url ); ?>" alt="Industry Matching ASSIE IV 2026" class="a4-nav-logo-img">
+    </a>
+  </div>
   <div class="a4-nav-menu">
     <button class="a4-nb on" onclick="a4GoTo('home')">Beranda</button>
     <button class="a4-nb" onclick="a4GoTo('rundown')">Rundown</button>
     <button class="a4-nb" onclick="a4GoTo('denah')">Denah</button>
     <button class="a4-nb" onclick="a4GoTo('berita')">Berita</button>
     <button class="a4-nb" onclick="a4GoTo('presensi')">Presensi</button>
-    <button class="a4-nb a4-nb-tokoua" onclick="a4OpenTokoUA()">🛒 TokoUA</button>
+    <a class="a4-nb a4-nb-tokoua" href="https://tokoua.unair.ac.id/" target="_blank" rel="noopener noreferrer">&#128722; TokoUA</a>
   </div>
   <div class="a4-live-pill"><span class="a4-pulse"></span><span id="a4Clock">Live</span></div>
 </nav>
@@ -56,7 +64,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     <span class="a4-sec-tag">Agenda</span>
     <h2 class="a4-sec-h">Rundown Acara</h2>
     <p class="a4-sec-sub">Jadwal lengkap kegiatan selama 3 hari pameran berlangsung.</p>
-    <div class="a4-day-tabs" id="a4DayTabs"></div>
+    <div class="a4-day-tabs" id="a4DayTabs" role="group" aria-label="Pilih tanggal rundown"></div>
+    <div class="a4-rundown-dayline" id="a4RundownDayIntro" aria-live="polite"></div>
     <div class="a4-timeline" id="a4Timeline"></div>
   </div>
 </section>
@@ -67,12 +76,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
   <div class="a4-sec">
     <span class="a4-sec-tag">Denah</span>
     <h2 class="a4-sec-h">Layout Booth Pameran</h2>
-    <p class="a4-sec-sub">Pilih area untuk melihat booth. Klik booth untuk detail tenant, klik Stage untuk jadwal acara.</p>
+    <p class="a4-sec-sub">Pilih klaster untuk melihat booth. Klik booth untuk detail tenant, klik Main Stage untuk jadwal acara.</p>
 
-    <!-- Filter area -->
+    <!-- Filter klaster denah. Filter Area A-E pada daftar tenant tetap terpisah. -->
     <div class="a4-denah-filters" id="a4DenahFilters"></div>
 
-    <!-- SVG Map -->
+    <!-- Denah venue asli + overlay SVG interaktif -->
     <div class="a4-map-container">
       <div class="a4-map-controls">
         <div class="a4-map-zoom">
@@ -82,10 +91,15 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         </div>
         <div class="a4-map-legend" id="a4MapLegend"></div>
       </div>
-      <div class="a4-map-svg-wrap" id="a4MapWrap">
-        <svg id="a4FloorMap" viewBox="0 0 960 400" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div class="a4-map-svg-wrap" id="a4MapWrap" aria-label="Denah booth pameran interaktif">
+        <div class="a4-map-stage" id="a4MapStage">
+          <img id="a4FloorMapImage" src="" alt="Denah venue ASSIE IV di Grand City Atrium">
+          <svg id="a4FloorMap" viewBox="0 0 1820 1024" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="Hotspot booth dan Main Stage"></svg>
+        </div>
       </div>
+      <div class="a4-mobile-booth-list" id="a4MobileBoothList" aria-live="polite"></div>
     </div>
+    <button type="button" class="a4-denah-pasinbis" onclick="a4BoothClickPasinbis()">🏛️ PASINBIS UNAIR <span>• Info penyelenggara</span></button>
 
     <!-- Gambar denah upload (jika ada) -->
     <div class="a4-denah-imgs" id="a4DenahImgs" style="display:none">
@@ -94,17 +108,22 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     </div>
 
     <!-- DAFTAR TENANT / BOOTH — dipindah dari section Tenant -->
-    <div class="a4-tenant-section" style="margin-top:40px">
+    <div class="a4-tenant-section" id="tenant-directory" style="margin-top:24px">
       <div class="a4-tenant-section-head">
-        <h3 class="a4-tenant-section-title">Daftar Booth &amp; Tenant</h3>
-        <p class="a4-tenant-section-sub">Filter per area lalu klik kartu untuk melihat detail booth.</p>
+        <div>
+          <span class="a4-tenant-eyebrow">Peserta pameran</span>
+          <h3 class="a4-tenant-section-title">Daftar Booth &amp; Tenant</h3>
+          <p class="a4-tenant-section-sub">Pilih nama tenant untuk melihat profil dan kontaknya.</p>
+        </div>
+        <a href="https://tokoua.unair.ac.id/" target="_blank" rel="noopener noreferrer" class="a4-tenant-shop">Belanja di TokoUA <span aria-hidden="true">↗</span></a>
       </div>
-      <div class="a4-ss-banner">
-        <span class="a4-ss-text">🛒 Beli produk tenant secara online melalui <strong>TokoUA Universitas Airlangga</strong></span>
-        <a href="https://tokoua.unair.ac.id/" target="_blank" class="a4-btn-gold">Kunjungi TokoUA →</a>
+      <div class="a4-tenant-tools">
+        <div class="a4-area-filters" id="a4AreaFilters"></div>
+        <label class="a4-tenant-search"><span class="screen-reader-text">Cari tenant</span><input type="search" placeholder="Cari tenant" oninput="a4SearchTenants(this.value)" autocomplete="off"></label>
       </div>
-      <div class="a4-area-filters" id="a4AreaFilters"></div>
+      <div class="a4-tenant-count" id="a4TenantCount" aria-live="polite"></div>
       <div class="a4-tenant-grid" id="a4TenantGrid"></div>
+      <button type="button" class="a4-tenant-more" id="a4TenantMore" onclick="a4ToggleTenants()" hidden></button>
     </div>
   </div>
 </section>
@@ -221,6 +240,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 <!-- FOOTER -->
 <footer class="a4-footer">
+  <div class="a4-footer-logo-wrap" style="margin-bottom:16px">
+    <img src="<?php echo esc_url( $a4_logo_url ); ?>" alt="Industry Matching ASSIE IV 2026" class="a4-footer-logo-img">
+  </div>
   <p>© 2026 <strong>PASINBIS Universitas Airlangga</strong> · ASSIE IV 2026</p>
-  <p class="a4-footer-sub">Airlangga Startup Summit &amp; Innovation Expo · Grand City Convention Hall, Surabaya</p>
+  <p class="a4-footer-sub">Airlangga Startup Summit &amp; Innovation Expo · Grand City Atrium, Surabaya</p>
 </footer>
