@@ -3,7 +3,7 @@
  * Plugin Name: ASSIE IV - Pameran Digital
  * Plugin URI: https://pasinbis.unair.ac.id
  * Description: Pameran digital ASSIE IV 2026. Shortcode [assie4_pameran] dan [assie4_berita].
- * Version: 2.8.19
+ * Version: 2.8.20
  * Author: PASINBIS Universitas Airlangga
  * Author URI: https://pasinbis.unair.ac.id
  * License: GPL-2.0-or-later
@@ -34,7 +34,7 @@ add_action( 'admin_enqueue_scripts', function( $hook ) {
 /* ══════════════════════════════════════════════════════
    DEFINE CONSTANTS
    ══════════════════════════════════════════════════════ */
-define( 'ASSIE4_PAMERAN_VER',  '2.8.19' );
+define( 'ASSIE4_PAMERAN_VER',  '2.8.20' );
 define( 'ASSIE4_PAMERAN_DIR',  plugin_dir_path( __FILE__ ) );
 define( 'ASSIE4_PAMERAN_URL',  plugin_dir_url( __FILE__ ) );
 define( 'ASSIE4_PAMERAN_SLUG', 'pameran-assie4' );
@@ -91,7 +91,7 @@ add_action( 'wp', function() {
     if ( ! is_a( $post, 'WP_Post' ) || ! has_shortcode( $post->post_content, 'assie4_pameran' ) ) return;
     remove_action( 'wp_head', 'wp_site_icon', 99 );
     add_action( 'wp_head', function() {
-        $icon = 'https://fkg.unair.ac.id/en/wp-content/uploads/2024/09/Logo-Branding-UNAIR-biru.png?ver=' . ASSIE4_PAMERAN_VER;
+        $icon = 'https://fst.unair.ac.id/wp-content/uploads/2024/03/Logo-Branding-UNAIR-biru-1024x1024.png?ver=' . ASSIE4_PAMERAN_VER;
         echo '<link rel="icon" href="' . esc_url( $icon ) . '" type="image/png">' . "\n";
         echo '<link rel="apple-touch-icon" href="' . esc_url( $icon ) . '">' . "\n";
     }, 2 );
