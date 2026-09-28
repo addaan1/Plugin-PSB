@@ -34,7 +34,7 @@ add_action( 'admin_enqueue_scripts', function( $hook ) {
 /* ══════════════════════════════════════════════════════
    DEFINE CONSTANTS
    ══════════════════════════════════════════════════════ */
-define( 'ASSIE4_PAMERAN_VER',  '2.9.5' );
+define( 'ASSIE4_PAMERAN_VER',  '2.9.6' );
 define( 'ASSIE4_PAMERAN_DIR',  plugin_dir_path( __FILE__ ) );
 define( 'ASSIE4_PAMERAN_URL',  plugin_dir_url( __FILE__ ) );
 define( 'ASSIE4_PAMERAN_SLUG', 'pameran-assie4' );
@@ -316,7 +316,7 @@ function assie4_get_berita_items( $limit = 9, $cache_minutes = 30 ) {
 
     // 2. Cek cache RAM laptop di direktori temporary OS (tidak masuk database)
     $temp_dir       = function_exists( 'get_temp_dir' ) ? get_temp_dir() : sys_get_temp_dir();
-    $cache_file     = rtrim( $temp_dir, '/\\' ) . DIRECTORY_SEPARATOR . 'assie4_news_ram_cache.json';
+    $cache_file     = rtrim( $temp_dir, '/\\' ) . DIRECTORY_SEPARATOR . 'assie4_news_ram_cache_v2.json';
     $cache_lifetime = (int) $cache_minutes * 60; // 30 menit = 1800 detik
     $cached_data    = null;
 
@@ -456,11 +456,11 @@ function assie4_auto_scrape_pasinbis_news() {
                 'thumb' => 'https://pasinbis.unair.ac.id/wp-content/uploads/2026/09/SGE-2026-2.png',
             ],
             [
-                'title' => 'Tiga Startup Binaan Inkubator Bisnis PASINBIS UNAIR Lolos Final World Startup Championship 2026 di Pakistan',
-                'link'  => 'https://pasinbis.unair.ac.id/2026/08/28/tiga-startup-binaan-inkubator-bisnis-pasinbis-unair-lolos-final-world-startup-championship-2026-di-pakistan/',
-                'date'  => '2026-08-28T06:32:37',
-                'desc'  => 'Tiga tim startup binaan Inkubator Bisnis PASINBIS UNAIR sukses menembus babak final ajang internasional bergengsi World Startup Championship 2026 di Pakistan...',
-                'thumb' => 'https://pasinbis.unair.ac.id/wp-content/uploads/2026/08/53e33f82-fcc7-4157-9122-7b1f335eb75b.jpg.jpeg',
+                'title' => 'Airlangga Startup Bootcamp 2026 Bekali Tenant dengan Strategi Membangun Startup Inovatif',
+                'link'  => 'https://pasinbis.unair.ac.id/2026/07/30/airlangga-startup-bootcamp-2026-bekali-tenant-dengan-strategi-membangun-startup-yang-inovatif-dan-berkelanjutan/',
+                'date'  => '2026-07-30T01:42:37',
+                'desc'  => 'Airlangga Startup Bootcamp 2026 membekali puluhan tenant inovasi dengan strategi validasi produk, manajemen tim, dan kesiapan pasar berkelanjutan...',
+                'thumb' => 'https://pasinbis.unair.ac.id/wp-content/uploads/2026/07/Bootcamp-10-10.jpg',
             ],
             [
                 'title' => 'ASSIE IV 2026: Hadirkan Satu Ruang untuk Ribuan Inovasi dan Kolaborasi',

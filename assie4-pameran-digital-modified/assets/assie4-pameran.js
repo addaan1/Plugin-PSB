@@ -644,7 +644,7 @@
           var ds='';
           try{var d=new Date(item.date);ds=d.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});}catch(e){ds=item.date||'';}
           var thumb=item.thumb
-            ?'<div class="a4-nc-img"><img src="'+escH(item.thumb)+'" alt="" loading="lazy" onerror="this.onerror=null;this.parentElement.className+=\' a4-nc-img-ph\';this.parentElement.innerHTML=\'<span>&#128240;</span>\';"></div>'
+            ?'<div class="a4-nc-img"><img src="'+escH(item.thumb)+'" alt="" loading="lazy" referrerpolicy="no-referrer"></div>'
             :'<div class="a4-nc-img a4-nc-img-ph"><span>&#128240;</span></div>';
           return '<a href="'+escH(item.link)+'" target="_blank" class="a4-news-card" title="Baca selengkapnya">'+thumb+
             '<div class="a4-nc-body"><div class="a4-nc-date">'+escH(ds)+'</div>'+
