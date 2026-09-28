@@ -99,16 +99,20 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     </div>
 
     <!-- DAFTAR TENANT / BOOTH — dipindah dari section Tenant -->
-    <div class="a4-tenant-section" style="margin-top:40px">
+    <div class="a4-tenant-section" id="tenant-directory" style="margin-top:40px">
       <div class="a4-tenant-section-head">
-        <h3 class="a4-tenant-section-title">Daftar Booth &amp; Tenant</h3>
-        <p class="a4-tenant-section-sub">Filter per area lalu klik kartu untuk melihat detail booth.</p>
+        <div>
+          <span class="a4-tenant-eyebrow">Peserta pameran</span>
+          <h3 class="a4-tenant-section-title">Daftar Booth &amp; Tenant</h3>
+          <p class="a4-tenant-section-sub">Pilih nama tenant untuk melihat profil dan kontaknya.</p>
+        </div>
+        <a href="https://tokoua.unair.ac.id/" target="_blank" rel="noopener noreferrer" class="a4-tenant-shop">Belanja di TokoUA <span aria-hidden="true">↗</span></a>
       </div>
-      <div class="a4-ss-banner">
-        <span class="a4-ss-text">🛒 Beli produk tenant secara online melalui <strong>TokoUA Universitas Airlangga</strong></span>
-        <a href="https://tokoua.unair.ac.id/" target="_blank" class="a4-btn-gold">Kunjungi TokoUA →</a>
+      <div class="a4-tenant-tools">
+        <div class="a4-area-filters" id="a4AreaFilters"></div>
+        <label class="a4-tenant-search"><span class="screen-reader-text">Cari tenant</span><input type="search" placeholder="Cari tenant" oninput="a4SearchTenants(this.value)" autocomplete="off"></label>
       </div>
-      <div class="a4-area-filters" id="a4AreaFilters"></div>
+      <div class="a4-tenant-count" id="a4TenantCount" aria-live="polite"></div>
       <div class="a4-tenant-grid" id="a4TenantGrid"></div>
     </div>
   </div>

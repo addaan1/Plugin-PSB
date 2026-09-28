@@ -193,36 +193,37 @@
   }
   window.a4FilterArea=function(area){activeArea=area;renderAreaFilters();renderTenants();};
 
+  var tenantAreaColors={A:'#3185ff',B:'#13ce78',C:'#ffad1f',D:'#bd67ff',E:'#13c9e8'};
   function renderTenants(){
     var grid=document.getElementById('a4TenantGrid'); if(!grid) return;
-    var list=activeArea==='all'?DATA.tenants:DATA.tenants.filter(function(t){return t.area===activeArea;});
-    var areaClrCard={A:'#3b82f6',B:'#22c55e',C:'#f59e0b',D:'#a855f7',E:'#06b6d4'};
+    var list=DATA.tenants.filter(function(t){
+      var matchesArea=activeArea==='all'||t.area===activeArea;
+      var matchesSearch=!tenantSearch||[t.name,t.id,t.cat,(t.tags||[]).join(' ')].join(' ').toLowerCase().indexOf(tenantSearch)>=0;
+      return matchesArea&&matchesSearch;
+    });
+    var count=document.getElementById('a4TenantCount');
+    if(count) count.textContent=list.length+' tenant'+(list.length===1?'':' terdaftar');
     grid.innerHTML=list.map(function(t){
-      var c=areaClrCard[t.area]||'#d4a843';
-      var icons='';
-      if(t.web) icons+='<span class="a4-tc-ico" title="Website">&#127760;</span>';
-      if(t.instagram) icons+='<span class="a4-tc-ico" title="Instagram">&#128247;</span>';
-      if(t.facebook) icons+='<span class="a4-tc-ico" title="Facebook">&#128077;</span>';
-      if(t.twitter) icons+='<span class="a4-tc-ico" title="X/Twitter">&#128038;</span>';
-      if(t.contact) icons+='<span class="a4-tc-ico" title="'+escH(t.contact)+'">&#128231;</span>';
-      return '<div class="a4-tc" onclick="a4OpenModal(\''+escH(t.id)+'\')">'+
-        '<div class="a4-tc-top">'+
-          '<div class="a4-tc-logo">'+(t.logo?'<img src="'+escH(t.logo)+'" alt="'+escH(t.name)+'" style="width:100%;height:100%;object-fit:contain;border-radius:8px">':'&#127970;')+'</div>'+
-          '<div class="a4-tc-area-badge" style="background:'+c+'22;color:'+c+';border:1px solid '+c+'44">Area '+escH(t.area)+'</div>'+
-        '</div>'+
-        '<div class="a4-tc-num" style="color:'+c+'">'+escH(t.id)+'</div>'+
-        '<div class="a4-tc-name">'+escH(t.name)+'</div>'+
-        '<div class="a4-tc-cat">'+escH(t.cat)+'</div>'+
-        (t.desc?'<div class="a4-tc-desc">'+escH(t.desc)+'</div>':'')+
-        '<div class="a4-tc-tags">'+(t.tags||[]).map(function(g){return '<span class="a4-tag">'+escH(g)+'</span>';}).join('')+'</div>'+
-        (icons?'<div class="a4-tc-icons">'+icons+'</div>':'')+
-        '<div class="a4-tc-cta">Lihat Detail &#8594;</div>'+
-      '</div>';
-    }).join('');
+      var initial=(t.name||'?').trim().charAt(0).toUpperCase();
+      var areaColor=tenantAreaColors[t.area]||'#d4a843';
+      return '<button type="button" class="a4-tc" style="--a4-area-color:'+areaColor+'" data-tenant-id="'+escH(t.id)+'" aria-label="Lihat detail '+escH(t.name)+'">'+
+        '<span class="a4-tc-mark">'+(t.logo?'<img src="'+escH(t.logo)+'" alt="" loading="lazy">':escH(initial))+'</span>'+
+        '<span class="a4-tc-copy"><span class="a4-tc-overline"><span class="a4-tc-area-dot a4-tc-area-'+escH(t.area)+'"></span>AREA '+escH(t.area)+' <span class="a4-tc-sep">/</span> BOOTH '+escH(String(t.id).toUpperCase())+'</span>'+
+        '<span class="a4-tc-name">'+escH(t.name)+'</span>'+
+        '<span class="a4-tc-cat">'+escH(t.cat||'Peserta pameran')+'</span>'+
+        (t.desc?'<span class="a4-tc-desc">'+escH(t.desc)+'</span>':'')+
+        '</span><span class="a4-tc-arrow" aria-hidden="true">&#8599;</span></button>';
+    }).join('')||'<p class="a4-tenant-empty">'+(DATA.tenants.length?'Tidak ada tenant yang cocok. Coba area atau kata kunci lain.':'Daftar tenant belum tersedia.')+'</p>';
+    if(!grid._a4TenantEvents){
+      grid._a4TenantEvents=true;
+      grid.addEventListener('click',function(e){var item=e.target.closest('.a4-tc[data-tenant-id]');if(item) window.a4OpenModal(item.getAttribute('data-tenant-id'));});
+    }
     var stEl=document.getElementById('a4stTenant'),stEl2=document.getElementById('a4stTotal');
     if(stEl) stEl.textContent=DATA.tenants.length;
     if(stEl2) stEl2.textContent=DATA.tenants.length;
   }
+  var tenantSearch='';
+  window.a4SearchTenants=function(value){tenantSearch=String(value||'').trim().toLowerCase();renderTenants();};
 
   /* ══════════════════════════════════════════════════════
      DENAH SVG — area-grouped, sinkron dari tenant DB + PASINBIS
@@ -541,26 +542,39 @@
      independen dari Area A–E, sehingga tenant dapat diumumkan bertahap. */
   var denahActiveCluster='all',denahSelectedBooth=null;
   var clusterMeta=[
-    {key:1,label:'Klaster 1',count:'1–21'}, {key:2,label:'Klaster 2',count:'22–44'},
-    {key:3,label:'Klaster 3',count:'45–50'}, {key:4,label:'Klaster 4',count:'51–72'},
-    {key:5,label:'Klaster 5',count:'73–80'}, {key:6,label:'Klaster 6',count:'81–96'},
-    {key:7,label:'Klaster 7',count:'97–106'}
+    {key:1,label:'Klaster 1',count:'1–21',color:'#267cff'}, {key:2,label:'Klaster 2',count:'22–44',color:'#00a5b5'},
+    {key:3,label:'Klaster 3',count:'45–50',color:'#8665db'}, {key:4,label:'Klaster 4',count:'51–72',color:'#15a776'},
+    {key:5,label:'Klaster 5',count:'73–80',color:'#d3624d'}, {key:6,label:'Klaster 6',count:'81–96',color:'#d89a23'},
+    {key:7,label:'Klaster 7',count:'97–106',color:'#c756a1'}
   ];
   var boothShapes=[];
-  function addBoothSeries(cluster,start,count,x,y,w,h,dx,dy){
-    for(var i=0;i<count;i++) boothShapes.push({n:start+i,cluster:cluster,x:x+(dx*i),y:y+(dy*i),w:w,h:h});
+  function addBooth(cluster,n,cx,cy,w,h,angle){
+    boothShapes.push({n:n,cluster:cluster,x:cx-w/2,y:cy-h/2,cx:cx,cy:cy,w:w,h:h,angle:angle||0});
   }
-  /* Urutan: kelompok booth paling atas/kiri menuju bawah/kanan pada referensi. */
-  addBoothSeries(1,1,7,505,260,17,45,18,0); addBoothSeries(1,8,7,658,260,17,45,18,0); addBoothSeries(1,15,7,811,260,17,45,18,0);
-  addBoothSeries(2,22,8,449,282,17,23,9,20); addBoothSeries(2,30,8,444,470,17,22,17,16); addBoothSeries(2,38,7,538,565,18,22,17,17);
-  addBoothSeries(3,45,6,951,344,18,23,22,8);
-  addBoothSeries(4,51,8,952,420,43,20,0,26); addBoothSeries(4,59,8,953,492,42,20,0,26); addBoothSeries(4,67,6,953,565,42,20,0,26);
-  addBoothSeries(5,73,8,675,628,20,20,0,23);
-  addBoothSeries(6,81,8,1019,663,20,22,0,24); addBoothSeries(6,89,8,1090,663,20,22,0,24);
-  addBoothSeries(7,97,4,1157,261,22,44,25,0); addBoothSeries(7,101,4,1308,261,22,44,25,0); addBoothSeries(7,105,2,1098,247,22,22,0,25);
+  function addBoothRow(cluster,start,count,cx,cy,dx,dy,w,h,angle){
+    for(var i=0;i<count;i++) addBooth(cluster,start+i,cx+dx*i,cy+dy*i,w,h,angle);
+  }
+  function addBoothGrid(cluster,start,rows,xs,ys,w,h){
+    var n=start;
+    ys.slice(0,rows).forEach(function(y){xs.forEach(function(x){addBooth(cluster,n++,x,y,w,h);});});
+  }
+  /* Koordinat pusat booth diukur dari gambar slide 5 (1820 × 1024). */
+  addBoothRow(1,1,7,516,281,18,0,15,41); addBoothRow(1,8,7,668,281,18,0,15,41); addBoothRow(1,15,7,820,281,14,0,12,41);
+  [[462,294,-29],[472,315,-20],[478,338,-9],[480,362,0],[469,384,12],[466,400,25],[452,421,34],[454,458,43]].forEach(function(p,i){addBooth(2,22+i,p[0],p[1],15,18,p[2]);});
+  addBoothRow(2,30,7,464,470,12,12,16,21,-43); addBooth(2,37,544,550,16,21,-43);
+  addBoothRow(2,38,7,545,577,15,16,17,21,-43);
+  [[964,353,-44],[982,362,-30],[1002,374,-15],[1019,374,0],[1044,370,19],[1064,356,35]].forEach(function(p,i){addBooth(3,45+i,p[0],p[1],17,18,p[2]);});
+  addBoothGrid(4,51,2,[961,984],[426,442],18,14);
+  addBoothGrid(4,55,4,[961,984],[482,498,514,530],18,14);
+  addBoothGrid(4,63,5,[961,984],[568,580,592,604,616],18,11);
+  addBoothGrid(5,73,4,[683,705],[641,670,699,728],17,23);
+  addBoothGrid(6,81,4,[1029,1052],[680,710,740,770],18,24);
+  addBoothGrid(6,89,4,[1099,1122],[680,710,740,770],18,24);
+  addBoothRow(7,97,4,1173,281,32,0,28,41); addBoothRow(7,101,4,1325,281,32,0,28,41);
+  addBooth(7,105,1108,257,17,19); addBooth(7,106,1108,310,17,19);
 
   function boothTenant(no){return (DATA.tenants||[]).find(function(t){return String(t.id)===String(no);});}
-  function boothStatus(no){var tenant=boothTenant(no);return tenant?tenant.name:'Tenant belum diumumkan';}
+  function boothStatus(no){var tenant=boothTenant(no);return tenant?tenant.name:(DATA.tenants.length?'Tenant tersedia di daftar; kode belum dipetakan ke nomor denah':'Tenant belum diumumkan');}
   function mapTip(e,no){
     if(!ttEl) return;
     ttEl.innerHTML='<div class="a4-tt-num">Booth '+escH(no)+'</div><div class="a4-tt-name">'+escH(boothStatus(no))+'</div>';
@@ -572,32 +586,56 @@
     if(tenant){window.a4OpenModal(String(tenant.id));return;}
     var head=document.getElementById('a4ModalHead'),body=document.getElementById('a4ModalBody');
     if(!head||!body) return;
-    head.innerHTML='<button class="a4-m-close" onclick="a4CloseModal()">&#x2715;</button><div class="a4-m-num" style="color:#d4a843">BOOTH '+escH(no)+'</div><div class="a4-m-name">Tenant belum diumumkan</div><div class="a4-m-area">ASSIE IV 2026</div>';
-    body.innerHTML='<div class="a4-m-desc">Informasi tenant untuk Booth '+escH(no)+' akan diumumkan oleh panitia. Silakan cek kembali nanti.</div>';
+    var hasTenantData=DATA.tenants.length>0;
+    head.innerHTML='<button class="a4-m-close" onclick="a4CloseModal()">&#x2715;</button><div class="a4-m-num" style="color:#d4a843">BOOTH '+escH(no)+'</div><div class="a4-m-name">'+(hasTenantData?'Belum terhubung ke kode tenant':'Tenant belum diumumkan')+'</div><div class="a4-m-area">ASSIE IV 2026</div>';
+    body.innerHTML=hasTenantData?'<div class="a4-m-desc">Daftar tenant saat ini memakai kode area seperti a7, sedangkan hotspot denah memakai nomor 1–106. Data tenant sudah tersedia, tetapi perlu tabel pemetaan resmi agar nama tampil di titik yang tepat.</div><a class="a4-m-shop" href="#tenant-directory" onclick="a4CloseModal()">Buka Daftar Booth &amp; Tenant</a>':'<div class="a4-m-desc">Informasi tenant untuk Booth '+escH(no)+' akan diumumkan oleh panitia. Silakan cek kembali nanti.</div>';
     var modal=document.getElementById('a4Modal');if(modal){modal.classList.add('on');document.body.style.overflow='hidden';}
   };
   function renderDenahFilters(){
     var el=document.getElementById('a4DenahFilters');if(!el) return;
     var filters=[{key:'all',label:'Semua Klaster'}].concat(clusterMeta);
-    el.innerHTML=filters.map(function(filter){var on=String(denahActiveCluster)===String(filter.key);return '<button type="button" class="a4-df-btn'+(on?' on':'')+'" aria-pressed="'+on+'" onclick="a4SetDenahCluster(\''+filter.key+'\')">'+escH(filter.label)+'</button>';}).join('');
+    el.innerHTML=filters.map(function(filter){var on=String(denahActiveCluster)===String(filter.key);return '<button type="button" class="a4-df-btn'+(on?' on':'')+'" style="--a4-cluster:'+(filter.color||'#d4a843')+'" aria-pressed="'+on+'" onclick="a4SetDenahCluster(\''+filter.key+'\')">'+(filter.color?'<span class="a4-cluster-dot" aria-hidden="true"></span>':'')+escH(filter.label)+'</button>';}).join('');
   }
-  window.a4SetDenahCluster=function(cluster){denahActiveCluster=cluster==='all'?'all':parseInt(cluster,10);denahSelectedBooth=null;renderDenahFilters();renderMap();};
+  window.a4SetDenahCluster=function(cluster){
+    denahActiveCluster=cluster==='all'?'all':parseInt(cluster,10);
+    denahSelectedBooth=null;renderDenahFilters();renderMap();
+    if(window.matchMedia('(max-width:768px)').matches){
+      window.requestAnimationFrame(function(){
+        var wrap=document.getElementById('a4MapWrap');
+        if(denahActiveCluster==='all'){if(wrap) wrap.scrollTo({left:0,top:0,behavior:'smooth'});return;}
+        scrollMapToHotspot(document.querySelector('.a4-map-booth[data-cluster="'+denahActiveCluster+'"]'));
+      });
+    }
+  };
   window.a4SetDenahArea=window.a4SetDenahCluster;
   function renderMapLegend(){
     var el=document.getElementById('a4MapLegend');if(!el) return;
-    el.innerHTML='<span class="a4-ml"><span class="a4-ml-box a4-map-key"></span>Booth interaktif</span><span class="a4-ml"><span class="a4-ml-box a4-map-key a4-map-key-active"></span>Booth terpilih</span>';
+    el.innerHTML=clusterMeta.map(function(c){return '<span class="a4-ml" style="--a4-cluster:'+c.color+'"><span class="a4-ml-box"></span>'+escH(c.label)+'</span>';}).join('')+'<span class="a4-ml a4-ml-selected"><span class="a4-ml-box"></span>Dipilih</span>';
   }
   function setSelectedBooth(no){
     denahSelectedBooth=String(no);
     document.querySelectorAll('.a4-map-booth[data-booth]').forEach(function(node){node.classList.toggle('is-selected',node.getAttribute('data-booth')===denahSelectedBooth);});
     document.querySelectorAll('.a4-mobile-booth-btn').forEach(function(node){node.classList.toggle('is-selected',node.getAttribute('data-booth')===denahSelectedBooth);});
+    if(window.matchMedia('(max-width:768px)').matches) scrollMapToHotspot(document.querySelector('.a4-map-booth[data-booth="'+denahSelectedBooth+'"]'));
+  }
+  function scrollMapToHotspot(node){
+    var wrap=document.getElementById('a4MapWrap');if(!wrap||!node) return;
+    var box=node.getBoundingClientRect(),view=wrap.getBoundingClientRect();
+    wrap.scrollTo({
+      left:wrap.scrollLeft+box.left-view.left+box.width/2-wrap.clientWidth/2,
+      top:wrap.scrollTop+box.top-view.top+box.height/2-wrap.clientHeight/2,
+      behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'
+    });
   }
   window.a4MobileBoothClick=function(no){setSelectedBooth(no);window.a4OpenBooth(no);};
   function renderMobileBoothList(){
     var list=document.getElementById('a4MobileBoothList');if(!list) return;
-    var visible=boothShapes.filter(function(booth){return denahActiveCluster==='all'||booth.cluster===denahActiveCluster;});
-    var label=denahActiveCluster==='all'?'Semua booth':'Booth '+clusterMeta[denahActiveCluster-1].count;
-    list.innerHTML='<div class="a4-mobile-booth-label">'+escH(label)+' <span>Pilih nomor booth</span></div><div class="a4-mobile-booth-grid">'+visible.map(function(booth){var hasTenant=!!boothTenant(booth.n);return '<button type="button" class="a4-mobile-booth-btn'+(String(booth.n)===denahSelectedBooth?' is-selected':'')+'" data-booth="'+booth.n+'" onclick="a4MobileBoothClick('+booth.n+')">'+booth.n+'<small>'+ (hasTenant?'Lihat tenant':'Segera hadir')+'</small></button>';}).join('')+'</div>';
+    function buttons(items){return '<div class="a4-mobile-booth-grid">'+items.map(function(booth){var hasTenant=!!boothTenant(booth.n);var color=clusterMeta[booth.cluster-1].color;return '<button type="button" class="a4-mobile-booth-btn'+(String(booth.n)===denahSelectedBooth?' is-selected':'')+'" style="--a4-cluster:'+color+'" data-booth="'+booth.n+'" onclick="a4MobileBoothClick('+booth.n+')">'+booth.n+'<small>'+(hasTenant?'Lihat tenant':(DATA.tenants.length?'Belum dipetakan':'Segera hadir'))+'</small></button>';}).join('')+'</div>';}
+    if(denahActiveCluster==='all'){
+      list.innerHTML='<div class="a4-mobile-booth-label">Pilih booth <span>menurut klaster</span></div>'+clusterMeta.map(function(meta,i){return '<details class="a4-mobile-cluster"'+(i===0?' open':'')+'><summary style="--a4-cluster:'+meta.color+'"><span class="a4-cluster-dot"></span>'+escH(meta.label)+' <small>Booth '+escH(meta.count)+'</small></summary>'+buttons(boothShapes.filter(function(b){return b.cluster===meta.key;}))+'</details>';}).join('');
+    } else {
+      list.innerHTML='<div class="a4-mobile-booth-label">'+escH(clusterMeta[denahActiveCluster-1].label)+' <span>Booth '+escH(clusterMeta[denahActiveCluster-1].count)+'</span></div>'+buttons(boothShapes.filter(function(b){return b.cluster===denahActiveCluster;}));
+    }
   }
   function renderMap(){
     var svg=document.getElementById('a4FloorMap'),image=document.getElementById('a4FloorMapImage');if(!svg||!image) return;
@@ -607,9 +645,10 @@
     var html=boothShapes.map(function(booth){
       var dim=denahActiveCluster!=='all'&&booth.cluster!==denahActiveCluster;
       var title='Booth '+booth.n+' — '+boothStatus(booth.n);
-      return '<g class="a4-map-booth'+(dim?' is-dim':'')+(String(booth.n)===denahSelectedBooth?' is-selected':'')+'" data-booth="'+booth.n+'" data-cluster="'+booth.cluster+'" role="button" tabindex="0" aria-label="'+escH(title)+'" onmouseenter="a4MapTip(event,'+booth.n+')" onmouseleave="a4HideTip()"><title>'+escH(title)+'</title><rect x="'+booth.x+'" y="'+booth.y+'" width="'+booth.w+'" height="'+booth.h+'" rx="3"></rect><text x="'+(booth.x+booth.w/2)+'" y="'+(booth.y+booth.h/2+4)+'" text-anchor="middle" pointer-events="none">'+booth.n+'</text></g>';
+      var color=clusterMeta[booth.cluster-1].color;
+      return '<g class="a4-map-booth'+(dim?' is-dim':'')+(String(booth.n)===denahSelectedBooth?' is-selected':'')+'" style="--a4-cluster:'+color+'" data-booth="'+booth.n+'" data-cluster="'+booth.cluster+'" role="button" tabindex="0" aria-label="'+escH(title)+'" onmouseenter="a4MapTip(event,'+booth.n+')" onmouseleave="a4HideTip()"><title>'+escH(title)+'</title><rect x="'+booth.x+'" y="'+booth.y+'" width="'+booth.w+'" height="'+booth.h+'" rx="2"'+(booth.angle?' transform="rotate('+booth.angle+' '+booth.cx+' '+booth.cy+')"':'')+'></rect><text x="'+booth.cx+'" y="'+(booth.cy+3)+'" text-anchor="middle" pointer-events="none">'+booth.n+'</text></g>';
     }).join('');
-    html+='<g class="a4-map-stage-hotspot" data-fn="stage" role="button" tabindex="0" aria-label="Main Stage, buka jadwal acara"><title>Main Stage — buka jadwal acara</title><rect x="1490" y="175" width="178" height="185" rx="18"></rect><text x="1579" y="272" text-anchor="middle" pointer-events="none">MAIN STAGE</text></g>';
+    html+='<g class="a4-map-stage-hotspot" data-fn="stage" role="button" tabindex="0" aria-label="Main Stage, buka jadwal acara"><title>Main Stage — buka jadwal acara</title><rect x="1496" y="185" width="95" height="147" rx="32"></rect><text x="1543" y="266" text-anchor="middle" pointer-events="none">MAIN</text><text x="1543" y="281" text-anchor="middle" pointer-events="none">STAGE</text></g>';
     svg.innerHTML=html;renderMobileBoothList();
     var wrap=document.getElementById('a4MapWrap');
     if(wrap&&!wrap._a4denahEvents){

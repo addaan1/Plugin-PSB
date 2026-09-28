@@ -47,6 +47,75 @@ function assie4_default_slides() {
 function assie4_default_ticker() {
     return ['Selamat datang di ASSIE IV 2026','14–16 Mei 2026 · Grand City Convention Hall Surabaya','Booth startup & inovasi','Belanja produk tenant online di tokoua.unair.ac.id','Presensi digital tersedia di setiap booth','PASINBIS Universitas Airlangga'];
 }
+function assie4_default_tenants() {
+    return [
+        ['id'=>'a7','area'=>'A','name'=>'Fakultas Ilmu Budaya','cat'=>'Universitas Airlangga','desc'=>'Booth FIB UNAIR.'],
+        ['id'=>'a8','area'=>'A','name'=>'Fakultas Kesehatan Masyarakat','cat'=>'Universitas Airlangga','desc'=>'Booth FKM UNAIR.'],
+        ['id'=>'a9','area'=>'A','name'=>'Fakultas Kedokteran Gigi','cat'=>'Universitas Airlangga','desc'=>'Booth FKG UNAIR.'],
+        ['id'=>'b13','area'=>'B','name'=>'PT BOM dan LKHT','cat'=>'Hukum'],
+        ['id'=>'b15','area'=>'B','name'=>'Lembaga Penyakit Tropis Universitas Airlangga','cat'=>'Riset'],
+        ['id'=>'b16','area'=>'B','name'=>'KAI','cat'=>'Transportasi'],
+        ['id'=>'b17','area'=>'B','name'=>'Inacqa','cat'=>'Startup'],
+        ['id'=>'b18','area'=>'B','name'=>'Pusat Penelitian Stem Cell dan Pengobatan Regeneratif','cat'=>'Riset'],
+        ['id'=>'b19','area'=>'B','name'=>'JODIN','cat'=>'Startup'],
+        ['id'=>'b2','area'=>'B','name'=>'PT Telkom Indonesia','cat'=>'Teknologi'],
+        ['id'=>'b20','area'=>'B','name'=>'Laboratorium Bionas','cat'=>'Riset'],
+        ['id'=>'b21','area'=>'B','name'=>'ENTATIVE HUB','cat'=>'Startup'],
+        ['id'=>'b22','area'=>'B','name'=>'Pusat Pendidikan, Kedokteran dan Ilmu Alam UNAIR','cat'=>'UNAIR'],
+        ['id'=>'b3','area'=>'B','name'=>'Pusat Pengembangan Dana Bewol','cat'=>'UNAIR'],
+        ['id'=>'b4','area'=>'B','name'=>'Pertamina','cat'=>'Energi'],
+        ['id'=>'b7','area'=>'B','name'=>'Pusat Penerimaan Mahasiswa Baru UNAIR','cat'=>'UNAIR'],
+        ['id'=>'b8','area'=>'B','name'=>'Airlangga Press','cat'=>'UNAIR'],
+        ['id'=>'b9','area'=>'B','name'=>'Pusat Bahasa dan Multibahasa','cat'=>'UNAIR'],
+        ['id'=>'c10','area'=>'C','name'=>'Taman Manyar','cat'=>'Properti'],
+        ['id'=>'c11','area'=>'C','name'=>'Desertionhome Cookie WEBS','cat'=>'Kuliner'],
+        ['id'=>'c12','area'=>'C','name'=>'HIMA CITE B','cat'=>'UNAIR'],
+        ['id'=>'c13','area'=>'C','name'=>'LBB KAYYA PRIVATE','cat'=>'Pendidikan'],
+        ['id'=>'c14','area'=>'C','name'=>'CV Tim Niva','cat'=>'Startup'],
+        ['id'=>'c15','area'=>'C','name'=>'Universal Premium','cat'=>'Startup'],
+        ['id'=>'c16','area'=>'C','name'=>'Bloom & Plae','cat'=>'Lifestyle'],
+        ['id'=>'c17','area'=>'C','name'=>'Latensia Beras','cat'=>'Agribisnis'],
+        ['id'=>'c18','area'=>'C','name'=>'Kaploncy','cat'=>'Startup'],
+        ['id'=>'c2','area'=>'C','name'=>'ACENDANITA ID','cat'=>'Startup'],
+        ['id'=>'c3','area'=>'C','name'=>'Mueller Indonesia','cat'=>'Industri'],
+        ['id'=>'c4','area'=>'C','name'=>'Prenchanty','cat'=>'Startup'],
+        ['id'=>'c5','area'=>'C','name'=>'Sarasa Niche','cat'=>'Startup'],
+        ['id'=>'c6','area'=>'C','name'=>'Ukur Production','cat'=>'Kreatif'],
+        ['id'=>'c7','area'=>'C','name'=>'Rajna Shrine Care','cat'=>'Kesehatan'],
+        ['id'=>'c8','area'=>'C','name'=>'Laboratorium Riset','cat'=>'Riset'],
+        ['id'=>'c9','area'=>'C','name'=>'Kerwana (UNAIR)','cat'=>'UNAIR'],
+        ['id'=>'d1','area'=>'D','name'=>'Bandservkit.id','cat'=>'Musik'],
+        ['id'=>'d10','area'=>'D','name'=>'BANGLA EV CHARGING STATION','cat'=>'EV/GREEN'],
+        ['id'=>'d11','area'=>'D','name'=>'Tjarnedu Batik & Crafts','cat'=>'Kerajinan'],
+        ['id'=>'d12','area'=>'D','name'=>'Lasonti','cat'=>'Startup'],
+        ['id'=>'d13','area'=>'D','name'=>'PT Dinopro Berkah Abadi','cat'=>'Bisnis'],
+        ['id'=>'d14','area'=>'D','name'=>'Cactis Cultic','cat'=>'Tanaman'],
+        ['id'=>'d15','area'=>'D','name'=>'Tasnias','cat'=>'Fashion'],
+        ['id'=>'d16','area'=>'D','name'=>'Linggahulup','cat'=>'Startup'],
+        ['id'=>'d17','area'=>'D','name'=>'Batik Wangkung','cat'=>'Fashion'],
+        ['id'=>'d18','area'=>'D','name'=>'Era Ote','cat'=>'Kuliner'],
+        ['id'=>'d2','area'=>'D','name'=>'Ninesia','cat'=>'Startup'],
+        ['id'=>'d3','area'=>'D','name'=>'SWEETFOOD','cat'=>'Kuliner'],
+        ['id'=>'d4','area'=>'D','name'=>'CV Rumah Miniatur Pagi (Hiadu Creayu)','cat'=>'Kreatif'],
+        ['id'=>'d5','area'=>'D','name'=>'Espresso by Kopi Setanguh Sarasa','cat'=>'Kuliner'],
+        ['id'=>'d6','area'=>'D','name'=>'GOLDEN NECTIR & AFRODISRATEA','cat'=>'Minuman'],
+        ['id'=>'d7','area'=>'D','name'=>'Prohomono Haya Aisetsi','cat'=>'Startup'],
+        ['id'=>'d8','area'=>'D','name'=>'Belfigureen','cat'=>'Startup'],
+        ['id'=>'d9','area'=>'D','name'=>'CV Kreasi Industri Nusantara (Hima Industri)','cat'=>'Industri'],
+        ['id'=>'e1','area'=>'E','name'=>'Politeknik Pelayaran Negeri Surabaya','cat'=>'Pendidikan'],
+        ['id'=>'e10','area'=>'E','name'=>'Universitas Andalas','cat'=>'Pendidikan'],
+        ['id'=>'e11','area'=>'E','name'=>'Bank Syariah Indonesia','cat'=>'Perbankan'],
+        ['id'=>'e12','area'=>'E','name'=>'Bank Rakyat Indonesia (BRI)','cat'=>'Perbankan'],
+        ['id'=>'e13','area'=>'E','name'=>'Bank Mandiri KCP Kampus UNAIR','cat'=>'Perbankan'],
+        ['id'=>'e14','area'=>'E','name'=>'Bank Negara Indonesia (BNI)','cat'=>'Perbankan'],
+        ['id'=>'e15','area'=>'E','name'=>'Satinga Indonesia','cat'=>'Startup'],
+        ['id'=>'e16','area'=>'E','name'=>'Ummat Bioproduk Indonesia','cat'=>'Bioproduk'],
+        ['id'=>'e17','area'=>'E','name'=>'Little Quilter DiyarMulit','cat'=>'Kerajinan'],
+        ['id'=>'e18','area'=>'E','name'=>'Markamahad','cat'=>'Startup'],
+        ['id'=>'e19','area'=>'E','name'=>'Analitia','cat'=>'Startup'],
+        ['id'=>'e2','area'=>'E','name'=>'Universitas Ciputra','cat'=>'Pendidikan'],
+    ];
+}
 function assie4_default_rundown() {
     return [
         'days'   => [['label'=>"Jum'at, 14 Nov"],['label'=>'Sabtu, 15 Nov'],['label'=>'Minggu, 16 Nov']],
@@ -75,13 +144,20 @@ function assie4_default_rundown() {
 /* ═══ HELPERS ═══════════════════════════════════════════ */
 function assie4_get_tenants() {
     $raw = get_option( ASSIE4_OPT_TENANTS, [] );
-    if ( ! is_array($raw) ) return [];
+    if ( ! is_array($raw) ) $raw = [];
+    // Seed the tenant directory only once; a deliberate admin reset stays empty.
+    if ( empty($raw) && get_option( 'assie4_directory_seed_state' ) !== 'v1' ) {
+        $raw = assie4_default_tenants();
+        update_option( ASSIE4_OPT_TENANTS, $raw, false );
+        update_option( 'assie4_directory_seed_state', 'v1', false );
+    }
     return array_values( array_map( 'assie4_normalize_tenant', $raw ) );
 }
 function assie4_save_tenants( $tenants ) {
     $tenants = array_values( array_map( 'assie4_normalize_tenant', $tenants ) );
     usort( $tenants, fn($a,$b) => strcmp($a['id'], $b['id']) );
     update_option( ASSIE4_OPT_TENANTS, $tenants, false );
+    update_option( 'assie4_directory_seed_state', 'v1', false );
     assie4_rebuild_js_data();
     return $tenants;
 }
@@ -721,6 +797,8 @@ function assie4_admin_export() {
             delete_option(ASSIE4_OPT_TENANTS);
             delete_option('assie4_tenants_seeded');
             delete_option('assie4_seed_ver');
+            update_option('assie4_pameran_tenants', [], false);
+            update_option('assie4_directory_seed_state', 'v1', false);
             a4_notice('✅ Semua tenant dihapus. Tambahkan tenant baru dari menu Kelola Tenant.');
         }
         if (isset($_POST['rn'])) {

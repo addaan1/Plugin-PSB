@@ -3,7 +3,7 @@
  * Plugin Name: ASSIE IV - Pameran Digital
  * Plugin URI: https://pasinbis.unair.ac.id
  * Description: Pameran digital ASSIE IV 2026. Shortcode [assie4_pameran] dan [assie4_berita].
- * Version: 2.8.8
+ * Version: 2.8.10
  * Author: PASINBIS Universitas Airlangga
  * Author URI: https://pasinbis.unair.ac.id
  * License: GPL-2.0-or-later
@@ -34,7 +34,7 @@ add_action( 'admin_enqueue_scripts', function( $hook ) {
 /* ══════════════════════════════════════════════════════
    DEFINE CONSTANTS
    ══════════════════════════════════════════════════════ */
-define( 'ASSIE4_PAMERAN_VER',  '2.8.8' );
+define( 'ASSIE4_PAMERAN_VER',  '2.8.10' );
 define( 'ASSIE4_PAMERAN_DIR',  plugin_dir_path( __FILE__ ) );
 define( 'ASSIE4_PAMERAN_URL',  plugin_dir_url( __FILE__ ) );
 define( 'ASSIE4_PAMERAN_SLUG', 'pameran-assie4' );
@@ -109,8 +109,7 @@ function assie4_pameran_enqueue() {
     wp_enqueue_script( 'assie4-pameran-js',
         ASSIE4_PAMERAN_URL . 'assets/assie4-pameran.js', [], $ver, true );
 
-    $tenants = get_option( 'assie4_pameran_tenants', [] );
-    $tenants = is_array($tenants) ? array_map( 'assie4_normalize_tenant', $tenants ) : [];
+    $tenants = assie4_get_tenants();
 
     $db  = wp_json_encode([
         'info'    => get_option( 'assie4_pameran_info',    assie4_default_info() ),
