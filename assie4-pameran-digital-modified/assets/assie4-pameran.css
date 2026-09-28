@@ -718,12 +718,14 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
 
 /* Nav button khusus TokoUA */
 .a4-nb-tokoua {
+  display:inline-flex !important; align-items:center; justify-content:center;
   background: linear-gradient(135deg, #d4a843, #b8861e) !important;
   color: #03050e !important;
   font-weight: 700 !important;
   border-radius: 20px !important;
   padding: 5px 14px !important;
   border: none !important;
+  text-decoration:none !important;
   transition: transform .2s, box-shadow .2s !important;
 }
 .a4-nb-tokoua:hover {
@@ -925,5 +927,47 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
   .a4-tenant-grid { grid-template-columns:1fr; gap:10px }
   .a4-tc { min-height:112px; grid-template-columns:58px minmax(0,1fr) 18px }
   .a4-tc-mark { width:58px; height:58px }
+  .a4-tc-name { font-size:15px }
+}
+
+/* Tenant directory — an editorial roster, not a wall of identical cards. */
+.a4-tenant-section { margin-top:clamp(48px,7vw,92px) !important; padding-top:clamp(28px,4vw,48px); border-top:1px solid rgba(232,239,255,.18) }
+.a4-tenant-section-head { margin-bottom:30px; gap:24px }
+.a4-tenant-section-title { max-width:780px; font-size:clamp(32px,4.4vw,58px); letter-spacing:-.055em }
+.a4-tenant-section-sub { max-width:480px; font-size:15px; line-height:1.7 }
+.a4-tenant-shop { display:inline-flex; align-items:center; gap:10px; padding:12px 0; white-space:nowrap; border-bottom-color:rgba(212,168,67,.65) }
+.a4-tenant-tools { padding:16px 0 12px; border-top:1px solid rgba(232,239,255,.1); border-bottom:1px solid rgba(232,239,255,.1); margin-bottom:0 }
+.a4-tenant-tools .a4-area-filters { display:flex; gap:20px; flex-wrap:wrap }
+.a4-tenant-tools .a4-af { margin:0; padding:10px 0; font-size:13px }
+.a4-tenant-search { flex-basis:240px; border:1px solid rgba(232,239,255,.18); border-radius:4px; padding:0 12px }
+.a4-tenant-search input { min-height:42px }
+.a4-tenant-count { text-align:left; margin:0; padding:15px 0 8px; font-size:12px; letter-spacing:.04em }
+.a4-tenant-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 38px; border-top:1px solid rgba(232,239,255,.13) }
+.a4-tc {
+  min-height:116px; padding:18px 12px 18px 14px; gap:16px; align-items:center;
+  grid-template-columns:58px minmax(0,1fr) 20px; border:0; border-bottom:1px solid rgba(232,239,255,.13);
+  border-left:3px solid var(--a4-area-color); border-radius:0; background:transparent; box-shadow:none;
+}
+.a4-tc:hover,.a4-tc:focus-visible { transform:none; background:linear-gradient(90deg,color-mix(in srgb,var(--a4-area-color) 11%,transparent),transparent 72%); border-color:rgba(232,239,255,.2); border-left-color:var(--a4-area-color); box-shadow:none }
+.a4-tc-mark { width:58px; height:58px; padding:5px; border:1px solid rgba(255,255,255,.16); border-radius:4px; background:#f8f9fc }
+.a4-tc-mark.is-fallback { background:color-mix(in srgb,var(--a4-area-color) 22%,#0b1324); border-color:color-mix(in srgb,var(--a4-area-color) 70%,transparent); color:var(--a4-area-color) }
+.a4-tc-overline { margin-bottom:6px; font-size:9px; letter-spacing:1.1px }
+.a4-tc-area-dot { width:8px; height:8px; box-shadow:0 0 0 3px color-mix(in srgb,var(--a4-area-color) 19%,transparent) }
+.a4-tc-name { font-size:clamp(15px,1.15vw,18px); line-height:1.35; margin-bottom:5px }
+.a4-tc-cat { font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#98abc4 }
+.a4-tc-arrow { font-size:19px; color:var(--a4-area-color) }
+.a4-tenant-more { margin-top:28px; border-radius:3px; text-transform:uppercase; letter-spacing:.08em; font-size:11px }
+@media (max-width:768px) {
+  .a4-tenant-section { margin-top:52px !important }
+  .a4-tenant-tools .a4-area-filters { gap:14px }
+  .a4-tenant-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 20px }
+  .a4-tc { min-height:102px; padding:14px 8px 14px 10px; grid-template-columns:48px minmax(0,1fr) 14px; gap:12px }
+  .a4-tc-mark { width:48px; height:48px }
+  .a4-tc-name { font-size:14px }
+}
+@media (max-width:560px) {
+  .a4-tenant-grid { grid-template-columns:1fr; gap:0 }
+  .a4-tc { min-height:92px; grid-template-columns:52px minmax(0,1fr) 18px; padding:12px 10px }
+  .a4-tc-mark { width:52px; height:52px }
   .a4-tc-name { font-size:15px }
 }

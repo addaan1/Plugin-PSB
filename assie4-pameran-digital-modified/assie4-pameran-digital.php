@@ -3,7 +3,7 @@
  * Plugin Name: ASSIE IV - Pameran Digital
  * Plugin URI: https://pasinbis.unair.ac.id
  * Description: Pameran digital ASSIE IV 2026. Shortcode [assie4_pameran] dan [assie4_berita].
- * Version: 2.8.14
+ * Version: 2.8.15
  * Author: PASINBIS Universitas Airlangga
  * Author URI: https://pasinbis.unair.ac.id
  * License: GPL-2.0-or-later
@@ -34,7 +34,7 @@ add_action( 'admin_enqueue_scripts', function( $hook ) {
 /* ══════════════════════════════════════════════════════
    DEFINE CONSTANTS
    ══════════════════════════════════════════════════════ */
-define( 'ASSIE4_PAMERAN_VER',  '2.8.14' );
+define( 'ASSIE4_PAMERAN_VER',  '2.8.15' );
 define( 'ASSIE4_PAMERAN_DIR',  plugin_dir_path( __FILE__ ) );
 define( 'ASSIE4_PAMERAN_URL',  plugin_dir_url( __FILE__ ) );
 define( 'ASSIE4_PAMERAN_SLUG', 'pameran-assie4' );
@@ -84,6 +84,18 @@ function assie4_sc_pameran() {
     include ASSIE4_PAMERAN_DIR . 'templates/assie4-pameran-template.php';
     return ob_get_clean();
 }
+
+// Use the ASSIE wordmark artwork from the event deck as the browser tab icon.
+add_action( 'wp', function() {
+    global $post;
+    if ( ! is_a( $post, 'WP_Post' ) || ! has_shortcode( $post->post_content, 'assie4_pameran' ) ) return;
+    remove_action( 'wp_head', 'wp_site_icon', 99 );
+    add_action( 'wp_head', function() {
+        $icon = ASSIE4_PAMERAN_URL . 'assets/assie-iv-wordmark.png?ver=' . ASSIE4_PAMERAN_VER;
+        echo '<link rel="icon" href="' . esc_url( $icon ) . '" type="image/png">' . "\n";
+        echo '<link rel="apple-touch-icon" href="' . esc_url( $icon ) . '">' . "\n";
+    }, 2 );
+});
 
 /* ══════════════════════════════════════════════════════
    ENQUEUE halaman pameran

@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     <button class="a4-nb" onclick="a4GoTo('denah')">Denah</button>
     <button class="a4-nb" onclick="a4GoTo('berita')">Berita</button>
     <button class="a4-nb" onclick="a4GoTo('presensi')">Presensi</button>
-    <button class="a4-nb a4-nb-tokoua" onclick="a4OpenTokoUA()">🛒 TokoUA</button>
+    <a class="a4-nb a4-nb-tokoua" href="https://tokoua.unair.ac.id/" target="_blank" rel="noopener noreferrer">&#128722; TokoUA</a>
   </div>
   <div class="a4-live-pill"><span class="a4-pulse"></span><span id="a4Clock">Live</span></div>
 </nav>
