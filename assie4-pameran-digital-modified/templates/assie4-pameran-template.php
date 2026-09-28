@@ -99,7 +99,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     </div>
 
     <!-- DAFTAR TENANT / BOOTH — dipindah dari section Tenant -->
-    <div class="a4-tenant-section" id="tenant-directory" style="margin-top:40px">
+    <div class="a4-tenant-section" id="tenant-directory" style="margin-top:24px">
       <div class="a4-tenant-section-head">
         <div>
           <span class="a4-tenant-eyebrow">Peserta pameran</span>
@@ -114,6 +114,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
       </div>
       <div class="a4-tenant-count" id="a4TenantCount" aria-live="polite"></div>
       <div class="a4-tenant-grid" id="a4TenantGrid"></div>
+      <button type="button" class="a4-tenant-more" id="a4TenantMore" onclick="a4ToggleTenants()" hidden></button>
     </div>
   </div>
 </section>

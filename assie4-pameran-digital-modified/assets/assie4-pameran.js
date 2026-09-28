@@ -191,9 +191,24 @@
     var areas=[{key:'all',lbl:'Semua',cls:'a4-af-all'},{key:'A',lbl:'Area A – UNAIR',cls:'a4-af-a'},{key:'B',lbl:'Area B – Mitra',cls:'a4-af-b'},{key:'C',lbl:'Area C – Eksternal',cls:'a4-af-c'},{key:'D',lbl:'Area D – Startup',cls:'a4-af-d'},{key:'E',lbl:'Area E – Institusi',cls:'a4-af-e'}];
     el.innerHTML=areas.map(function(a){return '<button class="a4-af '+a.cls+(activeArea===a.key?' on':'')+'" onclick="a4FilterArea(\''+a.key+'\')">'+a.lbl+'</button>';}).join('');
   }
-  window.a4FilterArea=function(area){activeArea=area;renderAreaFilters();renderTenants();};
+  window.a4FilterArea=function(area){activeArea=area;tenantListExpanded=false;renderAreaFilters();renderTenants();};
 
   var tenantAreaColors={A:'#3185ff',B:'#13ce78',C:'#ffad1f',D:'#bd67ff',E:'#13c9e8'};
+  var tenantListExpanded=false;
+  function tenantIconSvg(t){
+    var details=((t.cat||'')+' '+(t.name||'')).toLowerCase(),paths;
+    if(/bank|perbankan|keuangan/.test(details)) paths='<path d="M3 9h18L12 4 3 9Zm2 2v7m4-7v7m6-7v7m4-7v7M3 20h18"/>';
+    else if(/riset|lab|stem cell|bionas|science/.test(details)) paths='<path d="M9 3h6m-5 0v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3m-6 11h8"/>';
+    else if(/kuliner|cookie|kopi|minuman|beras|food/.test(details)) paths='<path d="M5 8h14l-1 12H6L5 8Zm3 0V5a4 4 0 0 1 8 0v3m-9 4h10m-5-9v2"/>';
+    else if(/kesehatan|kedokteran|medis|health|penyakit/.test(details)) paths='<path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/>';
+    else if(/fashion|batik|craft|kerajinan|quilter|tanaman/.test(details)) paths='<path d="M7 4c2 0 3 2 5 2s3-2 5-2m-10 0 10 16M17 4 7 20m-4-8h18"/>';
+    else if(/energi|ev\/|teknologi|telkom|transportasi|kai|produksi|industri/.test(details)) paths='<path d="M13 2 5 13h6l-1 9 9-12h-6l1-8Z"/>';
+    else if(/pendidikan|universitas|unair|fakultas|press|bahasa/.test(details)) paths='<path d="M3 9 12 4l9 5M5 10v9m4-9v9m6-9v9m4-9v9M3 20h18"/>';
+    else if(/musik|band/.test(details)) paths='<path d="M9 18V5l12-2v13M9 10l12-2"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>';
+    else if(/properti/.test(details)) paths='<path d="m3 11 9-8 9 8v9H3v-9Zm6 9v-6h6v6m-9-9h.01M18 11h.01"/>';
+    else paths='<path d="m12 3 2.4 5.2 5.6.7-4.1 3.8 1.1 5.5-5-2.8-5 2.8 1.1-5.5L4 8.9l5.6-.7L12 3Z"/>';
+    return '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'+paths+'</svg>';
+  }
   function renderTenants(){
     var grid=document.getElementById('a4TenantGrid'); if(!grid) return;
     var list=DATA.tenants.filter(function(t){
@@ -203,17 +218,18 @@
     });
     var count=document.getElementById('a4TenantCount');
     if(count) count.textContent=list.length+' tenant'+(list.length===1?'':' terdaftar');
-    grid.innerHTML=list.map(function(t){
-      var initial=(t.name||'?').trim().charAt(0).toUpperCase();
+    var visibleList=tenantListExpanded?list:list.slice(0,12);
+    grid.innerHTML=visibleList.map(function(t){
       var areaColor=tenantAreaColors[t.area]||'#d4a843';
       return '<button type="button" class="a4-tc" style="--a4-area-color:'+areaColor+'" data-tenant-id="'+escH(t.id)+'" aria-label="Lihat detail '+escH(t.name)+'">'+
-        '<span class="a4-tc-mark">'+(t.logo?'<img src="'+escH(t.logo)+'" alt="" loading="lazy">':escH(initial))+'</span>'+
+        '<span class="a4-tc-mark'+(t.logo?'':' is-fallback')+'">'+(t.logo?'<img src="'+escH(t.logo)+'" alt="Logo '+escH(t.name)+'" loading="lazy" onerror="this.parentNode.classList.add(&quot;is-fallback&quot;)">':'')+'<span class="a4-tc-fallback" aria-hidden="true">'+tenantIconSvg(t)+'</span></span>'+
         '<span class="a4-tc-copy"><span class="a4-tc-overline"><span class="a4-tc-area-dot a4-tc-area-'+escH(t.area)+'"></span>AREA '+escH(t.area)+' <span class="a4-tc-sep">/</span> BOOTH '+escH(String(t.id).toUpperCase())+'</span>'+
         '<span class="a4-tc-name">'+escH(t.name)+'</span>'+
         '<span class="a4-tc-cat">'+escH(t.cat||'Peserta pameran')+'</span>'+
-        (t.desc?'<span class="a4-tc-desc">'+escH(t.desc)+'</span>':'')+
         '</span><span class="a4-tc-arrow" aria-hidden="true">&#8599;</span></button>';
     }).join('')||'<p class="a4-tenant-empty">'+(DATA.tenants.length?'Tidak ada tenant yang cocok. Coba area atau kata kunci lain.':'Daftar tenant belum tersedia.')+'</p>';
+    var more=document.getElementById('a4TenantMore');
+    if(more){more.hidden=list.length<=12;more.textContent=tenantListExpanded?'Tampilkan lebih sedikit':'Lihat semua '+list.length+' tenant';more.setAttribute('aria-expanded',tenantListExpanded?'true':'false');}
     if(!grid._a4TenantEvents){
       grid._a4TenantEvents=true;
       grid.addEventListener('click',function(e){var item=e.target.closest('.a4-tc[data-tenant-id]');if(item) window.a4OpenModal(item.getAttribute('data-tenant-id'));});
@@ -223,7 +239,9 @@
     if(stEl2) stEl2.textContent=DATA.tenants.length;
   }
   var tenantSearch='';
-  window.a4SearchTenants=function(value){tenantSearch=String(value||'').trim().toLowerCase();renderTenants();};
+  window.a4SearchTenants=function(value){tenantSearch=String(value||'').trim().toLowerCase();tenantListExpanded=false;renderTenants();};
+  window.a4ToggleTenants=function(){tenantListExpanded=!tenantListExpanded;renderTenants();};
+  window.a4ShowAllTenants=function(){tenantListExpanded=true;renderTenants();var section=document.getElementById('tenant-directory');if(section)section.scrollIntoView({behavior:'smooth',block:'start'});};
 
   /* ══════════════════════════════════════════════════════
      DENAH SVG — area-grouped, sinkron dari tenant DB + PASINBIS
@@ -588,7 +606,7 @@
     if(!head||!body) return;
     var hasTenantData=DATA.tenants.length>0;
     head.innerHTML='<button class="a4-m-close" onclick="a4CloseModal()">&#x2715;</button><div class="a4-m-num" style="color:#d4a843">BOOTH '+escH(no)+'</div><div class="a4-m-name">'+(hasTenantData?'Belum terhubung ke kode tenant':'Tenant belum diumumkan')+'</div><div class="a4-m-area">ASSIE IV 2026</div>';
-    body.innerHTML=hasTenantData?'<div class="a4-m-desc">Daftar tenant saat ini memakai kode area seperti a7, sedangkan hotspot denah memakai nomor 1–106. Data tenant sudah tersedia, tetapi perlu tabel pemetaan resmi agar nama tampil di titik yang tepat.</div><a class="a4-m-shop" href="#tenant-directory" onclick="a4CloseModal()">Buka Daftar Booth &amp; Tenant</a>':'<div class="a4-m-desc">Informasi tenant untuk Booth '+escH(no)+' akan diumumkan oleh panitia. Silakan cek kembali nanti.</div>';
+    body.innerHTML=hasTenantData?'<div class="a4-m-desc">Daftar tenant saat ini memakai kode area seperti a7, sedangkan hotspot denah memakai nomor 1–106. Data tenant sudah tersedia, tetapi perlu tabel pemetaan resmi agar nama tampil di titik yang tepat.</div><button type="button" class="a4-m-shop" onclick="a4CloseModal();a4ShowAllTenants()">Buka Daftar Booth &amp; Tenant</button>':'<div class="a4-m-desc">Informasi tenant untuk Booth '+escH(no)+' akan diumumkan oleh panitia. Silakan cek kembali nanti.</div>';
     var modal=document.getElementById('a4Modal');if(modal){modal.classList.add('on');document.body.style.overflow='hidden';}
   };
   function renderDenahFilters(){
