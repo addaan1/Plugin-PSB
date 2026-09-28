@@ -34,7 +34,7 @@ add_action( 'admin_enqueue_scripts', function( $hook ) {
 /* ══════════════════════════════════════════════════════
    DEFINE CONSTANTS
    ══════════════════════════════════════════════════════ */
-define( 'ASSIE4_PAMERAN_VER',  '2.9.3' );
+define( 'ASSIE4_PAMERAN_VER',  '2.9.4' );
 define( 'ASSIE4_PAMERAN_DIR',  plugin_dir_path( __FILE__ ) );
 define( 'ASSIE4_PAMERAN_URL',  plugin_dir_url( __FILE__ ) );
 define( 'ASSIE4_PAMERAN_SLUG', 'pameran-assie4' );
@@ -150,7 +150,7 @@ function assie4_pameran_enqueue() {
             'desc'     => '',
             'cta'      => '',
             'link'     => '#denah',
-            'bg'       => 'linear-gradient(135deg,#03050e 0%,#0c1a40 100%)',
+            'bg'       => ASSIE4_PAMERAN_URL . 'assets/kegiatan-assie-5.jpg',
             'logo'     => ASSIE4_PAMERAN_URL . 'assets/logo-assie4.png',
             'is_logo'  => true,
         ],

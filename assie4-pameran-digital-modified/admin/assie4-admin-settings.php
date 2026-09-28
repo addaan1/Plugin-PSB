@@ -77,7 +77,7 @@ function assie4_default_slides() {
             'desc'     => '',
             'cta'      => '',
             'link'     => '#denah',
-            'bg'       => 'linear-gradient(135deg,#03050e 0%,#0c1a40 100%)',
+            'bg'       => ASSIE4_PAMERAN_URL . 'assets/kegiatan-assie-5.jpg',
             'logo'     => ASSIE4_PAMERAN_URL . 'assets/logo-assie4.png',
             'is_logo'  => true,
         ],
