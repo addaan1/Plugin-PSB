@@ -158,7 +158,12 @@
   function renderRundown(){
     var tabs=document.getElementById('a4DayTabs'); if(!tabs) return;
     tabs.innerHTML=DATA.rundown.days.map(function(d,i){
-      return '<button type="button" class="a4-dt'+(i===activeDay?' on':'')+'" aria-pressed="'+(i===activeDay?'true':'false')+'" onclick="a4SwitchDay('+i+')">'+escH(d.label)+'</button>';
+      var label=String(d.label||'Hari '+(i+1));
+      var dateParts=label.match(/^([^,]+),\s*(\d{1,2})\s+(.+?)\s+(\d{4})$/);
+      var dayText=dateParts?dateParts[1]:label;
+      var dateText=dateParts?dateParts[2]+' '+dateParts[3]:'';
+      return '<button type="button" class="a4-dt'+(i===activeDay?' on':'')+'" aria-label="'+escH(label)+'" aria-pressed="'+(i===activeDay?'true':'false')+'" onclick="a4SwitchDay('+i+')">'+
+        '<span class="a4-dt-order" aria-hidden="true">'+String(i+1).padStart(2,'0')+'</span><span class="a4-dt-copy"><strong>'+escH(dayText)+'</strong>'+(dateText?'<small>'+escH(dateText)+'</small>':'')+'</span></button>';
     }).join('');
     var dayIntro=document.getElementById('a4RundownDayIntro');
     if(dayIntro){
@@ -181,15 +186,14 @@
     if(dateMatch&&Object.prototype.hasOwnProperty.call(monthIndex,dateMatch[2].toLowerCase())){
       dateIsToday=now.getFullYear()===parseInt(dateMatch[3],10)&&now.getMonth()===monthIndex[dateMatch[2].toLowerCase()]&&now.getDate()===parseInt(dateMatch[1],10);
     }
-    tl.innerHTML=evs.map(function(e,index){
+    tl.innerHTML=evs.map(function(e){
       var tm=typeMap[e.type]||typeMap.break;
       function toMinutes(value){var parts=String(value||'0').split(/[.:]/);return parseInt(parts[0],10)*60+parseInt(parts[1]||0,10);}
       var isnow=dateIsToday&&nowMin>=toMinutes(e.time)&&nowMin<toMinutes(e.end||'23.59');
       return '<article class="a4-tli'+(isnow?' now':'')+'">'+
-        '<div class="a4-tl-time"><span>'+escH(e.time)+'</span><span class="a4-tl-time-separator">'+(e.end?'sampai':'')+'</span>'+(e.end?'<span>'+escH(e.end)+'</span>':'')+'</div>'+
-        '<div class="a4-tl-content"><span class="a4-tl-category">'+escH(tm.lbl)+'</span><h3 class="a4-tl-name">'+escH(e.name)+'</h3>'+
-        (e.loc&&e.loc!=='—'?'<div class="a4-tl-meta">'+escH(e.loc)+'</div>':'')+'</div>'+
-        '<span class="a4-tl-index" aria-hidden="true">'+String(index+1).padStart(2,'0')+'</span></article>';
+        '<div class="a4-tl-time"><span>'+escH(e.time)+'</span>'+(e.end?'<span class="a4-tl-time-separator">—</span><span>'+escH(e.end)+'</span>':'')+'</div>'+
+        '<div class="a4-tl-content"><div class="a4-tl-main"><span class="a4-tl-category">'+escH(tm.lbl)+(isnow?' · Sedang berlangsung':'')+'</span><h3 class="a4-tl-name">'+escH(e.name)+'</h3></div>'+
+        (e.loc&&e.loc!=='—'?'<div class="a4-tl-meta">'+escH(e.loc)+'</div>':'')+'</div></article>';
     }).join('')||'<p class="a4-timeline-empty">Jadwal untuk tanggal ini belum diumumkan.</p>';
   }
 
