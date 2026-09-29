@@ -3,7 +3,7 @@
  * Plugin Name: ASSIE IV - Pameran Digital
  * Plugin URI: https://pasinbis.unair.ac.id
  * Description: Pameran digital ASSIE IV 2026. Shortcode [assie4_pameran] dan [assie4_berita].
- * Version: 2.12.8
+ * Version: 2.13.0
  * Author: PASINBIS Universitas Airlangga
  * Author URI: https://pasinbis.unair.ac.id
  * License: GPL-2.0-or-later
@@ -34,7 +34,7 @@ add_action( 'admin_enqueue_scripts', function( $hook ) {
 /* ══════════════════════════════════════════════════════
    DEFINE CONSTANTS
    ══════════════════════════════════════════════════════ */
-define( 'ASSIE4_PAMERAN_VER',  '2.12.8' );
+define( 'ASSIE4_PAMERAN_VER',  '2.13.0' );
 define( 'ASSIE4_PAMERAN_DIR',  plugin_dir_path( __FILE__ ) );
 define( 'ASSIE4_PAMERAN_URL',  plugin_dir_url( __FILE__ ) );
 define( 'ASSIE4_PAMERAN_SLUG', 'pameran-assie4' );
@@ -118,6 +118,8 @@ function assie4_pameran_enqueue() {
         [], null );
     wp_enqueue_style(  'assie4-pameran-css',
         ASSIE4_PAMERAN_URL . 'assets/assie4-pameran.css', ['assie4-fonts'], $ver );
+    wp_enqueue_style( 'assie4-editorial-css',
+        ASSIE4_PAMERAN_URL . 'assets/assie4-editorial.css', ['assie4-pameran-css'], $ver );
     wp_enqueue_script( 'assie4-pameran-js',
         ASSIE4_PAMERAN_URL . 'assets/assie4-pameran.js', [], $ver, true );
 
