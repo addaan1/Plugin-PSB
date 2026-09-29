@@ -2264,7 +2264,7 @@
   }
   window.a4FilterArea=function(area){activeArea=area;tenantListExpanded=false;renderAreaFilters();renderTenants();};
 
-  var tenantAreaColors={A:'#3185ff',B:'#13ce78',C:'#ffad1f',D:'#bd67ff',E:'#13c9e8',F:'#10b981',G:'#f97316',H:'#ec4899'};
+  var tenantAreaColors={A:'#3888ff',B:'#11bf8c',C:'#f7bf3b',D:'#a878ff',E:'#23c1e6',F:'#f47962',G:'#9fc943',H:'#ec6cb5'};
   var tenantListExpanded=false;
   function tenantIconSvg(t){
     var details=((t.cat||'')+' '+(t.name||'')).toLowerCase(),paths;
@@ -2309,7 +2309,7 @@
     }
     var stEl=document.getElementById('a4stTenant'),stEl2=document.getElementById('a4stTotal');
     if(stEl) stEl.textContent=DATA.tenants.length;
-    if(stEl2) stEl2.textContent=DATA.tenants.length;
+    if(stEl2) stEl2.textContent=Object.keys(boothNumToCode).length;
   }
   var tenantSearch='';
   window.a4SearchTenants=function(value){tenantSearch=String(value||'').trim().toLowerCase();tenantListExpanded=false;renderTenants();};
@@ -2565,14 +2565,21 @@
     ttEl.style.left=(e.clientX+14)+'px'; ttEl.style.top=(e.clientY-10)+'px'; ttEl.style.opacity='1';
   };
   window.a4HideTip=function(){if(ttEl) ttEl.style.opacity='0';};
+  window.a4MapTip=function(e,no){
+    if(!ttEl) return;
+    var code=boothNumToCode[no]||'',tenant=boothTenant(no);
+    ttEl.innerHTML='<div class="a4-tt-code">Area '+escH(code.charAt(0))+' / '+escH(code)+'</div>'+
+      '<div class="a4-tt-name">'+escH(tenant&&tenant.name?tenant.name:'Tenant belum diumumkan')+'</div>'+
+      '<div class="a4-tt-cat">Booth '+escH(no)+'</div>';
+    ttEl.style.left=Math.max(12,Math.min(e.clientX+16,window.innerWidth-ttEl.offsetWidth-12))+'px';
+    ttEl.style.top=Math.max(12,Math.min(e.clientY+16,window.innerHeight-ttEl.offsetHeight-12))+'px';
+    ttEl.style.opacity='1';
+  };
 
   /* ══════════════════════════════════════════════════════
      MODAL DETAIL BOOTH
      ═══════════════════════════════════════════════════════ */
-  var areaClrFull={
-    A:'#3b82f6',B:'#22c55e',C:'#f59e0b',D:'#a855f7',
-    E:'#06b6d4',F:'#10b981',G:'#f97316',H:'#ec4899'
-  };
+  var areaClrFull=tenantAreaColors;
   var presUrl=(window.ASSIE4_CFG&&ASSIE4_CFG.presensiUrl)||'/presensi-booth-assie4/';
 
   var boothNumToCode = {
@@ -2665,78 +2672,70 @@
     var head=document.getElementById('a4ModalHead'),body=document.getElementById('a4ModalBody');
     if(!head||!body) return;
 
-    var boothNumLabel = t.booth_no ? 'BOOTH ' + t.booth_no : 'BOOTH ' + t.code;
-    var codeSubLabel = t.code ? '(' + t.code + ')' : '';
-
-    head.innerHTML='<button class="a4-m-close" onclick="a4CloseModal()">&#x2715;</button>'+
-      '<div class="a4-m-head-top">'+
-        (t.logo?'<img src="'+escH(t.logo)+'" class="a4-m-logo-img" alt="'+escH(t.name)+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\';"><div class="a4-m-logo-ph" style="display:none">&#127970;</div>':'<div class="a4-m-logo-ph">&#127970;</div>')+
-        '<div style="min-width:0;flex:1">'+
-          '<div class="a4-m-num" style="color:'+c+'">'+escH(boothNumLabel)+' <span style="font-size:20px;font-weight:700;color:var(--a4-muted2);margin-left:4px">'+escH(codeSubLabel)+'</span></div>'+
-          '<div class="a4-m-name" style="font-size:20px;font-weight:800;color:var(--a4-text);line-height:1.25;margin-top:2px">'+escH(t.name)+'</div>'+
-          (t.instansi && t.instansi !== t.name ? '<div class="a4-m-instansi" style="font-size:13px;color:#93c5fd;font-weight:600;margin-top:4px">&#127970; '+escH(t.instansi)+'</div>':'')+
-          '<div class="a4-m-area" style="margin-top:8px">'+
-            '<span class="a4-m-area-badge" style="background:'+c+'22;color:'+c+';border:1px solid '+c+'44">Area '+escH(t.area)+(t.cluster?' · Klaster '+escH(t.cluster):'')+'</span>'+
-            (t.cat?' <span class="a4-m-cat" style="background:rgba(255,255,255,.07);padding:2px 8px;border-radius:6px">'+escH(t.cat)+'</span>':'')+
-            (t.transaksi && t.transaksi.toLowerCase()==='ya' ? ' <span style="background:rgba(34,197,94,.15);color:#4ade80;font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px;margin-left:4px">&#128722; Transaksi Booth</span>' : '')+
-          '</div>'+
+    var shortName=t.name.length>72&&t.name.indexOf(' (')>0?t.name.split(' (')[0]:t.name;
+    head.innerHTML='<button type="button" class="a4-m-close" aria-label="Tutup detail booth" onclick="a4CloseModal()">&#x2715;</button>'+
+      '<div class="a4-m-head-top" style="--a4-area-color:'+c+'">'+
+        '<div class="a4-m-logo-well">'+
+          (t.logo?'<img src="'+escH(t.logo)+'" class="a4-m-logo-img" alt="Logo '+escH(t.name)+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'grid\';"><span class="a4-m-logo-ph" style="display:none">'+tenantIconSvg(t)+'</span>':'<span class="a4-m-logo-ph">'+tenantIconSvg(t)+'</span>')+
+        '</div><div class="a4-m-head-copy">'+
+          '<div class="a4-m-kicker">Area '+escH(t.area)+' <span>/</span> Booth '+escH(t.booth_no||t.code)+' <span>·</span> '+escH(t.code)+'</div>'+
+          '<h2 class="a4-m-name" id="a4ModalTitle">'+escH(shortName)+'</h2>'+
+          (shortName!==t.name?'<p class="a4-m-official">'+escH(t.name)+'</p>':'')+
+          (t.instansi&&t.instansi!==t.name?'<p class="a4-m-instansi">'+escH(t.instansi)+'</p>':'')+
         '</div></div>';
 
-    var identitas='<div class="a4-m-section-label">&#128203; Identitas Tenant &amp; Perusahaan</div>'+
-      '<div class="a4-m-grid">'+
-        '<div class="a4-mg-item"><div class="a4-mg-label">1. Nomor &amp; Kode Booth</div><div class="a4-mg-val" style="color:'+c+'">'+(t.booth_no ? 'Booth '+escH(t.booth_no)+' ('+escH(t.code)+')' : escH(t.code))+'</div></div>'+
-        '<div class="a4-mg-item"><div class="a4-mg-label">2. Area &amp; Klaster</div><div class="a4-mg-val">Area '+escH(t.area)+(t.cluster?' · Klaster '+escH(t.cluster):'')+'</div></div>'+
-        '<div class="a4-mg-item" style="grid-column:1/-1"><div class="a4-mg-label">3. Nama Tenant / Brand</div><div class="a4-mg-val" style="font-size:16px">'+escH(t.name)+'</div></div>'+
-        (t.instansi ? '<div class="a4-mg-item" style="grid-column:1/-1"><div class="a4-mg-label">4. Identitas Perusahaan / PT / CV / Instansi</div><div class="a4-mg-val" style="font-size:14px;color:#93c5fd">'+escH(t.instansi)+'</div></div>' : '')+
-        '<div class="a4-mg-item"><div class="a4-mg-label">5. Kategori</div><div class="a4-mg-val">'+(t.cat?escH(t.cat):'—')+'</div></div>'+
-        '<div class="a4-mg-item"><div class="a4-mg-label">6. PIC Booth</div><div class="a4-mg-val">'+(t.pic?escH(t.pic):'—')+'</div></div>'+
-      '</div>';
+    var details=(t.cat||t.pic||String(t.transaksi).toLowerCase()==='ya')?
+      '<dl class="a4-m-facts">'+
+        (t.cat?'<div><dt>Kategori</dt><dd>'+escH(t.cat)+'</dd></div>':'')+
+        (t.pic?'<div><dt>PIC booth</dt><dd>'+escH(t.pic)+'</dd></div>':'')+
+        (String(t.transaksi).toLowerCase()==='ya'?'<div><dt>Transaksi</dt><dd>Tersedia di booth</dd></div>':'')+
+      '</dl>':'';
 
-    var descBlock = t.desc ? '<div class="a4-m-section-label">&#128221; Deskripsi Produk &amp; Profil</div><div class="a4-m-desc" style="white-space:pre-line;line-height:1.7;font-size:13px;color:var(--a4-muted2);margin-bottom:16px">'+escH(t.desc)+'</div>' : '';
-
-    var tagsRow=t.tags.length?'<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">'+t.tags.map(function(g){return '<span class="a4-m-tag">'+escH(g)+'</span>';}).join('')+'</div>':'';
+    var descBlock=t.desc?'<section class="a4-m-profile"><h3 class="a4-m-section-label">Tentang tenant</h3><p class="a4-m-desc">'+escH(t.desc)+'</p></section>':'';
 
     var igUrl='',twUrl='',waUrl='';
     if(t.instagram){
-      igUrl=t.instagram.indexOf('http')===0?t.instagram:'https://instagram.com/'+t.instagram.replace(/^@/,'').trim();
+      var ig=String(t.instagram).trim();
+      if(/^https?:\/\//i.test(ig)) igUrl=ig;
+      else if(/^(?:www\.)?instagram\.com\//i.test(ig)) igUrl='https://'+ig.replace(/^www\./i,'');
+      else if(/^@?[\w.]+$/.test(ig)) igUrl='https://instagram.com/'+ig.replace(/^@/,'');
     }
     if(t.twitter){
-      twUrl=t.twitter.indexOf('http')===0?t.twitter:'https://x.com/'+t.twitter.replace(/^@/,'').trim();
+      var tw=String(t.twitter).trim();
+      if(/^https?:\/\//i.test(tw)) twUrl=tw;
+      else if(/^(?:www\.)?(?:x|twitter)\.com\//i.test(tw)) twUrl='https://'+tw.replace(/^www\./i,'');
+      else if(/^@?[\w_]+$/.test(tw)) twUrl='https://x.com/'+tw.replace(/^@/,'');
     }
     if(t.whatsapp){
-      var cleanWa = String(t.whatsapp).replace(/[^0-9]/g, '');
-      if(cleanWa.indexOf('0')===0) cleanWa = '62' + cleanWa.substring(1);
-      if(cleanWa) waUrl = 'https://wa.me/' + cleanWa + '?text=' + encodeURIComponent('Halo ' + t.name + ' (Booth ' + (t.booth_no||t.code) + ' ASSIE IV 2026)');
+      var rawWa=String(t.whatsapp).trim();
+      if(/^\+?\d[\d\s.-]{8,17}$/.test(rawWa)){
+        var cleanWa=rawWa.replace(/[^0-9]/g,'');
+        if(cleanWa.charAt(0)==='0') cleanWa='62'+cleanWa.substring(1);
+        if(cleanWa.length>=10&&cleanWa.length<=15) waUrl='https://wa.me/'+cleanWa;
+      }
     }
 
     var hasKontak=t.contact||t.whatsapp||t.web||t.instagram||t.facebook||t.twitter;
     var kHtml='';
     if(hasKontak){
-      kHtml='<div class="a4-m-section-label">&#128241; Kontak &amp; Media Sosial</div><div class="a4-m-kontak-list">';
-      if(t.contact) kHtml+='<div class="a4-m-kr"><span class="a4-m-ki">&#128231;</span><span class="a4-m-kl">Email</span><a href="mailto:'+escH(t.contact)+'" class="a4-m-kv">'+escH(t.contact)+'</a></div>';
-      if(t.whatsapp) kHtml+='<div class="a4-m-kr"><span class="a4-m-ki">&#128172;</span><span class="a4-m-kl">WhatsApp</span>'+(waUrl?'<a href="'+escH(waUrl)+'" target="_blank" class="a4-m-kv">'+escH(t.whatsapp)+' &#8599;</a>':'<span class="a4-m-kv">'+escH(t.whatsapp)+'</span>')+'</div>';
-      if(t.web)     kHtml+='<div class="a4-m-kr"><span class="a4-m-ki">&#127760;</span><span class="a4-m-kl">Website</span><a href="'+escH(t.web)+'" target="_blank" class="a4-m-kv">'+escH(t.web.replace(/^https?:\/\//,''))+' &#8599;</a></div>';
-      if(t.instagram) kHtml+='<div class="a4-m-kr"><span class="a4-m-ki">&#128247;</span><span class="a4-m-kl">Instagram</span><a href="'+escH(igUrl)+'" target="_blank" class="a4-m-kv">'+escH(t.instagram)+' &#8599;</a></div>';
-      if(t.facebook)  kHtml+='<div class="a4-m-kr"><span class="a4-m-ki">&#128077;</span><span class="a4-m-kl">Facebook</span><a href="'+escH(t.facebook)+'" target="_blank" class="a4-m-kv">'+escH(t.facebook.replace(/^https?:\/\//,''))+' &#8599;</a></div>';
-      if(t.twitter)   kHtml+='<div class="a4-m-kr"><span class="a4-m-ki">&#128038;</span><span class="a4-m-kl">X / Twitter</span><a href="'+escH(twUrl)+'" target="_blank" class="a4-m-kv">'+escH(t.twitter)+' &#8599;</a></div>';
-      kHtml+='</div>';
+      kHtml='<section class="a4-m-contact"><h3 class="a4-m-section-label">Kontak &amp; kanal</h3><div class="a4-m-kontak-list">';
+      if(t.contact) kHtml+='<div class="a4-m-kr"><span class="a4-m-kl">Email</span>'+(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(t.contact)?'<a href="mailto:'+escH(t.contact)+'" class="a4-m-kv">'+escH(t.contact)+'</a>':'<span class="a4-m-kv">'+escH(t.contact)+'</span>')+'</div>';
+      if(t.whatsapp) kHtml+='<div class="a4-m-kr"><span class="a4-m-kl">WhatsApp</span>'+(waUrl?'<a href="'+escH(waUrl)+'" target="_blank" rel="noopener noreferrer" class="a4-m-kv">'+escH(t.whatsapp)+' ↗</a>':'<span class="a4-m-kv">'+escH(t.whatsapp)+'</span>')+'</div>';
+      if(t.web) kHtml+='<div class="a4-m-kr"><span class="a4-m-kl">Website</span><a href="'+escH(t.web)+'" target="_blank" rel="noopener noreferrer" class="a4-m-kv">'+escH(t.web.replace(/^https?:\/\//,''))+' ↗</a></div>';
+      if(t.instagram) kHtml+='<div class="a4-m-kr"><span class="a4-m-kl">Instagram</span>'+(igUrl?'<a href="'+escH(igUrl)+'" target="_blank" rel="noopener noreferrer" class="a4-m-kv">'+escH(t.instagram)+' ↗</a>':'<span class="a4-m-kv">'+escH(t.instagram)+'</span>')+'</div>';
+      if(t.facebook) kHtml+='<div class="a4-m-kr"><span class="a4-m-kl">Facebook</span><a href="'+escH(t.facebook)+'" target="_blank" rel="noopener noreferrer" class="a4-m-kv">'+escH(t.facebook.replace(/^https?:\/\//,''))+' ↗</a></div>';
+      if(t.twitter) kHtml+='<div class="a4-m-kr"><span class="a4-m-kl">X / Twitter</span>'+(twUrl?'<a href="'+escH(twUrl)+'" target="_blank" rel="noopener noreferrer" class="a4-m-kv">'+escH(t.twitter)+' ↗</a>':'<span class="a4-m-kv">'+escH(t.twitter)+'</span>')+'</div>';
+      kHtml+='</div></section>';
     }
 
-    var sosmedBtns='';
-    if(waUrl) sosmedBtns+='<a href="'+escH(waUrl)+'" target="_blank" class="a4-social-btn" style="background:#25d366;color:#fff;border-color:#25d366">&#128172; WhatsApp</a>';
-    if(t.web) sosmedBtns+='<a href="'+escH(t.web)+'" target="_blank" class="a4-social-btn">&#127760; Website</a>';
-    if(t.instagram) sosmedBtns+='<a href="'+escH(igUrl)+'" target="_blank" class="a4-social-btn a4-sb-ig">&#128247; Instagram</a>';
-    if(t.facebook) sosmedBtns+='<a href="'+escH(t.facebook)+'" target="_blank" class="a4-social-btn a4-sb-fb">&#128077; Facebook</a>';
-    if(t.twitter) sosmedBtns+='<a href="'+escH(twUrl)+'" target="_blank" class="a4-social-btn a4-sb-tw">&#128038; X/Twitter</a>';
-
-    body.innerHTML=identitas+descBlock+tagsRow+(kHtml||'')+(sosmedBtns?'<div class="a4-m-sosmed" style="margin-top:14px">'+sosmedBtns+'</div>':'')+
-      '<hr class="a4-m-divider"><div style="display:flex;gap:10px;flex-wrap:wrap">'+
-      '<a href="https://tokoua.unair.ac.id/" target="_blank" class="a4-m-shop">&#128722; Beli di TokoUA</a>'+
-      '<a href="'+escH(presUrl)+'" class="a4-btn-out" style="font-size:13px">&#128203; Presensi Booth</a>'+
+    body.innerHTML=descBlock+details+kHtml+
+      '<div class="a4-m-actions">'+
+      (String(t.transaksi).toLowerCase()==='ya'?'<a href="https://tokoua.unair.ac.id/" target="_blank" rel="noopener noreferrer" class="a4-m-shop">Belanja di TokoUA ↗</a>':'')+
+      '<a href="'+escH(presUrl)+'" class="a4-btn-out">Presensi booth ↗</a>'+
       '</div>';
 
     var modal=document.getElementById('a4Modal');
-    if(modal){modal.classList.add('on');document.body.style.overflow='hidden';}
+    if(modal){modal.querySelector('.a4-mbox').classList.add('a4-modal-tenant');modal.classList.add('on');document.body.style.overflow='hidden';modal.querySelector('.a4-m-close').focus();}
   };
 
   window.a4OpenBooth=function(no){
@@ -2747,26 +2746,29 @@
     }
     var head=document.getElementById('a4ModalHead'),body=document.getElementById('a4ModalBody');
     if(!head||!body) return;
-    head.innerHTML='<button class="a4-m-close" onclick="a4CloseModal()">&#x2715;</button><div class="a4-m-num" style="color:#d4a843">BOOTH '+escH(no)+'</div><div class="a4-m-name">Booth Belum Dialokasikan</div><div class="a4-m-area">ASSIE IV 2026</div>';
-    body.innerHTML='<div class="a4-m-desc">Booth '+escH(no)+' saat ini belum diisi oleh tenant peserta pameran. Silakan klik booth lain yang tersedia di denah untuk melihat informasi lengkap tenant.</div><button type="button" class="a4-m-shop" onclick="a4CloseModal();a4ShowAllTenants()">Lihat Semua Tenant Terdaftar</button>';
-    var modal=document.getElementById('a4Modal');if(modal){modal.classList.add('on');document.body.style.overflow='hidden';}
+    var code=boothNumToCode[no]||'',area=code.charAt(0),color=tenantAreaColors[area]||'#d4a843';
+    head.innerHTML='<button type="button" class="a4-m-close" aria-label="Tutup detail booth" onclick="a4CloseModal()">&#x2715;</button>'+
+      '<div class="a4-m-empty-head" style="--a4-area-color:'+color+'"><span class="a4-m-kicker">Area '+escH(area)+' <span>/</span> Booth '+escH(no)+' <span>·</span> '+escH(code)+'</span>'+
+      '<h2 class="a4-m-name" id="a4ModalTitle">Tenant belum diumumkan</h2></div>';
+    body.innerHTML='<p class="a4-m-desc">Informasi peserta untuk booth ini belum tersedia. Silakan lihat daftar tenant yang sudah diumumkan.</p>'+
+      '<div class="a4-m-actions"><button type="button" class="a4-btn-out" onclick="a4CloseModal();a4ShowAllTenants()">Lihat daftar tenant</button></div>';
+    var modal=document.getElementById('a4Modal');if(modal){modal.querySelector('.a4-mbox').classList.add('a4-modal-tenant');modal.classList.add('on');document.body.style.overflow='hidden';modal.querySelector('.a4-m-close').focus();}
   };
 
-  window.a4CloseModal=function(){var m=document.getElementById('a4Modal');if(m){m.classList.remove('on');document.body.style.overflow='';}};
+  window.a4CloseModal=function(){var m=document.getElementById('a4Modal');if(m){m.classList.remove('on');m.querySelector('.a4-mbox').classList.remove('a4-modal-tenant');document.body.style.overflow='';}};
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.getElementById('a4Modal')?.classList.contains('on'))window.a4CloseModal();});
 
   /* ── DENAH VENUE ASLI + HOTSPOT BOOTH ────────────────────
      Koordinat mengikuti slide 5 (1820 × 1024). Nomor booth sengaja
-     independen dari Area A–E, sehingga tenant dapat diumumkan bertahap. */
-  var denahActiveCluster='all',denahSelectedBooth=null;
-  var clusterMeta=[
-    {key:1,label:'Klaster 1',count:'1–21',color:'#267cff'}, {key:2,label:'Klaster 2',count:'22–44',color:'#00a5b5'},
-    {key:3,label:'Klaster 3',count:'45–50',color:'#8665db'}, {key:4,label:'Klaster 4',count:'51–72',color:'#15a776'},
-    {key:5,label:'Klaster 5',count:'73–80',color:'#d3624d'}, {key:6,label:'Klaster 6',count:'81–96',color:'#d89a23'},
-    {key:7,label:'Klaster 7',count:'97–106',color:'#c756a1'}
-  ];
+     mengikuti kode Area A–H pada spreadsheet pembagian booth. */
+  var denahActiveArea='all',denahSelectedBooth=null;
+  var areaMeta='ABCDEFGH'.split('').map(function(area){
+    return {key:area,label:'Area '+area,color:tenantAreaColors[area]};
+  });
   var boothShapes=[];
   function addBooth(cluster,n,cx,cy,w,h,angle){
-    boothShapes.push({n:n,cluster:cluster,x:cx-w/2,y:cy-h/2,cx:cx,cy:cy,w:w,h:h,angle:angle||0});
+    var code=boothNumToCode[n]||'';
+    boothShapes.push({n:n,cluster:cluster,area:code.charAt(0),code:code,x:cx-w/2,y:cy-h/2,cx:cx,cy:cy,w:w,h:h,angle:angle||0});
   }
   function addBoothRow(cluster,start,count,cx,cy,dx,dy,w,h,angle){
     for(var i=0;i<count;i++) addBooth(cluster,start+i,cx+dx*i,cy+dy*i,w,h,angle);
@@ -2793,24 +2795,28 @@
   
   function renderDenahFilters(){
     var el=document.getElementById('a4DenahFilters');if(!el) return;
-    var filters=[{key:'all',label:'Semua Klaster'}].concat(clusterMeta);
-    el.innerHTML=filters.map(function(filter){var on=String(denahActiveCluster)===String(filter.key);return '<button type="button" class="a4-df-btn'+(on?' on':'')+'" style="--a4-cluster:'+(filter.color||'#d4a843')+'" aria-pressed="'+on+'" onclick="a4SetDenahCluster(\''+filter.key+'\')">'+(filter.color?'<span class="a4-cluster-dot" aria-hidden="true"></span>':'')+escH(filter.label)+'</button>';}).join('');
+    var filters=[{key:'all',label:'Semua Area'}].concat(areaMeta);
+    el.innerHTML=filters.map(function(filter){var on=denahActiveArea===filter.key;return '<button type="button" class="a4-df-btn'+(on?' on':'')+'" style="--a4-cluster:'+(filter.color||'#d4a843')+'" aria-pressed="'+on+'" onclick="a4SetDenahArea(\''+filter.key+'\')">'+(filter.color?'<span class="a4-cluster-dot" aria-hidden="true"></span>':'')+escH(filter.label)+'</button>';}).join('');
   }
-  window.a4SetDenahCluster=function(cluster){
-    denahActiveCluster=cluster==='all'?'all':parseInt(cluster,10);
+  window.a4SetDenahArea=function(area){
+    denahActiveArea=areaMeta.some(function(item){return item.key===area;})?area:'all';
     denahSelectedBooth=null;renderDenahFilters();renderMap();
     if(window.matchMedia('(max-width:768px)').matches){
       window.requestAnimationFrame(function(){
         var wrap=document.getElementById('a4MapWrap');
-        if(denahActiveCluster==='all'){if(wrap) wrap.scrollTo({left:0,top:0,behavior:'smooth'});return;}
-        scrollMapToHotspot(document.querySelector('.a4-map-booth[data-cluster="'+denahActiveCluster+'"]'));
+        if(denahActiveArea==='all'){if(wrap) wrap.scrollTo({left:0,top:0,behavior:'smooth'});return;}
+        scrollMapToHotspot(document.querySelector('.a4-map-booth[data-area="'+denahActiveArea+'"]'));
       });
     }
   };
-  window.a4SetDenahArea=window.a4SetDenahCluster;
   function renderMapLegend(){
     var el=document.getElementById('a4MapLegend');if(!el) return;
-    el.innerHTML=clusterMeta.map(function(c){return '<span class="a4-ml" style="--a4-cluster:'+c.color+'"><span class="a4-ml-box"></span>'+escH(c.label)+'</span>';}).join('')+'<span class="a4-ml a4-ml-selected"><span class="a4-ml-box"></span>Dipilih</span>';
+    var selected=areaMeta.find(function(item){return item.key===denahActiveArea;});
+    var total=boothShapes.filter(function(booth){return !selected||booth.area===selected.key;}).length;
+    var announced=(DATA.tenants||[]).filter(function(tenant){return !selected||tenant.area===selected.key;}).length;
+    el.innerHTML='<span class="a4-map-status-dot" style="--a4-cluster:'+(selected?selected.color:'#d4a843')+'"></span>'+
+      '<strong>'+(selected?escH(selected.label):'Seluruh denah')+'</strong>'+
+      '<span>'+total+' booth · '+announced+' tenant terdaftar</span>';
   }
   function setSelectedBooth(no){
     denahSelectedBooth=String(no);
@@ -2833,15 +2839,17 @@
     function buttons(items){
       return '<div class="a4-mobile-booth-grid">'+items.map(function(booth){
         var t=boothTenant(booth.n);
-        var color=clusterMeta[booth.cluster-1].color;
-        var nameSub = t && t.name ? escH(t.name.length > 20 ? t.name.substring(0, 19) + '…' : t.name) : 'Belum terisi';
-        return '<button type="button" class="a4-mobile-booth-btn'+(String(booth.n)===denahSelectedBooth?' is-selected':'')+'" style="--a4-cluster:'+color+'" data-booth="'+booth.n+'" onclick="a4MobileBoothClick('+booth.n+')">'+booth.n+'<small>'+nameSub+'</small></button>';
+        var color=tenantAreaColors[booth.area];
+        var nameSub=t&&t.name?t.name:'Tenant belum diumumkan';
+        return '<button type="button" class="a4-mobile-booth-btn'+(String(booth.n)===denahSelectedBooth?' is-selected':'')+'" style="--a4-cluster:'+color+'" data-booth="'+booth.n+'" aria-label="Booth '+booth.n+', '+escH(booth.code)+', '+escH(nameSub)+'" onclick="a4MobileBoothClick('+booth.n+')"><span class="a4-mobile-booth-no">'+booth.n+'</span><span class="a4-mobile-booth-code">'+escH(booth.code)+'</span><small>'+escH(nameSub)+'</small></button>';
       }).join('')+'</div>';
     }
-    if(denahActiveCluster==='all'){
-      list.innerHTML='<div class="a4-mobile-booth-label">Pilih booth <span>menurut klaster</span></div>'+clusterMeta.map(function(meta,i){return '<details class="a4-mobile-cluster"'+(i===0?' open':'')+'><summary style="--a4-cluster:'+meta.color+'"><span class="a4-cluster-dot"></span>'+escH(meta.label)+' <small>Booth '+escH(meta.count)+'</small></summary>'+buttons(boothShapes.filter(function(b){return b.cluster===meta.key;}))+'</details>';}).join('');
+    if(denahActiveArea==='all'){
+      list.innerHTML='<div class="a4-mobile-booth-label">Pilih booth <span>sesuai area</span></div>'+areaMeta.map(function(meta,i){var items=boothShapes.filter(function(b){return b.area===meta.key;});return '<details class="a4-mobile-cluster"'+(i===0?' open':'')+'><summary style="--a4-cluster:'+meta.color+'"><span class="a4-cluster-dot"></span>'+escH(meta.label)+' <small>'+items.length+' booth</small></summary>'+buttons(items)+'</details>';}).join('');
     } else {
-      list.innerHTML='<div class="a4-mobile-booth-label">'+escH(clusterMeta[denahActiveCluster-1].label)+' <span>Booth '+escH(clusterMeta[denahActiveCluster-1].count)+'</span></div>'+buttons(boothShapes.filter(function(b){return b.cluster===denahActiveCluster;}));
+      var selected=areaMeta.find(function(meta){return meta.key===denahActiveArea;});
+      var items=boothShapes.filter(function(b){return b.area===denahActiveArea;});
+      list.innerHTML='<div class="a4-mobile-booth-label">'+escH(selected.label)+' <span>'+items.length+' booth</span></div>'+buttons(items);
     }
   }
   function renderMap(){
@@ -2850,13 +2858,13 @@
     if(image.getAttribute('src')!==src) image.setAttribute('src',src);
     svg.setAttribute('viewBox','0 0 1820 1024');
     var html=boothShapes.map(function(booth){
-      var dim=denahActiveCluster!=='all'&&booth.cluster!==denahActiveCluster;
-      var title='Booth '+booth.n+' — '+boothStatus(booth.n);
-      var color=clusterMeta[booth.cluster-1].color;
-      return '<g class="a4-map-booth'+(dim?' is-dim':'')+(String(booth.n)===denahSelectedBooth?' is-selected':'')+'" style="--a4-cluster:'+color+'" data-booth="'+booth.n+'" data-cluster="'+booth.cluster+'" role="button" tabindex="0" aria-label="'+escH(title)+'" onmouseenter="a4MapTip(event,'+booth.n+')" onmouseleave="a4HideTip()"><title>'+escH(title)+'</title><rect x="'+booth.x+'" y="'+booth.y+'" width="'+booth.w+'" height="'+booth.h+'" rx="2"'+(booth.angle?' transform="rotate('+booth.angle+' '+booth.cx+' '+booth.cy+')"':'')+'></rect><text x="'+booth.cx+'" y="'+(booth.cy+3)+'" text-anchor="middle" pointer-events="none">'+booth.n+'</text></g>';
+      var dim=denahActiveArea!=='all'&&booth.area!==denahActiveArea;
+      var title='Booth '+booth.n+' ('+booth.code+') — '+boothStatus(booth.n);
+      var color=tenantAreaColors[booth.area]||'#d4a843';
+      return '<g class="a4-map-booth'+(dim?' is-dim':'')+(String(booth.n)===denahSelectedBooth?' is-selected':'')+'" style="--a4-cluster:'+color+'" data-booth="'+booth.n+'" data-area="'+booth.area+'" data-code="'+booth.code+'" role="button" tabindex="'+(dim?'-1':'0')+'" aria-hidden="'+dim+'" aria-label="'+escH(title)+'" onmouseenter="a4MapTip(event,'+booth.n+')" onmouseleave="a4HideTip()"><title>'+escH(title)+'</title><rect x="'+booth.x+'" y="'+booth.y+'" width="'+booth.w+'" height="'+booth.h+'" rx="2"'+(booth.angle?' transform="rotate('+booth.angle+' '+booth.cx+' '+booth.cy+')"':'')+'></rect><text x="'+booth.cx+'" y="'+(booth.cy+3)+'" text-anchor="middle" pointer-events="none">'+booth.n+'</text></g>';
     }).join('');
     html+='<g class="a4-map-stage-hotspot" data-fn="stage" role="button" tabindex="0" aria-label="Main Stage, buka jadwal acara"><title>Main Stage — buka jadwal acara</title><rect x="1496" y="185" width="95" height="147" rx="32"></rect><text x="1543" y="266" text-anchor="middle" pointer-events="none">MAIN</text><text x="1543" y="281" text-anchor="middle" pointer-events="none">STAGE</text></g>';
-    svg.innerHTML=html;renderMobileBoothList();
+    svg.innerHTML=html;renderMobileBoothList();renderMapLegend();
     var wrap=document.getElementById('a4MapWrap');
     if(wrap&&!wrap._a4denahEvents){
       wrap._a4denahEvents=true;
