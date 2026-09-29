@@ -309,6 +309,7 @@ function assie4_get_summary( WP_REST_Request $req ) {
 //  ADMIN MENU — Halaman Rekapitulasi
 // ═══════════════════════════════════════════════════
 add_action( 'admin_menu', 'assie4_admin_menu' );
+add_action( 'admin_post_assie4_export_csv', 'assie4_handle_export_csv' );
 function assie4_admin_menu() {
     add_menu_page(
         'ASSIE IV Presensi',
@@ -321,15 +322,18 @@ function assie4_admin_menu() {
     );
 }
 
+function assie4_handle_export_csv() {
+    if ( ! current_user_can( 'manage_options' ) ) {
+        wp_die( 'Anda tidak memiliki izin untuk mengekspor data presensi.', '', [ 'response' => 403 ] );
+    }
+    check_admin_referer( 'assie4_export_csv' );
+    assie4_export_csv();
+    exit;
+}
+
 function assie4_admin_page() {
     global $wpdb;
     $table = $wpdb->prefix . ASSIE4_TABLE;
-
-    if ( isset( $_GET['export'] ) && $_GET['export'] === 'csv' && current_user_can( 'manage_options' ) ) {
-        check_admin_referer( 'assie4_export_csv' );
-        assie4_export_csv();
-        exit;
-    }
 
     $days = [
         '2026-11-06' => 'Jumat, 6 November 2026',
@@ -446,7 +450,7 @@ function assie4_admin_page() {
     $page = get_page_by_path( 'presensi-booth-assie4' );
     $page_url = $page ? get_permalink( $page ) : '';
     $export_url = wp_nonce_url(
-        add_query_arg( [ 'page' => 'assie4-presensi', 'export' => 'csv' ], admin_url( 'admin.php' ) ),
+        add_query_arg( [ 'action' => 'assie4_export_csv' ], admin_url( 'admin-post.php' ) ),
         'assie4_export_csv'
     );
     ?>
@@ -673,22 +677,29 @@ function assie4_export_csv() {
         ARRAY_A
     );
 
-    $filename = 'presensi-assie4-' . date('Ymd-His') . '.csv';
-    header('Content-Type: text/csv; charset=UTF-8');
-    header('Content-Disposition: attachment; filename="' . $filename . '"');
-    header('Pragma: no-cache');
+    $filename = 'presensi-assie4-' . wp_date( 'Ymd-His' ) . '.csv';
+    while ( ob_get_level() > 0 ) {
+        ob_end_clean();
+    }
+    nocache_headers();
+    header( 'Content-Type: text/csv; charset=UTF-8' );
+    header( 'Content-Disposition: attachment; filename="' . $filename . '"' );
+    header( 'X-Content-Type-Options: nosniff' );
     echo "\xEF\xBB\xBF"; // BOM UTF-8 agar Excel terbaca dengan benar
 
-    $out = fopen('php://output', 'w');
-    fputcsv($out, ['Booth','Nama','Instansi','Telepon','Waktu']);
+    $out = fopen( 'php://output', 'w' );
+    if ( false === $out ) {
+        wp_die( 'File CSV tidak dapat dibuat.' );
+    }
+    fputcsv( $out, [ 'Booth', 'Nama', 'Instansi', 'Telepon', 'Waktu' ] );
     foreach ($rows as $r) {
-        fputcsv($out, [
-            'Booth ' . str_pad($r['booth'],3,'0',STR_PAD_LEFT),
+        fputcsv( $out, [
+            'Booth ' . str_pad( (string) $r['booth'], 3, '0', STR_PAD_LEFT ),
             $r['nama'],
             $r['instansi'],
             $r['telp'],
             $r['waktu_fmt'],
-        ]);
+        ] );
     }
-    fclose($out);
+    fclose( $out );
 }
