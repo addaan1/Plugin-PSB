@@ -16,7 +16,10 @@ $rest_base = esc_url( rest_url('assie4/v1') );
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Presensi Pengunjung — ASSIE IV 2026</title>
-<?php wp_head(); ?>
+<?php remove_action( 'wp_head', 'wp_site_icon', 99 ); wp_head(); ?>
+<?php $unair_icon = 'https://fst.unair.ac.id/wp-content/uploads/2024/03/Logo-Branding-UNAIR-biru-1024x1024.png?ver=presensi-2'; ?>
+<link rel="icon" type="image/png" href="<?php echo esc_url( $unair_icon ); ?>">
+<link rel="apple-touch-icon" href="<?php echo esc_url( $unair_icon ); ?>">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -429,23 +432,82 @@ $rest_base = esc_url( rest_url('assie4/v1') );
     margin-right: 8px;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Focused registration layout */
+  :root { --bg:#09111e; --surface:#101c2d; --card:#101c2d; --border:#2b3a50; --accent:#65cfff; --accent2:#65cfff; --text:#edf4fc; --muted:#a3b3c9; --radius:10px; }
+  body { padding-bottom:36px; }
+  .hero { background:#0d1929; padding:35px 24px 32px; text-align:left; }
+  .hero::before, .grid-lines { display:none; }
+  .hero-inner { max-width:620px; margin:0 auto; }
+  .hero-tag { background:none; border:0; padding:0; margin-bottom:12px; letter-spacing:2px; font-size:11px; }
+  .hero h1 { color:var(--text); background:none; -webkit-text-fill-color:currentColor; font-size:clamp(32px,5vw,42px); letter-spacing:-.04em; }
+  .hero-sub { color:var(--muted); font-size:14px; letter-spacing:0; }
+  .container { max-width:660px; padding:28px 20px 0; }
+  .selector-label { color:var(--muted); letter-spacing:1.4px; }
+  .selector-wrap::after { content:none; }
+  .selector-wrap select[hidden], [hidden] { display:none !important; }
+  .picker-trigger { width:100%; min-height:76px; display:flex; align-items:center; gap:15px; padding:13px 17px; border:1px solid #426582; border-radius:10px; background:#142338; color:var(--text); text-align:left; cursor:pointer; font:inherit; }
+  .picker-trigger:hover, .picker-trigger:focus-visible { border-color:var(--accent); outline:none; }
+  .picker-code { flex:none; min-width:48px; text-align:center; padding:9px 6px; border-radius:7px; background:#183e59; color:var(--accent); font:700 16px 'Syne',sans-serif; }
+  .picker-summary { min-width:0; display:grid; gap:3px; flex:1; }
+  .picker-summary strong { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:15px; font-weight:600; }
+  .picker-summary small { color:var(--muted); font-size:12px; }
+  .picker-chevron { flex:none; color:var(--accent); font-size:18px; }
+  .picker-panel { position:absolute; z-index:30; top:calc(100% + 6px); left:0; right:0; padding:10px; border:1px solid #426582; border-radius:10px; background:#142338; box-shadow:0 20px 48px rgba(0,0,0,.38); }
+  .picker-search { width:100%; min-height:44px; padding:10px 13px; border:1px solid var(--border); border-radius:7px; background:#0b1626; color:var(--text); font:500 14px 'DM Sans',sans-serif; outline:none; }
+  .picker-search:focus { border-color:var(--accent); }
+  .picker-options { max-height:310px; overflow-y:auto; overscroll-behavior:contain; padding-top:6px; }
+  .picker-option { width:100%; min-height:52px; display:flex; align-items:center; gap:12px; padding:8px 10px; border:0; border-radius:6px; background:transparent; color:var(--text); text-align:left; cursor:pointer; font:inherit; }
+  .picker-option:hover, .picker-option:focus-visible, .picker-option[aria-selected="true"] { background:#23405a; outline:none; }
+  .picker-option-code { flex:none; color:var(--accent); font:700 13px 'Syne',sans-serif; min-width:34px; }
+  .picker-option-text { min-width:0; display:grid; gap:2px; }
+  .picker-option-text strong { font-size:13px; font-weight:600; line-height:1.3; }
+  .picker-option-text small { color:var(--muted); font-size:11px; }
+  .picker-empty { padding:20px 10px; color:var(--muted); font-size:13px; }
+  .booth-badge { background:transparent; border:0; border-bottom:1px solid var(--border); border-radius:0; padding:18px 0; margin-top:4px; }
+  .booth-number { color:var(--accent); font-size:27px; min-width:54px; text-align:left; }
+  .location-banner { padding:10px 0; border:0; background:none; font-size:12px; margin-top:8px; }
+  .loc-icon { font-size:15px; }
+  .form-card { box-shadow:none; padding:24px; margin-top:16px; }
+  .form-card::before, .btn-submit::after { display:none; }
+  .form-card h2 { margin-bottom:20px; }
+  .field input { background:#0a1524; border-radius:7px; }
+  .field input::placeholder { color:#8191a7; }
+  .btn-submit { background:#65cfff; color:#071320; letter-spacing:0; border-radius:7px; }
+  .recent-section, .leaderboard-section { margin-top:30px; }
+  .recent-section h3, .leaderboard-section h3 { letter-spacing:.8px; color:var(--text); }
+  .recent-list, .leaderboard-list { gap:0; }
+  .recent-item, .lb-item { background:none; border:0; border-bottom:1px solid var(--border); border-radius:0; padding:13px 2px; }
+  @media (max-width:600px) { .hero { padding:28px 20px 25px; } .container { padding:24px 16px 0; } .picker-panel { left:0; right:0; } }
 </style>
 </head>
 <body>
 
 <div class="hero">
-  <div class="grid-lines"></div>
-  <div class="hero-tag">Pameran Resmi</div>
-  <h1>ASSIE IV — 2026</h1>
-  <p class="hero-sub">Sistem Presensi Digital Pengunjung Booth</p>
+  <div class="hero-inner">
+    <div class="hero-tag">ASSIE IV / 2026</div>
+    <h1>Presensi booth</h1>
+    <p class="hero-sub">Pilih booth, lalu isi data pengunjung untuk mencatat kehadiran.</p>
+  </div>
 </div>
 
 <div class="container">
 
   <!-- Pilih Booth -->
-  <div class="selector-label">Pilih Nomor Booth</div>
-  <div class="selector-wrap">
-    <select id="boothSelect" onchange="onBoothChange()">
+  <div class="selector-label" id="pickerLabel">Pilih booth</div>
+  <div class="selector-wrap" id="boothPicker">
+    <button type="button" class="picker-trigger" id="pickerTrigger" aria-expanded="false" aria-controls="pickerPanel" aria-labelledby="pickerLabel pickerName">
+      <span class="picker-code" id="pickerCode">A1</span>
+      <span class="picker-summary"><strong id="pickerName">Memuat booth…</strong><small id="pickerMeta"></small></span>
+      <span class="picker-chevron" aria-hidden="true">⌄</span>
+    </button>
+    <div class="picker-panel" id="pickerPanel" hidden>
+      <label class="selector-label" for="pickerSearch">Cari nomor, kode, atau tenant</label>
+      <input class="picker-search" type="search" id="pickerSearch" autocomplete="off" placeholder="Contoh: A11 atau Fakultas Ilmu Budaya">
+      <div class="picker-options" id="pickerOptions" role="group" aria-label="Pilihan booth"></div>
+      <p class="picker-empty" id="pickerEmpty" hidden>Booth tidak ditemukan.</p>
+    </div>
+    <select id="boothSelect" hidden aria-hidden="true" tabindex="-1">
       <!-- 106 booth resmi diisi via JavaScript -->
     </select>
   </div>
@@ -583,6 +645,11 @@ function renderLeaderboard(data) {
 }
 
 const SELECT = document.getElementById('boothSelect');
+const PICKER = document.getElementById('boothPicker');
+const PICKER_TRIGGER = document.getElementById('pickerTrigger');
+const PICKER_PANEL = document.getElementById('pickerPanel');
+const PICKER_SEARCH = document.getElementById('pickerSearch');
+const PICKER_OPTIONS = document.getElementById('pickerOptions');
 for (let i = 1; i <= 106; i++) {
   const opt = document.createElement('option');
   opt.value = i;
@@ -590,10 +657,87 @@ for (let i = 1; i <= 106; i++) {
   SELECT.appendChild(opt);
 }
 
+function renderPickerOptions(query = '') {
+  const needle = query.trim().toLocaleLowerCase('id');
+  const fragment = document.createDocumentFragment();
+  let count = 0;
+  for (let i = 1; i <= 106; i++) {
+    const details = boothInfo(i);
+    if (!details) continue;
+    const searchText = `${i} ${String(i).padStart(3, '0')} ${details.code} ${details.area} ${details.name}`.toLocaleLowerCase('id');
+    if (needle && !searchText.includes(needle)) continue;
+    const option = document.createElement('button');
+    option.type = 'button';
+    option.className = 'picker-option';
+    option.dataset.booth = String(i);
+    option.setAttribute('aria-selected', String(SELECT.value === String(i)));
+    const code = document.createElement('span');
+    code.className = 'picker-option-code';
+    code.textContent = details.code;
+    const content = document.createElement('span');
+    content.className = 'picker-option-text';
+    const name = document.createElement('strong');
+    name.textContent = details.name;
+    const meta = document.createElement('small');
+    meta.textContent = `Booth ${String(i).padStart(3, '0')} · ${details.area}`;
+    content.append(name, meta);
+    option.append(code, content);
+    fragment.appendChild(option);
+    count++;
+  }
+  PICKER_OPTIONS.replaceChildren(fragment);
+  document.getElementById('pickerEmpty').hidden = count !== 0;
+}
+
+function closePicker() {
+  PICKER_PANEL.hidden = true;
+  PICKER_TRIGGER.setAttribute('aria-expanded', 'false');
+}
+
+PICKER_TRIGGER.addEventListener('click', () => {
+  if (!PICKER_PANEL.hidden) { closePicker(); return; }
+  PICKER_SEARCH.value = '';
+  renderPickerOptions();
+  PICKER_PANEL.hidden = false;
+  PICKER_TRIGGER.setAttribute('aria-expanded', 'true');
+  PICKER_SEARCH.focus();
+});
+PICKER_SEARCH.addEventListener('input', () => renderPickerOptions(PICKER_SEARCH.value));
+PICKER_SEARCH.addEventListener('keydown', event => {
+  if (event.key === 'ArrowDown') {
+    event.preventDefault();
+    PICKER_OPTIONS.querySelector('button')?.focus();
+  }
+});
+PICKER_OPTIONS.addEventListener('click', event => {
+  const option = event.target.closest('button[data-booth]');
+  if (!option) return;
+  SELECT.value = option.dataset.booth;
+  closePicker();
+  PICKER_TRIGGER.focus();
+  onBoothChange();
+});
+PICKER_OPTIONS.addEventListener('keydown', event => {
+  if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
+  event.preventDefault();
+  const options = [...PICKER_OPTIONS.querySelectorAll('button')];
+  const current = options.indexOf(document.activeElement);
+  options[Math.max(0, Math.min(options.length - 1, current + (event.key === 'ArrowDown' ? 1 : -1)))]?.focus();
+});
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && !PICKER_PANEL.hidden) { closePicker(); PICKER_TRIGGER.focus(); }
+});
+document.addEventListener('pointerdown', event => {
+  if (!PICKER.contains(event.target)) closePicker();
+});
+
 // ─── ON BOOTH CHANGE ───
 function onBoothChange() {
   const num = parseInt(SELECT.value);
   const details = boothInfo(num);
+  document.getElementById('pickerCode').textContent = details ? details.code : String(num).padStart(3, '0');
+  document.getElementById('pickerName').textContent = details ? details.name : 'Booth belum terdaftar';
+  document.getElementById('pickerMeta').textContent = details ? `Booth ${String(num).padStart(3, '0')} · ${details.area}` : `Booth ${String(num).padStart(3, '0')}`;
   document.getElementById('badgeNum').textContent = details ? details.code : String(num).padStart(2,'0');
   document.getElementById('recentLabel').textContent = boothShortLabel(num);
   document.getElementById('badgeCount').textContent = 'Memuat…';

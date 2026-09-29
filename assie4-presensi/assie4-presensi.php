@@ -185,6 +185,7 @@ function assie4_presensi_booth_directory() {
             $directory[$booth_no] = [
                 'code'  => $code,
                 'area'  => $range['area'],
+                'name'  => $status,
                 'label' => sprintf(
                     'Booth %03d — %s · %s (%s)',
                     $booth_no,
