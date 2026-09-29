@@ -2062,15 +2062,24 @@
   /* ══════════════════════════════════════════════════════
      CLOCK
      ═══════════════════════════════════════════════════════ */
-  setInterval(function(){var el=document.getElementById('a4Clock');if(el)el.textContent=new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',second:'2-digit'});},1000);
 
   /* ══════════════════════════════════════════════════════
      NAV
      ═══════════════════════════════════════════════════════ */
   var navBtns = document.querySelectorAll('.a4-nb');
+  window.a4ToggleMenu=function(force){
+    var nav=document.getElementById('a4Nav'),button=document.querySelector('.a4-menu-toggle');
+    if(!nav||!button)return;
+    var open=typeof force==='boolean'?force:!nav.classList.contains('is-open');
+    nav.classList.toggle('is-open',open);
+    button.setAttribute('aria-expanded',open?'true':'false');
+    button.setAttribute('aria-label',open?'Tutup menu navigasi':'Buka menu navigasi');
+    button.innerHTML=uiIcon(open?'close':'menu');
+  };
   window.a4GoTo = function(id){
     var el=document.getElementById(id);
-    if(el) el.scrollIntoView({behavior:'smooth'});
+    window.a4ToggleMenu(false);
+    if(el) el.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
     navBtns.forEach(function(b){b.classList.remove('on');});
     var a=document.querySelector('.a4-nb[onclick*="\''+id+'\'"]');
     if(a) a.classList.add('on');
@@ -2089,7 +2098,9 @@
   /* ══════════════════════════════════════════════════════
      HERO SLIDER — support image URL background
      ═══════════════════════════════════════════════════════ */
-  var curSl=0, slTimer;
+  var reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+  var curSl=0, slTimer, slPaused=reduceMotion.matches, slHover=false;
+  function uiIcon(name){return '<svg class="a4-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#a4-icon-'+name+'"></use></svg>';}
   function renderSlider(){
     var wrap=document.getElementById('a4SlWrap'), dots=document.getElementById('a4SlDots');
     if(!wrap||!dots) return;
@@ -2097,104 +2108,70 @@
     DATA.slides.forEach(function(s,i){
       var div=document.createElement('div');
       div.className='a4-sl'+(i===0?' on':'');
-      var bg    = s.bg||'#03050e';
-      var isImg = /^https?:\/\//i.test(bg.trim()) || /\.(jpe?g|png|webp)/i.test(bg.trim());
-      // Untuk URL gambar: gunakan langsung tanpa escH agar URL tidak rusak
-      var bgCss = isImg
-        ? 'background-image:url(' + bg.replace(/[()]/g,'') + ');background-size:cover;background-position:center center;background-repeat:no-repeat'
-        : 'background:' + bg;
-      var bgCls = isImg ? 'a4-sl-bg a4-sl-bg-img' : 'a4-sl-bg';
-      var isLogoSlide = s.is_logo || s.logo_only || (s.title && s.title.trim().toLowerCase() === 'industry matching');
-      var hasPhotos = Array.isArray(s.photos) && s.photos.length > 0;
-      if (isLogoSlide) {
-        var lUrl = s.logo || (window.ASSIE4_CFG && window.ASSIE4_CFG.pluginUrl ? window.ASSIE4_CFG.pluginUrl + 'assets/logo-assie4.png' : '');
-        if (!lUrl) {
-          var nImg = document.querySelector('.a4-nav-logo-img');
-          lUrl = nImg ? nImg.src : '/wp-content/plugins/assie4-pameran-digital/assets/logo-assie4.png';
-        }
-        div.innerHTML =
-          '<div class="'+bgCls+'" style="'+bgCss+'"></div>'+
-          '<div class="a4-sl-overlay"></div>'+
-          '<div class="a4-sl-content a4-sl-content-solo-logo">'+
-            '<div class="a4-hero-solo-logo-wrap">'+
-              '<img src="'+escH(lUrl)+'" alt="Industry Matching ASSIE IV 2026" class="a4-hero-solo-logo">'+
-            '</div>'+
-          '</div>';
-      } else if (hasPhotos) {
-        var p1 = s.photos[0];
-        var p2 = s.photos.length > 1 ? s.photos[1] : s.photos[0];
-        div.innerHTML =
-          '<div class="'+bgCls+'" style="'+bgCss+'"></div>'+
-          '<div class="a4-sl-overlay"></div>'+
-          '<div class="a4-sl-content a4-sl-content-showcase">'+
-            '<div class="a4-sl-showcase-grid">'+
-              '<!-- Left Photo Card (Desktop) -->'+
-              '<div class="a4-sl-photo-card a4-sl-photo-card-left a4-sl-photo-desktop" title="Opening Ceremony ASSIE">'+
-                '<div class="a4-sl-photo-frame">'+
-                  '<img src="'+escH(p1)+'" alt="Opening Ceremony ASSIE" loading="lazy" class="a4-sl-img">'+
-                  '<div class="a4-sl-photo-tag"><span class="a4-photo-dot"></span>Opening Ceremony</div>'+
-                '</div>'+
-              '</div>'+
-              '<!-- Center Text -->'+
-              '<div class="a4-sl-center-text">'+
-                '<div class="a4-sl-eyebrow">'+escH(s.subtitle||'ASSIE IV 2026')+'</div>'+
-                '<h1 class="a4-sl-h1">'+escH(s.title||'')+'</h1>'+
-                '<p class="a4-sl-p">'+escH(s.desc||'')+'</p>'+
-                '<a href="'+escH(s.link||'#denah')+'" class="a4-sl-cta">'+escH(s.cta||'Selengkapnya')+' &#8594;</a>'+
-                '<!-- Compact Photos (Mobile/Tablet) -->'+
-                '<div class="a4-sl-mobile-photos">'+
-                  '<div class="a4-sl-photo-card a4-sl-photo-card-mob">'+
-                    '<div class="a4-sl-photo-frame">'+
-                      '<img src="'+escH(p1)+'" alt="Opening Ceremony ASSIE" loading="lazy" class="a4-sl-img">'+
-                      '<div class="a4-sl-photo-tag"><span class="a4-photo-dot"></span>Opening</div>'+
-                    '</div>'+
-                  '</div>'+
-                  '<div class="a4-sl-photo-card a4-sl-photo-card-mob">'+
-                    '<div class="a4-sl-photo-frame">'+
-                      '<img src="'+escH(p2)+'" alt="E-Sport Competition ASSIE" loading="lazy" class="a4-sl-img">'+
-                      '<div class="a4-sl-photo-tag"><span class="a4-photo-dot gold"></span>E-Sport</div>'+
-                    '</div>'+
-                  '</div>'+
-                '</div>'+
-              '</div>'+
-              '<!-- Right Photo Card (Desktop) -->'+
-              '<div class="a4-sl-photo-card a4-sl-photo-card-right a4-sl-photo-desktop" title="Roblox E-Sport Competition">'+
-                '<div class="a4-sl-photo-frame">'+
-                  '<img src="'+escH(p2)+'" alt="Roblox E-Sport Competition" loading="lazy" class="a4-sl-img">'+
-                  '<div class="a4-sl-photo-tag"><span class="a4-photo-dot gold"></span>E-Sport Competition</div>'+
-                '</div>'+
-              '</div>'+
-            '</div>'+
-          '</div>';
-      } else {
-        div.innerHTML =
-          '<div class="'+bgCls+'" style="'+bgCss+'"></div>'+
-          '<div class="a4-sl-overlay"></div>'+
-          '<div class="a4-sl-content">'+
-            '<div class="a4-sl-eyebrow">'+escH(s.subtitle||'ASSIE IV 2026')+'</div>'+
-            '<h1 class="a4-sl-h1">'+escH(s.title||'')+'</h1>'+
-            '<p class="a4-sl-p">'+escH(s.desc||'')+'</p>'+
-            '<a href="'+escH(s.link||'#denah')+'" class="a4-sl-cta">'+escH(s.cta||'Selengkapnya')+' &#8594;</a>'+
-          '</div>';
-      }
-      wrap.appendChild(div);
+      div.setAttribute('aria-roledescription','slide');
+      div.setAttribute('aria-label',(i+1)+' dari '+DATA.slides.length);
+      div.setAttribute('aria-hidden',i===0?'false':'true');
+      div.inert=i!==0;
+      var bg=(Array.isArray(s.photos)&&s.photos[0])||s.bg||'';
+      var isImg=/^https?:\/\//i.test(bg)||/\.(jpe?g|png|webp)/i.test(bg);
+      var photo=document.createElement('div');
+      photo.className='a4-sl-bg'+(isImg?' a4-sl-bg-img':'');
+      if(isImg) photo.style.backgroundImage='url('+JSON.stringify(bg)+')';
+      else photo.style.background=bg||'#080d1b';
+      div.appendChild(photo);
+      var logoSlide=s.is_logo||s.logo_only||(s.title&&s.title.trim().toLowerCase()==='industry matching');
+      var lUrl=s.logo||((window.ASSIE4_CFG||{}).pluginUrl||'')+'assets/logo-assie4.png';
+      var heading=logoSlide
+        ? '<img class="a4-hero-brand" src="'+escH(lUrl)+'" alt="Industry Matching ASSIE IV 2026">'
+        : '<'+(i===0?'h1':'h2')+' class="a4-sl-h1">'+escH(s.title||'ASSIE IV 2026')+'</'+(i===0?'h1':'h2')+'>';
+      var link=s.link||'#denah';
+      if(!/^(https?:\/\/|#|\/)/i.test(link)) link='#denah';
+      var content=document.createElement('div');
+      content.className='a4-sl-composition';
+      content.innerHTML='<div class="a4-sl-content">'+
+        '<div class="a4-sl-eyebrow">'+escH(s.subtitle||'Industry Matching · ASSIE IV 2026')+'</div>'+
+        heading+'<p class="a4-sl-p">'+escH(s.desc||'Temukan karya inovasi, bertemu para tenant, dan jelajahi agenda ASSIE IV.')+'</p>'+
+        '<div class="a4-hero-actions"><a href="'+escH(link)+'" class="a4-sl-cta">'+escH(s.cta||'Jelajahi Pameran')+uiIcon('arrow')+'</a>'+
+        '<a href="#rundown" class="a4-hero-secondary" onclick="a4GoTo(\'rundown\');return false;">Agenda acara <span aria-hidden="true">↗</span></a></div>'+
+        '<div class="a4-hero-location">'+uiIcon('pin')+escH(DATA.info.location||'Grand City Atrium, Surabaya')+'</div></div>';
+      var overlay=document.createElement('div');overlay.className='a4-sl-overlay';
+      div.appendChild(overlay);div.appendChild(content);wrap.appendChild(div);
       var dot=document.createElement('button');
-      dot.className='a4-dot'+(i===0?' on':'');
-      dot.setAttribute('aria-label','Slide '+(i+1));
-      dot.onclick=(function(idx){return function(){goSlide(idx);};})(i);
+      dot.type='button';dot.className='a4-dot'+(i===0?' on':'');
+      dot.textContent=String(i+1).padStart(2,'0');
+      dot.setAttribute('aria-label','Sorotan '+(i+1)+': '+(s.title||'ASSIE IV'));
+      dot.setAttribute('aria-pressed',i===0?'true':'false');
+      dot.onclick=function(){goSlide(i);startSliderTimer();};
       dots.appendChild(dot);
     });
+    var hero=document.getElementById('home');
+    hero.addEventListener('mouseenter',function(){slHover=true;clearInterval(slTimer);});
+    hero.addEventListener('mouseleave',function(){slHover=false;startSliderTimer();});
+    hero.addEventListener('focusin',function(){clearInterval(slTimer);});
+    hero.addEventListener('focusout',function(){setTimeout(startSliderTimer,0);});
+    document.addEventListener('visibilitychange',startSliderTimer);
+    updateSlidePause();
     startSliderTimer();
   }
   function goSlide(n){
     var slides=document.querySelectorAll('.a4-sl'),dots=document.querySelectorAll('.a4-dot');
-    slides.forEach(function(s){s.classList.remove('on');});
-    dots.forEach(function(d){d.classList.remove('on');});
-    curSl=(n+DATA.slides.length)%DATA.slides.length;
-    slides[curSl].classList.add('on'); dots[curSl].classList.add('on');
+    if(!slides.length) return;
+    curSl=(n+slides.length)%slides.length;
+    slides.forEach(function(s,i){s.classList.toggle('on',i===curSl);s.setAttribute('aria-hidden',i===curSl?'false':'true');s.inert=i!==curSl;});
+    dots.forEach(function(d,i){d.classList.toggle('on',i===curSl);d.setAttribute('aria-pressed',i===curSl?'true':'false');});
   }
-  window.a4SlMove=function(dir){clearInterval(slTimer);goSlide(curSl+dir);startSliderTimer();};
-  function startSliderTimer(){clearInterval(slTimer);slTimer=setInterval(function(){goSlide(curSl+1);},5500);}
+  function updateSlidePause(){
+    var button=document.getElementById('a4SlidePause');
+    if(button){button.innerHTML=uiIcon(slPaused?'play':'pause');button.setAttribute('aria-label',slPaused?'Putar pergantian slide':'Jeda pergantian slide');button.setAttribute('aria-pressed',slPaused?'true':'false');}
+  }
+  window.a4SlMove=function(dir){goSlide(curSl+dir);startSliderTimer();};
+  window.a4ToggleSlides=function(){slPaused=!slPaused;updateSlidePause();startSliderTimer();};
+  function startSliderTimer(){
+    clearInterval(slTimer);
+    var hero=document.getElementById('home');
+    if(slPaused||slHover||document.hidden||DATA.slides.length<2||(hero&&hero.contains(document.activeElement))) return;
+    slTimer=setInterval(function(){goSlide(curSl+1);},8500);
+  }
 
   /* ══════════════════════════════════════════════════════
      TICKER
@@ -2423,7 +2400,7 @@
     // STAGE — gunakan data-fn untuk event delegation
     html+='<g class="a4-booth" data-fn="stage" style="cursor:pointer">';
     html+='<rect x="'+PAD+'" y="'+stageY+'" width="240" height="52" rx="8" fill="#3a0808" stroke="#dc2626" stroke-width="2"/>';
-    html+='<text x="'+(PAD+120)+'" y="'+(stageY+22)+'" font-size="12" font-weight="800" fill="#fca5a5" text-anchor="middle" font-family="Syne,sans-serif" pointer-events="none">&#127908; MAIN STAGE</text>';
+    html+='<text x="'+(PAD+120)+'" y="'+(stageY+22)+'" font-size="12" font-weight="800" fill="#fca5a5" text-anchor="middle" font-family="Syne,sans-serif" pointer-events="none"> MAIN STAGE</text>';
     html+='<text x="'+(PAD+120)+'" y="'+(stageY+38)+'" font-size="9" fill="rgba(252,165,165,.7)" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" pointer-events="none">Klik untuk lihat jadwal acara</text>';
     html+='</g>';
 
@@ -2433,7 +2410,7 @@
     var pbSub  =pasinbisDesk.length>30?pasinbisDesk.substring(0,28)+'…':pasinbisDesk;
     html+='<g class="a4-booth" data-fn="pasinbis" style="cursor:pointer">';
     html+='<rect x="'+pbX+'" y="'+pbY+'" width="200" height="52" rx="8" fill="#1a2a1a" stroke="#d4a843" stroke-width="2"/>';
-    html+='<text x="'+(pbX+100)+'" y="'+(pbY+21)+'" font-size="11" font-weight="800" fill="#d4a843" text-anchor="middle" font-family="Syne,sans-serif" pointer-events="none">&#127962; '+escH(pbLabel)+'</text>';
+    html+='<text x="'+(pbX+100)+'" y="'+(pbY+21)+'" font-size="11" font-weight="800" fill="#d4a843" text-anchor="middle" font-family="Syne,sans-serif" pointer-events="none"> '+escH(pbLabel)+'</text>';
     html+='<text x="'+(pbX+100)+'" y="'+(pbY+37)+'" font-size="8" fill="rgba(212,168,67,.65)" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" pointer-events="none">'+escH(pbSub)+'</text>';
     html+='</g>';
 
@@ -2466,7 +2443,7 @@
     var head=document.getElementById('a4ModalHead'),body=document.getElementById('a4ModalBody');
     if(!head||!body) return;
     head.innerHTML='<button class="a4-m-close" onclick="a4CloseModal()">&#x2715;</button>'+
-      '<div class="a4-m-num" style="color:#ef4444">&#127908;</div>'+
+      '<div class="a4-m-num" style="color:#ef4444">'+uiIcon('mic')+'</div>'+
       '<div class="a4-m-name">Main Stage</div>'+
       '<div class="a4-m-area">Grand City Atrium</div>';
     var now=new Date(),nowMin=now.getHours()*60+now.getMinutes();
@@ -2474,7 +2451,7 @@
     var dayMap={};
     events.forEach(function(e){if(!dayMap[e.day])dayMap[e.day]=[];dayMap[e.day].push(e);});
     var days=DATA.rundown&&DATA.rundown.days?DATA.rundown.days:[];
-    var html='<div class="a4-m-section-label">&#128203; Jadwal Acara</div>';
+    var html='<div class="a4-m-section-label">'+uiIcon('calendar')+' Jadwal Acara</div>';
     Object.keys(dayMap).sort().forEach(function(d){
       var dayLbl=(days[d]&&days[d].label)?days[d].label:'Hari '+(parseInt(d)+1);
       html+='<div style="font-size:11px;font-weight:700;color:var(--a4-gold);margin:12px 0 6px;text-transform:uppercase;letter-spacing:1px">'+escH(dayLbl)+'</div>';
@@ -2486,7 +2463,7 @@
         html+='<div class="a4-tl-card'+(isnow?' now':'')+'" style="margin-bottom:8px;padding:10px 14px">';
         html+='<div class="a4-tl-time"><span class="a4-ev-badge '+tm.cls+'">'+tm.lbl+'</span>'+escH(e.time)+(e.end?' – '+escH(e.end):'')+(isnow?' <span style="color:#22c55e;font-weight:700">&#9679; BERLANGSUNG</span>':'')+'</div>';
         html+='<div class="a4-tl-name">'+escH(e.name)+'</div>';
-        if(e.loc&&e.loc!=='—') html+='<div class="a4-tl-meta">&#128205; '+escH(e.loc)+'</div>';
+        if(e.loc&&e.loc!=='—') html+='<div class="a4-tl-meta">'+uiIcon('pin')+' '+escH(e.loc)+'</div>';
         html+='</div>';
       });
     });
@@ -2505,7 +2482,7 @@
     head.innerHTML=
       '<button class="a4-m-close" onclick="a4CloseModal()">&#x2715;</button>'+
       '<div class="a4-m-head-top">'+
-        (logo?'<img src="'+escH(logo)+'" class="a4-m-logo-img" alt="'+escH(nama)+'">':'<div class="a4-m-logo-ph">&#127962;</div>')+
+        (logo?'<img src="'+escH(logo)+'" class="a4-m-logo-img" alt="'+escH(nama)+'">':'<div class="a4-m-logo-ph">'+uiIcon('building')+'</div>')+
         '<div>'+
           '<div class="a4-m-num" style="color:#d4a843">PASINBIS</div>'+
           '<div class="a4-m-name">'+escH(nama)+'</div>'+
@@ -2514,16 +2491,16 @@
     var igUrl=ig?(ig.indexOf('http')===0?ig:'https://instagram.com/'+ig.replace('@','')):'' ;
     var kHtml='';
     if(url||ig||web){
-      kHtml='<div class="a4-m-section-label">&#128241; Kontak & Media Sosial</div><div class="a4-m-kontak-list">';
-      if(url) kHtml+='<div class="a4-m-kr"><span class="a4-m-ki">&#127760;</span><span class="a4-m-kl">Website</span><a href="'+escH(url)+'" target="_blank" class="a4-m-kv">'+escH(url.replace(/^https?:\/\//,''))+'</a></div>';
-      if(ig)  kHtml+='<div class="a4-m-kr"><span class="a4-m-ki">&#128247;</span><span class="a4-m-kl">Instagram</span><a href="'+escH(igUrl)+'" target="_blank" class="a4-m-kv">'+escH(ig)+'</a></div>';
-      if(web) kHtml+='<div class="a4-m-kr"><span class="a4-m-ki">&#128722;</span><span class="a4-m-kl">TokoUA</span><a href="'+escH(web)+'" target="_blank" class="a4-m-kv">'+escH(web.replace(/^https?:\/\//,''))+'</a></div>';
+      kHtml='<div class="a4-m-section-label">'+uiIcon('globe')+' Kontak & Media Sosial</div><div class="a4-m-kontak-list">';
+      if(url) kHtml+='<div class="a4-m-kr"><span class="a4-m-ki">'+uiIcon('globe')+'</span><span class="a4-m-kl">Website</span><a href="'+escH(url)+'" target="_blank" class="a4-m-kv">'+escH(url.replace(/^https?:\/\//,''))+'</a></div>';
+      if(ig)  kHtml+='<div class="a4-m-kr"><span class="a4-m-ki">'+uiIcon('camera')+'</span><span class="a4-m-kl">Instagram</span><a href="'+escH(igUrl)+'" target="_blank" class="a4-m-kv">'+escH(ig)+'</a></div>';
+      if(web) kHtml+='<div class="a4-m-kr"><span class="a4-m-ki">'+uiIcon('bag')+'</span><span class="a4-m-kl">TokoUA</span><a href="'+escH(web)+'" target="_blank" class="a4-m-kv">'+escH(web.replace(/^https?:\/\//,''))+'</a></div>';
       kHtml+='</div>';
     }
     body.innerHTML=(desk?'<div class="a4-m-desc">'+escH(desk)+'</div>':'')+kHtml+
       '<hr class="a4-m-divider"><div style="display:flex;gap:10px;flex-wrap:wrap">'+
-      '<a href="'+escH(url)+'" target="_blank" class="a4-m-shop">&#127760; Buka Website PASINBIS</a>'+
-      (web?'<a href="'+escH(web)+'" target="_blank" class="a4-btn-out" style="font-size:13px">&#128722; TokoUA</a>':'')+
+      '<a href="'+escH(url)+'" target="_blank" class="a4-m-shop">'+uiIcon('globe')+' Buka Website PASINBIS</a>'+
+      (web?'<a href="'+escH(web)+'" target="_blank" class="a4-btn-out" style="font-size:13px">'+uiIcon('bag')+' TokoUA</a>':'')+
       '</div>';
     var modal=document.getElementById('a4Modal');
     if(modal){modal.classList.add('on');document.body.style.overflow='hidden';}
@@ -2927,9 +2904,8 @@
   function renderLeaderboard(top){
     var el=document.getElementById('a4LbGrid'); if(!el) return;
     if(!top.length){el.innerHTML='<p class="a4-muted-note">Belum ada presensi hari ini.</p>';return;}
-    var medals=['&#127945;','&#127946;','&#127947;'];
-    el.innerHTML=top.slice(0,6).map(function(item,i){
-      return '<div class="a4-lbc"><div class="a4-lb-r">'+(i<3?medals[i]:'#'+(i+1))+'</div>'+
+    el.innerHTML=top.slice(0,3).map(function(item,i){
+      return '<div class="a4-lbc"><div class="a4-lb-r">'+String(i+1).padStart(2,'0')+'</div>'+
         '<div class="a4-lb-info"><div class="a4-lb-b">Booth '+escH(item.booth)+' — '+(item.name?escH(item.name):'')+'</div>'+
         '<div class="a4-lb-c">'+item.count+' pengunjung</div></div></div>';
     }).join('');
@@ -2945,7 +2921,7 @@
       .then(function(r){return r.json();})
       .then(function(items){
         if(!items||!items.length){
-          grid.innerHTML='<div class="a4-news-empty">&#128240; Belum ada berita. <a href="https://pasinbis.unair.ac.id/category/assie-4-tahun-2026/" target="_blank" style="color:var(--a4-gold)">Kunjungi pasinbis.unair.ac.id &#8594;</a></div>';
+          grid.innerHTML='<div class="a4-news-empty">'+uiIcon('news')+' Belum ada berita. <a href="https://pasinbis.unair.ac.id/category/assie-4-tahun-2026/" target="_blank" style="color:var(--a4-gold)">Kunjungi pasinbis.unair.ac.id &#8594;</a></div>';
           return;
         }
         grid.innerHTML=items.map(function(item){
@@ -2953,7 +2929,7 @@
           try{var d=new Date(item.date);ds=d.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});}catch(e){ds=item.date||'';}
           var thumb=item.thumb
             ?'<div class="a4-nc-img"><img src="'+escH(item.thumb)+'" alt="" loading="lazy" referrerpolicy="no-referrer"></div>'
-            :'<div class="a4-nc-img a4-nc-img-ph"><span>&#128240;</span></div>';
+            :'<div class="a4-nc-img a4-nc-img-ph"><span>'+uiIcon('news')+'</span></div>';
           return '<a href="'+escH(item.link)+'" target="_blank" class="a4-news-card" title="Baca selengkapnya">'+thumb+
             '<div class="a4-nc-body"><div class="a4-nc-date">'+escH(ds)+'</div>'+
             '<div class="a4-nc-title">'+escH(item.title)+'</div>'+
@@ -2969,6 +2945,18 @@
   /* ══════════════════════════════════════════════════════
      INIT
      ═══════════════════════════════════════════════════════ */
+  function initMotion(){
+    var nav=document.getElementById('a4Nav');
+    document.addEventListener('keydown',function(event){if(event.key==='Escape'&&nav.classList.contains('is-open')){window.a4ToggleMenu(false);document.querySelector('.a4-menu-toggle').focus();}});
+    document.addEventListener('click',function(event){if(!nav.contains(event.target))window.a4ToggleMenu(false);});
+    if(!('IntersectionObserver' in window))return;
+    var spy=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){navBtns.forEach(function(button){button.classList.toggle('on',(button.getAttribute('onclick')||'').indexOf("'"+entry.target.id+"'")!==-1);});}});},{rootMargin:'-15% 0px -60% 0px'});
+    document.querySelectorAll('#home,#rundown,#denah,#berita,#presensi').forEach(function(el){spy.observe(el);});
+    if(reduceMotion.matches)return;
+    var reveal=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add('is-visible');reveal.unobserve(entry.target);}});},{threshold:.08});
+    document.querySelectorAll('.a4-sec-h,.a4-sec-sub,.a4-tenant-section-head,.a4-pres-box').forEach(function(el){el.classList.add('a4-reveal');reveal.observe(el);});
+  }
+
   function init(){
     renderInfo();
     renderSlider();
@@ -2982,6 +2970,7 @@
     renderDenahImgs();
     loadBerita();
     refreshStats();
+    initMotion();
   }
 
   if(document.readyState==='loading'){

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: ASSIE IV — Presensi Booth
  * Description: Sistem presensi digital pengunjung booth pameran ASSIE IV 2026. Menyimpan data ke database WordPress dan menampilkan halaman presensi full-page.
- * Version:     1.0.0
+ * Version:     1.1.0
  * Author:      ASSIE IV 2026
  * Text Domain: assie4-presensi
  */
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 define( 'ASSIE4_DIR',     plugin_dir_path( __FILE__ ) );
 define( 'ASSIE4_URL',     plugin_dir_url( __FILE__ ) );
-define( 'ASSIE4_VERSION', '1.0.0' );
+define( 'ASSIE4_VERSION', '1.1.0' );
 define( 'ASSIE4_TABLE',   'assie4_presensi' );
 
 // ═══════════════════════════════════════════════════
@@ -105,12 +105,10 @@ function assie4_register_routes() {
         'callback'            => 'assie4_save_presensi',
         'permission_callback' => '__return_true',
         'args'                => [
-            'booth'    => [ 'required' => true,  'type' => 'integer', 'minimum' => 1, 'maximum' => 120 ],
+            'booth'    => [ 'required' => true,  'type' => 'integer', 'minimum' => 1, 'maximum' => 106 ],
             'nama'     => [ 'required' => true,  'type' => 'string',  'sanitize_callback' => 'sanitize_text_field' ],
             'instansi' => [ 'required' => true,  'type' => 'string',  'sanitize_callback' => 'sanitize_text_field' ],
             'telp'     => [ 'required' => true,  'type' => 'string',  'sanitize_callback' => 'sanitize_text_field' ],
-            'lat'      => [ 'required' => true,  'type' => 'number' ],
-            'lng'      => [ 'required' => true,  'type' => 'number' ],
         ],
     ] );
 
@@ -166,6 +164,55 @@ function assie4_is_in_grand_city( $lat, $lng ) {
 }
 
 
+/**
+ * Return official booth-number, area-code, and tenant labels for presensi.
+ * Numeric booth IDs stay aligned with the published floor plan (1–106).
+ */
+function assie4_presensi_booth_directory() {
+    $ranges = [
+        [ 'first' => 1,   'last' => 21,  'prefix' => 'A', 'area' => 'Area A' ],
+        [ 'first' => 22,  'last' => 37,  'prefix' => 'D', 'area' => 'Area D' ],
+        [ 'first' => 38,  'last' => 44,  'prefix' => 'C', 'area' => 'Area C' ],
+        [ 'first' => 45,  'last' => 50,  'prefix' => 'E', 'area' => 'Area E' ],
+        [ 'first' => 51,  'last' => 72,  'prefix' => 'F', 'area' => 'Area F' ],
+        [ 'first' => 73,  'last' => 80,  'prefix' => 'G', 'area' => 'Area G' ],
+        [ 'first' => 81,  'last' => 96,  'prefix' => 'H', 'area' => 'Area H' ],
+        [ 'first' => 97,  'last' => 106, 'prefix' => 'B', 'area' => 'Area B' ],
+    ];
+
+    $tenant_source = get_option( 'assie4_pameran_tenants', null );
+    if ( ! is_array( $tenant_source ) && function_exists( 'assie4_default_tenants' ) ) {
+        $tenant_source = assie4_default_tenants();
+    }
+    if ( ! is_array( $tenant_source ) ) $tenant_source = [];
+
+    $tenants_by_booth = [];
+    foreach ( $tenant_source as $tenant ) {
+        $booth_no = absint( $tenant['booth_no'] ?? 0 );
+        $name     = sanitize_text_field( $tenant['name'] ?? '' );
+        if ( $booth_no >= 1 && $booth_no <= 106 && $name !== '' ) {
+            $tenants_by_booth[$booth_no] = $name;
+        }
+    }
+
+    $directory = [];
+    foreach ( $ranges as $range ) {
+        for ( $booth_no = $range['first']; $booth_no <= $range['last']; $booth_no++ ) {
+            $code = $range['prefix'] . ( $booth_no - $range['first'] + 1 );
+            $name = $tenants_by_booth[$booth_no] ?? '';
+            $status = $name !== '' ? $name : 'Tenant belum terdaftar';
+            $directory[$booth_no] = [
+                'code'  => $code,
+                'area'  => $range['area'],
+                'name'  => $status,
+                'label' => sprintf( 'Booth %03d — %s · %s (%s)', $booth_no, $code, $status, $range['area'] ),
+            ];
+        }
+    }
+
+    return $directory;
+}
+
 function assie4_save_presensi( WP_REST_Request $req ) {
     global $wpdb;
     $table = $wpdb->prefix . ASSIE4_TABLE;
@@ -182,19 +229,13 @@ function assie4_save_presensi( WP_REST_Request $req ) {
     }
 
     // Validasi koordinat GPS — harus berada di dalam area Grand City Surabaya
-    $lat = (float) $req->get_param('lat');
-    $lng = (float) $req->get_param('lng');
-    if ( $lat == 0 && $lng == 0 ) {
-        return new WP_Error( 'location_required', 'Izin lokasi diperlukan untuk presensi. Aktifkan GPS dan coba lagi.', [ 'status' => 403 ] );
-    }
-    if ( ! assie4_is_in_grand_city( $lat, $lng ) ) {
-        return new WP_Error( 'outside_venue', 'Presensi hanya dapat dilakukan di dalam area Grand City Surabaya.', [ 'status' => 403 ] );
-    }
+    // Pemeriksaan GPS/Grand City dinonaktifkan sementara.
 
-    // Cegah 1 nomor presensi di booth yang SAMA lebih dari sekali (kapan pun)
+    // Satu nomor hanya dihitung sekali per booth per hari; pengunjung boleh kembali pada hari event berikutnya.
+    $visit_date = current_time( 'Y-m-d' );
     $duplicate = $wpdb->get_var( $wpdb->prepare(
-        "SELECT COUNT(*) FROM {$table} WHERE booth = %d AND telp = %s",
-        $booth, $telp_digits
+        "SELECT COUNT(*) FROM {$table} WHERE booth = %d AND telp = %s AND DATE(waktu) = %s",
+        $booth, $telp_digits, $visit_date
     ) );
     if ( $duplicate > 0 ) {
         return new WP_Error( 'duplicate', 'Nomor telepon ini sudah pernah presensi di booth ini.', [ 'status' => 409 ] );
@@ -205,8 +246,9 @@ function assie4_save_presensi( WP_REST_Request $req ) {
         'nama'       => $nama,
         'instansi'   => $instansi,
         'telp'       => $telp_digits,
+        'waktu'      => current_time( 'mysql' ),
         'ip_address' => sanitize_text_field( $_SERVER['REMOTE_ADDR'] ?? '' ),
-    ], [ '%d', '%s', '%s', '%s', '%s' ] );
+    ], [ '%d', '%s', '%s', '%s', '%s', '%s' ] );
 
     if ( ! $inserted ) {
         return new WP_Error( 'db_error', 'Gagal menyimpan data. Silakan coba lagi.', [ 'status' => 500 ] );
@@ -233,13 +275,27 @@ function assie4_get_presensi( WP_REST_Request $req ) {
     $limit = min( (int) $req->get_param('limit'), 20 );
 
     $rows = $wpdb->get_results( $wpdb->prepare(
-        "SELECT nama, instansi, DATE_FORMAT(waktu,'%%H:%%i') AS waktu_fmt
+        "SELECT nama, DATE_FORMAT(waktu,'%%H:%%i') AS waktu_fmt
          FROM {$table}
          WHERE booth = %d
          ORDER BY waktu DESC
          LIMIT %d",
         $booth, $limit
     ), ARRAY_A );
+
+    $entries = array_map( static function ( $row ) {
+        $name = trim( (string) $row['nama'] );
+        preg_match_all( '/\X/u', $name, $match );
+        $characters = $match[0] ?? [];
+        $masked_name = '';
+        foreach ( $characters as $index => $character ) {
+            $masked_name .= $index === 0 ? $character : ( preg_match( '/^\s+$/u', $character ) ? ' ' : '*' );
+        }
+        return [
+            'nama'      => $masked_name !== '' ? $masked_name : '*',
+            'waktu_fmt' => $row['waktu_fmt'],
+        ];
+    }, $rows ?: [] );
 
     $total = (int) $wpdb->get_var( $wpdb->prepare(
         "SELECT COUNT(*) FROM {$table} WHERE booth = %d", $booth
@@ -248,7 +304,7 @@ function assie4_get_presensi( WP_REST_Request $req ) {
     return rest_ensure_response( [
         'booth'   => $booth,
         'total'   => $total,
-        'entries' => $rows,
+        'entries' => $entries,
     ] );
 }
 
@@ -307,6 +363,7 @@ function assie4_get_summary( WP_REST_Request $req ) {
 //  ADMIN MENU — Halaman Rekapitulasi
 // ═══════════════════════════════════════════════════
 add_action( 'admin_menu', 'assie4_admin_menu' );
+add_action( 'admin_post_assie4_export_csv', 'assie4_handle_export_csv' );
 function assie4_admin_menu() {
     add_menu_page(
         'ASSIE IV Presensi',
@@ -319,117 +376,351 @@ function assie4_admin_menu() {
     );
 }
 
+function assie4_handle_export_csv() {
+    if ( ! current_user_can( 'manage_options' ) ) {
+        wp_die( 'Anda tidak memiliki izin untuk mengekspor data presensi.', '', [ 'response' => 403 ] );
+    }
+    check_admin_referer( 'assie4_export_csv' );
+    assie4_export_csv();
+    exit;
+}
+
 function assie4_admin_page() {
     global $wpdb;
     $table = $wpdb->prefix . ASSIE4_TABLE;
 
-    // Handle export CSV
-    if ( isset($_GET['export']) && $_GET['export'] === 'csv' && current_user_can('manage_options') ) {
-        assie4_export_csv();
-        exit;
+    $days = [
+        '2026-11-06' => 'Jumat, 6 November 2026',
+        '2026-11-07' => 'Sabtu, 7 November 2026',
+        '2026-11-08' => 'Minggu, 8 November 2026',
+    ];
+    $range = sanitize_text_field( wp_unslash( $_GET['range'] ?? 'all' ) );
+    if ( $range !== 'all' && ! isset( $days[$range] ) ) $range = 'all';
+    $sort = sanitize_key( wp_unslash( $_GET['sort'] ?? 'desc' ) );
+    if ( ! in_array( $sort, [ 'asc', 'desc' ], true ) ) $sort = 'desc';
+
+    $event_start = '2026-11-06 00:00:00';
+    $event_end   = '2026-11-09 00:00:00';
+    if ( $range === 'all' ) {
+        $period_start = $event_start;
+        $period_end   = $event_end;
+        $period_label = 'Akumulasi 3 Hari';
+    } else {
+        $day_start = DateTimeImmutable::createFromFormat( '!Y-m-d', $range, wp_timezone() );
+        $period_start = $range . ' 00:00:00';
+        $period_end   = $day_start->modify( '+1 day' )->format( 'Y-m-d' ) . ' 00:00:00';
+        $period_label = $days[$range];
     }
 
-    $total_all = (int) $wpdb->get_var("SELECT COUNT(*) FROM {$table}");
-    $booths_used = (int) $wpdb->get_var("SELECT COUNT(DISTINCT booth) FROM {$table}");
-    $today_count = (int) $wpdb->get_var(
-        $wpdb->prepare("SELECT COUNT(*) FROM {$table} WHERE DATE(waktu) = %s", current_time('Y-m-d'))
-    );
+    $total_period = (int) $wpdb->get_var( $wpdb->prepare(
+        "SELECT COUNT(*) FROM {$table} WHERE waktu >= %s AND waktu < %s",
+        $period_start, $period_end
+    ) );
+    $active_booths = (int) $wpdb->get_var( $wpdb->prepare(
+        "SELECT COUNT(DISTINCT booth) FROM {$table} WHERE waktu >= %s AND waktu < %s",
+        $period_start, $period_end
+    ) );
+    $daily_rows = $wpdb->get_results( $wpdb->prepare(
+        "SELECT DATE(waktu) AS event_date, COUNT(*) AS total
+         FROM {$table} WHERE waktu >= %s AND waktu < %s
+         GROUP BY DATE(waktu)",
+        $event_start, $event_end
+    ), ARRAY_A );
+    $day_totals = array_fill_keys( array_keys( $days ), 0 );
+    foreach ( $daily_rows as $daily_row ) {
+        if ( isset( $day_totals[$daily_row['event_date']] ) ) {
+            $day_totals[$daily_row['event_date']] = (int) $daily_row['total'];
+        }
+    }
+    $peak_date = '';
+    if ( max( $day_totals ) > 0 ) {
+        $peak_date = array_search( max( $day_totals ), $day_totals, true );
+    }
 
-    $recent = $wpdb->get_results(
+    $booth_rows = $wpdb->get_results( $wpdb->prepare(
+        "SELECT booth, COUNT(*) AS total FROM {$table}
+         WHERE waktu >= %s AND waktu < %s GROUP BY booth",
+        $period_start, $period_end
+    ), ARRAY_A );
+    $counts = array_fill( 1, 120, 0 );
+    foreach ( $booth_rows as $booth_row ) {
+        $booth_number = (int) $booth_row['booth'];
+        if ( $booth_number >= 1 && $booth_number <= 120 ) {
+            $counts[$booth_number] = (int) $booth_row['total'];
+        }
+    }
+    $ranked = [];
+    foreach ( $counts as $booth_number => $count ) {
+        $ranked[] = [ 'booth' => (int) $booth_number, 'total' => (int) $count ];
+    }
+    usort( $ranked, static function( $a, $b ) use ( $sort ) {
+        if ( $a['total'] === $b['total'] ) return $a['booth'] <=> $b['booth'];
+        return $sort === 'asc' ? $a['total'] <=> $b['total'] : $b['total'] <=> $a['total'];
+    } );
+    $top_ranked = $ranked;
+    usort( $top_ranked, static function( $a, $b ) {
+        if ( $a['total'] === $b['total'] ) return $a['booth'] <=> $b['booth'];
+        return $b['total'] <=> $a['total'];
+    } );
+    $pie_rows = array_values( array_filter( $top_ranked, static function( $row ) {
+        return $row['total'] > 0;
+    } ) );
+    $max_count = max( 1, max( $counts ) );
+    $max_day   = max( 1, max( $day_totals ) );
+
+    $tenant_directory = [];
+    $tenant_rows = get_option( 'assie4_pameran_tenants', [] );
+    if ( is_array( $tenant_rows ) ) {
+        foreach ( $tenant_rows as $tenant ) {
+            $booth_number = (int) ( $tenant['booth_no'] ?? 0 );
+            if ( $booth_number > 0 ) {
+                $tenant_directory[$booth_number] = [
+                    'code' => sanitize_text_field( $tenant['code'] ?? '' ),
+                    'name' => sanitize_text_field( $tenant['name'] ?? '' ),
+                ];
+            }
+        }
+    }
+
+    $unvisited_booths = max( 0, 120 - $active_booths );
+    $pie_segments = [];
+    $pie_running = 0;
+    foreach ( $pie_rows as $index => &$pie_row ) {
+        $pie_row['color'] = 'hsl(' . (int) floor( ( $index * 137.508 ) % 360 ) . ',68%,52%)';
+        $pie_row['percent'] = $total_period > 0 ? round( ( (int) $pie_row['total'] / $total_period ) * 100, 1 ) : 0;
+        $start = $total_period > 0 ? ( $pie_running / $total_period ) * 100 : 0;
+        $pie_running += (int) $pie_row['total'];
+        $end = $total_period > 0 ? ( $pie_running / $total_period ) * 100 : 0;
+        $pie_segments[] = $pie_row['color'] . ' ' . number_format( $start, 4, '.', '' ) . '% ' . number_format( $end, 4, '.', '' ) . '%';
+    }
+    unset( $pie_row );
+    $pie_style = $pie_segments ? 'conic-gradient(' . implode( ', ', $pie_segments ) . ')' : 'conic-gradient(#e8edf4 0% 100%)';
+
+    $recent = $wpdb->get_results( $wpdb->prepare(
         "SELECT booth, nama, instansi, telp, DATE_FORMAT(waktu,'%d/%m/%Y %H:%i') AS waktu_fmt
-         FROM {$table} ORDER BY waktu DESC LIMIT 50",
-        ARRAY_A
+         FROM {$table} WHERE waktu >= %s AND waktu < %s ORDER BY waktu DESC LIMIT 50",
+        $period_start, $period_end
+    ), ARRAY_A );
+    $page = get_page_by_path( 'presensi-booth-assie4' );
+    $page_url = $page ? get_permalink( $page ) : '';
+    $export_url = wp_nonce_url(
+        add_query_arg( [ 'action' => 'assie4_export_csv' ], admin_url( 'admin-post.php' ) ),
+        'assie4_export_csv'
     );
-
-    $page_url = get_permalink( get_page_by_path('presensi-booth-assie4') );
-    $export_url = add_query_arg(['page'=>'assie4-presensi','export'=>'csv'], admin_url('admin.php'));
     ?>
-    <div class="wrap">
-        <h1>📋 ASSIE IV 2026 — Rekap Presensi Booth</h1>
-        <p>
-            <a href="<?php echo esc_url($page_url); ?>" target="_blank" class="button">🔗 Buka Halaman Presensi</a>
-            &nbsp;
-            <a href="<?php echo esc_url($export_url); ?>" class="button button-primary">⬇️ Export CSV</a>
-        </p>
-
-        <!-- Stats -->
-        <div style="display:flex;gap:16px;margin:24px 0;flex-wrap:wrap;">
-            <?php foreach ([
-                ['Total Pengunjung', $total_all, '#0073aa'],
-                ['Booth Aktif', $booths_used . ' / 120', '#00a32a'],
-                ['Hari Ini', $today_count, '#d63638'],
-            ] as [$label, $val, $color]): ?>
-            <div style="background:#fff;border:1px solid #ccd0d4;border-top:4px solid <?php echo $color?>;border-radius:4px;padding:18px 24px;min-width:160px;">
-                <div style="font-size:28px;font-weight:700;color:<?php echo $color?>"><?php echo esc_html($val) ?></div>
-                <div style="color:#666;font-size:13px;margin-top:4px"><?php echo esc_html($label) ?></div>
-            </div>
-            <?php endforeach; ?>
+    <style>
+      #assie4-dashboard{--a4-ink:#14243a;--a4-muted:#708099;--a4-line:#e5ebf3;--a4-blue:#2475e8;--a4-teal:#12a899;--a4-gold:#e6a526;color:var(--a4-ink);max-width:1500px;margin:18px 16px 24px 0}
+      #assie4-dashboard *{box-sizing:border-box}
+      #assie4-dashboard .a4-dash-head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:26px 30px;border-radius:18px;background:linear-gradient(115deg,#13243d,#1d4672 70%,#216da4);color:#fff;box-shadow:0 12px 30px rgba(16,43,78,.14)}
+      #assie4-dashboard .a4-dash-head h1{margin:0;color:#fff;font-size:25px;font-weight:700;letter-spacing:-.3px}
+      #assie4-dashboard .a4-dash-head p{margin:8px 0 0;color:#d5e4f4;font-size:13px}
+      #assie4-dashboard .a4-head-actions{display:flex;flex-wrap:wrap;gap:9px}
+      #assie4-dashboard .a4-head-actions .button{min-height:38px;display:inline-flex;align-items:center;padding:0 14px;border:1px solid rgba(255,255,255,.32);border-radius:9px;background:rgba(255,255,255,.1);color:#fff;font-weight:600}
+      #assie4-dashboard .a4-head-actions .button-primary{background:#fff;color:#174a7d;border-color:#fff}
+      #assie4-dashboard .a4-panel{background:#fff;border:1px solid var(--a4-line);border-radius:15px;padding:21px 23px;margin-top:19px;box-shadow:0 5px 18px rgba(25,52,86,.045)}
+      #assie4-dashboard .a4-section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 16px}
+      #assie4-dashboard .a4-section-head h2{margin:0;padding:0;font-size:16px;color:var(--a4-ink);font-weight:700}
+      #assie4-dashboard .a4-section-head p{margin:4px 0 0;color:var(--a4-muted);font-size:12px}
+      #assie4-dashboard .a4-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;margin-top:18px}
+      #assie4-dashboard .a4-kpi{position:relative;overflow:hidden;min-height:122px;padding:20px 22px;background:#fff;border:1px solid var(--a4-line);border-radius:15px;box-shadow:0 5px 18px rgba(25,52,86,.045)}
+      #assie4-dashboard .a4-kpi:after{content:"";position:absolute;width:105px;height:105px;right:-31px;top:-36px;border-radius:50%;background:var(--kpi-soft)}
+      #assie4-dashboard .a4-kpi-label{position:relative;z-index:1;color:var(--a4-muted);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.7px}
+      #assie4-dashboard .a4-kpi-value{position:relative;z-index:1;margin-top:11px;font-size:31px;line-height:1.1;font-weight:800;color:var(--kpi-color);letter-spacing:-.8px}
+      #assie4-dashboard .a4-kpi-note{position:relative;z-index:1;margin-top:6px;color:#8592a5;font-size:12px}
+      #assie4-dashboard .a4-daily-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+      #assie4-dashboard .a4-day-card{padding:15px 17px;border:1px solid var(--a4-line);border-radius:12px;background:linear-gradient(145deg,#fff,#f8fbff)}
+      #assie4-dashboard .a4-day-label{font-size:12px;font-weight:700;color:#61738b}
+      #assie4-dashboard .a4-day-count{margin:7px 0 10px;font-size:22px;font-weight:800;color:#1e5fa8}
+      #assie4-dashboard .a4-progress{height:7px;border-radius:20px;background:#edf2f8;overflow:hidden}
+      #assie4-dashboard .a4-progress span{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#28b8a6,#4386ed)}
+      #assie4-dashboard .a4-filter{display:flex;align-items:flex-end;flex-wrap:wrap;gap:12px}
+      #assie4-dashboard .a4-filter label{display:grid;gap:6px;color:#68788e;font-size:12px;font-weight:700}
+      #assie4-dashboard .a4-filter select{min-width:210px;min-height:39px;border:1px solid #d7e0eb;border-radius:8px;padding:0 34px 0 11px;color:#263d59;background:#fff}
+      #assie4-dashboard .a4-filter .button{min-height:39px;padding:0 18px;border-radius:8px;font-weight:700}
+      #assie4-dashboard .a4-filter-hint{margin-left:auto;color:#8794a6;font-size:12px;padding-bottom:9px}
+      #assie4-dashboard .a4-pie-layout{display:grid;grid-template-columns:minmax(220px,300px) minmax(0,1fr);align-items:center;gap:30px}
+      #assie4-dashboard .a4-pie-chart{width:min(100%,280px);aspect-ratio:1;border-radius:50%;background:<?php echo esc_attr( $pie_style ); ?>;position:relative;margin:auto;box-shadow:inset 0 0 0 1px rgba(20,36,58,.06),0 8px 24px rgba(25,52,86,.1)}
+      #assie4-dashboard .a4-pie-chart:after{content:"";position:absolute;inset:27%;border-radius:50%;background:#fff;box-shadow:0 0 0 1px var(--a4-line)}
+      #assie4-dashboard .a4-pie-center{position:absolute;z-index:1;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none}
+      #assie4-dashboard .a4-pie-center strong{font-size:25px;color:#183d67;line-height:1.1}
+      #assie4-dashboard .a4-pie-center span{margin-top:4px;color:var(--a4-muted);font-size:11px}
+      #assie4-dashboard .a4-pie-legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 16px;max-height:360px;overflow:auto;padding:2px 8px 2px 2px}
+      #assie4-dashboard .a4-pie-item{display:grid;grid-template-columns:11px minmax(0,1fr) auto;align-items:center;gap:9px;min-width:0;padding:9px 10px;border:1px solid #edf1f6;border-radius:9px;background:#fbfcfe}
+      #assie4-dashboard .a4-pie-swatch{width:10px;height:10px;border-radius:50%}
+      #assie4-dashboard .a4-pie-label{min-width:0;color:#52647c;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+      #assie4-dashboard .a4-pie-label strong{color:#24415f}
+      #assie4-dashboard .a4-pie-count{color:#183d67;font-size:12px;font-weight:800;white-space:nowrap}
+      #assie4-dashboard .a4-table-wrap{overflow-x:auto;border:1px solid var(--a4-line);border-radius:11px}
+      #assie4-dashboard table{border:0;box-shadow:none}
+      #assie4-dashboard .a4-table{border-collapse:collapse;min-width:690px;width:100%}
+      #assie4-dashboard .a4-table th{padding:12px 14px;background:#f4f7fb;color:#697a91;font-size:11px;text-transform:uppercase;letter-spacing:.55px;border-bottom:1px solid var(--a4-line);text-align:left}
+      #assie4-dashboard .a4-table td{padding:11px 14px;color:#33465f;border-bottom:1px solid #edf1f6;font-size:13px;vertical-align:middle}
+      #assie4-dashboard .a4-table tr:last-child td{border-bottom:0}
+      #assie4-dashboard .a4-booth-code{display:inline-flex;align-items:center;padding:5px 9px;border-radius:7px;background:#edf5ff;color:#1f62a7;font-size:11px;font-weight:800;white-space:nowrap}
+      #assie4-dashboard .a4-tenant-name{display:block;margin-top:3px;color:#8290a3;font-size:11px}
+      #assie4-dashboard .a4-rank-chip{display:inline-flex;min-width:32px;justify-content:center;padding:4px 7px;border-radius:7px;background:#f0f3f8;color:#68788e;font-weight:800;font-size:11px}
+      #assie4-dashboard .a4-count{font-weight:800;color:#183d67;white-space:nowrap}
+      #assie4-dashboard .a4-empty{padding:27px!important;text-align:center;color:#8694a7!important}
+      #assie4-dashboard .a4-empty strong{display:block;margin-bottom:4px;color:#405674}
+      #assie4-dashboard .a4-recent{max-height:530px;overflow:auto}
+      #assie4-dashboard .a4-phone{font-variant-numeric:tabular-nums;white-space:nowrap}
+      @media(max-width:1000px){#assie4-dashboard .a4-dash-head{display:block}#assie4-dashboard .a4-head-actions{margin-top:16px}#assie4-dashboard .a4-kpis,#assie4-dashboard .a4-daily-grid{grid-template-columns:1fr 1fr}#assie4-dashboard .a4-pie-layout{grid-template-columns:minmax(200px,260px) minmax(0,1fr);gap:20px}#assie4-dashboard .a4-pie-legend{grid-template-columns:1fr}}
+      @media(max-width:600px){#assie4-dashboard{margin-right:10px}#assie4-dashboard .a4-dash-head{padding:20px}#assie4-dashboard .a4-dash-head h1{font-size:20px}#assie4-dashboard .a4-kpis,#assie4-dashboard .a4-daily-grid{grid-template-columns:1fr}#assie4-dashboard .a4-panel{padding:16px}#assie4-dashboard .a4-filter select{width:100%;min-width:0}#assie4-dashboard .a4-filter label{width:100%}#assie4-dashboard .a4-filter-hint{width:100%;margin:0}#assie4-dashboard .a4-pie-layout{grid-template-columns:1fr;gap:18px}#assie4-dashboard .a4-pie-chart{width:min(75vw,260px)}#assie4-dashboard .a4-pie-legend{grid-template-columns:1fr;max-height:300px}}
+    </style>
+    <div class="wrap" id="assie4-dashboard">
+      <div class="a4-dash-head">
+        <div>
+          <h1>ASSIE IV 2026 <span style="font-weight:400;opacity:.8">/ Dashboard Presensi</span></h1>
+          <p>Pantau jumlah pengunjung setiap booth selama tiga hari pameran.</p>
         </div>
+        <div class="a4-head-actions">
+          <?php if ( $page_url ) : ?><a href="<?php echo esc_url( $page_url ); ?>" target="_blank" rel="noopener" class="button">Buka halaman presensi</a><?php endif; ?>
+          <a href="<?php echo esc_url( $export_url ); ?>" class="button button-primary">Export data CSV</a>
+        </div>
+      </div>
 
-        <!-- Leaderboard Hari Ini -->
-        <h2>🏆 Top 10 Booth Hari Ini (<?php echo current_time('d/m/Y') ?>)</h2>
-        <?php
-        $lb = $wpdb->get_results( $wpdb->prepare(
-            "SELECT booth, COUNT(*) AS total FROM {$table}
-             WHERE DATE(waktu) = %s
-             GROUP BY booth ORDER BY total DESC LIMIT 10",
-            current_time('Y-m-d')
-        ), ARRAY_A );
-        $max_lb = !empty($lb) ? (int)$lb[0]['total'] : 1;
-        ?>
-        <table class="widefat striped" style="margin-bottom:32px">
-            <thead>
-                <tr><th width="60">Rank</th><th>Booth</th><th width="180">Pengunjung Hari Ini</th><th>Progress</th></tr>
-            </thead>
-            <tbody>
-                <?php if (empty($lb)): ?>
-                <tr><td colspan="4" style="text-align:center;color:#999">Belum ada presensi hari ini.</td></tr>
-                <?php else: foreach ($lb as $idx => $row):
-                    $medals = ['🥇','🥈','🥉'];
-                    $rank   = $idx < 3 ? $medals[$idx] : '#'.($idx+1);
-                    $pct    = round($row['total'] / $max_lb * 100);
-                ?>
-                <tr>
-                    <td style="font-weight:700;font-size:16px"><?php echo $rank ?></td>
-                    <td><strong>Booth <?php echo str_pad($row['booth'],3,'0',STR_PAD_LEFT) ?></strong></td>
-                    <td><strong><?php echo $row['total'] ?> orang</strong></td>
-                    <td>
-                        <div style="background:#f0f0f1;border-radius:4px;height:8px;width:100%;overflow:hidden">
-                            <div style="background:#0073aa;height:100%;width:<?php echo $pct ?>%;border-radius:4px"></div>
-                        </div>
-                    </td>
-                </tr>
-                <?php endforeach; endif; ?>
-            </tbody>
-        </table>
+      <div class="a4-kpis">
+        <div class="a4-kpi" style="--kpi-color:#1766b1;--kpi-soft:#eaf3ff">
+          <div class="a4-kpi-label">Total kunjungan booth</div>
+          <div class="a4-kpi-value"><?php echo esc_html( number_format_i18n( $total_period ) ); ?></div>
+          <div class="a4-kpi-note"><?php echo esc_html( $period_label ); ?> · Total presensi di semua booth; satu orang dapat tercatat di beberapa booth.</div>
+        </div>
+        <div class="a4-kpi" style="--kpi-color:#079783;--kpi-soft:#e5faf5">
+          <div class="a4-kpi-label">Booth dikunjungi</div>
+          <div class="a4-kpi-value"><?php echo esc_html( number_format_i18n( $active_booths ) ); ?><span style="font-size:16px;color:#8290a3;font-weight:600"> / 120</span></div>
+          <div class="a4-kpi-note"><?php echo esc_html( number_format_i18n( $active_booths ) ); ?> sudah dikunjungi · <?php echo esc_html( number_format_i18n( $unvisited_booths ) ); ?> belum dikunjungi pada periode ini.</div>
+        </div>
+        <div class="a4-kpi" style="--kpi-color:#c28412;--kpi-soft:#fff4d8">
+          <div class="a4-kpi-label">Hari teramai</div>
+          <div class="a4-kpi-value" style="font-size:22px"><?php echo $peak_date ? esc_html( $days[$peak_date] ) : 'Belum ada data'; ?></div>
+          <div class="a4-kpi-note"><?php echo $peak_date ? esc_html( number_format_i18n( $day_totals[$peak_date] ) . ' pengunjung' ) : 'Akan terisi saat presensi tercatat'; ?></div>
+        </div>
+      </div>
 
-        <!-- Tabel Data -->
-        <h2>Data Presensi Terbaru (50 terakhir)</h2>
-        <table class="widefat striped">
-            <thead>
-                <tr>
-                    <th>Booth</th><th>Nama</th><th>Instansi</th><th>Telepon</th><th>Waktu</th>
-                </tr>
-            </thead>
+      <section class="a4-panel">
+        <div class="a4-section-head">
+          <div><h2>Ringkasan harian</h2><p>Jumlah presensi masuk pada setiap hari ASSIE IV.</p></div>
+        </div>
+        <div class="a4-daily-grid">
+          <?php foreach ( $days as $day_date => $day_label ) : $day_count = $day_totals[$day_date]; ?>
+            <div class="a4-day-card">
+              <div class="a4-day-label"><?php echo esc_html( $day_label ); ?></div>
+              <div class="a4-day-count"><?php echo esc_html( number_format_i18n( $day_count ) ); ?> <span style="font-size:12px;font-weight:600;color:#8290a3">pengunjung</span></div>
+              <div class="a4-progress"><span style="width:<?php echo esc_attr( (string) round( $day_count / $max_day * 100 ) ); ?>%"></span></div>
+            </div>
+          <?php endforeach; ?>
+        </div>
+      </section>
+
+      <section class="a4-panel">
+        <div class="a4-section-head"><div><h2>Filter rekap booth</h2><p>Pilih satu hari atau lihat akumulasi seluruh hari pameran.</p></div></div>
+        <form class="a4-filter" method="get" action="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>">
+          <input type="hidden" name="page" value="assie4-presensi">
+          <label>Periode
+            <select name="range">
+              <option value="all" <?php selected( $range, 'all' ); ?>>Akumulasi tiga hari</option>
+              <?php foreach ( $days as $day_date => $day_label ) : ?>
+                <option value="<?php echo esc_attr( $day_date ); ?>" <?php selected( $range, $day_date ); ?>><?php echo esc_html( $day_label ); ?></option>
+              <?php endforeach; ?>
+            </select>
+          </label>
+          <label>Urutan jumlah pengunjung
+            <select name="sort">
+              <option value="desc" <?php selected( $sort, 'desc' ); ?>>Tertinggi ke terendah</option>
+              <option value="asc" <?php selected( $sort, 'asc' ); ?>>Terendah ke tertinggi</option>
+            </select>
+          </label>
+          <button type="submit" class="button button-primary">Tampilkan rekap</button>
+          <span class="a4-filter-hint">Periode aktif: <?php echo esc_html( $period_label ); ?></span>
+        </form>
+      </section>
+
+      <section class="a4-panel">
+        <div class="a4-section-head">
+          <div><h2>Distribusi kunjungan per booth</h2><p>Perbandingan jumlah presensi tiap booth pada <?php echo esc_html( strtolower( $period_label ) ); ?>. Diagram mengikuti filter rekap booth di atas.</p></div>
+          <span class="a4-booth-code"><?php echo esc_html( number_format_i18n( count( $pie_rows ) ) ); ?> booth memiliki kunjungan</span>
+        </div>
+        <?php if ( empty( $pie_rows ) ) : ?>
+          <div class="a4-empty"><strong>Belum ada presensi pada periode ini.</strong>Diagram akan menampilkan pembagian kunjungan setelah data presensi tercatat.</div>
+        <?php else : ?>
+          <div class="a4-pie-layout">
+            <div class="a4-pie-chart" role="img" aria-label="Diagram pie distribusi <?php echo esc_attr( number_format_i18n( $total_period ) ); ?> kunjungan pada <?php echo esc_attr( $period_label ); ?>">
+              <div class="a4-pie-center"><strong><?php echo esc_html( number_format_i18n( $total_period ) ); ?></strong><span>total kunjungan</span></div>
+            </div>
+            <div class="a4-pie-legend" aria-label="Rincian kunjungan per booth">
+              <?php foreach ( $pie_rows as $pie_row ) :
+                $booth_number = (int) $pie_row['booth'];
+                $booth_info = $tenant_directory[$booth_number] ?? [];
+                $booth_code = $booth_info['code'] ?? str_pad( (string) $booth_number, 3, '0', STR_PAD_LEFT );
+                $tenant_name = $booth_info['name'] ?? 'Tenant belum terhubung';
+              ?>
+                <div class="a4-pie-item">
+                  <span class="a4-pie-swatch" style="background:<?php echo esc_attr( $pie_row['color'] ); ?>"></span>
+                  <span class="a4-pie-label"><strong><?php echo esc_html( $booth_code ); ?></strong> · <?php echo esc_html( $tenant_name ); ?> <span>(<?php echo esc_html( number_format_i18n( $pie_row['percent'], 1 ) ); ?>%)</span></span>
+                  <span class="a4-pie-count"><?php echo esc_html( number_format_i18n( (int) $pie_row['total'] ) ); ?></span>
+                </div>
+              <?php endforeach; ?>
+            </div>
+          </div>
+        <?php endif; ?>
+      </section>
+
+      <section class="a4-panel">
+        <div class="a4-section-head">
+          <div><h2>Rekap seluruh booth</h2><p>120 booth diurutkan <?php echo $sort === 'asc' ? 'dari pengunjung paling sedikit' : 'dari pengunjung terbanyak'; ?>.</p></div>
+        </div>
+        <div class="a4-table-wrap">
+          <table class="a4-table">
+            <thead><tr><th style="width:76px">Rank</th><th>Booth / Tenant</th><th style="width:155px">Pengunjung</th><th style="width:32%">Perbandingan periode</th></tr></thead>
             <tbody>
-                <?php if (empty($recent)): ?>
-                <tr><td colspan="5" style="text-align:center;color:#999">Belum ada data presensi.</td></tr>
-                <?php else: foreach ($recent as $r): ?>
+              <?php foreach ( $ranked as $index => $row ) :
+                $booth_number = (int) $row['booth'];
+                $booth_info = $tenant_directory[$booth_number] ?? [];
+                $booth_code = $booth_info['code'] ?? str_pad( (string) $booth_number, 3, '0', STR_PAD_LEFT );
+                $tenant_name = $booth_info['name'] ?? '';
+                $bar_width = (int) round( (int) $row['total'] / $max_count * 100 );
+              ?>
                 <tr>
-                    <td><strong>Booth <?php echo str_pad($r['booth'],3,'0',STR_PAD_LEFT) ?></strong></td>
-                    <td><?php echo esc_html($r['nama']) ?></td>
-                    <td><?php echo esc_html($r['instansi']) ?></td>
-                    <td><?php echo esc_html($r['telp']) ?></td>
-                    <td><?php echo esc_html($r['waktu_fmt']) ?></td>
+                  <td><span class="a4-rank-chip">#<?php echo esc_html( (string) ( $index + 1 ) ); ?></span></td>
+                  <td><span class="a4-booth-code"><?php echo esc_html( $booth_code ); ?></span><?php if ( $tenant_name ) : ?><span class="a4-tenant-name"><?php echo esc_html( $tenant_name ); ?></span><?php endif; ?></td>
+                  <td class="a4-count"><?php echo esc_html( number_format_i18n( (int) $row['total'] ) ); ?></td>
+                  <td><div class="a4-progress"><span style="width:<?php echo esc_attr( (string) $bar_width ); ?>%"></span></div></td>
                 </tr>
-                <?php endforeach; endif; ?>
+              <?php endforeach; ?>
             </tbody>
-        </table>
+          </table>
+        </div>
+      </section>
+
+      <section class="a4-panel">
+        <div class="a4-section-head"><div><h2>Presensi terbaru</h2><p>50 data terakhir untuk <?php echo esc_html( strtolower( $period_label ) ); ?>.</p></div></div>
+        <div class="a4-table-wrap a4-recent">
+          <table class="a4-table">
+            <thead><tr><th>Booth / Tenant</th><th>Nama pengunjung</th><th>Instansi</th><th>Telepon</th><th>Waktu</th></tr></thead>
+            <tbody>
+              <?php if ( empty( $recent ) ) : ?>
+                <tr><td colspan="5" class="a4-empty">Belum ada data presensi pada periode ini.</td></tr>
+              <?php else : foreach ( $recent as $entry ) :
+                $booth_number = (int) $entry['booth'];
+                $booth_info = $tenant_directory[$booth_number] ?? [];
+                $booth_code = $booth_info['code'] ?? str_pad( (string) $booth_number, 3, '0', STR_PAD_LEFT );
+              ?>
+                <tr>
+                  <td><span class="a4-booth-code"><?php echo esc_html( $booth_code ); ?></span><?php if ( ! empty( $booth_info['name'] ) ) : ?><span class="a4-tenant-name"><?php echo esc_html( $booth_info['name'] ); ?></span><?php endif; ?></td>
+                  <td><?php echo esc_html( $entry['nama'] ); ?></td>
+                  <td><?php echo esc_html( $entry['instansi'] ); ?></td>
+                  <td class="a4-phone"><?php echo esc_html( $entry['telp'] ); ?></td>
+                  <td><?php echo esc_html( $entry['waktu_fmt'] ); ?></td>
+                </tr>
+              <?php endforeach; endif; ?>
+            </tbody>
+          </table>
+        </div>
+      </section>
     </div>
     <?php
 }
 
-// ─── Export CSV ───
 function assie4_export_csv() {
     global $wpdb;
     $table = $wpdb->prefix . ASSIE4_TABLE;
@@ -440,22 +731,29 @@ function assie4_export_csv() {
         ARRAY_A
     );
 
-    $filename = 'presensi-assie4-' . date('Ymd-His') . '.csv';
-    header('Content-Type: text/csv; charset=UTF-8');
-    header('Content-Disposition: attachment; filename="' . $filename . '"');
-    header('Pragma: no-cache');
+    $filename = 'presensi-assie4-' . wp_date( 'Ymd-His' ) . '.csv';
+    while ( ob_get_level() > 0 ) {
+        ob_end_clean();
+    }
+    nocache_headers();
+    header( 'Content-Type: text/csv; charset=UTF-8' );
+    header( 'Content-Disposition: attachment; filename="' . $filename . '"' );
+    header( 'X-Content-Type-Options: nosniff' );
     echo "\xEF\xBB\xBF"; // BOM UTF-8 agar Excel terbaca dengan benar
 
-    $out = fopen('php://output', 'w');
-    fputcsv($out, ['Booth','Nama','Instansi','Telepon','Waktu']);
+    $out = fopen( 'php://output', 'w' );
+    if ( false === $out ) {
+        wp_die( 'File CSV tidak dapat dibuat.' );
+    }
+    fputcsv( $out, [ 'Booth', 'Nama', 'Instansi', 'Telepon', 'Waktu' ] );
     foreach ($rows as $r) {
-        fputcsv($out, [
-            'Booth ' . str_pad($r['booth'],3,'0',STR_PAD_LEFT),
+        fputcsv( $out, [
+            'Booth ' . str_pad( (string) $r['booth'], 3, '0', STR_PAD_LEFT ),
             $r['nama'],
             $r['instansi'],
             $r['telp'],
             $r['waktu_fmt'],
-        ]);
+        ] );
     }
-    fclose($out);
+    fclose( $out );
 }
