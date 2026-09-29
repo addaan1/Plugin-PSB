@@ -6,14 +6,14 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 $a4_info_data = get_option( ASSIE4_OPT_INFO, assie4_default_info() );
 $a4_info_data = is_array($a4_info_data) ? $a4_info_data : assie4_default_info();
-$a4_logo_url  = !empty($a4_info_data['logo']) ? $a4_info_data['logo'] : (ASSIE4_PAMERAN_URL . 'assets/logo-assie4.png');
+$a4_brand_logo_url = !empty($a4_info_data['logo']) ? $a4_info_data['logo'] : (ASSIE4_PAMERAN_URL . 'assets/logo-assie4.png');
 ?>
 
 <!-- NAV -->
 <nav class="a4-nav" id="a4Nav">
   <div class="a4-nav-logo">
     <a href="#home" onclick="a4GoTo('home')" class="a4-nav-logo-link" title="Industry Matching ASSIE IV 2026">
-      <img src="<?php echo esc_url( $a4_logo_url ); ?>" alt="Industry Matching ASSIE IV 2026" class="a4-nav-logo-img">
+      <img src="<?php echo esc_url( $a4_brand_logo_url ); ?>" alt="Industry Matching ASSIE IV 2026" class="a4-nav-logo-img" decoding="async">
     </a>
   </div>
   <div class="a4-nav-menu">
@@ -76,20 +76,20 @@ $a4_logo_url  = !empty($a4_info_data['logo']) ? $a4_info_data['logo'] : (ASSIE4_
   <div class="a4-sec">
     <span class="a4-sec-tag">Denah</span>
     <h2 class="a4-sec-h">Layout Booth Pameran</h2>
-    <p class="a4-sec-sub">Pilih klaster untuk melihat booth. Klik booth untuk detail tenant, klik Main Stage untuk jadwal acara.</p>
+    <p class="a4-sec-sub">Pilih area sesuai kode booth pada denah. Klik booth untuk melihat tenant, atau Main Stage untuk jadwal acara.</p>
 
-    <!-- Filter klaster denah. Filter Area A-E pada daftar tenant tetap terpisah. -->
+    <!-- Area A-H mengikuti sheet Ploting Booth. -->
     <div class="a4-denah-filters" id="a4DenahFilters"></div>
 
     <!-- Denah venue asli + overlay SVG interaktif -->
     <div class="a4-map-container">
       <div class="a4-map-controls">
         <div class="a4-map-zoom">
-          <button class="a4-mz-btn" onclick="a4ZoomMap(1.25)">+</button>
-          <button class="a4-mz-btn" onclick="a4ZoomMap(0.8)">−</button>
-          <button class="a4-mz-btn" onclick="a4ResetZoom()">⊙</button>
+          <button class="a4-mz-btn" type="button" aria-label="Perbesar denah" title="Perbesar denah" onclick="a4ZoomMap(1.25)">+</button>
+          <button class="a4-mz-btn" type="button" aria-label="Perkecil denah" title="Perkecil denah" onclick="a4ZoomMap(0.8)">−</button>
+          <button class="a4-mz-btn" type="button" aria-label="Atur ulang pembesaran" title="Atur ulang pembesaran" onclick="a4ResetZoom()">⊙</button>
         </div>
-        <div class="a4-map-legend" id="a4MapLegend"></div>
+        <div class="a4-map-legend" id="a4MapLegend" aria-live="polite"></div>
       </div>
       <div class="a4-map-svg-wrap" id="a4MapWrap" aria-label="Denah booth pameran interaktif">
         <div class="a4-map-stage" id="a4MapStage">
@@ -221,7 +221,7 @@ $a4_logo_url  = !empty($a4_info_data['logo']) ? $a4_info_data['logo'] : (ASSIE4_
 
 <!-- BOOTH / STAGE MODAL -->
 <div class="a4-modal" id="a4Modal" onclick="if(event.target===this)a4CloseModal()">
-  <div class="a4-mbox">
+  <div class="a4-mbox" role="dialog" aria-modal="true" aria-label="Detail booth">
     <div class="a4-mbox-head" id="a4ModalHead"></div>
     <div class="a4-mbox-body" id="a4ModalBody"></div>
   </div>
@@ -241,7 +241,7 @@ $a4_logo_url  = !empty($a4_info_data['logo']) ? $a4_info_data['logo'] : (ASSIE4_
 <!-- FOOTER -->
 <footer class="a4-footer">
   <div class="a4-footer-logo-wrap" style="margin-bottom:16px">
-    <img src="<?php echo esc_url( $a4_logo_url ); ?>" alt="Industry Matching ASSIE IV 2026" class="a4-footer-logo-img">
+    <img src="<?php echo esc_url( $a4_brand_logo_url ); ?>" alt="Industry Matching ASSIE IV 2026" class="a4-footer-logo-img" decoding="async">
   </div>
   <p>© 2026 <strong>PASINBIS Universitas Airlangga</strong> · ASSIE IV 2026</p>
   <p class="a4-footer-sub">Airlangga Startup Summit &amp; Innovation Expo · Grand City Atrium, Surabaya</p>

@@ -394,6 +394,9 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
 .a4-af-c { border-color:#ffad1f; color:#ffd06b } .a4-af-c.on { background:rgba(255,173,31,.2); box-shadow:inset 0 -2px #ffad1f }
 .a4-af-d { border-color:#bd67ff; color:#d69cff } .a4-af-d.on { background:rgba(189,103,255,.2); box-shadow:inset 0 -2px #bd67ff }
 .a4-af-e { border-color:#13c9e8; color:#6de5f4 } .a4-af-e.on { background:rgba(19,201,232,.2); box-shadow:inset 0 -2px #13c9e8 }
+.a4-af-f { border-color:#10b981; color:#6ee7b7 } .a4-af-f.on { background:rgba(16,185,129,.2); box-shadow:inset 0 -2px #10b981 }
+.a4-af-g { border-color:#f97316; color:#fdba74 } .a4-af-g.on { background:rgba(249,115,22,.2); box-shadow:inset 0 -2px #f97316 }
+.a4-af-h { border-color:#ec4899; color:#f472b6 } .a4-af-h.on { background:rgba(236,72,153,.2); box-shadow:inset 0 -2px #ec4899 }
 
 .a4-tenant-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:44px; border-top:1px solid rgba(255,255,255,.15) }
 .a4-tc {
@@ -522,6 +525,7 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
 .a4-m-num { font-family:'Syne',sans-serif; font-size:52px; font-weight:800; color:var(--a4-gold); line-height:1 }
 .a4-m-name { font-size:20px; font-weight:700; margin-top:4px; color:var(--a4-text) }
 .a4-m-area { font-size:11px; color:var(--a4-muted2); text-transform:uppercase; letter-spacing:2px; margin-top:2px }
+.a4-m-instansi { font-size:13px; font-weight:600; color:#93c5fd; margin-top:3px }
 .a4-mbox-body { padding: 20px 28px 28px }
 .a4-m-tags { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px }
 .a4-m-tag { font-size:11px; padding:3px 10px; border-radius:6px; background:rgba(45,212,191,.1); color:var(--a4-teal2) }
@@ -1293,4 +1297,130 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
   background-size: cover !important;
   background-position: center center !important;
   filter: brightness(1.02) contrast(1.02);
+}
+
+/* Editorial polish: true transparent brand mark, readable venue controls, and a calm detail sheet. */
+.a4-nav-logo {
+  width:clamp(132px,12vw,176px); min-height:56px; padding:0;
+  overflow:visible; border-radius:0; background:transparent;
+}
+.a4-nav-logo-link { width:100% }
+.a4-nav-logo-img,
+.a4-nav-logo img {
+  max-height:56px; width:100%; height:auto; object-fit:contain;
+  filter:none !important;
+}
+
+.a4-tc { min-height:120px; grid-template-columns:84px minmax(0,1fr) 20px; gap:20px; padding:20px 14px 20px 18px }
+.a4-tc-mark {
+  box-sizing:border-box; width:84px; height:68px; padding:8px;
+  display:grid; place-items:center; overflow:hidden; border-radius:8px;
+  border:1px solid rgba(255,255,255,.1); background:#fff;
+}
+.a4-tc-mark img,
+.a4-tc[data-tenant-id="e11"] .a4-tc-mark img {
+  display:block; width:100%; max-width:100%; height:100%; max-height:100%;
+  object-fit:contain; object-position:center; justify-self:center;
+}
+.a4-tc-name { max-width:44ch; font-size:clamp(16px,1.18vw,19px); line-height:1.3 }
+.a4-tc-mark.is-fallback { background:color-mix(in srgb,var(--a4-area-color) 17%,#10192a) }
+
+.a4-denah-filters { gap:6px; margin-bottom:16px }
+.a4-df-btn { min-height:44px; padding:9px 13px; border-radius:8px; font-size:12px }
+.a4-df-btn.on { background:color-mix(in srgb,var(--a4-cluster) 15%,#101728); border-color:var(--a4-cluster) }
+.a4-map-container { overflow:hidden; border-radius:12px; background:#0b1425 }
+.a4-map-controls { padding:12px 16px; background:#101b2e }
+.a4-mz-btn { width:40px; height:40px; border-radius:7px; font-size:19px }
+.a4-map-legend { align-items:center; gap:7px; color:#bbcae0; font-size:12px; letter-spacing:.01em }
+.a4-map-legend strong { color:#f2f5fb; font-weight:700 }
+.a4-map-status-dot { width:10px; height:10px; flex:none; background:var(--a4-cluster); border-radius:50%; box-shadow:0 0 0 3px color-mix(in srgb,var(--a4-cluster) 22%,transparent) }
+.a4-map-svg-wrap { padding:18px; background:#0a1120; max-height:min(80vh,850px) }
+.a4-map-stage { min-width:900px }
+.a4-map-booth rect { fill-opacity:.15; stroke-width:2.4 }
+.a4-map-booth:hover rect,
+.a4-map-booth:focus-visible rect { fill-opacity:.43; stroke-width:3 }
+.a4-map-booth.is-selected rect { fill-opacity:.55 }
+.a4-map-booth.is-dim { opacity:.09 }
+.a4-map-stage-hotspot rect { fill-opacity:.1; stroke-width:2 }
+.a4-denah-pasinbis { margin-top:16px; border-radius:6px; background:#111b2a }
+.a4-tooltip { max-width:min(290px,calc(100vw - 24px)); min-width:170px; padding:11px 13px; border-radius:7px; border-color:rgba(232,239,255,.22); background:#101b2d; box-shadow:0 10px 30px rgba(0,0,0,.35) }
+.a4-tt-code { color:#d4b554; font-size:10px; font-weight:800; letter-spacing:.1em; text-transform:uppercase }
+.a4-tooltip .a4-tt-name { margin-top:5px; font-size:12px; line-height:1.4 }
+.a4-tooltip .a4-tt-cat { margin-top:5px; font-size:10px }
+
+.a4-mbox.a4-modal-tenant {
+  --a4-sheet-bg:#101b2d;
+  max-width:660px; max-height:min(86vh,900px); border-radius:12px;
+  background:var(--a4-sheet-bg); border:1px solid rgba(225,234,250,.18);
+  box-shadow:0 24px 90px rgba(0,0,0,.5); scrollbar-color:#49607d transparent;
+}
+.a4-modal-tenant .a4-mbox-head { padding:30px 34px 0 }
+.a4-modal-tenant .a4-m-close { top:20px; right:22px; width:44px; height:44px; border-radius:8px; z-index:1; background:rgba(255,255,255,.07) }
+.a4-modal-tenant .a4-m-close:focus-visible { outline:2px solid #f5cf67; outline-offset:2px }
+.a4-modal-tenant .a4-m-head-top { display:grid; grid-template-columns:86px minmax(0,1fr); align-items:start; gap:22px; padding-right:36px }
+.a4-modal-tenant .a4-m-logo-well { box-sizing:border-box; width:86px; height:78px; display:grid; place-items:center; padding:8px; border:1px solid rgba(255,255,255,.12); border-radius:7px; background:#fff }
+.a4-modal-tenant .a4-m-logo-img { width:100%; height:100%; object-fit:contain; object-position:center; border:0; border-radius:0; background:none }
+.a4-modal-tenant .a4-m-logo-ph { width:100%; height:100%; display:grid; place-items:center; border:0; border-radius:0; background:#173653; color:var(--a4-area-color) }
+.a4-modal-tenant .a4-m-logo-ph svg { width:36px; height:36px }
+.a4-modal-tenant .a4-m-kicker { display:block; color:var(--a4-area-color); font-size:11px; font-weight:800; letter-spacing:.1em; text-transform:uppercase }
+.a4-modal-tenant .a4-m-kicker span { color:#687b97; padding:0 5px }
+.a4-modal-tenant .a4-m-name { margin:7px 0 0; color:#f2f5fc; font-family:'Plus Jakarta Sans',sans-serif; font-size:clamp(20px,2.7vw,28px); line-height:1.23; font-weight:750; letter-spacing:-.035em; overflow-wrap:anywhere }
+.a4-modal-tenant .a4-m-official { margin:9px 0 0; color:#aabbd4; font-size:12px; line-height:1.5 }
+.a4-modal-tenant .a4-m-instansi { margin:8px 0 0; color:#c5d1e4; font-size:12px; font-weight:500 }
+.a4-modal-tenant .a4-m-empty-head { padding:4px 55px 4px 0 }
+.a4-modal-tenant .a4-mbox-body { padding:26px 34px 30px }
+.a4-modal-tenant .a4-m-section-label { margin:0 0 12px; padding:0; border:0; color:#d6b757; font-size:11px; letter-spacing:.12em }
+.a4-modal-tenant .a4-m-profile { border-top:1px solid rgba(225,234,250,.14); padding-top:24px }
+.a4-modal-tenant .a4-m-desc { margin:0; color:#d1dcec; font-size:14px; line-height:1.7; white-space:pre-line }
+.a4-modal-tenant .a4-m-facts { margin:20px 0 0; border-top:1px solid rgba(225,234,250,.14) }
+.a4-modal-tenant .a4-m-facts > div { display:grid; grid-template-columns:128px minmax(0,1fr); gap:14px; padding:12px 0; border-bottom:1px solid rgba(225,234,250,.1) }
+.a4-modal-tenant .a4-m-facts dt { color:#92a7c2; font-size:11px; text-transform:uppercase; letter-spacing:.07em }
+.a4-modal-tenant .a4-m-facts dd { margin:0; color:#e8eef9; font-size:13px; line-height:1.5; overflow-wrap:anywhere }
+.a4-modal-tenant .a4-m-contact { margin-top:24px }
+.a4-modal-tenant .a4-m-kontak-list { gap:0; border-top:1px solid rgba(225,234,250,.14) }
+.a4-modal-tenant .a4-m-kr { min-height:42px; display:grid; grid-template-columns:150px minmax(0,1fr); gap:14px; padding:10px 0; border-bottom:1px solid rgba(225,234,250,.1); border-radius:0; background:transparent }
+.a4-modal-tenant .a4-m-kl { min-width:0; display:inline-flex; align-items:center; gap:10px; font-size:11px; font-weight:600; letter-spacing:.06em; color:#92a7c2 }
+.a4-modal-tenant .a4-m-app-icon { width:19px; height:19px; flex:none; color:#b8c7db }
+.a4-modal-tenant .a4-m-kl-whatsapp .a4-m-app-icon { color:#39cf8a }
+.a4-modal-tenant .a4-m-kl-instagram .a4-m-app-icon { color:#f18bbb }
+.a4-modal-tenant .a4-m-kl-facebook .a4-m-app-icon { color:#70a9ff }
+.a4-modal-tenant .a4-m-kl-twitter .a4-m-app-icon { color:#e6edf8 }
+.a4-modal-tenant .a4-m-kv { min-width:0; font-size:13px; color:#d9e5f5; word-break:break-word; overflow-wrap:anywhere }
+.a4-modal-tenant a.a4-m-kv { color:#9dc6ff; text-underline-offset:3px }
+.a4-modal-tenant .a4-m-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:26px }
+.a4-modal-tenant .a4-m-shop,
+.a4-modal-tenant .a4-btn-out { min-height:44px; box-sizing:border-box; display:inline-flex; align-items:center; justify-content:center; padding:11px 16px; border-radius:6px; font-size:12px; font-weight:750; text-decoration:none; cursor:pointer }
+.a4-modal-tenant .a4-m-shop { background:#d4a843; color:#111727 }
+.a4-modal-tenant .a4-btn-out { background:transparent; color:#e2eaf6; border:1px solid rgba(225,234,250,.28) }
+.a4-modal-tenant .a4-m-empty-head + .a4-mbox-body { padding-top:18px }
+
+@media (max-width:768px) {
+  .a4-nav-logo { width:132px; min-height:48px }
+  .a4-map-svg-wrap { padding:8px; max-height:56vh }
+  .a4-mobile-booth-list { background:#101b2e; padding:16px }
+  .a4-mobile-cluster summary { color:#e3eaf6 }
+  .a4-mobile-cluster .a4-cluster-dot { background:var(--a4-cluster) }
+  .a4-mobile-booth-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px }
+  .a4-mobile-booth-btn { min-height:72px; padding:9px 11px; text-align:left; border-radius:7px; border-left:3px solid var(--a4-cluster); background:#111e32 }
+  .a4-mobile-booth-no { font-size:17px; color:var(--a4-cluster) }
+  .a4-mobile-booth-code { margin-left:7px; color:#aebfda; font-size:11px }
+  .a4-mobile-booth-btn small { overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; font-size:11px; line-height:1.3; color:#e0e8f3 }
+  .a4-tc { grid-template-columns:72px minmax(0,1fr) 16px; gap:14px; min-height:106px; padding:16px 10px }
+  .a4-tc-mark { width:72px; height:64px }
+  .a4-modal-tenant .a4-mbox-head { padding:26px 22px 0 }
+  .a4-modal-tenant .a4-mbox-body { padding:23px 22px 26px }
+}
+@media (max-width:560px) {
+  .a4-map-controls { align-items:center }
+  .a4-map-legend { flex:1 1 100%; line-height:1.4 }
+  .a4-modal { padding:10px }
+  .a4-mbox.a4-modal-tenant { max-height:92vh }
+  .a4-modal-tenant .a4-m-head-top { grid-template-columns:66px minmax(0,1fr); gap:12px; padding-right:32px }
+  .a4-modal-tenant .a4-m-logo-well { width:66px; height:64px; padding:5px }
+  .a4-modal-tenant .a4-m-name { font-size:19px }
+  .a4-modal-tenant .a4-m-facts > div,
+  .a4-modal-tenant .a4-m-kr { grid-template-columns:124px minmax(0,1fr); gap:8px }
+  .a4-modal-tenant .a4-m-kl { gap:7px; font-size:10px }
+  .a4-modal-tenant .a4-m-app-icon { width:17px; height:17px }
+  .a4-modal-tenant .a4-m-actions > * { flex:1 1 100% }
 }
