@@ -1827,21 +1827,76 @@ Berbagai produk dan layanan tersebut merupakan bagian dari upaya PUI-PT CoE-PSQ 
 }
 function assie4_default_tenant_logos() {
     $base = ASSIE4_PAMERAN_URL . 'assets/tenant-logos/';
-    return [
-        'a7' => $base . 'fib.jpg',
-        'a8' => $base . 'fkm.jpg',
-        'a9' => $base . 'fkg.png',
-        'b2' => $base . 'telkom.png',
-        'b4' => $base . 'pertamina.svg',
-        'b16' => $base . 'kai.png',
-        'e1' => $base . 'poltekpel.png',
-        'e2' => $base . 'ciputra.png',
-        'e10' => $base . 'unand.png',
-        'e11' => $base . 'bsi.png',
-        'e12' => $base . 'bri.png',
-        'e13' => $base . 'mandiri.png',
-        'e14' => $base . 'bni.png',
+    $files = [
+        'a1'  => 'LOGO FK UNAIR 2025.jpg.jpeg',
+        'a2'  => 'Logo FKG.png',
+        'a3'  => 'fakultas farmasi outline.png',
+        'a4'  => 'FKH UNAIR Logo ALternatif.png',
+        'a5'  => '29_FST_UNAIR.png',
+        'a6'  => 'LOGONEW_FTMM_forLightBG-Colour.png',
+        'a7'  => 'logo-sigap-Fakultas Vokasi.png',
+        'a8'  => 'FPK UNAIR (3).png',
+        'a10' => 'logo header sosmed fkm.png',
+        'a11' => 'LOGO-FIB-UNAIR.png',
+        'a12' => 'LOGO FIKKIA (1).png',
+        'a16' => 'lembaga-penyakit-tropis.webp',
+        'a17' => 'Logo Airlangga Enterprise.jpg',
+        'a19' => 'Puspas HD.png',
+        'a20' => 'Logo Pushal x LPH.png',
+        'a21' => 'Logo pusba_kotak final.png',
+        'd1'  => 'AirBiliSun (1).jpg',
+        'd2'  => 'Logo CESGS.png',
+        'd5'  => 'Logo Madu Onggu Recreate-03.png',
+        'd6'  => 'Logo Kopi Setengah Serius.jpg',
+        'd9'  => 'LOGO FLORDEQUEEN OFFICIAL.png',
+        'd11' => 'logo ulul albab uin malang.png',
+        'c1'  => 'Badan POM White Outline.png',
+        'f1'  => 'Logo Bangga EVCS.png',
+        'f2'  => 'Copy of Kinara Industries-Logo 2.png',
+        'f3'  => 'Logo Olimnesia.jpg',
+        'f4'  => 'JOBHUN HITAM border.png',
+        'f5'  => 'Logo Serasa Djiwa.png',
+        'f6'  => 'Logo Rexgo.png',
+        'f8'  => 'Logo Lokasi Nusantara.png',
+        'f10' => 'Logo + Tulisan Tempat Tumbuh.png',
+        'f11' => 'logo Fast Track Edu.png',
+        'f12' => 'Logo Vitalic Hit.png',
+        'f13' => 'Logo Konveto for Sponsor.png',
+        'f14' => 'Logo Heztek Coding - 1.png',
+        'f15' => 'logo braja.png',
+        'f17' => 'Logo APPA Tech.png',
+        'f18' => 'Logo Likur Production.png',
+        'g1'  => 'LOGO DEORANS.png',
+        'g2'  => 'Logo Tawdeo.png',
+        'g4'  => 'Logo Sweet Food.jpg',
+        'g5'  => 'Logo Golden Gate Dimsum.png',
+        'g6'  => 'Logo Lammaq Banna.png',
+        'g7'  => 'Logo Ayam Ungkep Teh Nisa.jpg',
+        'h1'  => 'Logo Gyarus.jpeg',
+        'h2'  => 'Logo Leastra.png',
+        'h6'  => 'logo-300-x-300 Etna Praya.png',
+        'h11' => 'Logo ANKA .jpg',
+        'h12' => 'LOGO ByLaw Nails.png',
+        'h13' => 'Logo Studio Inkubator MUA.png',
+        'b2'  => 'Pusat Penelitian Stem Cell dan Kedokteran Regeneratif.jpeg',
+        'b3'  => 'Logo RC-Gerid.jpg',
+        'b4'  => 'Logo PUI-PT CoE-PSQ 2025.png',
+        'b5'  => 'Logo AILG (hitam).png',
+        'b6'  => 'Salinan Salinan LOGO SCT.png',
+        'b7'  => 'LOGO DPA.png',
+        'b8'  => 'Logo RSGM Unair.jpg',
+        'b9'  => 'Pylon Sign RSH Unair.png',
     ];
+
+    $logos = [];
+    $asset_dir = dirname(__DIR__) . '/assets/tenant-logos/';
+    foreach ($files as $tenant_id => $filename) {
+        if (is_file($asset_dir . $filename)) {
+            $logos[$tenant_id] = $base . rawurlencode($filename);
+        }
+    }
+
+    return $logos;
 }
 function assie4_default_rundown() {
     return [
@@ -1887,6 +1942,37 @@ function assie4_get_tenants() {
         update_option( 'assie4_directory_seed_state', 'v5', false );
         assie4_rebuild_js_data();
     }
+
+    // Replace remote default logo URLs once, without overwriting logos uploaded to this site.
+    if ( get_option( 'assie4_local_tenant_logos_version' ) !== '1' ) {
+        $local_logos = assie4_default_tenant_logos();
+        $site_host = wp_parse_url( home_url( '/' ), PHP_URL_HOST );
+        $logos_changed = false;
+
+        foreach ( $raw as &$tenant ) {
+            $tenant_id = sanitize_key( $tenant['id'] ?? '' );
+            if ( ! isset( $local_logos[$tenant_id] ) ) {
+                continue;
+            }
+
+            $current_logo = trim( (string) ( $tenant['logo'] ?? '' ) );
+            $logo_host = $current_logo !== '' ? wp_parse_url( $current_logo, PHP_URL_HOST ) : '';
+            if ( $logo_host && $site_host && strcasecmp( $logo_host, $site_host ) === 0 ) {
+                continue;
+            }
+
+            $tenant['logo'] = $local_logos[$tenant_id];
+            $logos_changed = true;
+        }
+        unset( $tenant );
+
+        if ( $logos_changed ) {
+            update_option( ASSIE4_OPT_TENANTS, $raw, false );
+            assie4_rebuild_js_data();
+        }
+        update_option( 'assie4_local_tenant_logos_version', '1', false );
+    }
+
     return array_values( array_map( 'assie4_normalize_tenant', $raw ) );
 }
 function assie4_save_tenants( $tenants ) {
