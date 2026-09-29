@@ -2715,16 +2715,27 @@
       }
     }
 
+    function contactLabel(kind,label){
+      var paths={
+        email:'<rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="m3 6 9 7 9-7"/>',
+        whatsapp:'<path d="M20.2 11.7a8.2 8.2 0 0 1-11.8 7.4L4 20l1.1-4.1a8.2 8.2 0 1 1 15.1-4.2Z"/><path d="M9.2 8.8c.3-.3.6-.3.8.1l.9 1.4c.2.3.1.5-.2.8l-.5.5a7.4 7.4 0 0 0 2.4 2.4l.5-.5c.2-.3.5-.4.8-.2l1.4.9c.4.2.4.5.1.8-.4.5-1 1-1.7.9a8.4 8.4 0 0 1-5.5-5.5c-.1-.7.4-1.3 1-1.6Z"/>',
+        website:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3Z"/>',
+        instagram:'<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.7" r=".8" fill="currentColor" stroke="none"/>',
+        facebook:'<path d="M14.3 21v-8h2.6l.4-3.1h-3V7.8c0-.9.3-1.4 1.5-1.4h1.6V3.6a20 20 0 0 0-2.4-.1c-2.4 0-4 1.5-4 4.2v2.2H8.5V13H11v8"/>',
+        twitter:'<path d="M4 3h3.5L20 21h-3.5L4 3ZM20 3 4 21"/>'
+      };
+      return '<span class="a4-m-kl a4-m-kl-'+kind+'"><svg class="a4-m-app-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">'+paths[kind]+'</svg><span>'+label+'</span></span>';
+    }
     var hasKontak=t.contact||t.whatsapp||t.web||t.instagram||t.facebook||t.twitter;
     var kHtml='';
     if(hasKontak){
       kHtml='<section class="a4-m-contact"><h3 class="a4-m-section-label">Kontak &amp; kanal</h3><div class="a4-m-kontak-list">';
-      if(t.contact) kHtml+='<div class="a4-m-kr"><span class="a4-m-kl">Email</span>'+(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(t.contact)?'<a href="mailto:'+escH(t.contact)+'" class="a4-m-kv">'+escH(t.contact)+'</a>':'<span class="a4-m-kv">'+escH(t.contact)+'</span>')+'</div>';
-      if(t.whatsapp) kHtml+='<div class="a4-m-kr"><span class="a4-m-kl">WhatsApp</span>'+(waUrl?'<a href="'+escH(waUrl)+'" target="_blank" rel="noopener noreferrer" class="a4-m-kv">'+escH(t.whatsapp)+' ↗</a>':'<span class="a4-m-kv">'+escH(t.whatsapp)+'</span>')+'</div>';
-      if(t.web) kHtml+='<div class="a4-m-kr"><span class="a4-m-kl">Website</span><a href="'+escH(t.web)+'" target="_blank" rel="noopener noreferrer" class="a4-m-kv">'+escH(t.web.replace(/^https?:\/\//,''))+' ↗</a></div>';
-      if(t.instagram) kHtml+='<div class="a4-m-kr"><span class="a4-m-kl">Instagram</span>'+(igUrl?'<a href="'+escH(igUrl)+'" target="_blank" rel="noopener noreferrer" class="a4-m-kv">'+escH(t.instagram)+' ↗</a>':'<span class="a4-m-kv">'+escH(t.instagram)+'</span>')+'</div>';
-      if(t.facebook) kHtml+='<div class="a4-m-kr"><span class="a4-m-kl">Facebook</span><a href="'+escH(t.facebook)+'" target="_blank" rel="noopener noreferrer" class="a4-m-kv">'+escH(t.facebook.replace(/^https?:\/\//,''))+' ↗</a></div>';
-      if(t.twitter) kHtml+='<div class="a4-m-kr"><span class="a4-m-kl">X / Twitter</span>'+(twUrl?'<a href="'+escH(twUrl)+'" target="_blank" rel="noopener noreferrer" class="a4-m-kv">'+escH(t.twitter)+' ↗</a>':'<span class="a4-m-kv">'+escH(t.twitter)+'</span>')+'</div>';
+      if(t.contact) kHtml+='<div class="a4-m-kr">'+contactLabel('email','Email')+(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(t.contact)?'<a href="mailto:'+escH(t.contact)+'" class="a4-m-kv">'+escH(t.contact)+'</a>':'<span class="a4-m-kv">'+escH(t.contact)+'</span>')+'</div>';
+      if(t.whatsapp) kHtml+='<div class="a4-m-kr">'+contactLabel('whatsapp','WhatsApp')+(waUrl?'<a href="'+escH(waUrl)+'" target="_blank" rel="noopener noreferrer" class="a4-m-kv">'+escH(t.whatsapp)+' ↗</a>':'<span class="a4-m-kv">'+escH(t.whatsapp)+'</span>')+'</div>';
+      if(t.web) kHtml+='<div class="a4-m-kr">'+contactLabel('website','Website')+'<a href="'+escH(t.web)+'" target="_blank" rel="noopener noreferrer" class="a4-m-kv">'+escH(t.web.replace(/^https?:\/\//,''))+' ↗</a></div>';
+      if(t.instagram) kHtml+='<div class="a4-m-kr">'+contactLabel('instagram','Instagram')+(igUrl?'<a href="'+escH(igUrl)+'" target="_blank" rel="noopener noreferrer" class="a4-m-kv">'+escH(t.instagram)+' ↗</a>':'<span class="a4-m-kv">'+escH(t.instagram)+'</span>')+'</div>';
+      if(t.facebook) kHtml+='<div class="a4-m-kr">'+contactLabel('facebook','Facebook')+'<a href="'+escH(t.facebook)+'" target="_blank" rel="noopener noreferrer" class="a4-m-kv">'+escH(t.facebook.replace(/^https?:\/\//,''))+' ↗</a></div>';
+      if(t.twitter) kHtml+='<div class="a4-m-kr">'+contactLabel('twitter','X / Twitter')+(twUrl?'<a href="'+escH(twUrl)+'" target="_blank" rel="noopener noreferrer" class="a4-m-kv">'+escH(t.twitter)+' ↗</a>':'<span class="a4-m-kv">'+escH(t.twitter)+'</span>')+'</div>';
       kHtml+='</div></section>';
     }
 
@@ -2766,31 +2777,38 @@
     return {key:area,label:'Area '+area,color:tenantAreaColors[area]};
   });
   var boothShapes=[];
-  function addBooth(cluster,n,cx,cy,w,h,angle){
-    var code=boothNumToCode[n]||'';
-    boothShapes.push({n:n,cluster:cluster,area:code.charAt(0),code:code,x:cx-w/2,y:cy-h/2,cx:cx,cy:cy,w:w,h:h,angle:angle||0});
+  var boothCodeToNo={};
+  Object.keys(boothNumToCode).forEach(function(no){boothCodeToNo[boothNumToCode[no]]=Number(no);});
+  /* Gambar berlabel pada sheet Ploting Booth adalah potongan denah yang diperbesar.
+     Konversi koordinatnya ke gambar dasar 1820x1024, lalu ikat ke kode booth resmi. */
+  function addCodeBooth(code,rx,ry,rw,rh,angle){
+    var scale=1.466,cx=210+rx/scale,cy=167+ry/scale,w=rw/scale,h=rh/scale;
+    boothShapes.push({n:boothCodeToNo[code],area:code.charAt(0),code:code,x:cx-w/2,y:cy-h/2,cx:cx,cy:cy,w:w,h:h,angle:angle||0});
   }
-  function addBoothRow(cluster,start,count,cx,cy,dx,dy,w,h,angle){
-    for(var i=0;i<count;i++) addBooth(cluster,start+i,cx+dx*i,cy+dy*i,w,h,angle);
-  }
-  function addBoothGrid(cluster,start,rows,xs,ys,w,h){
-    var n=start;
-    ys.slice(0,rows).forEach(function(y){xs.forEach(function(x){addBooth(cluster,n++,x,y,w,h);});});
-  }
-  /* Koordinat pusat booth diukur dari gambar slide 5 (1820 × 1024). */
-  addBoothRow(1,1,7,516,281,18,0,15,41); addBoothRow(1,8,7,668,281,18,0,15,41); addBoothRow(1,15,7,820,281,14,0,12,41);
-  [[462,294,-29],[472,315,-20],[478,338,-9],[480,362,0],[469,384,12],[466,400,25],[452,421,34],[454,458,43]].forEach(function(p,i){addBooth(2,22+i,p[0],p[1],15,18,p[2]);});
-  addBoothRow(2,30,7,464,470,12,12,16,21,-43); addBooth(2,37,544,550,16,21,-43);
-  addBoothRow(2,38,7,545,577,15,16,17,21,-43);
-  [[964,353,-44],[982,362,-30],[1002,374,-15],[1019,374,0],[1044,370,19],[1064,356,35]].forEach(function(p,i){addBooth(3,45+i,p[0],p[1],17,18,p[2]);});
-  addBoothGrid(4,51,2,[961,984],[426,442],18,14);
-  addBoothGrid(4,55,4,[961,984],[482,498,514,530],18,14);
-  addBoothGrid(4,63,5,[961,984],[568,580,592,604,616],18,11);
-  addBoothGrid(5,73,4,[683,705],[641,670,699,728],17,23);
-  addBoothGrid(6,81,4,[1029,1052],[680,710,740,770],18,24);
-  addBoothGrid(6,89,4,[1099,1122],[680,710,740,770],18,24);
-  addBoothRow(7,97,4,1173,281,32,0,28,41); addBoothRow(7,101,4,1325,281,32,0,28,41);
-  addBooth(7,105,1108,257,17,19); addBooth(7,106,1108,310,17,19);
+  /* F dan H: dua sisi meja, nomor bawah naik ke kanan; nomor atas turun ke kanan. */
+  var fXs=[459,507,555,603,677,726,775,824,894,944,994];
+  fXs.forEach(function(x,i){addCodeBooth('F'+(i+1),x,181,39,30);addCodeBooth('F'+(22-i),x,151,39,30);});
+  var hXs=[1400,1449,1499,1548,1600,1650,1700,1748];
+  hXs.forEach(function(x,i){addCodeBooth('H'+(i+1),x,181,39,30);addCodeBooth('H'+(16-i),x,151,39,30);});
+  /* E: enam booth di lengkung kiri. G: delapan di lengkung tengah. */
+  [[1,358,357,-43],[2,380,323,-29],[3,396,289,-12],[4,399,255,0],[5,394,220,17],[6,380,185,32]].forEach(function(p){addCodeBooth('E'+p[0],p[1],p[2],31,32,p[3]);});
+  [[1,1111,277,-43],[2,1150,287,-28],[3,1187,291,-10],[4,1224,285,10],[5,1260,268,28],[6,1290,234,43],[7,1305,196,65],[8,1307,155,0]].forEach(function(p){addCodeBooth('G'+p[0],p[1],p[2],31,31,p[3]);});
+  /* D: dua kelompok meja diagonal. C: tujuh booth di kiri panggung. */
+  [[9,355,444],[8,385,432],[10,382,475],[7,415,465],[11,414,512],[6,445,498],[12,447,548],[5,477,533],
+   [13,509,605],[4,530,597],[14,542,637],[3,563,627],[15,574,670],[2,595,657],[16,606,707],[1,627,689]].forEach(function(p){addCodeBooth('D'+p[0],p[1],p[2],32,34,-40);});
+  [[7,696,696],[1,725,696],[6,696,741],[2,725,741],[5,696,785],[3,725,785],[4,711,825]].forEach(function(p){addCodeBooth('C'+p[0],p[1],p[2],30,36);});
+  /* B: lima pasang booth vertikal di tengah kanan. */
+  [[10,1097,388],[9,1127,388],[7,1097,462],[8,1127,462],[6,1097,511],[5,1127,511],
+   [3,1097,584],[4,1127,584],[2,1097,625],[1,1127,625]].forEach(function(p){addCodeBooth('B'+p[0],p[1],p[2],29,35);});
+  /* A: tiga blok, masing-masing tujuh booth (enam sisi + satu ujung). */
+  [[1197,1227],[1297,1327],[1399,1429]].forEach(function(xs,block){
+    var start=block*7+1;
+    [[0,748],[1,789],[2,832]].forEach(function(row){
+      addCodeBooth('A'+(start+row[0]),xs[0],row[1],31,35);
+      addCodeBooth('A'+(start+6-row[0]),xs[1],row[1],31,35);
+    });
+    addCodeBooth('A'+(start+3),(xs[0]+xs[1])/2,871,32,35);
+  });
 
   
   function renderDenahFilters(){
@@ -2841,7 +2859,7 @@
         var t=boothTenant(booth.n);
         var color=tenantAreaColors[booth.area];
         var nameSub=t&&t.name?t.name:'Tenant belum diumumkan';
-        return '<button type="button" class="a4-mobile-booth-btn'+(String(booth.n)===denahSelectedBooth?' is-selected':'')+'" style="--a4-cluster:'+color+'" data-booth="'+booth.n+'" aria-label="Booth '+booth.n+', '+escH(booth.code)+', '+escH(nameSub)+'" onclick="a4MobileBoothClick('+booth.n+')"><span class="a4-mobile-booth-no">'+booth.n+'</span><span class="a4-mobile-booth-code">'+escH(booth.code)+'</span><small>'+escH(nameSub)+'</small></button>';
+        return '<button type="button" class="a4-mobile-booth-btn'+(String(booth.n)===denahSelectedBooth?' is-selected':'')+'" style="--a4-cluster:'+color+'" data-booth="'+booth.n+'" aria-label="Booth '+escH(booth.code)+', nomor '+booth.n+', '+escH(nameSub)+'" onclick="a4MobileBoothClick('+booth.n+')"><span class="a4-mobile-booth-no">'+escH(booth.code)+'</span><span class="a4-mobile-booth-code">No. '+booth.n+'</span><small>'+escH(nameSub)+'</small></button>';
       }).join('')+'</div>';
     }
     if(denahActiveArea==='all'){
@@ -2859,9 +2877,9 @@
     svg.setAttribute('viewBox','0 0 1820 1024');
     var html=boothShapes.map(function(booth){
       var dim=denahActiveArea!=='all'&&booth.area!==denahActiveArea;
-      var title='Booth '+booth.n+' ('+booth.code+') — '+boothStatus(booth.n);
+      var title='Booth '+booth.code+' (nomor '+booth.n+') — '+boothStatus(booth.n);
       var color=tenantAreaColors[booth.area]||'#d4a843';
-      return '<g class="a4-map-booth'+(dim?' is-dim':'')+(String(booth.n)===denahSelectedBooth?' is-selected':'')+'" style="--a4-cluster:'+color+'" data-booth="'+booth.n+'" data-area="'+booth.area+'" data-code="'+booth.code+'" role="button" tabindex="'+(dim?'-1':'0')+'" aria-hidden="'+dim+'" aria-label="'+escH(title)+'" onmouseenter="a4MapTip(event,'+booth.n+')" onmouseleave="a4HideTip()"><title>'+escH(title)+'</title><rect x="'+booth.x+'" y="'+booth.y+'" width="'+booth.w+'" height="'+booth.h+'" rx="2"'+(booth.angle?' transform="rotate('+booth.angle+' '+booth.cx+' '+booth.cy+')"':'')+'></rect><text x="'+booth.cx+'" y="'+(booth.cy+3)+'" text-anchor="middle" pointer-events="none">'+booth.n+'</text></g>';
+      return '<g class="a4-map-booth'+(dim?' is-dim':'')+(String(booth.n)===denahSelectedBooth?' is-selected':'')+'" style="--a4-cluster:'+color+'" data-booth="'+booth.n+'" data-area="'+booth.area+'" data-code="'+booth.code+'" role="button" tabindex="'+(dim?'-1':'0')+'" aria-hidden="'+dim+'" aria-label="'+escH(title)+'" onmouseenter="a4MapTip(event,'+booth.n+')" onmouseleave="a4HideTip()"><title>'+escH(title)+'</title><rect x="'+booth.x+'" y="'+booth.y+'" width="'+booth.w+'" height="'+booth.h+'" rx="2"'+(booth.angle?' transform="rotate('+booth.angle+' '+booth.cx+' '+booth.cy+')"':'')+'></rect><text x="'+booth.cx+'" y="'+(booth.cy+3)+'" text-anchor="middle" pointer-events="none">'+escH(booth.code.substring(1))+'</text></g>';
     }).join('');
     html+='<g class="a4-map-stage-hotspot" data-fn="stage" role="button" tabindex="0" aria-label="Main Stage, buka jadwal acara"><title>Main Stage — buka jadwal acara</title><rect x="1496" y="185" width="95" height="147" rx="32"></rect><text x="1543" y="266" text-anchor="middle" pointer-events="none">MAIN</text><text x="1543" y="281" text-anchor="middle" pointer-events="none">STAGE</text></g>';
     svg.innerHTML=html;renderMobileBoothList();renderMapLegend();

@@ -1378,8 +1378,13 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
 .a4-modal-tenant .a4-m-facts dd { margin:0; color:#e8eef9; font-size:13px; line-height:1.5; overflow-wrap:anywhere }
 .a4-modal-tenant .a4-m-contact { margin-top:24px }
 .a4-modal-tenant .a4-m-kontak-list { gap:0; border-top:1px solid rgba(225,234,250,.14) }
-.a4-modal-tenant .a4-m-kr { min-height:42px; display:grid; grid-template-columns:128px minmax(0,1fr); gap:14px; padding:10px 0; border-bottom:1px solid rgba(225,234,250,.1); border-radius:0; background:transparent }
-.a4-modal-tenant .a4-m-kl { min-width:0; font-size:11px; font-weight:600; letter-spacing:.06em; color:#92a7c2 }
+.a4-modal-tenant .a4-m-kr { min-height:42px; display:grid; grid-template-columns:150px minmax(0,1fr); gap:14px; padding:10px 0; border-bottom:1px solid rgba(225,234,250,.1); border-radius:0; background:transparent }
+.a4-modal-tenant .a4-m-kl { min-width:0; display:inline-flex; align-items:center; gap:10px; font-size:11px; font-weight:600; letter-spacing:.06em; color:#92a7c2 }
+.a4-modal-tenant .a4-m-app-icon { width:19px; height:19px; flex:none; color:#b8c7db }
+.a4-modal-tenant .a4-m-kl-whatsapp .a4-m-app-icon { color:#39cf8a }
+.a4-modal-tenant .a4-m-kl-instagram .a4-m-app-icon { color:#f18bbb }
+.a4-modal-tenant .a4-m-kl-facebook .a4-m-app-icon { color:#70a9ff }
+.a4-modal-tenant .a4-m-kl-twitter .a4-m-app-icon { color:#e6edf8 }
 .a4-modal-tenant .a4-m-kv { min-width:0; font-size:13px; color:#d9e5f5; word-break:break-word; overflow-wrap:anywhere }
 .a4-modal-tenant a.a4-m-kv { color:#9dc6ff; text-underline-offset:3px }
 .a4-modal-tenant .a4-m-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:26px }
@@ -1414,6 +1419,8 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
   .a4-modal-tenant .a4-m-logo-well { width:66px; height:64px; padding:5px }
   .a4-modal-tenant .a4-m-name { font-size:19px }
   .a4-modal-tenant .a4-m-facts > div,
-  .a4-modal-tenant .a4-m-kr { grid-template-columns:96px minmax(0,1fr); gap:8px }
+  .a4-modal-tenant .a4-m-kr { grid-template-columns:124px minmax(0,1fr); gap:8px }
+  .a4-modal-tenant .a4-m-kl { gap:7px; font-size:10px }
+  .a4-modal-tenant .a4-m-app-icon { width:17px; height:17px }
   .a4-modal-tenant .a4-m-actions > * { flex:1 1 100% }
 }
