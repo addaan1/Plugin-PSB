@@ -260,13 +260,28 @@ function assie4_get_presensi( WP_REST_Request $req ) {
     $limit = min( (int) $req->get_param('limit'), 20 );
 
     $rows = $wpdb->get_results( $wpdb->prepare(
-        "SELECT nama, instansi, DATE_FORMAT(waktu,'%%H:%%i') AS waktu_fmt
+        "SELECT nama, DATE_FORMAT(waktu,'%%H:%%i') AS waktu_fmt
          FROM {$table}
          WHERE booth = %d
          ORDER BY waktu DESC
          LIMIT %d",
         $booth, $limit
     ), ARRAY_A );
+
+    // Public endpoint: never send full visitor names or their institution.
+    $entries = array_map( static function ( $row ) {
+        $name = trim( (string) $row['nama'] );
+        preg_match_all( '/\X/u', $name, $match );
+        $characters = $match[0] ?? [];
+        $masked_name = '';
+        foreach ( $characters as $index => $character ) {
+            $masked_name .= $index === 0 ? $character : ( preg_match( '/^\s+$/u', $character ) ? ' ' : '*' );
+        }
+        return [
+            'nama'      => $masked_name !== '' ? $masked_name : '*',
+            'waktu_fmt' => $row['waktu_fmt'],
+        ];
+    }, $rows ?: [] );
 
     $total = (int) $wpdb->get_var( $wpdb->prepare(
         "SELECT COUNT(*) FROM {$table} WHERE booth = %d", $booth
@@ -275,7 +290,7 @@ function assie4_get_presensi( WP_REST_Request $req ) {
     return rest_ensure_response( [
         'booth'   => $booth,
         'total'   => $total,
-        'entries' => $rows,
+        'entries' => $entries,
     ] );
 }
 

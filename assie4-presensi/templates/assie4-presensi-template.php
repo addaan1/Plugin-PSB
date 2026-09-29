@@ -36,7 +36,7 @@ $exhibition_url = $exhibition_page ? get_permalink( $exhibition_page ) : home_ur
   :focus-visible { outline:2px solid var(--gold); outline-offset:4px; }
   .site-header { max-width:1040px; margin:auto; padding:25px 30px; display:flex; align-items:center; justify-content:space-between; gap:20px; border-bottom:1px solid var(--border); }
   .brand { display:flex; align-items:center; gap:12px; text-decoration:none; }
-  .brand-word { font:800 20px 'Syne',sans-serif; letter-spacing:-.6px; }
+  .brand-word { font:800 20px 'Syne',sans-serif; letter-spacing:-.6px; white-space:nowrap; }
   .brand-year { font-size:11px; color:var(--gold); border-left:1px solid #536071; padding-left:12px; letter-spacing:1px; }
   .back-link { display:flex; align-items:center; gap:9px; min-height:44px; color:var(--muted); font-size:13px; text-decoration:none; transition:color .18s; }
   .back-link:hover { color:var(--gold); }
@@ -51,8 +51,9 @@ $exhibition_url = $exhibition_page ? get_permalink( $exhibition_page ) : home_ur
   .section-label span { color:var(--gold); font-size:11px; margin-right:10px; font-variant-numeric:tabular-nums; }
   .selector-label { display:block; color:var(--muted); font-size:12px; margin-bottom:7px; }
   .selector-wrap { position:relative; }
-  .picker-trigger { width:100%; min-height:76px; display:flex; align-items:center; gap:12px; padding:13px; border:1px solid #556076; border-radius:8px; background:var(--input); color:var(--text); text-align:left; transition:border-color .18s; }
+  .picker-trigger { width:100%; min-height:76px; display:flex; align-items:center; gap:12px; padding:13px; border:1px solid #556076; border-radius:8px; background:var(--input); color:var(--text); text-align:left; transition:border-color .18s, transform .18s; }
   .picker-trigger:hover, .picker-trigger[aria-expanded="true"] { border-color:var(--gold); }
+  .picker-trigger:active { transform:scale(.992); }
   .picker-code { flex:none; min-width:43px; height:43px; display:grid; place-items:center; border-radius:5px; background:#29261d; color:var(--gold); font-size:15px; font-weight:700; }
   .picker-summary { min-width:0; display:grid; gap:4px; flex:1; }
   .picker-summary strong { font-size:14px; line-height:1.35; font-weight:500; overflow-wrap:anywhere; }
@@ -80,9 +81,13 @@ $exhibition_url = $exhibition_page ? get_permalink( $exhibition_page ) : home_ur
   .field input.invalid { border-color:var(--error); }
   .err-msg { display:none; color:var(--error); font-size:12px; margin-top:5px; }
   .has-error .err-msg { display:block; }
-  .btn-submit { width:100%; min-height:49px; display:flex; align-items:center; justify-content:center; gap:10px; border:0; border-radius:7px; background:var(--gold); color:#16140c; font-weight:700; font-size:14px; margin-top:23px; transition:background .18s; }
-  .btn-submit:hover { background:#e7bd55; }
+  .btn-submit { width:100%; min-height:49px; display:flex; align-items:center; justify-content:center; gap:10px; border:0; border-radius:7px; background:var(--gold); color:#16140c; font-weight:700; font-size:14px; margin-top:23px; position:relative; overflow:hidden; transition:background .2s, transform .18s, box-shadow .2s; }
+  .btn-submit:hover { background:#e7bd55; box-shadow:0 6px 22px #d7ad4333; transform:translateY(-2px); }
+  .btn-submit:active { transform:translateY(1px) scale(.985); box-shadow:none; }
+  .btn-submit.is-success { background:#7cdbb3; }
+  .btn-submit.is-invalid { animation:button-nudge .28s ease; }
   .btn-submit:disabled { opacity:.6; cursor:wait; }
+  .btn-submit.is-success:disabled { opacity:1; cursor:default; }
   .form-note { font-size:11px; color:var(--muted); margin:13px 0 0; text-align:center; }
   .toast { display:none; padding:12px; margin-top:14px; border-radius:6px; font-size:13px; }
   .toast.success { display:block; color:var(--success); background:#12372c; }
@@ -120,10 +125,11 @@ $exhibition_url = $exhibition_page ? get_permalink( $exhibition_page ) : home_ur
   .footer { max-width:980px; margin:28px auto 0; padding:19px 0 30px; border-top:1px solid var(--border); color:#76869d; font-size:10px; display:flex; justify-content:space-between; gap:15px; }
   .spinner { display:inline-block; width:15px; height:15px; border:2px solid #16140c40; border-top-color:#16140c; border-radius:50%; animation:spin .7s linear infinite; }
   @keyframes spin { to { transform:rotate(360deg); } }
+  @keyframes button-nudge { 25% { transform:translateX(-4px); } 75% { transform:translateX(4px); } }
   @keyframes reveal { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }
   @media(max-width:720px) {
     .site-header { padding:13px 20px; }
-    .brand-word { font-size:17px; }
+    .brand-word { font-size:clamp(12px,3.8vw,17px); }
     .brand-year { display:none; }
     .back-link { font-size:11px; gap:6px; }
     .hero { padding:27px 20px 23px; }
@@ -135,13 +141,19 @@ $exhibition_url = $exhibition_page ? get_permalink( $exhibition_page ) : home_ur
     .picker-trigger { padding:11px; gap:10px; }
     .footer { margin:27px 20px 0; flex-direction:column; gap:3px; }
   }
+  @media(max-width:520px) {
+    .site-header { flex-wrap:wrap; gap:1px; }
+    .brand { width:100%; min-width:0; }
+    .brand-word { font-size:17px; white-space:normal; line-height:1.2; }
+    .back-link { margin-left:auto; }
+  }
   @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none!important; transition:none!important; } }
 </style>
 </head>
 <body>
 
 <header class="site-header">
-  <a class="brand" href="<?php echo esc_url( $exhibition_url ); ?>" aria-label="ASSIE IV — beranda pameran"><span class="brand-word">ASSIE IV</span><span class="brand-year">2026</span></a>
+  <a class="brand" href="<?php echo esc_url( $exhibition_url ); ?>" aria-label="Industry Matching ASSIE IV — beranda pameran"><span class="brand-word">Industry Matching ASSIE IV</span><span class="brand-year">2026</span></a>
   <a class="back-link" href="<?php echo esc_url( $exhibition_url ); ?>"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m12 5-7 7 7 7M5 12h15"/></svg>Kembali ke pameran</a>
 </header>
 
@@ -434,7 +446,6 @@ function renderRecent(entries) {
     <div class="recent-item">
       <div>
         <div class="ri-name">${esc(e.nama)}</div>
-        <div class="ri-inst">${esc(e.instansi)}</div>
       </div>
       <div class="ri-time">${esc(e.waktu_fmt)}</div>
     </div>
@@ -482,12 +493,21 @@ function setError(field, hasError, msg) {
 // ─── SUBMIT KE REST API ───
 async function submitPresensi() {
   if (document.getElementById('btnSubmit').disabled) return;
-  if (!validate()) return;
+  if (!validate()) {
+    const btn = document.getElementById('btnSubmit');
+    btn.classList.remove('is-invalid');
+    void btn.offsetWidth;
+    btn.classList.add('is-invalid');
+    document.querySelector('.field input.invalid')?.focus();
+    return;
+  }
 
   const btn  = document.getElementById('btnSubmit');
   btn.disabled = true;
+  btn.classList.remove('is-invalid', 'is-success');
   btn.innerHTML = '<span class="spinner"></span>Menyimpan…';
   hideToast();
+  let saved = false;
 
   const booth    = parseInt(SELECT.value);
   const nama     = document.getElementById('nama').value.trim();
@@ -507,6 +527,7 @@ async function submitPresensi() {
     const data = await res.json();
 
     if (res.ok && data.success) {
+      saved = true;
       showToast('success', '✅ Presensi berhasil dicatat! Selamat menikmati pameran.');
       clearForm();
       fetchBoothData(booth);
@@ -519,8 +540,18 @@ async function submitPresensi() {
   } catch(e) {
     showToast('error-toast', '⚠️ Koneksi gagal. Periksa internet Anda dan coba lagi.');
   } finally {
-    btn.disabled = false;
-    btn.textContent = 'Catat kehadiran →';
+    if (saved) {
+      btn.classList.add('is-success');
+      btn.textContent = 'Berhasil dicatat ✓';
+      window.setTimeout(() => {
+        btn.classList.remove('is-success');
+        btn.textContent = 'Catat kehadiran →';
+        btn.disabled = false;
+      }, 1700);
+    } else {
+      btn.disabled = false;
+      btn.textContent = 'Catat kehadiran →';
+    }
   }
 }
 
