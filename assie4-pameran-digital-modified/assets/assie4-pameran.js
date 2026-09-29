@@ -38,7 +38,1968 @@
       ]
     },
     denah:   [],
-    tenants: [],
+    tenants: [
+  {
+    "id": "a1",
+    "booth_no": 1,
+    "code": "A1",
+    "cluster": 1,
+    "area": "A",
+    "name": "Fakultas Kedokteran",
+    "instansi": "Fakultas Kedokteran",
+    "pic": "Reny I'tishom",
+    "cat": "Internal UNAIR",
+    "desc": "Fakultas Kedokteran Universitas Airlangga (FK Unair) di Surabaya merupakan salah satu fakultas kedokteran tertua dan paling bersejarah di Indonesia. Sejarahnya berakar dari tradisi pendidikan medis era Hindia Belanda yang diawali oleh pencerahan Sekolah Dokter Jawa pada pertengahan abad ke-19.\n\nSecara resmi, cikal bakal FK Unair berdiri pada 1 November 1913 di Surabaya dengan nama NIAS (Nederlandsch Indische Artsen School). Lembaga ini mencetak para dokter pribumi yang berperan besar dalam pelayanan kesehatan dan pergerakan nasional. Memasuki masa pendudukan Jepang, NIAS berganti nama menjadi Surabaya Ika Daigaku. Setelah kemerdekaan, sekolah ini sempat berstatus sebagai cabang Fakultas Kedokteran Universitas Indonesia (FK UI) sebelum akhirnya diresmikan oleh Presiden Soekarno menjadi bagian dari Universitas Airlangga pada 10 November 1954.\n\nSaat ini, FK Unair menjadi salah satu pusat pendidikan kedokteran unggulan berakreditasi internasional di Indonesia. Didukung oleh jaringan rumah sakit pendidikan utama seperti RSUD Dr. Soetomo dan Rumah Sakit Universitas Airlangga (RSUA), FK Unair terus melahirkan tenaga medis bertaraf global, memperkuat riset kesehatan, dan menjaga warisan sejarahnya sebagai pilar kedokteran tanah air.",
+    "tags": [
+      "Internal UNAIR",
+      "UNAIR",
+      "Transaksi Booth"
+    ],
+    "logo": "https://drive.google.com/drive/folders/1RjUz0bE9UJKDOusL3GefYSQsSCsjaZmA?usp=sharing",
+    "contact": "ritishom@fk.unair.ac.id & humas@fk.unair.ac.id",
+    "whatsapp": "08121644432 & 085961510996",
+    "web": "https://fk.unair.ac.id/",
+    "instagram": "instagram.com/fk_unair",
+    "facebook": "facebook.com/MedicineUNAIR",
+    "twitter": "x.com/FK_UNAIR_ofc",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "a2",
+    "booth_no": 2,
+    "code": "A2",
+    "cluster": 1,
+    "area": "A",
+    "name": "Fakultas Kedokteran Gigi Universitas Airlangga",
+    "instansi": "Fakultas Kedokteran Gigi Universitas Airlangga",
+    "pic": "Dr. Andari Sarasati drg.",
+    "cat": "Internal UNAIR",
+    "desc": "FKG UNAIR merupakan institusi pendidikan kedokteran gigi unggulan di Indonesia dengan kekuatan dalam pendidikan, riset, inovasi, dan pengabdian masyarakat. Berbagai riset dan inovasi produk dikembangkan untuk menghasilkan solusi kesehatan gigi dan mulut  yang berdampak dan berpotensi dikolaborasikan serta dihilirkan bersama industri dan pemerintah.",
+    "tags": [
+      "Internal UNAIR",
+      "UNAIR",
+      "Transaksi Booth"
+    ],
+    "logo": "https://drive.google.com/drive/folders/1vaiAIwr_7r_jFDA6vT-IJMS_IIyUT_41?usp=sharing",
+    "contact": "andari.sarasati@fkg.unair.ac.id",
+    "whatsapp": "81333343938.0",
+    "web": "https://unair.ac.id/fakultas-kedokteran-gigi/",
+    "instagram": "Dental Medicine UNAIR (@fkg.unair)",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "a3",
+    "booth_no": 3,
+    "code": "A3",
+    "cluster": 1,
+    "area": "A",
+    "name": "Fakultas Farmasi UNAIR",
+    "instansi": "Fakultas Farmasi UNAIR",
+    "pic": "Yusuf Alif Pratama",
+    "cat": "Internal UNAIR",
+    "desc": "Produk inovasi FF UNAIR",
+    "tags": [
+      "Internal UNAIR",
+      "UNAIR",
+      "Transaksi Booth"
+    ],
+    "logo": "https://drive.google.com/drive/folders/1Pazt80IK4yX47K9C2G6LF9T4en_XePL3?usp=sharing",
+    "contact": "yusuf.alif@ff.unair.ac.id",
+    "whatsapp": "089605257473",
+    "web": "https://ff.unair.ac.id",
+    "instagram": "ff.unair",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "a4",
+    "booth_no": 4,
+    "code": "A4",
+    "cluster": 1,
+    "area": "A",
+    "name": "Fakultas Kedokteran Hewan Universitas Airlangga",
+    "instansi": "Fakultas Kedokteran Hewan Universitas Airlangga",
+    "pic": "Dhandy Koesoemo Wardhana, drh.,M.Vet.,Ph.D",
+    "cat": "Internal UNAIR",
+    "desc": "Fakultas Kedokteran Hewan Universitas Airlangga (FKH UNAIR) merupakan salah satu institusi pendidikan kedokteran hewan terkemuka di Indonesia yang unggul dalam pendidikan, penelitian, dan pengabdian kepada masyarakat. Didukung sumber daya akademik yang kompeten, fasilitas pendidikan dan penelitian yang memadai, serta jejaring kerja sama nasional dan internasional, FKH UNAIR berkomitmen menghasilkan lulusan dan inovasi yang berdaya saing serta berkontribusi nyata bagi kesehatan hewan dan kesehatan masyarakat. Arah penelitian FKH UNAIR diselaraskan dengan rencana pengembangan institusi, kebutuhan nasional, dan tren global, dengan orientasi utama pada penelitian terapan yang berujung pada hilirisasi. Melalui riset yang berorientasi produk, FKH UNAIR mendorong lahirnya luaran kekayaan intelektual, khususnya paten dan paten sederhana yang aplikatif dan siap dimanfaatkan pengguna, mulai dari kandidat vaksin, kit diagnostik, sediaan obat hewan dan herbal, hingga teknologi reproduksi dan pakan fungsional. Luaran tersebut dikembangkan bersama mitra industri, pemerintah, dan masyarakat agar tidak berhenti sebagai publikasi ilmiah, melainkan bertransformasi menjadi produk dan layanan yang memberi manfaat ekonomi dan sosial secara langsung.",
+    "tags": [
+      "Internal UNAIR",
+      "UNAIR",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1JvttX_5s9zKZtkHSoPeNFvegd-kHZ6DB",
+    "contact": "dhandy.koesoemo.wardhana@fkh.unair.ac.id",
+    "whatsapp": "081553121891",
+    "web": "https://fkh.unair.ac.id/",
+    "instagram": "humasfkhunair",
+    "facebook": "",
+    "twitter": "FkhUnair",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "a5",
+    "booth_no": 5,
+    "code": "A5",
+    "cluster": 1,
+    "area": "A",
+    "name": "FaST_Booth",
+    "instansi": "Fakultas Sains dan Teknologi UNAIR",
+    "pic": "Dr. M. Fariz Fadillah Mardianto, M.Si",
+    "cat": "Internal UNAIR",
+    "desc": "Booth memamerkan karya inovasi dosen Fakultas Sains dan Teknologi Universitas Airlangga dari hasil riset dan pengabdian masyarakat yang berpotensi untuk dikembangkan dalam hilirisasi untuk keberlanjutan",
+    "tags": [
+      "Internal UNAIR",
+      "UNAIR",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/16pnKSNhWIJ7EZlkAIzT34TzBZmLM0k6K",
+    "contact": "m.fariz.fadillah.m@fst.unair.ac.id",
+    "whatsapp": "081330733130",
+    "web": "https://fst.unair.ac.id/",
+    "instagram": "@fst_unair",
+    "facebook": "Fst Unair",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "a6",
+    "booth_no": 6,
+    "code": "A6",
+    "cluster": 1,
+    "area": "A",
+    "name": "FTMM UNAIR",
+    "instansi": "FTMM UNAIR",
+    "pic": "Vinanci Intan Widriani, S.M.",
+    "cat": "Internal UNAIR",
+    "desc": "Produk inovasi dari Fakultas Teknologi Maju dan Multidisiplin",
+    "tags": [
+      "Internal UNAIR",
+      "UNAIR",
+      "Transaksi Booth"
+    ],
+    "logo": "https://ftmm.click/LogoFTMM",
+    "contact": "vinanci@staf.unair.ac.id",
+    "whatsapp": "0822-3216-6441",
+    "web": "https://ftmm.unair.ac.id/",
+    "instagram": "ftmmunair",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "a7",
+    "booth_no": 7,
+    "code": "A7",
+    "cluster": 1,
+    "area": "A",
+    "name": "Fakultas Vokasi (Departemen Kesehatan)",
+    "instansi": "Universitas Airlangga/ Fakultas Vokasi/ Departemen Kesehatan",
+    "pic": "IIF HANIFA NURROSYIDAH",
+    "cat": "Internal UNAIR",
+    "desc": "Booth ini menampilkan hasil riset, karya inovasi, dan produk praktikum mahasiswa dari Departemen Kesehatan dan Fakultas Vokasi, mencakup Program Studi Pengobatan Tradisional, Radiologi, Teknik Gigi, dan program studi kesehatan lainnya. Pengunjung dapat menyaksikan langsung berbagai inovasi di bidang kesehatan, mulai dari produk herbal dan terapi tradisional berbasis bukti ilmiah, teknologi pencitraan radiologi, hasil karya teknik gigi (protesa, alat orthodontik, dan model anatomi gigi), hingga inovasi alat kesehatan penunjang lainnya. Booth ini menjadi bukti nyata kontribusi dunia pendidikan vokasi kesehatan dalam menghadirkan solusi aplikatif yang siap dihilirisasi ke masyarakat dan industri.",
+    "tags": [
+      "Internal UNAIR",
+      "UNAIR",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1l0V5h9p4b4SVJjB4aRAmwj5zxfitwSll",
+    "contact": "hanifa.nurrosyidah@vokasi.unair.ac.id",
+    "whatsapp": "085190648711",
+    "web": "",
+    "instagram": "",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "a8",
+    "booth_no": 8,
+    "code": "A8",
+    "cluster": 1,
+    "area": "A",
+    "name": "FPK UNAIR",
+    "instansi": "Fakultas Perikanan dan Kelautan Universitas Airlangga",
+    "pic": "Daruti Dinda Nindarwi",
+    "cat": "Internal UNAIR",
+    "desc": "FPK UNAIR menghadirkan inovasi berbasis riset perikanan dan kelautan untuk menciptakan produk bernilai tambah dan berkelanjutan. Melalui kolaborasi antara ilmu pengetahuan, teknologi, dan industri, FPK UNAIR mendorong hilirisasi inovasi untuk menjawab kebutuhan masyarakat dan membuka peluang pengembangan bisnis masa depan.",
+    "tags": [
+      "Internal UNAIR",
+      "UNAIR",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1kiekoQRRoteyVRfnz7OVGpyXpqKG9zj6",
+    "contact": "daruti-dinda-n@fpk.unair.ac.id",
+    "whatsapp": "+62 822-3172-4191",
+    "web": "https://fpk.unair.ac.id",
+    "instagram": "fpkunair",
+    "facebook": "Fakultas Perikanan dan Kelautan",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "a9",
+    "booth_no": 9,
+    "code": "A9",
+    "cluster": 1,
+    "area": "A",
+    "name": "Fakultas Ekonomi dan Bisnis",
+    "instansi": "Fakultas Ekonomi dan Bisnis Universitas Airlangga",
+    "pic": "",
+    "cat": "Internal UNAIR",
+    "desc": "Booth resmi Fakultas Ekonomi dan Bisnis (FEB) Universitas Airlangga.",
+    "tags": [
+      "Internal UNAIR",
+      "UNAIR"
+    ],
+    "logo": "https://unair.ac.id/wp-content/uploads/2021/04/Logo-Universitas-Airlangga-UNAIR-300x300.png",
+    "contact": "",
+    "whatsapp": "",
+    "web": "https://feb.unair.ac.id/",
+    "instagram": "",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": ""
+  },
+  {
+    "id": "a10",
+    "booth_no": 10,
+    "code": "A10",
+    "cluster": 1,
+    "area": "A",
+    "name": "Public Health UNAIR",
+    "instansi": "Fakultas Kesehatan Masyarakat UNAIR",
+    "pic": "Rizna Notarianti",
+    "cat": "Internal UNAIR",
+    "desc": "Booth Public Health UNAIR merupakan ruang yang memperkenalkan dan memasarkan berbagai produk inovasi karya dosen dan mahasiswa Fakultas Kesehatan Masyarakat Universitas Airlangga. Booth ini menghadirkan beragam inovasi di bidang gizi dan kesehatan masyarakat yang dikembangkan berdasarkan kreativitas, keilmuan, serta kebutuhan masyarakat.\n\nMelalui produk-produk yang ditawarkan, Booth FKM UNAIR menjadi wadah untuk mempertemukan hasil inovasi akademik dengan masyarakat secara lebih luas. Setiap produk diharapkan tidak hanya memiliki nilai guna dan nilai ekonomi, tetapi juga memberikan kontribusi nyata dalam mendukung peningkatan kualitas kesehatan dan kesejahteraan masyarakat.\n\nDengan semangat “Dari Kampus untuk Masyarakat”, Booth FKM UNAIR hadir sebagai representasi kreativitas dan inovasi sivitas akademika FKM UNAIR, sekaligus mendorong pemanfaatan hasil karya dosen dan mahasiswa agar dapat memberikan dampak positif bagi masyarakat.",
+    "tags": [
+      "Internal UNAIR",
+      "UNAIR",
+      "Transaksi Booth"
+    ],
+    "logo": "https://fkm.unair.ac.id/download/logo-fkm/",
+    "contact": "riznanotarianti@fkm.unair.ac.id",
+    "whatsapp": "081904251396",
+    "web": "",
+    "instagram": "",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "a11",
+    "booth_no": 11,
+    "code": "A11",
+    "cluster": 1,
+    "area": "A",
+    "name": "FIB UNAIR",
+    "instansi": "FIB UNAIR BERBUDI DAN BERBUDAYA",
+    "pic": "Nuri Hermawan",
+    "cat": "Internal UNAIR",
+    "desc": "FIB UNAIR mengusung pameran inovsi berbasih budaya. Selain itu, inovasi ditujukan untuk memberikan edukasi dan pemahaman yang komprehensif berkenaan dengan budi dan budaya.",
+    "tags": [
+      "Internal UNAIR",
+      "UNAIR",
+      "Transaksi Booth"
+    ],
+    "logo": "https://fib.unair.ac.id/fib/download/logo-fib-unair/",
+    "contact": "nuri.hermawan@fib.unair.ac.id",
+    "whatsapp": "085736753801",
+    "web": "https://fib.unair.ac.id/fib-main/",
+    "instagram": "https://www.instagram.com/fib.unair/?hl=en",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "a12",
+    "booth_no": 12,
+    "code": "A12",
+    "cluster": 1,
+    "area": "A",
+    "name": "FIKKIA UNAIR",
+    "instansi": "FIKKIA UNAIR",
+    "pic": "Bintang Gumilang",
+    "cat": "Internal UNAIR",
+    "desc": "Produk inovasi mahasiswa dan dosen di Fakultas Ilmu Kesehatan, Kedokteran, dan Ilmu Alam Universitas Airlangga",
+    "tags": [
+      "Internal UNAIR",
+      "UNAIR",
+      "Transaksi Booth"
+    ],
+    "logo": "https://drive.google.com/drive/folders/1KNfH9f7irF8D4H4H6qovC-HvREDT3Pnq?usp=sharing",
+    "contact": "bintang.gumilang@staf.unair.ac.id",
+    "whatsapp": "08980614045",
+    "web": "https://fikkia.unair.ac.id",
+    "instagram": "fikkia.unair",
+    "facebook": "fikkia univ airlangga",
+    "twitter": "fikkia_unair",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "a16",
+    "booth_no": 16,
+    "code": "A16",
+    "cluster": 1,
+    "area": "A",
+    "name": "Lembaga Penyakit Tropis Universitas Airlangga",
+    "instansi": "Lembaga Penyakit Tropis Universitas Airlangga",
+    "pic": "Laura Navika Yamani",
+    "cat": "Internal UNAIR",
+    "desc": "Lembaga Penyakit Tropis (LPT) Universitas Airlangga merupakan pusat unggulan penelitian dan pengembangan dalam bidang penyakit tropis dan penyakit infeksi yang mengintegrasikan riset, inovasi, layanan, pendidikan, serta pengembangan produk kesehatan. LPT UNAIR melalui berbagai research center, termasuk Research Center for Global Emerging and Re-emerging Infectious Diseases (RC GERID), mengembangkan penelitian berbasis epidemiologi, biologi molekuler, mikrobiologi, genomik, bioinformatika, dan kesehatan masyarakat untuk menghasilkan produk dan teknologi kesehatan, seperti kit diagnostik, metode deteksi molekuler, primer dan probe, sistem surveilans, serta inovasi untuk pencegahan dan pengendalian penyakit infeksi. Dengan jejaring kolaborasi nasional dan internasional serta kemitraan dengan pemerintah, industri, dan fasilitas pelayanan kesehatan, LPT UNAIR mendorong pendekatan from research to product dan hilirisasi hasil penelitian sehingga dapat memberikan kontribusi nyata terhadap kemandirian teknologi kesehatan, penguatan surveilans penyakit infeksi, dan kesiapsiagaan menghadapi penyakit emerging, re-emerging, dan ancaman pandemi.",
+    "tags": [
+      "Internal UNAIR",
+      "UNAIR",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1gXojQo-ohtRGaGAuEnwDoCXBgfUeARXf",
+    "contact": "laura.navika@fkm.unair.ac.id",
+    "whatsapp": "085649152890",
+    "web": "https://itd.unair.ac.id/wp/",
+    "instagram": "https://www.instagram.com/itd_unair/",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "a17",
+    "booth_no": 17,
+    "code": "A17",
+    "cluster": 1,
+    "area": "A",
+    "name": "Airlangga Enterprise",
+    "instansi": "Airlangga Enterprise",
+    "pic": "Rio Yuniar Dwinanta",
+    "cat": "Internal UNAIR",
+    "desc": "Booth Airlangga Enterprise akan menampilkan produk Amerta Water dan ruangan yang disewakan melalui Ditpilar Universitas Airlangga.",
+    "tags": [
+      "Internal UNAIR",
+      "UNAIR",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1veizQquD1f2unGCUIrSOFUTI6AXYNoim",
+    "contact": "rio.yuniar2406@gmail.com",
+    "whatsapp": "+6282257814415",
+    "web": "https://airlanggaenterprise.unair.ac.id",
+    "instagram": "airlangga_enterprise",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "a18",
+    "booth_no": 18,
+    "code": "A18",
+    "cluster": 1,
+    "area": "A",
+    "name": "Dormitory Center",
+    "instansi": "Dormitory Center",
+    "pic": "Aria Heru Setiawan",
+    "cat": "Internal UNAIR",
+    "desc": "Pusat Asrama Mahasiswa Universitas Airlangga merupakan fasilitas hunian mahasiswa yang nyaman, aman, dan mendukung pengembangan karakter serta kompetensi. Berlokasi di Kampus C UNAIR, asrama menjadi ruang tumbuh bagi mahasiswa melalui berbagai kegiatan edukatif dan pengembangan diri.",
+    "tags": [
+      "Internal UNAIR",
+      "UNAIR",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1ZYRj0TBpSGaaBBMswT0JeGrgIiP40OfD",
+    "contact": "ariaheru@staf.unair.ac.id",
+    "whatsapp": "08819301869",
+    "web": "https://asrama.unair.ac.id",
+    "instagram": "dormitoryunair",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "a19",
+    "booth_no": 19,
+    "code": "A19",
+    "cluster": 1,
+    "area": "A",
+    "name": "PUSPAS UNAIR",
+    "instansi": "Pusat Pengelolaan Dana Sosial",
+    "pic": "Nikmatul Fuadah",
+    "cat": "Internal UNAIR",
+    "desc": "MEnampilkan pengembangan bisnis dari pengelolaan wakaf produktif",
+    "tags": [
+      "Internal UNAIR",
+      "UNAIR",
+      "Transaksi Booth"
+    ],
+    "logo": "https://drive.google.com/drive/folders/1p7bxF0q4YpaRJuk2nqsMgYsOGi3ux2Qg?usp=sharing",
+    "contact": "info@puspas.unair.ac.id",
+    "whatsapp": "081327976923",
+    "web": "https://puspas.unair.ac.id",
+    "instagram": "@puspasunair_official",
+    "facebook": "pusat pengelolaan dana sosial universitas airlangga",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "a20",
+    "booth_no": 20,
+    "code": "A20",
+    "cluster": 1,
+    "area": "A",
+    "name": "PUSAT HALAL UNIVERSITAS AIRLANGGA",
+    "instansi": "PUSAT HALAL UNIVERSITAS HALAL - Menjamin Kehalalan, Memastikan Kebaikan",
+    "pic": "Muhammad Risqi Ihya Ramdhan",
+    "cat": "Internal UNAIR",
+    "desc": "Pusat Halal atau sebelumnya dikenal sebagai Pusat Riset dan Pengembangan Produk Halal Universitas Airlangga (PRPPH UNAIR) dibentuk untuk menjalankan fungsi sebagai Halal Research Center (Pusat Kajian Halal) sekaligus Halal Center, guna mendukung peran aktif institusi perguruan tinggi, khususnya dalam bidang penelitian dan pengabdian kepada masyarakat.",
+    "tags": [
+      "Internal UNAIR",
+      "UNAIR",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1QhrQOlD8MHaT-ThfncS2Wz0Ut26R3ZKa",
+    "contact": "info@halal.unair.ac.id",
+    "whatsapp": "089697458211",
+    "web": "https://halal.unair.ac.id/",
+    "instagram": "https://www.instagram.com/halalunair/",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "a21",
+    "booth_no": 21,
+    "code": "A21",
+    "cluster": 1,
+    "area": "A",
+    "name": "Pusat Bahasa dan Multibudaya",
+    "instansi": "Pusat Bahasa dan Multibudaya",
+    "pic": "Iyun Witari",
+    "cat": "Internal UNAIR",
+    "desc": "*Pusat Bahasa dan Multibudaya (Pusbamulya) Universitas Airlangga* merupakan unit penunjang penyeleggara layanan bahasa dan kebudayaan profesional di lingkungan Universitas Airlangga. Berada di bawah koordinasi pimpinan universitas, Pusbamulya berkomitmen mendukung penguatan akademik, internasionalisasi, serta pengembangan kompetensi sumber daya manusia.\n\nLayanan unggulan Pusbamulya mencakup tiga bidang utama:\n\n1. *Pengujian Bahasa:* Penyelenggaraan tes kemahiran bahasa terstandar, seperti English Language Proficiency Test (ELPT UNAIR), TOEFL ITP, NAT-TEST (Bahasa Jepang), dan uji kompetensi bahasa lainnya secara luring maupun daring.\n2. *Pelatihan dan Kursus Bahasa:* Program pelatihan bahasa Inggris (ELPT/IELTS preparation, general conversation, English for specific purposes) serta kelas bahasa asing seperti Jepang, Prancis, Belanda, dan BIPA.\n3. *Penerjemahan dan Penjurubahasaan:* Jasa penerjemahan dokumen resmi/akademik, proofreading, serta layanan interpreter profesional.\n\nDidukung oleh staf pengajar berpengalaman, kurikulum berkualitas, dan fasilitas modern, Pusbamulya tidak hanya melayani civitas akademika UNAIR, melainkan juga terbuka bagi masyarakat umum, instansi pemerintah, serta mitra korporat.",
+    "tags": [
+      "Internal UNAIR",
+      "UNAIR",
+      "Transaksi Booth"
+    ],
+    "logo": "https://1drv.ms/i/c/d980f1cf28fccf2b/IQA7mB1lMLQjRaB9Z2HsWQWFASJWfNf7SPIL0g6QtXlb2ig?e=hYNyEj",
+    "contact": "iyunwitari@staf.unair.ac.id",
+    "whatsapp": "+62 812-1691-5819",
+    "web": "https://pusatbahasa.unair.ac.id/",
+    "instagram": "@pusatbahasaunair",
+    "facebook": "https://www.facebook.com/pusbaunair",
+    "twitter": "https://x.com/pusbamulya",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "d1",
+    "booth_no": 22,
+    "code": "D1",
+    "cluster": 2,
+    "area": "D",
+    "name": "Airlangga Bilirubin Sun",
+    "instansi": "**Medika Karya Airlangga** merupakan **startup berbasis teknologi kesehatan yang telah berbadan hukum** dan menjadi salah satu bentuk implementasi **Indikator Kinerja Utama (IKU) 2**, melalui pengembangan *startup* berbasis teknologi yang melibatkan dosen, alumni, dan mahasiswa Universitas Airlangga (UNAIR).  **Visi:** Menjadi perusahaan di era Revolusi Industri 4.0 yang unggul sebagai penyedia teknologi dan peralatan kesehatan berbasis **riset berkelanjutan dan inovasi**, serta mampu memberikan dampak nyata bagi peningkatan kualitas pelayanan kesehatan.  **Misi:** Mengembangkan, menghasilkan, dan menyediakan produk teknologi kesehatan berkualitas tinggi yang memenuhi standar nasional dan internasional. **PT Medika Karya Airlangga** membuka ruang kolaborasi bagi sumber daya manusia yang kompeten untuk menghasilkan inovasi dan karya dalam negeri yang berkualitas, berdaya saing, serta memiliki nilai hilirisasi dan komersialisasi. Perusahaan berkomitmen memperkuat kemandirian teknologi kesehatan Indonesia serta memperluas daya saing produk inovasi nasional di pasar domestik maupun internasional.",
+    "pic": "Hasbi Assidiq",
+    "cat": "Kesehatan & Farmasi",
+    "desc": "AirBiliSun adalah inovasi fototerapi cahaya matahari terfilter yang aman untuk bayi kuning, mencegah paparan sinar UV, serta mendukung pemerataan akses fototerapi, terutama di wilayah 3T Indonesia.",
+    "tags": [
+      "Kesehatan & Farmasi",
+      "Startup",
+      "Transaksi Booth"
+    ],
+    "logo": "https://drive.google.com/drive/folders/1lOSN52HaGbJoTn-2QE-clYMYfWctUN9K?usp=sharing",
+    "contact": "hasbi.assidiq1990@gmail.com",
+    "whatsapp": "+62 851-1755-2990",
+    "web": "https://airbilisun.com",
+    "instagram": "airbilisun",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "d2",
+    "booth_no": 23,
+    "code": "D2",
+    "cluster": 2,
+    "area": "D",
+    "name": "CESGS Universitas Airlangga",
+    "instansi": "CESGS Universitas Airlangga",
+    "pic": "Nisa Andini Faradina",
+    "cat": "Internal UNAIR",
+    "desc": "Center for Environmental, Social, and Governance Studies (CESGS) adalah pusat penelitian di bawah naungan Universitas Airlangga yang berfokus pada penanganan isu-isu keberlanjutan.",
+    "tags": [
+      "Internal UNAIR",
+      "Startup",
+      "Transaksi Booth"
+    ],
+    "logo": "https://canva.link/4oq79g3dse25ynz",
+    "contact": "esgi.dataset@gmail.com",
+    "whatsapp": "085171700942",
+    "web": "https://cesgs.unair.ac.id/",
+    "instagram": "cesgs.unair",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "d3",
+    "booth_no": 24,
+    "code": "D3",
+    "cluster": 2,
+    "area": "D",
+    "name": "Unit Layanan Pengujian (ULP)",
+    "instansi": "Unit Layanan Pengujian Fakultas Farmasi Unair (ULPFFUA)",
+    "pic": "Rizka Elvira Puteri",
+    "cat": "Internal UNAIR",
+    "desc": "Unit Layanan Pengujian Fakultas Farmasi Universitas Airlangga adalah Laboratorium pengujian kimia dan mikrobilogis produk obat, makanan dan kosmetik. ULP-FFUA merupakan salah satu unit pendukung Fakultas Farmasi Universitas Airlangga yang didirikan dan dikembangkan untuk memberikan pelayanan pengujian untuk keperluan pendidikan, penelitian dan pengabdian masyarakat.\n\nUntuk Menjamin Kualitas Layanan pengujiannya ULP-FFUA pada tahun 2005 mulai mengajukan sertifikasi ISO 17025 dengan no LD-325-IDN. Untuk meningkatkan performa Unit Layanan Pengujian lebih lanjut, maka dilakukan penataan manajemen dan restruksi organisasi berdasarkan SK Dekan Fakultas Farmasi Unair no.2284/JO3.1.20/PP/2008 tertanggal 31 Oktober 2008.",
+    "tags": [
+      "Internal UNAIR",
+      "Startup",
+      "Transaksi Booth"
+    ],
+    "logo": "https://drive.google.com/drive/home",
+    "contact": "ulpffunair@gmail.com",
+    "whatsapp": "082234079377",
+    "web": "https://ff.unair.ac.id/pgs/418/contact",
+    "instagram": "ulp_unair",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "d4",
+    "booth_no": 25,
+    "code": "D4",
+    "cluster": 2,
+    "area": "D",
+    "name": "PUI-PT Bisnis Berkelanjutan (Center of Excellence for Sustainable Business)",
+    "instansi": "PUI-PT Center of Excellence for Sustainable Business",
+    "pic": "",
+    "cat": "Riset & Pengembangan",
+    "desc": "Pusat Unggulan Ipteks Perguruan Tinggi Bisnis Berkelanjutan Universitas Airlangga.",
+    "tags": [
+      "Riset & Pengembangan",
+      "Startup"
+    ],
+    "logo": "",
+    "contact": "",
+    "whatsapp": "",
+    "web": "",
+    "instagram": "",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": ""
+  },
+  {
+    "id": "d5",
+    "booth_no": 26,
+    "code": "D5",
+    "cluster": 2,
+    "area": "D",
+    "name": "Onggu Honey",
+    "instansi": "**CV. RUMAH MATAHARI PAGI – ONGGU HONEY** **100% MADU HUTAN INDONESIA** *Murni • Alami • Teruji*  🍯 **FTIR Verified** Teruji keaslian melalui metode **FTIR (Fourier Transform Infrared Spectroscopy)**.  🌿 **Nektar Alam Hutan Indonesia** Berasal dari nektar alami berbagai tumbuhan hutan Indonesia yang menghasilkan karakter rasa, aroma, dan warna khas.  🔬 **Tersertifikasi Keamanan Pangan** Memenuhi standar keamanan pangan melalui **NKV, HACCP, dan Halal**.  🐝 **Konservasi Lebah** Mendukung pemanenan madu secara lestari melalui edukasi dan **eduwisata lebah madu**.  👒 **Pemberdayaan Petani Lebah Madu Lokal** Mendukung **peternak lebah madu serta pemburu/pemanen madu hutan liar Indonesia** melalui kemitraan dan pengembangan rantai pasok madu lokal.",
+    "pic": "Arrissa Fauziarachman",
+    "cat": "PGN",
+    "desc": "Onggu Honey dari CV. Rumah Matahari Pagi menghadirkan 100% madu hutan Indonesia dari nektar, murni, alami, dan teruji keaslian melalui metode FTIR. Berkomitmen pada keamanan pangan, konservasi lebah, edukasi, eduwisata, serta pemberdayaan peternak lebah madu dan pemanen madu hutan liar.",
+    "tags": [
+      "PGN",
+      "Startup",
+      "Transaksi Booth"
+    ],
+    "logo": "https://drive.google.com/drive/folders/1KS_vyi0EcVlD8kIjzcmNrgKaQ3tDRPST?usp=sharing",
+    "contact": "rumahmataharipagi@gmail.com",
+    "whatsapp": "+62 813-5772-9664",
+    "web": "https://sites.google.com/view/onggu-honey/beranda",
+    "instagram": "https://www.instagram.com/maduonggu/ https://www.instagram.com/ongguhoney/",
+    "facebook": "https://www.facebook.com/madu.onggu.1/",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "d6",
+    "booth_no": 27,
+    "code": "D6",
+    "cluster": 2,
+    "area": "D",
+    "name": "Espresso by Kopi Setengah Serious",
+    "instansi": "Espresso by Kopi Setengah Serious",
+    "pic": "Eka",
+    "cat": "Food & Beverage",
+    "desc": "Kopi Setengah Serious adalah produsen espresso literan dari Surabaya, yang menjadi solusi simpel dan mudah untuk membuat kopi enak ala kafe tanpa harus investasi alat. \n‎\n‎Praktis tinggal tuang dan campur dengan air atau susu, produk kami telah terjual ribuan liter di e-commerce dan digunakan oleh pemilik kafe, umkm, kedai makanan maupun kopi keliling yang sedang merintis usaha dan ingin membuat menu kopi susu yang cepat namun tetap nikmat karena 1 Liter Espresso bisa untuk membuat 25-30 gelas kopi kekinian.\n‎ \n‎Kami berbagi ide resep dan konsultasi resep kopi kekinian di Instagram & Tiktok @kopisetengahserious.",
+    "tags": [
+      "Food & Beverage",
+      "Startup",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1q3jIdITlmHoewLjiz-JwpHQ_fwkmWfK-",
+    "contact": "kopisetengahserious@gmail.com",
+    "whatsapp": "087722617299",
+    "web": "https://linktr.ee/kopisetengahserious",
+    "instagram": "instagram.com/kopisetengahserious",
+    "facebook": "facebook.com/kopisetengahserious",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "d7",
+    "booth_no": 28,
+    "code": "D7",
+    "cluster": 2,
+    "area": "D",
+    "name": "Sahabat Spondan",
+    "instansi": "Sahabat Spondan",
+    "pic": "AMRETA LARAS PERTIWI",
+    "cat": "PGN",
+    "desc": "Produk olahan siap saji yang menemani setiap kegiatanmu menjadi lebih berwarna. Menghadirkan cita rasa otentik dengan harga terjangkau yang dikemas dan disajikan dengan rasa cinta. Setiap gigitan menciptakan kehangatan dalam setiap kegiatan bersama teman, keluarga dan orang tersayang kamu.",
+    "tags": [
+      "PGN",
+      "Startup",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1rDtbjiMk_sq7NGKTtggGBJJVAEQREE3M",
+    "contact": "amretapertiwi3@gmail.com",
+    "whatsapp": "085730171516",
+    "web": "",
+    "instagram": "https://www.instagram.com/sahabatspondan_sby?igsh=MTU1bzBzZXl1cHEzcQ==",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "d8",
+    "booth_no": 29,
+    "code": "D8",
+    "cluster": 2,
+    "area": "D",
+    "name": "MULIA SAMUDRA MAJU ABADI",
+    "instansi": "Mulia samudra maju abadi",
+    "pic": "Muhammad Syarif Satriyo samudra",
+    "cat": "Agrikultur & Akuakultur",
+    "desc": "CV. Mulia Samudra Maju Abadi (MSMA) merupakan usaha yang bergerak di bidang perikanan dan akuakultur berkelanjutan, dengan fokus pada budidaya dan pengembangan komoditas ikan serta rumput laut Gracilaria. MSMA mengintegrasikan kegiatan pembenihan, budidaya, pengumpulan hasil, pengolahan, hingga pemasaran untuk menghasilkan produk perikanan berkualitas dan bernilai ekonomi.\nMSMA juga mengembangkan inovasi teknologi akuakultur, seperti IoT, pakan otomatis, monitoring kualitas air, serta konsep budidaya yang efisien dan ramah lingkungan, dengan tujuan membangun ekosistem perikanan modern, produktif, dan berkelanjutan.",
+    "tags": [
+      "Agrikultur & Akuakultur",
+      "Startup",
+      "Transaksi Booth"
+    ],
+    "logo": "https://www.instagram.com/muliasamudra?stkn=MWV3eTFneGxhdHk1Zw==",
+    "contact": "msatriyo@magister.ciputra.ac.id",
+    "whatsapp": "081259545859",
+    "web": "https://Muliasamudra.com",
+    "instagram": "Muliasamudra",
+    "facebook": "Mulia Samudra",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "d9",
+    "booth_no": 30,
+    "code": "D9",
+    "cluster": 2,
+    "area": "D",
+    "name": "Flordequeen Scalp and Hair Botanicals",
+    "instansi": "Universitas Ciputra Surabaya - UC Ventures",
+    "pic": "Selma Lady Diana",
+    "cat": "Eksternal UNAIR",
+    "desc": "Mengusung konsep eco-hair wellness, Flordequeen hadir sebagai merek perawatan rambut dan kulit kepala berbasis botani yang memadukan bahan-bahan alami pilihan dengan standar kualitas premium. Kami berkomitmen untuk menghadirkan solusi perawatan menyeluruh yang aman, efektif, serta berkelanjutan untuk kesehatan rambut dari akarnya.",
+    "tags": [
+      "Eksternal UNAIR",
+      "Startup",
+      "Transaksi Booth"
+    ],
+    "logo": "https://drive.google.com/drive/folders/1ztz7m1Shj3jzHC6b_2vOlUOS_2I0pULl?usp=sharing",
+    "contact": "flordequeen@gmail.com",
+    "whatsapp": "0817290298",
+    "web": "https://flordequeen.com",
+    "instagram": "@flordequeen.co",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "d10",
+    "booth_no": 31,
+    "code": "D10",
+    "cluster": 2,
+    "area": "D",
+    "name": "INBIS PPNS",
+    "instansi": "Politeknik Perkapalan Negeri Surabaya",
+    "pic": "Yesica N Devi",
+    "cat": "Eksternal UNAIR",
+    "desc": "Inkubator bisnis Politeknik Perkapalan Negeri Surabaya merupakan unit yang memberikan pelayanan bantuan pendampingan bagi calon start up mulai dari inisiasi bisnis hingga scale up produk hasil riset dosen dan mahasiswa.",
+    "tags": [
+      "Eksternal UNAIR",
+      "Startup",
+      "Transaksi Booth"
+    ],
+    "logo": "data:image/jpeg;base64,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",
+    "contact": "yesica@ppns.ac.id",
+    "whatsapp": "082332357444",
+    "web": "",
+    "instagram": "https://www.instagram.com/inovasippns/?hl=en",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "d11",
+    "booth_no": 32,
+    "code": "D11",
+    "cluster": 2,
+    "area": "D",
+    "name": "UIN Maulana Malik Ibrahim Malang",
+    "instansi": "UIN Maliki Malang melalui Phytonomics Research Group mengembangkan inovasi bahan alam menjadi produk kesehatan dan kosmetik, seperti Hermarin, Osteprim, Malstonin, Rahza, Uvamax, dan Rootēra, melalui riset dan hilirisasi.",
+    "pic": "apt. Novia Maulina, M. Farm.",
+    "cat": "Eksternal UNAIR",
+    "desc": "UIN Maliki Malang melalui Phytonomics Research Group mengembangkan inovasi bahan alam menjadi produk kesehatan dan kosmetik, seperti Hermarin, Osteprim, Malstonin, Rahza, Uvamax, dan Rootēra, melalui riset dan hilirisasi.",
+    "tags": [
+      "Eksternal UNAIR",
+      "Startup",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1YUFXnGMMV7ZJ1yviqhdkhAIGEET5E_e_",
+    "contact": "noviamaulina@gmail.com",
+    "whatsapp": "081296050993",
+    "web": "https://fkik.uin-malang.ac.id/",
+    "instagram": "https://www.instagram.com/hermarin.official?stkn=bnFxYnk5dXQxdXhj",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "c1",
+    "booth_no": 38,
+    "code": "C1",
+    "cluster": 2,
+    "area": "C",
+    "name": "Balai Besar POM di Surabaya",
+    "instansi": "Balai Besar POM di Surabaya, Awake Dewe Siap Ngeladeni Rek",
+    "pic": "Irma Rahmawati",
+    "cat": "Eksternal UNAIR",
+    "desc": "Layanan informasi dan konsultasi terkait registrasi dan sertifikasi Obat dan Makanan",
+    "tags": [
+      "Eksternal UNAIR",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1gcg6qa0U5n1UUA7ZMODw5548RTtwrKWO",
+    "contact": "sertifikasisby@gmail.com ; irma.rahmawati@pom.go.id",
+    "whatsapp": "085645397002",
+    "web": "https://surabaya.pom.go.id/",
+    "instagram": "bpom.surabaya",
+    "facebook": "Balai Besar POM di Surabaya",
+    "twitter": "@BPOM_Surabaya",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "c4",
+    "booth_no": 41,
+    "code": "C4",
+    "cluster": 2,
+    "area": "C",
+    "name": "Jamkrindo",
+    "instansi": "PT Jaminan Kredit Indonesia (Jamkrindo)",
+    "pic": "",
+    "cat": "Sponsorship / Mitra",
+    "desc": "Booth Sponsorship Jamkrindo di pameran inovasi ASSIE IV 2026.",
+    "tags": [
+      "Sponsorship / Mitra"
+    ],
+    "logo": "",
+    "contact": "",
+    "whatsapp": "",
+    "web": "https://www.jamkrindo.co.id/",
+    "instagram": "",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": ""
+  },
+  {
+    "id": "f1",
+    "booth_no": 51,
+    "code": "F1",
+    "cluster": 4,
+    "area": "F",
+    "name": "Bangga EVCS",
+    "instansi": "Bangga EVCS",
+    "pic": "Ibnu Andhika Hidayat",
+    "cat": "Manufaktur",
+    "desc": "Bangga EVCS merupakan sebuah inisiatif berbasis riset dari Universitas Airlangga yang berfokus pada pengembangan sistem charging kendaraan listrik (Electric Vehicle/EV). Inisiatif ini melibatkan kolaborasi antara mahasiswa dan dosen, sehingga mampu menggabungkan kekuatan inovasi, riset akademik, serta pengalaman praktis dalam menjawab kebutuhan infrastruktur pengisian daya di Indonesia yang terus berkembang.\n\nFokus utama Bangga EVCS terletak pada perancangan dan pengembangan teknologi charging yang adaptif, efisien, dan relevan dengan kondisi kelistrikan nasional. Sistem yang dikembangkan umumnya mengacu pada standar internasional, dengan kemampuan operasional pada konfigurasi 1 phase hingga 3 phase, serta rentang daya yang kompetitif untuk penggunaan residensial maupun komersial. Selain itu, Bangga EVCS juga mengintegrasikan konsep smart charging, yang memungkinkan pengguna untuk melakukan monitoring konsumsi daya, kontrol jarak jauh melalui aplikasi, serta pengaturan strategi pengisian untuk meningkatkan efisiensi energi dan menjaga keandalan sistem.\n\nDalam proses pengembangannya, Bangga EVCS menerapkan pendekatan end-to-end, mulai dari studi literatur, simulasi sistem kelistrikan, desain hardware, hingga integrasi software dan pengujian langsung. Kolaborasi antara mahasiswa dan dosen menjadi kunci dalam memastikan bahwa setiap solusi yang dihasilkan tidak hanya inovatif, tetapi juga memiliki dasar ilmiah yang kuat dan potensi implementasi nyata.\n\nLebih dari sekadar proyek riset, Bangga EVCS juga berperan sebagai wadah pengembangan kompetensi lintas bidang, baik teknis maupun non-teknis. Dengan semangat kolaborasi dan inovasi, Bangga EVCS berkomitmen untuk berkontribusi dalam percepatan pengembangan ekosistem kendaraan listrik di Indonesia, khususnya melalui solusi charging yang andal, cerdas, dan berkelanjutan.",
+    "tags": [
+      "Manufaktur",
+      "Startup",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/17x65GV1NCa1R39T56wUMehjhpC66zyfX",
+    "contact": "ibnuandikahidayat02@gmail.com",
+    "whatsapp": "+62 811-1020-416",
+    "web": "https://bangga-evcs.com/",
+    "instagram": "https://www.instagram.com/bangga.evcs/?utm_source=ig_web_button_share_sheet",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "f2",
+    "booth_no": 52,
+    "code": "F2",
+    "cluster": 4,
+    "area": "F",
+    "name": "KINARA INDUSTRIES",
+    "instansi": "CV Kreasi Industri Nusantara",
+    "pic": "Rizki Indra Pratama",
+    "cat": "Manufaktur",
+    "desc": "KINARA INDUSTRIES adalah startup yang bergerak dibidang manufaktur Industri, mendukung berbagai jenis Research and Development Prototiping mesin dan alat kesehatan yang berbasis di Surabaya, Jawa Timur.",
+    "tags": [
+      "Manufaktur",
+      "Startup",
+      "Transaksi Booth"
+    ],
+    "logo": "https://drive.google.com/drive/folders/1isR-updkUueJ71BuqL2fhD01QZlrekLo?usp=sharing",
+    "contact": "kreasiindustrinusantara@gmail.com",
+    "whatsapp": "085136887424",
+    "web": "https://www.kinaraindustries.com",
+    "instagram": "@kinara.industries",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "f3",
+    "booth_no": 53,
+    "code": "F3",
+    "cluster": 4,
+    "area": "F",
+    "name": "Olimnesia",
+    "instansi": "Startup BPRIn",
+    "pic": "Dimaz",
+    "cat": "Edutech",
+    "desc": "Olimnesia adalah platform edutech yang menghadirkan ekosistem kompetisi dan pembelajaran bagi pelajar. Olimnesia membantu sekolah, lembaga pendidikan, dan penyelenggara lomba dalam mengelola kompetisi secara digital, mulai dari pendaftaran, pelaksanaan ujian/CBT, hingga sertifikat dan publikasi hasil.\nBagi pelajar, Olimnesia menjadi ruang untuk mengikuti berbagai kompetisi, mengembangkan kemampuan, dan mendapatkan pengalaman belajar yang lebih seru dan bermakna.",
+    "tags": [
+      "Edutech",
+      "Startup",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1AbBaAE-8a68mH3oVc5ns1CtDW9UgpWUc",
+    "contact": "olimnesia@gmail.com",
+    "whatsapp": "085102717040",
+    "web": "https://Olimnesia.com",
+    "instagram": "Olimnesia",
+    "facebook": "Olimnesia",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "f4",
+    "booth_no": 54,
+    "code": "F4",
+    "cluster": 4,
+    "area": "F",
+    "name": "PT Jobhun Membangun Indonesia",
+    "instansi": "PT Jobhun Membangun Indonesia",
+    "pic": "Ayu Shinta Devi",
+    "cat": "Jasa",
+    "desc": "Tingkatkan Skill, Dapatkan Sertifikasi, Siap Bersaing di Dunia Kerja\n\nTemukan skill terbaikmu melalui pelatihan bersama expert berpengalaman dan buktikan dengan uji kompetensi bersertifikat resmi di Jobhun.",
+    "tags": [
+      "Jasa",
+      "Startup",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1Vv1M8BXeVQnq2tj2y52TBUjkVRzS4jJh",
+    "contact": "info@jobhun.id",
+    "whatsapp": "082336010250",
+    "web": "https://www.jobhun.id",
+    "instagram": "jobhun",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "f5",
+    "booth_no": 55,
+    "code": "F5",
+    "cluster": 4,
+    "area": "F",
+    "name": "Serasa Djiwa",
+    "instansi": "Serasa Djiwa",
+    "pic": "Najway Azka Arrobbaniy",
+    "cat": "Jasa",
+    "desc": "Serasa Djiwa dapat diposisikan sebagai penyedia layanan psikologi yang humanis, kolaboratif, dan komprehensif, dengan cakupan layanan dari anak hingga dewasa serta individu hingga organisasi. Filosofi Compassion, Collaboration, Change menjadi dasar bahwa layanan tidak hanya berfokus pada penyelesaian masalah, tetapi juga pada proses memahami, mendampingi, dan mendorong perubahan yang bermakna.\nUntuk kegiatan pameran layanan psikologi, Serasa Djiwa dapat hadir sebagai ruang yang interaktif dan edukatif, tempat pengunjung mengenal psikologi secara lebih dekat sekaligus memahami layanan yang sesuai dengan kebutuhannya. Booth dapat memperkenalkan beberapa area utama, seperti asesmen psikologi, konseling, konsultasi, coaching, mentoring, psikoedukasi, dan pelatihan, serta layanan khusus di bidang pendidikan, perkembangan anak, dan industri-organisasi. \nKonsep pameran tidak hanya bersifat promosi layanan, tetapi juga memberikan pengalaman psikologis yang ringan, relevan, dan aplikatif. Misalnya melalui mini psychological check-up, konsultasi singkat, permainan atau aktivitas reflektif, edukasi mengenai tumbuh kembang dan kesehatan mental, serta informasi mengenai pilihan layanan yang dapat diakses pengunjung. Pendekatan ini selaras dengan visi Serasa Djiwa untuk mendukung kesejahteraan, pengembangan diri, dan kualitas hidup melalui layanan yang berlandaskan kemanusiaan, empati, dan kolaborasi.\nDengan demikian, pameran Serasa Djiwa dapat menjadi ruang untuk “mengenal diri, memahami kebutuhan, dan menemukan langkah perubahan”, sekaligus memperkenalkan Serasa Djiwa sebagai partner psikologis yang hadir untuk berbagai tahap kehidupan.",
+    "tags": [
+      "Jasa",
+      "Startup",
+      "Transaksi Booth"
+    ],
+    "logo": "https://canva.link/8iln2gko7k79ndd",
+    "contact": "serasadjiwa21@gmail.com",
+    "whatsapp": "+62 856-4514-5191",
+    "web": "",
+    "instagram": "@serasadjiwa",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "f6",
+    "booth_no": 56,
+    "code": "F6",
+    "cluster": 4,
+    "area": "F",
+    "name": "Rexgo.Technology",
+    "instansi": "Rexgo.Technology",
+    "pic": "INDRA BAYU PURWANTORO",
+    "cat": "Edutech",
+    "desc": "REXGO adalah perusahaan teknologi interaktif yang menciptakan pengalaman digital untuk event, pameran, ritel, pendidikan, pariwisata, dan brand activation. Kami menggabungkan teknologi dan kreativitas untuk meningkatkan engagement audiens.",
+    "tags": [
+      "Edutech",
+      "Startup",
+      "Transaksi Booth"
+    ],
+    "logo": "https://drive.google.com/drive/folders/1dkQM6GzOmyNLTXxYQxCUBgnXCBXjIcNZ?usp=sharing",
+    "contact": "rexgotech@gmail.com",
+    "whatsapp": "081217260020",
+    "web": "https://www.rexgotech.com",
+    "instagram": "@rexgo.tech",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "f7",
+    "booth_no": 57,
+    "code": "F7",
+    "cluster": 4,
+    "area": "F",
+    "name": "Azura Umroh Private",
+    "instansi": "Startup",
+    "pic": "Venti",
+    "cat": "Jasa",
+    "desc": "Azura menemani perjalanan ibadah umroh secara private dan prioritas dengan hotel dekat masjid, mobil pribadi dan muthawif pribadi.",
+    "tags": [
+      "Jasa",
+      "Startup",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1XmUIE1ZdFZmjd-BhLkRAgNIDczYXVTuZ",
+    "contact": "vechoirunnisa10@gmail.com",
+    "whatsapp": "085161377131",
+    "web": "",
+    "instagram": "https://www.instagram.com/azura.umrohprivate?igsh=MTBoMHVpZGZhcXRhYg==",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "f8",
+    "booth_no": 58,
+    "code": "F8",
+    "cluster": 4,
+    "area": "F",
+    "name": "Lokasi Nusantara Tour and Travel",
+    "instansi": "Startup",
+    "pic": "Aura Putricia Mahardini",
+    "cat": "Jasa",
+    "desc": "Lokasi Nusantara adalah pelopor jasa open & private trip berbasis penyembuhan jiwa dan keakraban komunitas. Menghadirkan wisata alam bernilai tinggi yang ramah waktu ibadah, fleksibel, serta mendukung keberdayaan UMKM lokal secara nyata.",
+    "tags": [
+      "Jasa",
+      "Startup",
+      "Transaksi Booth"
+    ],
+    "logo": "https://drive.google.com/drive/folders/129o7v3LjmCEYwPZK3p5Bm4FcjkKEhU_8",
+    "contact": "auramahardini@gmail.com",
+    "whatsapp": "081230498086",
+    "web": "",
+    "instagram": "@lokasi.nusantara",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "f9",
+    "booth_no": 59,
+    "code": "F9",
+    "cluster": 4,
+    "area": "F",
+    "name": "Japonindo Yotsuba",
+    "instansi": "Japonindo Yotsuba",
+    "pic": "Arif Fatchur Rochmaniyah",
+    "cat": "Edutech",
+    "desc": "Kursus Bahasa Jepang untuk membantu peserta menguasai Bahasa Jepang secara praktris, komunikatif, dan menyenangkan sesuai dengan moto kami itsudemo, dokodemo manabou!",
+    "tags": [
+      "Edutech",
+      "Startup",
+      "Transaksi Booth"
+    ],
+    "logo": "https://drive.google.com/drive/folders/1yZMU_fzmo1Dl19g2l4AC0nR4UJ6IXMNc?usp=sharing",
+    "contact": "arifrahmania11@gmail.com",
+    "whatsapp": "08563185856",
+    "web": "",
+    "instagram": "japonindo.yotsuba",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "f10",
+    "booth_no": 60,
+    "code": "F10",
+    "cluster": 4,
+    "area": "F",
+    "name": "Tempat Tumbuh",
+    "instansi": "Tempat Tumbuh Strategic Partner of PT Inspirasi Keuangan Syariah",
+    "pic": "Saif Ali Khan",
+    "cat": "Jasa",
+    "desc": "Tempat Tumbuh merupakan platform pembelajaran keuangan yang membantu individu memahami konsep perencanaan dan pengelolaan keuangan, cara menyusun, beserta strategi implementasi dalam kehidupan sehari-hari secara lebih terarah dan terstruktur. Kami hadir bukan hanya sebagai platform edukasi, melainkan ekosistem pembelajaran yang berkomitmen membantu masyarakat Indonesia membangun perilaku finansial yang lebih sehat, disiplin, dan berkelanjutan. Berdiri sejak tahun 2025, Tempat Tumbuh telah menjalin\nkolaborasi strategis dengan beberapa mitra, mulai dari lembaga pendidikan, pelatihan, konsultasi, dan sertifikasi keuangan, lembaga pemberdayaan karir, hingga komunitas pengembangan diri. Kehadiran mitra strategis ini memperkuat langkah kami dalam membangun ekosistem pembelajaran keuangan yang inklusif dan berkelanjutan bagi masyarakat Indonesia.",
+    "tags": [
+      "Jasa",
+      "Startup",
+      "Transaksi Booth"
+    ],
+    "logo": "https://drive.google.com/drive/folders/1Cl2zxekgqqqAgVPtMEHNJ7WbgR5g2E1e?usp=sharing",
+    "contact": "imondeskhan@gmail.com",
+    "whatsapp": "089603446997",
+    "web": "https://ptiksh.com/",
+    "instagram": "tempattumbuh_edu",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "f11",
+    "booth_no": 61,
+    "code": "F11",
+    "cluster": 4,
+    "area": "F",
+    "name": "FastrackEdu",
+    "instansi": "Fastrack Edu Tenant Binaan Atavi Unair",
+    "pic": "Khoirotul Amaliyah",
+    "cat": "Jasa",
+    "desc": "FastrackEdu hadir sebagai ekosistem pembelajaran digital terdepan yang dirancang khusus untuk membekali mahasiswa dengan keterampilan esensial dalam bidang riset dan penulisan ilmiah. Melalui integrasi pendekatan berbasis teknologi mutakhir serta bimbingan intensif dari para ahli, platform ini memastikan setiap mahasiswa mampu menghasilkan karya yang kredibel dan berkualitas.",
+    "tags": [
+      "Jasa",
+      "Startup",
+      "Transaksi Booth"
+    ],
+    "logo": "https://drive.google.com/drive/folders/1Iqz74JjGOXVJOo6igBzfXeOzmtldr5na?usp=sharing",
+    "contact": "abdulzidan118@gmail.com",
+    "whatsapp": "085748828183",
+    "web": "https://fastrackedu.id/",
+    "instagram": "https://www.instagram.com/fastrackedu.official/",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "f12",
+    "booth_no": 62,
+    "code": "F12",
+    "cluster": 4,
+    "area": "F",
+    "name": "Vitalic Hit Trigger Drum",
+    "instansi": "PASINBIS",
+    "pic": "FAISHAL AZKA CAHYO ANGGONO",
+    "cat": "Edutech",
+    "desc": "Vitalic Hit Trigger Drum adalah perangkat sensor elektronik buatan lokal Indonesia yang dipasang pada drum akustik untuk mengubah getaran pukulan menjadi sinyal suara digital atau elektrik",
+    "tags": [
+      "Edutech",
+      "Startup",
+      "Transaksi Booth"
+    ],
+    "logo": "https://drive.google.com/drive/folders/1tKFT7tniOli05h35K1u6Jrzvc7OV3Mgr",
+    "contact": "vitalichittrigger@gmail.com",
+    "whatsapp": "081358502672",
+    "web": "https://www.vitalichittrigger.com",
+    "instagram": "vitalic.hit_footrix",
+    "facebook": "Vitalic Hit Trigger",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "f13",
+    "booth_no": 63,
+    "code": "F13",
+    "cluster": 4,
+    "area": "F",
+    "name": "KONVETO",
+    "instansi": "Konveto (SERAGAMKANAKSIMU)",
+    "pic": "Ardian",
+    "cat": "Craft",
+    "desc": "Konveto startup yang bergerak di bidang jasa konveksi seragam",
+    "tags": [
+      "Craft",
+      "Startup",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/181gclsNUE2RfS0OvSCMvEPiqHIb1dtQ2",
+    "contact": "konvetosurabaya@gmail.com",
+    "whatsapp": "08993672913",
+    "web": "",
+    "instagram": "@Konveto.id",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "f14",
+    "booth_no": 64,
+    "code": "F14",
+    "cluster": 4,
+    "area": "F",
+    "name": "HEZTEK CODING",
+    "instansi": "HEZTEK CODING adalah tenant startup yang dibina oleh inkubator bisnis ATAVI UNAIR sejak 2021",
+    "pic": "Heni Prasetyorini, S.Si., M.Pd",
+    "cat": "Edutech",
+    "desc": "Ayo bermain, belajar, dan bikin project seru dengan coding bersama teman, orang tua, dan guru di Heztek Coding.",
+    "tags": [
+      "Edutech",
+      "Startup",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1HzGCvfI_KO2NJVvMB6f915oeM_u1FwS8",
+    "contact": "heztekcoding@gmail.com",
+    "whatsapp": "089699264015",
+    "web": "https://www.heztekcoding.com/",
+    "instagram": "https://www.instagram.com/heztekcoding/",
+    "facebook": "https://www.facebook.com/heztekcoding/",
+    "twitter": "https://www.threads.com/@heztekcoding?hl=id",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "f15",
+    "booth_no": 65,
+    "code": "F15",
+    "cluster": 4,
+    "area": "F",
+    "name": "Braja Elektrik X Renergy",
+    "instansi": "Braja Elektrik X Renergy",
+    "pic": "Uta",
+    "cat": "Manufaktur",
+    "desc": "Startup ekosistem kendaraan listrik dan konversi",
+    "tags": [
+      "Manufaktur",
+      "Startup",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1BVJcINuVLr62_jwwOoBAe8HgGLAPtgnO",
+    "contact": "brajaelektrikmotor@gmail.com",
+    "whatsapp": "082133881104",
+    "web": "https://www.brajaelektrikmotor.com",
+    "instagram": "Braja Elektrik Motor",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "f16",
+    "booth_no": 66,
+    "code": "F16",
+    "cluster": 4,
+    "area": "F",
+    "name": "Sriwijaya Kontraktor",
+    "instansi": "PT SRIWIJAYA KONTRAKTOR",
+    "pic": "Bapak Firdaus",
+    "cat": "Manufaktur",
+    "desc": "Kami adalah perusahaan jasa konstruksi dan pembangunan yang melayani proyek rumah satu atau dua lantai. Kami juga menyediakan jasa desain 2D dan 3D untuk seluruh wilayah di Indonesia. Adapun pembangunan fisik mencakup area Jawa, Bali dan Jabodetabek",
+    "tags": [
+      "Manufaktur",
+      "Startup",
+      "Transaksi Booth"
+    ],
+    "logo": "https://sriwijayakontraktor.com/",
+    "contact": "al.firdaus.work@gmail.com",
+    "whatsapp": "082228520581",
+    "web": "https://sriwijayakontraktor.com",
+    "instagram": "sriwijaya kontraktor",
+    "facebook": "Sriwijaya Kontraktor",
+    "twitter": "Sriwijaya Kontraktor",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "f17",
+    "booth_no": 67,
+    "code": "F17",
+    "cluster": 4,
+    "area": "F",
+    "name": "APPA TECH",
+    "instansi": "APPA TECH",
+    "pic": "Razan Mahrani",
+    "cat": "Jasa",
+    "desc": "Perusahaan yang bergerak di bidang inovasi teknologi, khususnya kecerdasan buatan. Saat ini berfokus pada industri olahraga dan perkantoran",
+    "tags": [
+      "Jasa",
+      "Startup",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1Fx36qqmA9ChB2XRTQSjmkP4SNW1IcWNg",
+    "contact": "razanmahrani@gmail.com",
+    "whatsapp": "085730394996",
+    "web": "https://grahateknologimaju.com/en",
+    "instagram": "academyappa",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "f18",
+    "booth_no": 68,
+    "code": "F18",
+    "cluster": 4,
+    "area": "F",
+    "name": "Likur Production",
+    "instansi": "Airlangga Startup and Innovation Incubator (ATAVI)",
+    "pic": "Reyhan Agung Ramadhan",
+    "cat": "Jasa",
+    "desc": "LIKUR Production is a Creative & Documentary Production House based in Surabaya, founded in 2022. Inspired by the Javanese philosophy “Linggih Kursi”, a symbol of leadership and independence. Likur embodies the spirit of young creators stepping into their own seat of responsibility: leading, collaborating, and shaping the future through storytelling.\n\nWe aspire to become Nusantara’s storyteller, bringing cultural heritage, local values, health, and eco-conscious into the modern era through timeless creative content.",
+    "tags": [
+      "Jasa",
+      "Startup",
+      "Transaksi Booth"
+    ],
+    "logo": "https://drive.google.com/drive/folders/1E2FM9zaARJgsg77XiMo0yxmJUAstqyhO?usp=sharing",
+    "contact": "likurproduction@gmail.com",
+    "whatsapp": "085161328874",
+    "web": "https://likur.id",
+    "instagram": "@likurproduction",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "g1",
+    "booth_no": 73,
+    "code": "G1",
+    "cluster": 5,
+    "area": "G",
+    "name": "Deorans",
+    "instansi": "Universitas Airlangga",
+    "pic": "Raihan Syah Rafi'",
+    "cat": "Kuliner & Bisnis",
+    "desc": "Deorans adalah deodoran alami berbahan mineral yang efektif melawan bau badan tanpa menghambat keringat. Aman, praktis, dan ramah kulit, Deorans hadir sebagai pilihan sehat untuk aktivitas sehari-hari.",
+    "tags": [
+      "Kuliner & Bisnis",
+      "F&B",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1X-RqaCuamaFYAx3-i-Qs7cjw3r5scswT",
+    "contact": "deoransspray@gmail.com",
+    "whatsapp": "082132529584",
+    "web": "https://heylink.me/deorans",
+    "instagram": "@deoransspray",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "g2",
+    "booth_no": 74,
+    "code": "G2",
+    "cluster": 5,
+    "area": "G",
+    "name": "Tawdeo",
+    "instansi": "Tawdeo",
+    "pic": "Dela R G",
+    "cat": "Kesehatan & Farmasi",
+    "desc": "Tawdeo — Natural Care, Better for You & Earth\n\nTawdeo hadir sebagai brand personal care yang mengembangkan produk berbahan alami dengan mengutamakan manfaat, kenyamanan, dan kepedulian terhadap lingkungan. Dari perawatan tubuh hingga produk sehari-hari, Tawdeo ingin menghadirkan pilihan yang lebih bijak dan baik untuk diri sendiri maupun bumi.",
+    "tags": [
+      "Kesehatan & Farmasi",
+      "F&B",
+      "Transaksi Booth"
+    ],
+    "logo": "https://canva.link/3hu3b3qr4623vm5",
+    "contact": "tawdeonatural@gmail.com",
+    "whatsapp": "085179771295",
+    "web": "",
+    "instagram": "",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "g3",
+    "booth_no": 75,
+    "code": "G3",
+    "cluster": 5,
+    "area": "G",
+    "name": "Partner SEHATin",
+    "instansi": "Partner SEHATin",
+    "pic": "Ira Nurwahyu Kusuma",
+    "cat": "Kesehatan & Farmasi",
+    "desc": "Partner SEHATin adalah platform kesehatan keluarga terpadu yang hadir untuk meningkatkan akses masyarakat terhadap informasi dan layanan kesehatan yang edukatif, interaktif, dan mudah dijangkau. Partner SEHATin mendampingi masyarakat dalam perjalanan kesehatan sejak masa remaja, persiapan pernikahan, kehamilan, hingga peran sebagai orang tua.\n\nMelalui layanan edukasi kesehatan, Partner SEHATin menyediakan informasi terpercaya mengenai kesehatan reproduksi, persiapan pranikah termasuk pre-marital check-up, kehamilan, serta penerapan pola hidup sehat bagi keluarga. Partner SEHATin juga menghadirkan ruang diskusi dan konsultasi yang memungkinkan pengguna bertanya dan memperoleh pendampingan terkait berbagai permasalahan kesehatan secara komunikatif dan mudah dipahami.\n\nUntuk memperluas akses, Partner SEHATin mengintegrasikan pengguna dengan berbagai layanan kesehatan dan produk pendukung melalui platform digital. Dengan pendekatan yang fleksibel, terjangkau, dan terintegrasi, Partner SEHATin berkomitmen menjadi mitra kesehatan keluarga yang mendampingi setiap tahap kehidupan, sekaligus mendorong masyarakat untuk lebih sadar, mandiri, dan proaktif dalam menjaga kesehatan.",
+    "tags": [
+      "Kesehatan & Farmasi",
+      "F&B",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1-8kHDV4WLzEsPqYAkaUteqEC26z0scxQ",
+    "contact": "ira.nurwahyu@gmail.com",
+    "whatsapp": "081232938578",
+    "web": "",
+    "instagram": "@partner.sehatin.id",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "g4",
+    "booth_no": 76,
+    "code": "G4",
+    "cluster": 5,
+    "area": "G",
+    "name": "Sweetfood",
+    "instansi": "Universitas Airlangga",
+    "pic": "Eka Nur Lita",
+    "cat": "Food & Beverage",
+    "desc": "Sweetfood merupakan bisnis yang bergerak dibidang FnB yang berdiri sejak tahun 2023. Kami hadir membawa solusi atas masalah anda terkait \"Dream Cake\" pada hari special customer. Kami menawarkan cake dengan beberapa varian rasa, ukuran, dan desain yang dapat di custome sesuai kebutuhan customer dengan deadline waktu yang singkat dan jaminan pengiriman tepat waktu.\nKami menggunakan bahan-bahan berkualitas dengan proses produksi homemade sehingga cake terjaga kualitas dan cita rasanya.\nSweetfood telah bekerjasama dengan beberapa brand dan mendapatkan kepercayaan dari para customer melalui ribuan review positif serta loyalitas pelanggan. \n\nTagline sweetfood \"Timely, Affordable, and Reliable to Make Your Dream Cake Come True\"",
+    "tags": [
+      "Food & Beverage",
+      "F&B",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1G-ErHL54m9m7zXBz_eAvakg0nKrafGLP",
+    "contact": "ekanurlt25@gmail.com",
+    "whatsapp": "082326116698",
+    "web": "",
+    "instagram": "https://www.instagram.com/sweetfood_id_?igsh=Y3YyZjd1cHIwcGdm",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "g5",
+    "booth_no": 77,
+    "code": "G5",
+    "cluster": 5,
+    "area": "G",
+    "name": "GOLDEN GATE DIMSUM",
+    "instansi": "Golden Gate Dimsum x Mengoba-tea",
+    "pic": "Adinda Vidya Lestari",
+    "cat": "Food & Beverage",
+    "desc": "Golden Gate Dimsum x Mengoba-tea merupakan Business yang bergerak di bidang FnB dengan niche yaitu healthy Food and Beverages yang bisa menjadi bahan baku maupun ready to eat. Kami menyajikan bentuk frozen dengan kemasan bulk maupun siap saji. Bahan yang kami gunakan premium dan bebas msg sehingga penyimpanan setelah dibuka hanya sampai 3 bulan untuk memastikan mutu produk. Dengan terus berinovasi kami berharap bisa menciptakan produk yang berdaya saing tinggi dengan pengembangan teknologi yang lebih modern",
+    "tags": [
+      "Food & Beverage",
+      "F&B",
+      "Transaksi Booth"
+    ],
+    "logo": "https://canva.link/rpy259ds74snjea",
+    "contact": "adindavidya01@gmail.com",
+    "whatsapp": "082220809000",
+    "web": "",
+    "instagram": "@goldengatedimsum",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "g6",
+    "booth_no": 78,
+    "code": "G6",
+    "cluster": 5,
+    "area": "G",
+    "name": "lammaqbanna",
+    "instansi": "The Homemade",
+    "pic": "gusti",
+    "cat": "Food & Beverage",
+    "desc": "LAMMAQBANNA adalah startup binaan unair, bergerak dibidang seasoning dan snack, berlegalitas nib, pirt, halal dan terdaftar merk. kami juga peduli tentang sustainability diantaranya mengurangi foodwaste, produkkaldu bubuk kami mengusung konsep less waste, beberapa dari hasil penjualan untuk mendanai program intern dari kami yaitu \"RING\" sharing for caring, dengan membagikan hasil masakan dari dapur kami dan memakai bumbu dari hasil produksi kami.",
+    "tags": [
+      "Food & Beverage",
+      "F&B",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/19ed1lPHoGiObDLcIN-Sq61E0Jw7kh5qq",
+    "contact": "lovellyemma48@gmail.com",
+    "whatsapp": "081331114215",
+    "web": "https://s.id/thehomemade899",
+    "instagram": "Thehomemade899",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "g7",
+    "booth_no": 79,
+    "code": "G7",
+    "cluster": 5,
+    "area": "G",
+    "name": "Ayam ungkep teh nisa",
+    "instansi": "Inkubator unair",
+    "pic": "Nisa Nurrohmah",
+    "cat": "Food & Beverage",
+    "desc": "Memproduksi ayam dan bebek siap goreng lengkap dengan sambal dalam kemasan vakum pack",
+    "tags": [
+      "Food & Beverage",
+      "F&B",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1Kv7BVBc41ODo7_9UUMTFrxZ2e0MxqnM0",
+    "contact": "nisasby777@gmail.com",
+    "whatsapp": "081522979766",
+    "web": "",
+    "instagram": "Ayam ungkep teh nisa",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "g8",
+    "booth_no": 80,
+    "code": "G8",
+    "cluster": 5,
+    "area": "G",
+    "name": "Sahabat Spondan",
+    "instansi": "Sahabat Spondan",
+    "pic": "AMRETA LARAS PERTIWI",
+    "cat": "PGN",
+    "desc": "Produk olahan siap saji yang menemani setiap kegiatanmu menjadi lebih berwarna. Menghadirkan cita rasa otentik dengan harga terjangkau yang dikemas dan disajikan dengan rasa cinta. Setiap gigitan menciptakan kehangatan dalam setiap kegiatan bersama teman, keluarga dan orang tersayang kamu.",
+    "tags": [
+      "PGN",
+      "F&B",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1rDtbjiMk_sq7NGKTtggGBJJVAEQREE3M",
+    "contact": "amretapertiwi3@gmail.com",
+    "whatsapp": "085730171516",
+    "web": "",
+    "instagram": "https://www.instagram.com/sahabatspondan_sby?igsh=MTU1bzBzZXl1cHEzcQ==",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "h1",
+    "booth_no": 81,
+    "code": "H1",
+    "cluster": 6,
+    "area": "H",
+    "name": "Gyarus Indonesia",
+    "instansi": "CV Gyarus Indonesia Group",
+    "pic": "Firdayanti Zahro",
+    "cat": "Fashion",
+    "desc": "Gyarus adalah brand lokal asal Surabaya yang bergerak di bidang fashion muslim, khususnya menghadirkan mukenah dengan desain yang nyaman, elegan, dan relevan dengan kebutuhan perempuan modern serta bisa custom  design. \n\nDalam perkembangannya, Gyarus tidak hanya melayani kebutuhan konsumen secara retail, tetapi juga telah dipercaya untuk berkolaborasi dengan berbagai instansi dalam penyediaan gift dan merchandise, menjadikan produk Gyarus sebagai pilihan untuk kebutuhan personal maupun corporate gifting.\n\nDengan mengutamakan kualitas produk, desain yang menarik dan available custom design, Gyarus terus mengembangkan diri sebagai brand fashion lokal yang mampu menghadirkan produk bernilai guna sekaligus berkesan.",
+    "tags": [
+      "Fashion",
+      "Kreatif",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/13P7RNVeVLv5VuJ7cCk9HuhQOhVu82Q2Z",
+    "contact": "firdayantizahro27@gmail.com",
+    "whatsapp": "0877-0451-9225",
+    "web": "",
+    "instagram": "https://www.instagram.com/gyarus.id?igsh=MTk1N3Q0c3ZocjM0dA%3D%3D&utm_source=qr",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "h2",
+    "booth_no": 82,
+    "code": "H2",
+    "cluster": 6,
+    "area": "H",
+    "name": "Leastra",
+    "instansi": "Leastra",
+    "pic": "Adelia Permatasari",
+    "cat": "Craft",
+    "desc": "Leastra merupakan brand yang menjual aksesoris seperti dompet,lanyard dan card holder menggunakan kulit sapi dengan perpaduan batik. visi kami ialah menyejahterahkan pengrajin lokal dan membudidayakan penggunaan kain batik pada kehidupan sehari-hari",
+    "tags": [
+      "Craft",
+      "Kreatif",
+      "Transaksi Booth"
+    ],
+    "logo": "https://drive.google.com/drive/folders/1ZpIXKPPc6x-zB42q3HccJeuGFtj53F18?usp=sharing",
+    "contact": "adeliassari@gmail.com",
+    "whatsapp": "081334331982",
+    "web": "",
+    "instagram": "@leastra.id",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "h3",
+    "booth_no": 83,
+    "code": "H3",
+    "cluster": 6,
+    "area": "H",
+    "name": "Tjakrawala Batik & Crafts",
+    "instansi": "Tjakrawala Batik & Crafts",
+    "pic": "Azza Nur Fadilah",
+    "cat": "Fashion",
+    "desc": "Tjakrawala Batik & Crafts adalah rumah batik yang berfokus pada batik tulis khas Madura dan aneka kerajinan anyaman dari daun agel. Kami memproduksi berbagai macam batik tulis dengan motif tradisional dan kontemporer, serta memanfaatkan perca kain batik dan daun agel untuk menciptakan produk fashion dan home decor yang unik dan berkelanjutan.",
+    "tags": [
+      "Fashion",
+      "Kreatif",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1zgr3Mof7v_fwd7RFdGc6vdLrd8obiHd9",
+    "contact": "azzafadilah14@gmail.com",
+    "whatsapp": "087850720142",
+    "web": "https://www.tjakrawalabatik.com",
+    "instagram": "https://www.instagram.com/tjakrawala_batik/",
+    "facebook": "https://web.facebook.com/people/Tjakrawala-Batik-Crafts/61564244136391/?_rdc=10&_rdr",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "h4",
+    "booth_no": 84,
+    "code": "H4",
+    "cluster": 6,
+    "area": "H",
+    "name": "Botega Indonesia",
+    "instansi": "Botega Indonesia is a wellness brand dedicated to creating sensory experiences through thoughtfully crafted aromatic products. We transform beautiful scents into a variety of forms, including aromatherapy candles, soaps, perfumes, massage oils, and reed diffusers. Each product is designed to bring comfort, relaxation, and a meaningful moment of self-care into everyday life.  More than just a fragrance brand, Botega aims to become a companion for people navigating stress, emotional exhaustion, and the challenges of daily life. We believe that taking care of yourself is not a luxury, but an essential part of maintaining balance and well-being.  Botega is also committed to empowering women who need support and opportunities to build a better future. Through our products, community, and purpose-driven initiatives, we strive to create a positive impact beyond our business. We hope to create a safe space where everyone can pause, breathe, reconnect with themselves, and remember that they deserve to feel cared for.",
+    "pic": "Evelyn Wijaya",
+    "cat": "Craft",
+    "desc": "Botega is a wellness brand creating sensory experiences through candles, soaps, perfumes, massage oils, and reed diffusers. We support emotional well-being, encourage self-care, and empower women through meaningful products and positive impact.",
+    "tags": [
+      "Craft",
+      "Kreatif",
+      "Transaksi Booth"
+    ],
+    "logo": "",
+    "contact": "Evelinnewijaya@gmail.com",
+    "whatsapp": "081333309993",
+    "web": "",
+    "instagram": "@botega.id",
+    "facebook": "Botega Indonesia",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "h5",
+    "booth_no": 85,
+    "code": "H5",
+    "cluster": 6,
+    "area": "H",
+    "name": "allbouquets",
+    "instansi": "PASINBIS Universitas Airlangga",
+    "pic": "Alfi Laili Azizah",
+    "cat": "Craft",
+    "desc": "Allbouquets — buket bunga handmade custom sesuai tema & budget. Cocok untuk hadiah personal, wisuda, hingga gift event. Harga terjangkau, kualitas estetik, free ongkir via Shopee. Let's Celebrate Special Day with Special Bouquets! 🌸",
+    "tags": [
+      "Craft",
+      "Kreatif",
+      "Transaksi Booth"
+    ],
+    "logo": "https://drive.google.com/drive/folders/1p8xEmGyYPybUM27MGQLF_GcVTNHs-4Z-?usp=sharing",
+    "contact": "allbouquets12@gmail.com",
+    "whatsapp": "085749884741",
+    "web": "",
+    "instagram": "https://www.instagram.com/allbouquets/",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "h6",
+    "booth_no": 86,
+    "code": "H6",
+    "cluster": 6,
+    "area": "H",
+    "name": "Etnapraya",
+    "instansi": "Etnapraya",
+    "pic": "Etty Ariaty Soraya",
+    "cat": "Craft",
+    "desc": "Etnapraya adalah merek tas lokal Indonesia yang menggabungkan keindahan budaya dan keahlian dalam setiap produknya. Setiap tas dibuat dari kulit asli berkualitas tinggi dihiasi dengan motif batik yang didesain ulang dengan indah, memadukan tradisi abadi dengan sentuhan desain modern.",
+    "tags": [
+      "Craft",
+      "Kreatif",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/12CK3VGMZhsYBWSwbTQRssooqaZA9FNY-",
+    "contact": "etnapraya@gmail.com",
+    "whatsapp": "+62 823-3819-1372",
+    "web": "https://etnapraya.com",
+    "instagram": "Etnapraya",
+    "facebook": "Etnapraya",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "h7",
+    "booth_no": 87,
+    "code": "H7",
+    "cluster": 6,
+    "area": "H",
+    "name": "Quoversity",
+    "instansi": "QUOVERSITY",
+    "pic": "Muhammad Akbar Zulkarnain",
+    "cat": "Craft",
+    "desc": "Quoversity adalah brand merchandise yang mengangkat quote dan pemikiran guru besar serta akademisi ke dalam desain kaos. Menggabungkan intelektualitas, kreativitas, dan gaya, Quoversity menjadikan gagasan akademik sebagai bagian dari identitas dan keseharian.",
+    "tags": [
+      "Craft",
+      "Kreatif",
+      "Transaksi Booth"
+    ],
+    "logo": "",
+    "contact": "akbarzulkarnain2303@gmail.com",
+    "whatsapp": "085107733888",
+    "web": "",
+    "instagram": "",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "h10",
+    "booth_no": 90,
+    "code": "H10",
+    "cluster": 6,
+    "area": "H",
+    "name": "AineMeara",
+    "instansi": "-",
+    "pic": "Neina",
+    "cat": "Fashion",
+    "desc": "Ainemeara menyediakan beragam produk kerajinan tangan diantaranya bouquet & hampers hijab serta artificial flowers dengan pengiriman ke seluruh wilayah Indonesia",
+    "tags": [
+      "Fashion",
+      "Kreatif",
+      "Transaksi Booth"
+    ],
+    "logo": "https://drive.google.com/drive/folders/12gH6jh1EaibV_DayJiJn8dzNg928eNcS",
+    "contact": "ainemeara@gmail.com",
+    "whatsapp": "082337701988",
+    "web": "",
+    "instagram": "https://www.instagram.com/ainemeara?igsh=MTZqb3Y1OGdkazNxOA==",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "h11",
+    "booth_no": 91,
+    "code": "H11",
+    "cluster": 6,
+    "area": "H",
+    "name": "Anka Mini Lab",
+    "instansi": "Tenant binaan PASINBIS Unuversitas Airlangga",
+    "pic": "Alify Yanura",
+    "cat": "Craft",
+    "desc": "Sabun dari bahan natural dan dibuat  handmade. Mampu memberikan perlindungan alami bagi kulit. Ramah dan aman bagi kulit sensitif",
+    "tags": [
+      "Craft",
+      "Kreatif",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/14tLH8JysiAc7Fa62eXLcoEHKiRxQxctn",
+    "contact": "alifyayp@gmail.com",
+    "whatsapp": "085755165911",
+    "web": "",
+    "instagram": "ankaminilab",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "h12",
+    "booth_no": 92,
+    "code": "H12",
+    "cluster": 6,
+    "area": "H",
+    "name": "ByLaw Nails",
+    "instansi": "Universitas Airlangga",
+    "pic": "Glorya Angela",
+    "cat": "Craft",
+    "desc": "ByLaw.Nails adalah brand kecantikan lokal yang bergerak di bidang press-on nails dengan menghadirkan produk kuku siap pakai yang praktis, reusable, customizable, dan stylish. ByLaw.Nails hadir sebagai solusi bagi konsumen yang ingin memiliki tampilan kuku yang cantik dan fashionable tanpa harus menghabiskan banyak waktu dan biaya untuk melakukan perawatan kuku di salon.\n\nByLaw.Nails menawarkan berbagai pilihan desain mulai dari desain minimalis, elegan, cute, hingga karakter dan tren populer yang dapat disesuaikan dengan preferensi pelanggan. Selain pilihan desain yang tersedia, pelanggan juga dapat melakukan custom order untuk menciptakan press-on nails yang lebih personal dan sesuai dengan karakter maupun kebutuhan mereka.\n\nDengan mengutamakan kualitas produk dan pengalaman pelanggan, setiap press-on nails dibuat melalui proses produksi yang memperhatikan detail, kerapian, dan estetika. Produk juga dirancang agar dapat digunakan kembali dengan perawatan yang tepat, sehingga memberikan nilai lebih bagi konsumen sekaligus mendukung penggunaan produk yang lebih berkelanjutan.\n\nByLaw.Nails menargetkan pasar Gen Z dan konsumen muda, khususnya mereka yang memiliki gaya hidup aktif, mengikuti tren kecantikan, dan menginginkan produk beauty yang praktis serta affordable. Pemasaran dilakukan secara digital melalui berbagai platform seperti TikTok, Instagram, dan Shopee untuk menjangkau konsumen secara lebih luas.\nKe depannya, ByLaw.Nails berkomitmen untuk terus mengembangkan inovasi produk, meningkatkan kualitas pelayanan, memperluas jangkauan pasar, serta membangun ekosistem bisnis kecantikan yang kreatif dan relevan dengan perkembangan tren. Dengan menggabungkan kreativitas, kualitas, dan kemudahan, ByLaw.Nails ingin menjadi salah satu brand press-on nails lokal yang dipercaya dan menjadi pilihan utama konsumen.",
+    "tags": [
+      "Craft",
+      "Kreatif",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1cPvRnvVUQmEWnMyFN7ZUBtcPegzgICqB",
+    "contact": "glorya.angela.marshanda-2023@feb.unair.ac.id",
+    "whatsapp": "08115755656",
+    "web": "",
+    "instagram": "https://www.instagram.com/bylaw.nails/",
+    "facebook": "",
+    "twitter": "https://www.instagram.com/bylaw.nails/",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "h13",
+    "booth_no": 93,
+    "code": "H13",
+    "cluster": 6,
+    "area": "H",
+    "name": "Studi Inkubator MUA",
+    "instansi": "Studi Inkubator MUA \"Skill Up, Grow Up, and Glow Up\"",
+    "pic": "Treesya",
+    "cat": "Jasa",
+    "desc": "Merupakan badan usaha yang menaungi komunitas para Makeup Artist di Surabaya untuk memberikan jasa layanan makeup yang profesional dan berkualitas",
+    "tags": [
+      "Jasa",
+      "Kreatif",
+      "Transaksi Booth"
+    ],
+    "logo": "https://canva.link/01bdnzrdocrhl0u",
+    "contact": "tresyagirls@gmail.com",
+    "whatsapp": "085708342811",
+    "web": "",
+    "instagram": "studioinkubatormua",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "h14",
+    "booth_no": 94,
+    "code": "H14",
+    "cluster": 6,
+    "area": "H",
+    "name": "zarunagift",
+    "instansi": "universitas airlangga",
+    "pic": "Fito",
+    "cat": "Craft",
+    "desc": "Zaruna adalah brand yang bergerak di bidang gift, florist, dan custom souvenir yang menghadirkan berbagai produk untuk momen spesial seperti ulang tahun, wisuda, anniversary, hingga berbagai kebutuhan acara dan perusahaan.\n\nZaruna memiliki beberapa lini bisnis, yaitu Zaruna Florist untuk buket bunga dan karangan bunga, Zaruna Gift untuk produk custom dan souvenir, serta Zaruna Decoration untuk kebutuhan dekorasi acara.\n\nDengan mengutamakan kreativitas, personalisasi, harga yang terjangkau, dan pelayanan yang praktis, Zaruna membantu pelanggan menciptakan hadiah yang lebih personal dan berkesan. Pelanggan juga dapat melakukan custom desain sesuai kebutuhan tanpa harus terpaku pada produk yang sudah tersedia.\n\nZaruna berkomitmen untuk terus berinovasi dalam menghadirkan produk dan pengalaman yang relevan bagi generasi muda maupun kebutuhan bisnis, dengan semangat “We don’t just sell gifts, we deliver emotions.”",
+    "tags": [
+      "Craft",
+      "Kreatif",
+      "Transaksi Booth"
+    ],
+    "logo": "https://id.shp.ee/SHug2F2W",
+    "contact": "fito.fitroh1@gmail.com",
+    "whatsapp": "089513370904",
+    "web": "http://msha.ke/zarunagift",
+    "instagram": "zaruna.gift",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "b1",
+    "booth_no": 97,
+    "code": "B1",
+    "cluster": 7,
+    "area": "B",
+    "name": "Airlangga University Press (P3UA)",
+    "instansi": "Airlangga University Press (P3UA)",
+    "pic": "Sarah Khairunnisa",
+    "cat": "Internal UNAIR",
+    "desc": "Airlangga University Press (AUP) merupakan penerbit resmi Universitas Airlangga yang berkomitmen pada penerbitan akademik dan ilmiah yang berintegritas, profesional, dan berdaya saing global. Dengan menerbitkan buku akademik dari berbagai disiplin ilmu sebagai sarana diseminasi pengetahuan bagi sivitas akademika dan komunitas nasional maupun internasional.",
+    "tags": [
+      "Internal UNAIR",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1Rpa4jb4mTqsiOJPiPkU9QVWAkC71g4QB",
+    "contact": "sarah.khairunnisa@staf.unair.ac.id",
+    "whatsapp": "085607811921",
+    "web": "https://omp.unair.ac.id",
+    "instagram": "aupunair.official",
+    "facebook": "https://www.facebook.com/airlangga.press/",
+    "twitter": "twitter.com/aup_unair",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "b2",
+    "booth_no": 98,
+    "code": "B2",
+    "cluster": 7,
+    "area": "B",
+    "name": "Pusat Penelitian Stem Cell dan Kedokteran Regeneratif",
+    "instansi": "Pusat Penelitian Stem Cell dan Kedokteran Regeneratif",
+    "pic": "Asa Ardiana",
+    "cat": "Internal UNAIR",
+    "desc": "Laboratorium kami menyediakan informasi mengenai penelitian, program magang, produk turunan stem cell, serta konsultasi dan kolaborasi di bidang Stem Cell",
+    "tags": [
+      "Internal UNAIR",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1e7Qej_zcx-tB3ssmoFtrLfK6-jBbrubf",
+    "contact": "stemcell@itd.unair.ac.id",
+    "whatsapp": "081325573848",
+    "web": "https://www.stemcell.unair.ac.id",
+    "instagram": "unair.stemcell",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "b3",
+    "booth_no": 99,
+    "code": "B3",
+    "cluster": 7,
+    "area": "B",
+    "name": "PUI-PT RC-GERID (Pusat Unggulan IPTEKS Perguruan Tinggi Research Center on Global Emerging and Re-emerging Infectious Diseases, Universitas Airlangga)",
+    "instansi": "PUI-PT RC-GERID (Pusat Unggulan IPTEKS Perguruan Tinggi Research Center on Global Emerging and Re-emerging Infectious Diseases, Universitas Airlangga)",
+    "pic": "Aisah Nur Ana Bilah",
+    "cat": "Internal UNAIR",
+    "desc": "Research Center for Global Emerging and Re-emerging Infectious Diseases (RC GERID) merupakan pusat riset yang berfokus pada pengembangan ilmu pengetahuan, teknologi, dan produk inovatif untuk menghadapi ancaman penyakit infeksi emerging dan re-emerging melalui integrasi epidemiologi, biologi molekuler, mikrobiologi, genomik, bioinformatika, dan kesehatan masyarakat. RC GERID mengembangkan penelitian berbasis molecular epidemiology dan genomic surveillance yang diarahkan tidak hanya untuk menghasilkan publikasi dan bukti ilmiah.",
+    "tags": [
+      "Internal UNAIR",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1c_1sXc-PlidEdKDLjoNIx9YzaayhP41W",
+    "contact": "aisahanabilah@gmail.com",
+    "whatsapp": "085854006650",
+    "web": "https://rc-gerid.unair.ac.id",
+    "instagram": "https://www.instagram.com/rcgerid.unair/",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "b4",
+    "booth_no": 100,
+    "code": "B4",
+    "cluster": 7,
+    "area": "B",
+    "name": "PUI-PT Center of Excellence for Patient Safety and Quality",
+    "instansi": "PUI-PT Center of Excellence for Patient Safety and Quality (Pusat Riset Keselamatan Pasien) Universitas Airlangga",
+    "pic": "Luckyta",
+    "cat": "Internal UNAIR",
+    "desc": "PUI-PT Center of Excellence for Patient Safety and Quality (PUI-PT CoE-PSQ) merupakan pusat unggulan Universitas Airlangga yang berfokus pada pengembangan mutu pelayanan dan keselamatan pasien melalui pendidikan, penelitian, dan advokasi.\n\nDalam booth ini, PUI-PT CoE-PSQ memperkenalkan berbagai produk dan layanan unggulan yang mendukung edukasi serta peningkatan keselamatan pasien, antara lain buku keselamatan pasien Jilid 1–3, buku cerita pasien dalam 6 seri, serta layanan konsultasi di bidang mutu dan keselamatan pasien. Selain itu, tersedia berbagai merchandise PUI-PT CoE-PSQ dengan identitas dan desain khusus, seperti payung, notebook, mug, dan tote bag.\n\nBerbagai produk dan layanan tersebut merupakan bagian dari upaya PUI-PT CoE-PSQ dalam menyebarluaskan pengetahuan, meningkatkan kesadaran mengenai keselamatan pasien, serta mendukung penerapan mutu dan keselamatan pasien di berbagai lingkungan pelayanan kesehatan.",
+    "tags": [
+      "Internal UNAIR",
+      "Transaksi Booth"
+    ],
+    "logo": "https://drive.google.com/drive/folders/1hK1rhJusVWjvCy74OKjQreLTdbbhqwXR?usp=sharing",
+    "contact": "prkp@unair.ac.id",
+    "whatsapp": "085732939252",
+    "web": "https://patientsafety.unair.ac.id",
+    "instagram": "pusatrisetkeselamatanpasien",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "b5",
+    "booth_no": 101,
+    "code": "B5",
+    "cluster": 7,
+    "area": "B",
+    "name": "Airlangga Institute for Learning and Growth (AILG) Univeristas Airlangga",
+    "instansi": "Airlangga Institute for Learning and Growth (AILG) Univeristas Airlangga",
+    "pic": "Nuzul Alya",
+    "cat": "Internal UNAIR",
+    "desc": "AILG adalah pusat unggulan yang didirikan oleh Universitas Airlangga untuk mendukung perkembangan profesional dan pribadi masyarakat luas. AILG membawahi 9 Center Unggulan Unair yang menawarkan berbagai program penelitian, kajian, konsultasi, pelatihan, dan workshop yang dirancang untuk memperluas pengetahuan serta keterampilan dalam berbagai bidang, mulai dari manajemen, teknologi informasi, sains hingga ilmu sosial.",
+    "tags": [
+      "Internal UNAIR",
+      "Transaksi Booth"
+    ],
+    "logo": "https://drive.google.com/drive/folders/1i4gwNByphxAS0gaw-TSpZLLIBQmIa73v?usp=sharing",
+    "contact": "ailg@unair.ac.id",
+    "whatsapp": "085888991515",
+    "web": "https://ailg.unair.ac.id",
+    "instagram": "@ailg_unair",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "b6",
+    "booth_no": 102,
+    "code": "B6",
+    "cluster": 7,
+    "area": "B",
+    "name": "PUI-PT SCT",
+    "instansi": "Fakultas Farmasi",
+    "pic": "Prof. Tristiana Erawati Munandar, M.Si. Apt.",
+    "cat": "Internal UNAIR",
+    "desc": "PUI-PT Kesehatan Kulit dan Teknologi Kosmetik ( Skin and Cosmetic Technology (SCT) Centre of Excellent ) is a part of the Faculty of Pharmacy, Universitas Airlangga. This research group was founded for pharmaceutical sciences excellence. Main research of this research group are cosmetic delivery system and its evaluation to produce cosmetic preparations with quality standards and requirements (stable, effective, safe, and acceptable). The studies are anti-aging preparations, sunscreens, skincare, and hair extension. In the successful execution of its range of activities and services, the PUIPT-SCT organization necessitates and effectively leverages the power of information technology.",
+    "tags": [
+      "Internal UNAIR",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1-ApGhhrsD3s-ghsGL7yKP7uzbHcFXtbW",
+    "contact": "puipt-sct@ff.unair.ac.id",
+    "whatsapp": "+62 812-1671-607",
+    "web": "https://puiptsct.ff.unair.ac.id/",
+    "instagram": "",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "b7",
+    "booth_no": 103,
+    "code": "B7",
+    "cluster": 7,
+    "area": "B",
+    "name": "DPA Group",
+    "instansi": "PT. Dharma Putra Airlangga",
+    "pic": "Delfa Plezia",
+    "cat": "Internal UNAIR",
+    "desc": "Holding Company of Universitas Airlangga - Airlangga Global Travelling AGT), Inovasi Bioproduk Indonesia (Inobi), PT. Abhiseka Bangun Sarana, PT. Airlangga Univ Konsultan, PT. Dharma Putra Adigraha.",
+    "tags": [
+      "Internal UNAIR",
+      "Transaksi Booth"
+    ],
+    "logo": "https://drive.google.com/drive/folders/1ZoLBNhb5I3S3CSoxOeVPItbryFUSUdGR?usp=sharing",
+    "contact": "info@airlanggatravel.com / admin@dpacorp.id",
+    "whatsapp": "+62 838-4636-3901",
+    "web": "",
+    "instagram": "https://www.instagram.com/dpa.corp",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "b8",
+    "booth_no": 104,
+    "code": "B8",
+    "cluster": 7,
+    "area": "B",
+    "name": "Pemeriksaan Gigi Gratis RSGM UNAIR",
+    "instansi": "RSGM UNAIR",
+    "pic": "drg. Vankalayya Y. D",
+    "cat": "Internal UNAIR",
+    "desc": "RSGM UNAIR berpartisipasi dalam Industry Matching IM ASSIE IV 2026 sebagai wadah untuk memperkenalkan layanan, inovasi, dan pengembangan teknologi di bidang kesehatan gigi dan mulut serta membuka peluang kolaborasi strategis dengan berbagai pihak.",
+    "tags": [
+      "Internal UNAIR",
+      "Transaksi Booth"
+    ],
+    "logo": "https://drive.google.com/drive/folders/1FmNKtkSUw2RZbACH8OY3aG-uPaMhK4MF?hl=id",
+    "contact": "adm@rsgm.unair.ac.id",
+    "whatsapp": "081335158286",
+    "web": "https://rsgm.unair.ac.id/",
+    "instagram": "rsgmunair",
+    "facebook": "RSGM UNAIR",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "b9",
+    "booth_no": 105,
+    "code": "B9",
+    "cluster": 7,
+    "area": "B",
+    "name": "RSH Universitas Airlangga",
+    "instansi": "Rumah Sakit Hewan Universitas Airlangga",
+    "pic": "Abihilla Zikra Taim, drh",
+    "cat": "Internal UNAIR",
+    "desc": "Booth Rumah Sakit Hewan (RSH) Universitas Airlangga merupakan sarana edukasi dan informasi mengenai layanan kesehatan hewan yang disediakan oleh RSH UNAIR. Melalui booth ini, pengunjung dapat mengenal berbagai layanan, seperti pemeriksaan kesehatan, vaksinasi, konsultasi dokter hewan, tindakan medis, serta edukasi mengenai perawatan dan kesejahteraan hewan. Selain memperkenalkan fasilitas dan layanan, booth ini juga menjadi media untuk meningkatkan kesadaran masyarakat tentang pentingnya menjaga kesehatan hewan sebagai bagian dari kesehatan lingkungan. Dengan konsep yang informatif dan interaktif, Booth RSH Universitas Airlangga diharapkan dapat memberikan pengalaman edukatif sekaligus mempererat hubungan antara institusi, tenaga medis veteriner, dan masyarakat.",
+    "tags": [
+      "Internal UNAIR",
+      "Transaksi Booth"
+    ],
+    "logo": "https://lh3.googleusercontent.com/d/1Zdty7y5HGkxdbUmVDj986RSpWaUgYBZP",
+    "contact": "abihilalzikra.taim@gmail.com",
+    "whatsapp": "082186484622",
+    "web": "https://www.rsh.unair.ac.id",
+    "instagram": "rsh.unair",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  },
+  {
+    "id": "b10",
+    "booth_no": 106,
+    "code": "B10",
+    "cluster": 7,
+    "area": "B",
+    "name": "Rumah Sakit Universitas Airlangga",
+    "instansi": "Rumah Sakit Universitas Airlangga",
+    "pic": "Prisma Andita Pebriaini, S.KM., M.Kes",
+    "cat": "Internal UNAIR",
+    "desc": "Rumah Sakit Universitas Airlangga sebagai academic teaching hospital, mengintegrasikan pendidikan, penelitian, dan layanan kesehatan unggul. Berorientasi pada pelayanan pasien, inovasi, kolaborasi internasional, serta pengembangan medical tourism.",
+    "tags": [
+      "Internal UNAIR",
+      "Transaksi Booth"
+    ],
+    "logo": "https://bit.ly/LOGORESMI_RSUNAIR",
+    "contact": "riset.rsua2019@gmail.com",
+    "whatsapp": "085728059595",
+    "web": "https://rumahsakit.unair.ac.id/",
+    "instagram": "rs.unair",
+    "facebook": "",
+    "twitter": "",
+    "transaksi": "Ya"
+  }
+],
     denahBaseImage: '',
     denahDefaultImage: '',
   };
@@ -50,9 +2011,30 @@
     var db = window.ASSIE4_DB;
     if (!db) { return; }
     function normTenant(t) {
-      return { id:t.id||'', area:t.area||'A', name:t.name||'', cat:t.cat||'', desc:t.desc||'',
-        tags:Array.isArray(t.tags)?t.tags:(t.tags||'').split(',').map(function(s){return s.trim();}).filter(Boolean),
-        logo:t.logo||'', contact:t.contact||'', web:t.web||'', instagram:t.instagram||'', facebook:t.facebook||'', twitter:t.twitter||'' };
+      var bNo = (t.booth_no !== undefined && t.booth_no !== null && t.booth_no !== '') ? parseInt(t.booth_no, 10) : '';
+      var cde = t.code || (t.id ? String(t.id).toUpperCase() : '');
+      var ara = t.area || (cde ? cde.charAt(0).toUpperCase() : 'A');
+      return {
+        id:        t.id || (cde ? cde.toLowerCase() : ''),
+        booth_no:  bNo,
+        code:      cde,
+        cluster:   t.cluster || 1,
+        area:      ara,
+        name:      t.name || '',
+        instansi:  t.instansi || '',
+        pic:       t.pic || '',
+        cat:       t.cat || '',
+        desc:      t.desc || '',
+        tags:      Array.isArray(t.tags) ? t.tags : (t.tags || '').split(',').map(function(s){return s.trim();}).filter(Boolean),
+        logo:      t.logo || '',
+        contact:   t.contact || '',
+        whatsapp:  t.whatsapp || '',
+        web:       t.web || '',
+        instagram: t.instagram || '',
+        facebook:  t.facebook || '',
+        twitter:   t.twitter || '',
+        transaksi: t.transaksi || ''
+      };
     }
     if (db.info    && typeof db.info==='object')              DATA.info    = db.info;
     if (db.slides  && db.slides.length)                       DATA.slides  = db.slides;
@@ -267,12 +2249,22 @@
   var activeArea='all';
   function renderAreaFilters(){
     var el=document.getElementById('a4AreaFilters'); if(!el) return;
-    var areas=[{key:'all',lbl:'Semua',cls:'a4-af-all'},{key:'A',lbl:'Area A – UNAIR',cls:'a4-af-a'},{key:'B',lbl:'Area B – Mitra',cls:'a4-af-b'},{key:'C',lbl:'Area C – Eksternal',cls:'a4-af-c'},{key:'D',lbl:'Area D – Startup',cls:'a4-af-d'},{key:'E',lbl:'Area E – Institusi',cls:'a4-af-e'}];
+    var areas=[
+      {key:'all',lbl:'Semua',cls:'a4-af-all'},
+      {key:'A',lbl:'Area A – UNAIR',cls:'a4-af-a'},
+      {key:'B',lbl:'Area B – Riset & Unit',cls:'a4-af-b'},
+      {key:'C',lbl:'Area C – Sponsor',cls:'a4-af-c'},
+      {key:'D',lbl:'Area D – Startup/Mitra',cls:'a4-af-d'},
+      {key:'E',lbl:'Area E – Inkubasi',cls:'a4-af-e'},
+      {key:'F',lbl:'Area F – Inovasi',cls:'a4-af-f'},
+      {key:'G',lbl:'Area G – Kuliner/Bisnis',cls:'a4-af-g'},
+      {key:'H',lbl:'Area H – Craft/Fashion',cls:'a4-af-h'}
+    ];
     el.innerHTML=areas.map(function(a){return '<button class="a4-af '+a.cls+(activeArea===a.key?' on':'')+'" onclick="a4FilterArea(\''+a.key+'\')">'+a.lbl+'</button>';}).join('');
   }
   window.a4FilterArea=function(area){activeArea=area;tenantListExpanded=false;renderAreaFilters();renderTenants();};
 
-  var tenantAreaColors={A:'#3185ff',B:'#13ce78',C:'#ffad1f',D:'#bd67ff',E:'#13c9e8'};
+  var tenantAreaColors={A:'#3185ff',B:'#13ce78',C:'#ffad1f',D:'#bd67ff',E:'#13c9e8',F:'#10b981',G:'#f97316',H:'#ec4899'};
   var tenantListExpanded=false;
   function tenantIconSvg(t){
     var details=((t.cat||'')+' '+(t.name||'')).toLowerCase(),paths;
@@ -303,8 +2295,9 @@
       var areaColor=tenantAreaColors[t.area]||'#d4a843';
       return '<button type="button" class="a4-tc" style="--a4-area-color:'+areaColor+'" data-tenant-id="'+escH(t.id)+'" aria-label="Lihat detail '+escH(t.name)+'">'+
         '<span class="a4-tc-mark'+(t.logo?'':' is-fallback')+'">'+(t.logo?'<img src="'+escH(t.logo)+'" alt="Logo '+escH(t.name)+'" loading="lazy" onerror="this.parentNode.classList.add(&quot;is-fallback&quot;)">':'')+'<span class="a4-tc-fallback" aria-hidden="true">'+tenantIconSvg(t)+'</span></span>'+
-        '<span class="a4-tc-copy"><span class="a4-tc-overline"><span class="a4-tc-area-dot a4-tc-area-'+escH(t.area)+'"></span>AREA '+escH(t.area)+' <span class="a4-tc-sep">/</span> BOOTH '+escH(String(t.id).toUpperCase())+'</span>'+
+        '<span class="a4-tc-copy"><span class="a4-tc-overline"><span class="a4-tc-area-dot a4-tc-area-'+escH(t.area)+'"></span>AREA '+escH(t.area)+(t.booth_no ? ' <span class="a4-tc-sep">/</span> BOOTH '+escH(t.booth_no)+' ('+escH(t.code||t.id.toUpperCase())+')' : ' <span class="a4-tc-sep">/</span> BOOTH '+escH(String(t.id).toUpperCase()))+'</span>'+
         '<span class="a4-tc-name">'+escH(t.name)+'</span>'+
+        (t.instansi && t.instansi !== t.name ? '<span class="a4-tc-instansi" style="font-size:12px;color:#93c5fd;font-weight:600;margin-bottom:3px">'+escH(t.instansi)+'</span>' : '')+
         '<span class="a4-tc-cat">'+escH(t.cat||'Peserta pameran')+'</span>'+
         '</span><span class="a4-tc-arrow" aria-hidden="true">&#8599;</span></button>';
     }).join('')||'<p class="a4-tenant-empty">'+(DATA.tenants.length?'Tidak ada tenant yang cocok. Coba area atau kata kunci lain.':'Daftar tenant belum tersedia.')+'</p>';
@@ -576,63 +2569,189 @@
   /* ══════════════════════════════════════════════════════
      MODAL DETAIL BOOTH
      ═══════════════════════════════════════════════════════ */
-  var areaClrFull={A:'#3b82f6',B:'#22c55e',C:'#f59e0b',D:'#a855f7',E:'#06b6d4'};
+  var areaClrFull={
+    A:'#3b82f6',B:'#22c55e',C:'#f59e0b',D:'#a855f7',
+    E:'#06b6d4',F:'#10b981',G:'#f97316',H:'#ec4899'
+  };
   var presUrl=(window.ASSIE4_CFG&&ASSIE4_CFG.presensiUrl)||'/presensi-booth-assie4/';
+
+  var boothNumToCode = {
+    1:'A1', 2:'A2', 3:'A3', 4:'A4', 5:'A5', 6:'A6', 7:'A7', 8:'A8', 9:'A9', 10:'A10',
+    11:'A11', 12:'A12', 13:'A13', 14:'A14', 15:'A15', 16:'A16', 17:'A17', 18:'A18', 19:'A19', 20:'A20', 21:'A21',
+    22:'D1', 23:'D2', 24:'D3', 25:'D4', 26:'D5', 27:'D6', 28:'D7', 29:'D8', 30:'D9', 31:'D10',
+    32:'D11', 33:'D12', 34:'D13', 35:'D14', 36:'D15', 37:'D16',
+    38:'C1', 39:'C2', 40:'C3', 41:'C4', 42:'C5', 43:'C6', 44:'C7',
+    45:'E1', 46:'E2', 47:'E3', 48:'E4', 49:'E5', 50:'E6',
+    51:'F1', 52:'F2', 53:'F3', 54:'F4', 55:'F5', 56:'F6', 57:'F7', 58:'F8', 59:'F9', 60:'F10',
+    61:'F11', 62:'F12', 63:'F13', 64:'F14', 65:'F15', 66:'F16', 67:'F17', 68:'F18', 69:'F19', 70:'F20', 71:'F21', 72:'F22',
+    73:'G1', 74:'G2', 75:'G3', 76:'G4', 77:'G5', 78:'G6', 79:'G7', 80:'G8',
+    81:'H1', 82:'H2', 83:'H3', 84:'H4', 85:'H5', 86:'H6', 87:'H7', 88:'H8', 89:'H9', 90:'H10',
+    91:'H11', 92:'H12', 93:'H13', 94:'H14', 95:'H15', 96:'H16',
+    97:'B1', 98:'B2', 99:'B3', 100:'B4', 101:'B5', 102:'B6', 103:'B7', 104:'B8', 105:'B9', 106:'B10'
+  };
+
+  function boothTenant(no){
+    if(no==null) return null;
+    var n = parseInt(no, 10);
+    var sNo = String(no).trim();
+    var mappedCode = (boothNumToCode[n] || boothNumToCode[sNo] || '').toUpperCase();
+    var sLowerCode = mappedCode.toLowerCase();
+    var sLower = sNo.toLowerCase();
+
+    return (DATA.tenants||[]).find(function(t){
+      if(!t) return false;
+      var tBooth = (t.booth_no !== undefined && t.booth_no !== null && t.booth_no !== '') ? parseInt(t.booth_no, 10) : null;
+      var tCode = String(t.code || '').trim().toLowerCase();
+      var tId = String(t.id || '').trim().toLowerCase();
+
+      return (tBooth !== null && !isNaN(tBooth) && tBooth === n) ||
+             (tBooth !== null && String(tBooth) === sNo) ||
+             (mappedCode && (tCode === sLowerCode || tId === sLowerCode)) ||
+             (tCode && tCode === sLower) ||
+             (tId && tId === sLower);
+    });
+  }
+
+  function boothStatus(no){
+    var tenant=boothTenant(no);
+    if(tenant && tenant.name){
+      return tenant.name + (tenant.instansi && tenant.instansi !== tenant.name ? ' ('+tenant.instansi+')' : '');
+    }
+    return 'Booth belum terisi';
+  }
+
   window.a4OpenModal=function(id){
-    var t=DATA.tenants.find(function(x){return x.id===id;});
+    var s=String(id).trim().toLowerCase();
+    var n=parseInt(id, 10);
+    var mappedCode=(boothNumToCode[n]||boothNumToCode[s]||'').toLowerCase();
+
+    var t=(DATA.tenants||[]).find(function(x){
+      if(!x) return false;
+      var xId=String(x.id||'').trim().toLowerCase();
+      var xCode=String(x.code||'').trim().toLowerCase();
+      var xBooth=(x.booth_no!==undefined&&x.booth_no!==null&&x.booth_no!=='')?parseInt(x.booth_no,10):null;
+
+      return xId===s ||
+             xCode===s ||
+             (xBooth!==null&&!isNaN(xBooth)&&xBooth===n) ||
+             String(xBooth)===s ||
+             (mappedCode && (xId===mappedCode || xCode===mappedCode));
+    });
     if(!t) return;
-    t={id:t.id||'',area:t.area||'',name:t.name||'',cat:t.cat||'',desc:t.desc||'',tags:Array.isArray(t.tags)?t.tags:[],logo:t.logo||'',contact:t.contact||'',web:t.web||'',instagram:t.instagram||'',facebook:t.facebook||'',twitter:t.twitter||''};
+
+    t={
+      id:t.id||'',
+      booth_no:t.booth_no||'',
+      code:t.code||(t.id?t.id.toUpperCase():''),
+      cluster:t.cluster||'',
+      area:t.area||'A',
+      name:t.name||'',
+      instansi:t.instansi||'',
+      pic:t.pic||'',
+      cat:t.cat||'',
+      desc:t.desc||'',
+      tags:Array.isArray(t.tags)?t.tags:[],
+      logo:t.logo||'',
+      contact:t.contact||'',
+      whatsapp:t.whatsapp||'',
+      web:t.web||'',
+      instagram:t.instagram||'',
+      facebook:t.facebook||'',
+      twitter:t.twitter||'',
+      transaksi:t.transaksi||''
+    };
+
     var c=areaClrFull[t.area]||'#d4a843';
     var head=document.getElementById('a4ModalHead'),body=document.getElementById('a4ModalBody');
     if(!head||!body) return;
+
+    var boothNumLabel = t.booth_no ? 'BOOTH ' + t.booth_no : 'BOOTH ' + t.code;
+    var codeSubLabel = t.code ? '(' + t.code + ')' : '';
+
     head.innerHTML='<button class="a4-m-close" onclick="a4CloseModal()">&#x2715;</button>'+
       '<div class="a4-m-head-top">'+
-        (t.logo?'<img src="'+escH(t.logo)+'" class="a4-m-logo-img" alt="'+escH(t.name)+'">':'<div class="a4-m-logo-ph">&#127962;</div>')+
-        '<div>'+
-          '<div class="a4-m-num" style="color:'+c+'">'+escH(t.id)+'</div>'+
-          '<div class="a4-m-name">'+escH(t.name)+'</div>'+
-          '<div class="a4-m-area">'+
-            '<span class="a4-m-area-badge" style="background:'+c+'22;color:'+c+';border:1px solid '+c+'44">Area '+escH(t.area)+'</span>'+
-            (t.cat?' <span class="a4-m-cat">'+escH(t.cat)+'</span>':'')+
+        (t.logo?'<img src="'+escH(t.logo)+'" class="a4-m-logo-img" alt="'+escH(t.name)+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\';"><div class="a4-m-logo-ph" style="display:none">&#127970;</div>':'<div class="a4-m-logo-ph">&#127970;</div>')+
+        '<div style="min-width:0;flex:1">'+
+          '<div class="a4-m-num" style="color:'+c+'">'+escH(boothNumLabel)+' <span style="font-size:20px;font-weight:700;color:var(--a4-muted2);margin-left:4px">'+escH(codeSubLabel)+'</span></div>'+
+          '<div class="a4-m-name" style="font-size:20px;font-weight:800;color:var(--a4-text);line-height:1.25;margin-top:2px">'+escH(t.name)+'</div>'+
+          (t.instansi && t.instansi !== t.name ? '<div class="a4-m-instansi" style="font-size:13px;color:#93c5fd;font-weight:600;margin-top:4px">&#127970; '+escH(t.instansi)+'</div>':'')+
+          '<div class="a4-m-area" style="margin-top:8px">'+
+            '<span class="a4-m-area-badge" style="background:'+c+'22;color:'+c+';border:1px solid '+c+'44">Area '+escH(t.area)+(t.cluster?' · Klaster '+escH(t.cluster):'')+'</span>'+
+            (t.cat?' <span class="a4-m-cat" style="background:rgba(255,255,255,.07);padding:2px 8px;border-radius:6px">'+escH(t.cat)+'</span>':'')+
+            (t.transaksi && t.transaksi.toLowerCase()==='ya' ? ' <span style="background:rgba(34,197,94,.15);color:#4ade80;font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px;margin-left:4px">&#128722; Transaksi Booth</span>' : '')+
           '</div>'+
         '</div></div>';
-    var identitas='<div class="a4-m-section-label">&#128203; Identitas Booth</div>'+
+
+    var identitas='<div class="a4-m-section-label">&#128203; Identitas Tenant &amp; Perusahaan</div>'+
       '<div class="a4-m-grid">'+
-        '<div class="a4-mg-item"><div class="a4-mg-label">1. Kode Booth</div><div class="a4-mg-val" style="color:'+c+'">'+escH(t.id)+'</div></div>'+
-        '<div class="a4-mg-item"><div class="a4-mg-label">2. Area</div><div class="a4-mg-val">Area '+escH(t.area)+'</div></div>'+
-        '<div class="a4-mg-item"><div class="a4-mg-label">3. Nama Tenant</div><div class="a4-mg-val">'+escH(t.name)+'</div></div>'+
-        '<div class="a4-mg-item"><div class="a4-mg-label">4. Kategori</div><div class="a4-mg-val">'+(t.cat?escH(t.cat):'—')+'</div></div>'+
-      '</div>'+
-      (t.desc?'<div class="a4-mg-item" style="margin-top:8px"><div class="a4-mg-label">5. Deskripsi</div><div class="a4-mg-val" style="font-size:13px;font-weight:400;line-height:1.6">'+escH(t.desc)+'</div></div>':'');
-    var tagsRow=t.tags.length?'<div class="a4-mg-item" style="margin-top:8px"><div class="a4-mg-label">6. Tags</div><div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px">'+t.tags.map(function(g){return '<span class="a4-m-tag">'+escH(g)+'</span>';}).join('')+'</div></div>':'';
-    var logoRow=t.logo?'<div class="a4-mg-item" style="margin-top:8px"><div class="a4-mg-label">7. Logo</div><div style="margin-top:4px"><img src="'+escH(t.logo)+'" style="max-height:40px;border-radius:6px"></div></div>':'';
-    var igUrl='',twUrl='';
-    if(t.instagram) igUrl=t.instagram.indexOf('http')===0?t.instagram:'https://instagram.com/'+t.instagram.replace('@','');
-    if(t.twitter)   twUrl=t.twitter.indexOf('http')===0?t.twitter:'https://x.com/'+t.twitter.replace('@','');
-    var hasKontak=t.contact||t.web||t.instagram||t.facebook||t.twitter;
+        '<div class="a4-mg-item"><div class="a4-mg-label">1. Nomor &amp; Kode Booth</div><div class="a4-mg-val" style="color:'+c+'">'+(t.booth_no ? 'Booth '+escH(t.booth_no)+' ('+escH(t.code)+')' : escH(t.code))+'</div></div>'+
+        '<div class="a4-mg-item"><div class="a4-mg-label">2. Area &amp; Klaster</div><div class="a4-mg-val">Area '+escH(t.area)+(t.cluster?' · Klaster '+escH(t.cluster):'')+'</div></div>'+
+        '<div class="a4-mg-item" style="grid-column:1/-1"><div class="a4-mg-label">3. Nama Tenant / Brand</div><div class="a4-mg-val" style="font-size:16px">'+escH(t.name)+'</div></div>'+
+        (t.instansi ? '<div class="a4-mg-item" style="grid-column:1/-1"><div class="a4-mg-label">4. Identitas Perusahaan / PT / CV / Instansi</div><div class="a4-mg-val" style="font-size:14px;color:#93c5fd">'+escH(t.instansi)+'</div></div>' : '')+
+        '<div class="a4-mg-item"><div class="a4-mg-label">5. Kategori</div><div class="a4-mg-val">'+(t.cat?escH(t.cat):'—')+'</div></div>'+
+        '<div class="a4-mg-item"><div class="a4-mg-label">6. PIC Booth</div><div class="a4-mg-val">'+(t.pic?escH(t.pic):'—')+'</div></div>'+
+      '</div>';
+
+    var descBlock = t.desc ? '<div class="a4-m-section-label">&#128221; Deskripsi Produk &amp; Profil</div><div class="a4-m-desc" style="white-space:pre-line;line-height:1.7;font-size:13px;color:var(--a4-muted2);margin-bottom:16px">'+escH(t.desc)+'</div>' : '';
+
+    var tagsRow=t.tags.length?'<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">'+t.tags.map(function(g){return '<span class="a4-m-tag">'+escH(g)+'</span>';}).join('')+'</div>':'';
+
+    var igUrl='',twUrl='',waUrl='';
+    if(t.instagram){
+      igUrl=t.instagram.indexOf('http')===0?t.instagram:'https://instagram.com/'+t.instagram.replace(/^@/,'').trim();
+    }
+    if(t.twitter){
+      twUrl=t.twitter.indexOf('http')===0?t.twitter:'https://x.com/'+t.twitter.replace(/^@/,'').trim();
+    }
+    if(t.whatsapp){
+      var cleanWa = String(t.whatsapp).replace(/[^0-9]/g, '');
+      if(cleanWa.indexOf('0')===0) cleanWa = '62' + cleanWa.substring(1);
+      if(cleanWa) waUrl = 'https://wa.me/' + cleanWa + '?text=' + encodeURIComponent('Halo ' + t.name + ' (Booth ' + (t.booth_no||t.code) + ' ASSIE IV 2026)');
+    }
+
+    var hasKontak=t.contact||t.whatsapp||t.web||t.instagram||t.facebook||t.twitter;
     var kHtml='';
     if(hasKontak){
-      kHtml='<div class="a4-m-section-label">&#128241; Kontak & Media Sosial</div><div class="a4-m-kontak-list">';
-      if(t.contact) kHtml+='<div class="a4-m-kr"><span class="a4-m-ki">&#128231;</span><span class="a4-m-kl">8. Email</span><a href="mailto:'+escH(t.contact)+'" class="a4-m-kv">'+escH(t.contact)+'</a></div>';
-      if(t.web)     kHtml+='<div class="a4-m-kr"><span class="a4-m-ki">&#127760;</span><span class="a4-m-kl">9. Website</span><a href="'+escH(t.web)+'" target="_blank" class="a4-m-kv">'+escH(t.web.replace(/^https?:\/\//,''))+'</a></div>';
-      if(t.instagram) kHtml+='<div class="a4-m-kr"><span class="a4-m-ki">&#128247;</span><span class="a4-m-kl">10. Instagram</span><a href="'+escH(igUrl)+'" target="_blank" class="a4-m-kv">'+escH(t.instagram)+'</a></div>';
-      if(t.facebook)  kHtml+='<div class="a4-m-kr"><span class="a4-m-ki">&#128077;</span><span class="a4-m-kl">11. Facebook</span><a href="'+escH(t.facebook)+'" target="_blank" class="a4-m-kv">'+escH(t.facebook.replace(/^https?:\/\//,''))+'</a></div>';
-      if(t.twitter)   kHtml+='<div class="a4-m-kr"><span class="a4-m-ki">&#128038;</span><span class="a4-m-kl">12. X/Twitter</span><a href="'+escH(twUrl)+'" target="_blank" class="a4-m-kv">'+escH(t.twitter)+'</a></div>';
+      kHtml='<div class="a4-m-section-label">&#128241; Kontak &amp; Media Sosial</div><div class="a4-m-kontak-list">';
+      if(t.contact) kHtml+='<div class="a4-m-kr"><span class="a4-m-ki">&#128231;</span><span class="a4-m-kl">Email</span><a href="mailto:'+escH(t.contact)+'" class="a4-m-kv">'+escH(t.contact)+'</a></div>';
+      if(t.whatsapp) kHtml+='<div class="a4-m-kr"><span class="a4-m-ki">&#128172;</span><span class="a4-m-kl">WhatsApp</span>'+(waUrl?'<a href="'+escH(waUrl)+'" target="_blank" class="a4-m-kv">'+escH(t.whatsapp)+' &#8599;</a>':'<span class="a4-m-kv">'+escH(t.whatsapp)+'</span>')+'</div>';
+      if(t.web)     kHtml+='<div class="a4-m-kr"><span class="a4-m-ki">&#127760;</span><span class="a4-m-kl">Website</span><a href="'+escH(t.web)+'" target="_blank" class="a4-m-kv">'+escH(t.web.replace(/^https?:\/\//,''))+' &#8599;</a></div>';
+      if(t.instagram) kHtml+='<div class="a4-m-kr"><span class="a4-m-ki">&#128247;</span><span class="a4-m-kl">Instagram</span><a href="'+escH(igUrl)+'" target="_blank" class="a4-m-kv">'+escH(t.instagram)+' &#8599;</a></div>';
+      if(t.facebook)  kHtml+='<div class="a4-m-kr"><span class="a4-m-ki">&#128077;</span><span class="a4-m-kl">Facebook</span><a href="'+escH(t.facebook)+'" target="_blank" class="a4-m-kv">'+escH(t.facebook.replace(/^https?:\/\//,''))+' &#8599;</a></div>';
+      if(t.twitter)   kHtml+='<div class="a4-m-kr"><span class="a4-m-ki">&#128038;</span><span class="a4-m-kl">X / Twitter</span><a href="'+escH(twUrl)+'" target="_blank" class="a4-m-kv">'+escH(t.twitter)+' &#8599;</a></div>';
       kHtml+='</div>';
     }
+
     var sosmedBtns='';
+    if(waUrl) sosmedBtns+='<a href="'+escH(waUrl)+'" target="_blank" class="a4-social-btn" style="background:#25d366;color:#fff;border-color:#25d366">&#128172; WhatsApp</a>';
     if(t.web) sosmedBtns+='<a href="'+escH(t.web)+'" target="_blank" class="a4-social-btn">&#127760; Website</a>';
     if(t.instagram) sosmedBtns+='<a href="'+escH(igUrl)+'" target="_blank" class="a4-social-btn a4-sb-ig">&#128247; Instagram</a>';
     if(t.facebook) sosmedBtns+='<a href="'+escH(t.facebook)+'" target="_blank" class="a4-social-btn a4-sb-fb">&#128077; Facebook</a>';
     if(t.twitter) sosmedBtns+='<a href="'+escH(twUrl)+'" target="_blank" class="a4-social-btn a4-sb-tw">&#128038; X/Twitter</a>';
-    body.innerHTML=identitas+tagsRow+logoRow+(kHtml||'')+(sosmedBtns?'<div class="a4-m-sosmed" style="margin-top:14px">'+sosmedBtns+'</div>':'')+
+
+    body.innerHTML=identitas+descBlock+tagsRow+(kHtml||'')+(sosmedBtns?'<div class="a4-m-sosmed" style="margin-top:14px">'+sosmedBtns+'</div>':'')+
       '<hr class="a4-m-divider"><div style="display:flex;gap:10px;flex-wrap:wrap">'+
       '<a href="https://tokoua.unair.ac.id/" target="_blank" class="a4-m-shop">&#128722; Beli di TokoUA</a>'+
-      '<a href="'+escH(presUrl)+'" class="a4-btn-out" style="font-size:13px">&#128203; Presensi</a>'+
+      '<a href="'+escH(presUrl)+'" class="a4-btn-out" style="font-size:13px">&#128203; Presensi Booth</a>'+
       '</div>';
+
     var modal=document.getElementById('a4Modal');
     if(modal){modal.classList.add('on');document.body.style.overflow='hidden';}
   };
+
+  window.a4OpenBooth=function(no){
+    var tenant=boothTenant(no);
+    if(tenant && tenant.name){
+      window.a4OpenModal(String(tenant.id));
+      return;
+    }
+    var head=document.getElementById('a4ModalHead'),body=document.getElementById('a4ModalBody');
+    if(!head||!body) return;
+    head.innerHTML='<button class="a4-m-close" onclick="a4CloseModal()">&#x2715;</button><div class="a4-m-num" style="color:#d4a843">BOOTH '+escH(no)+'</div><div class="a4-m-name">Booth Belum Dialokasikan</div><div class="a4-m-area">ASSIE IV 2026</div>';
+    body.innerHTML='<div class="a4-m-desc">Booth '+escH(no)+' saat ini belum diisi oleh tenant peserta pameran. Silakan klik booth lain yang tersedia di denah untuk melihat informasi lengkap tenant.</div><button type="button" class="a4-m-shop" onclick="a4CloseModal();a4ShowAllTenants()">Lihat Semua Tenant Terdaftar</button>';
+    var modal=document.getElementById('a4Modal');if(modal){modal.classList.add('on');document.body.style.overflow='hidden';}
+  };
+
   window.a4CloseModal=function(){var m=document.getElementById('a4Modal');if(m){m.classList.remove('on');document.body.style.overflow='';}};
 
   /* ── DENAH VENUE ASLI + HOTSPOT BOOTH ────────────────────
@@ -671,24 +2790,7 @@
   addBoothRow(7,97,4,1173,281,32,0,28,41); addBoothRow(7,101,4,1325,281,32,0,28,41);
   addBooth(7,105,1108,257,17,19); addBooth(7,106,1108,310,17,19);
 
-  function boothTenant(no){return (DATA.tenants||[]).find(function(t){return String(t.id)===String(no);});}
-  function boothStatus(no){var tenant=boothTenant(no);return tenant?tenant.name:(DATA.tenants.length?'Tenant tersedia di daftar; kode belum dipetakan ke nomor denah':'Tenant belum diumumkan');}
-  function mapTip(e,no){
-    if(!ttEl) return;
-    ttEl.innerHTML='<div class="a4-tt-num">Booth '+escH(no)+'</div><div class="a4-tt-name">'+escH(boothStatus(no))+'</div>';
-    ttEl.style.left=((e.clientX||0)+14)+'px';ttEl.style.top=((e.clientY||0)-10)+'px';ttEl.style.opacity='1';
-  }
-  window.a4MapTip=mapTip;
-  window.a4OpenBooth=function(no){
-    var tenant=boothTenant(no);
-    if(tenant){window.a4OpenModal(String(tenant.id));return;}
-    var head=document.getElementById('a4ModalHead'),body=document.getElementById('a4ModalBody');
-    if(!head||!body) return;
-    var hasTenantData=DATA.tenants.length>0;
-    head.innerHTML='<button class="a4-m-close" onclick="a4CloseModal()">&#x2715;</button><div class="a4-m-num" style="color:#d4a843">BOOTH '+escH(no)+'</div><div class="a4-m-name">'+(hasTenantData?'Belum terhubung ke kode tenant':'Tenant belum diumumkan')+'</div><div class="a4-m-area">ASSIE IV 2026</div>';
-    body.innerHTML=hasTenantData?'<div class="a4-m-desc">Daftar tenant saat ini memakai kode area seperti a7, sedangkan hotspot denah memakai nomor 1–106. Data tenant sudah tersedia, tetapi perlu tabel pemetaan resmi agar nama tampil di titik yang tepat.</div><button type="button" class="a4-m-shop" onclick="a4CloseModal();a4ShowAllTenants()">Buka Daftar Booth &amp; Tenant</button>':'<div class="a4-m-desc">Informasi tenant untuk Booth '+escH(no)+' akan diumumkan oleh panitia. Silakan cek kembali nanti.</div>';
-    var modal=document.getElementById('a4Modal');if(modal){modal.classList.add('on');document.body.style.overflow='hidden';}
-  };
+  
   function renderDenahFilters(){
     var el=document.getElementById('a4DenahFilters');if(!el) return;
     var filters=[{key:'all',label:'Semua Klaster'}].concat(clusterMeta);
@@ -728,7 +2830,14 @@
   window.a4MobileBoothClick=function(no){setSelectedBooth(no);window.a4OpenBooth(no);};
   function renderMobileBoothList(){
     var list=document.getElementById('a4MobileBoothList');if(!list) return;
-    function buttons(items){return '<div class="a4-mobile-booth-grid">'+items.map(function(booth){var hasTenant=!!boothTenant(booth.n);var color=clusterMeta[booth.cluster-1].color;return '<button type="button" class="a4-mobile-booth-btn'+(String(booth.n)===denahSelectedBooth?' is-selected':'')+'" style="--a4-cluster:'+color+'" data-booth="'+booth.n+'" onclick="a4MobileBoothClick('+booth.n+')">'+booth.n+'<small>'+(hasTenant?'Lihat tenant':(DATA.tenants.length?'Belum dipetakan':'Segera hadir'))+'</small></button>';}).join('')+'</div>';}
+    function buttons(items){
+      return '<div class="a4-mobile-booth-grid">'+items.map(function(booth){
+        var t=boothTenant(booth.n);
+        var color=clusterMeta[booth.cluster-1].color;
+        var nameSub = t && t.name ? escH(t.name.length > 20 ? t.name.substring(0, 19) + '…' : t.name) : 'Belum terisi';
+        return '<button type="button" class="a4-mobile-booth-btn'+(String(booth.n)===denahSelectedBooth?' is-selected':'')+'" style="--a4-cluster:'+color+'" data-booth="'+booth.n+'" onclick="a4MobileBoothClick('+booth.n+')">'+booth.n+'<small>'+nameSub+'</small></button>';
+      }).join('')+'</div>';
+    }
     if(denahActiveCluster==='all'){
       list.innerHTML='<div class="a4-mobile-booth-label">Pilih booth <span>menurut klaster</span></div>'+clusterMeta.map(function(meta,i){return '<details class="a4-mobile-cluster"'+(i===0?' open':'')+'><summary style="--a4-cluster:'+meta.color+'"><span class="a4-cluster-dot"></span>'+escH(meta.label)+' <small>Booth '+escH(meta.count)+'</small></summary>'+buttons(boothShapes.filter(function(b){return b.cluster===meta.key;}))+'</details>';}).join('');
     } else {
