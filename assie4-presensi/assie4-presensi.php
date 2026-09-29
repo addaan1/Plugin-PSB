@@ -404,9 +404,9 @@ function assie4_admin_page() {
         if ( $a['total'] === $b['total'] ) return $a['booth'] <=> $b['booth'];
         return $b['total'] <=> $a['total'];
     } );
-    $top_three = array_slice( array_values( array_filter( $top_ranked, static function( $row ) {
+    $pie_rows = array_values( array_filter( $top_ranked, static function( $row ) {
         return $row['total'] > 0;
-    } ) ), 0, 3 );
+    } ) );
     $max_count = max( 1, max( $counts ) );
     $max_day   = max( 1, max( $day_totals ) );
 
@@ -423,6 +423,20 @@ function assie4_admin_page() {
             }
         }
     }
+
+    $unvisited_booths = max( 0, 120 - $active_booths );
+    $pie_segments = [];
+    $pie_running = 0;
+    foreach ( $pie_rows as $index => &$pie_row ) {
+        $pie_row['color'] = 'hsl(' . (int) floor( ( $index * 137.508 ) % 360 ) . ',68%,52%)';
+        $pie_row['percent'] = $total_period > 0 ? round( ( (int) $pie_row['total'] / $total_period ) * 100, 1 ) : 0;
+        $start = $total_period > 0 ? ( $pie_running / $total_period ) * 100 : 0;
+        $pie_running += (int) $pie_row['total'];
+        $end = $total_period > 0 ? ( $pie_running / $total_period ) * 100 : 0;
+        $pie_segments[] = $pie_row['color'] . ' ' . number_format( $start, 4, '.', '' ) . '% ' . number_format( $end, 4, '.', '' ) . '%';
+    }
+    unset( $pie_row );
+    $pie_style = $pie_segments ? 'conic-gradient(' . implode( ', ', $pie_segments ) . ')' : 'conic-gradient(#e8edf4 0% 100%)';
 
     $recent = $wpdb->get_results( $wpdb->prepare(
         "SELECT booth, nama, instansi, telp, DATE_FORMAT(waktu,'%d/%m/%Y %H:%i') AS waktu_fmt
@@ -466,17 +480,18 @@ function assie4_admin_page() {
       #assie4-dashboard .a4-filter select{min-width:210px;min-height:39px;border:1px solid #d7e0eb;border-radius:8px;padding:0 34px 0 11px;color:#263d59;background:#fff}
       #assie4-dashboard .a4-filter .button{min-height:39px;padding:0 18px;border-radius:8px;font-weight:700}
       #assie4-dashboard .a4-filter-hint{margin-left:auto;color:#8794a6;font-size:12px;padding-bottom:9px}
-      #assie4-dashboard .a4-podium{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-      #assie4-dashboard .a4-podium-card{position:relative;overflow:hidden;min-height:156px;padding:20px;border:1px solid #e9edf4;border-radius:14px;background:linear-gradient(145deg,#fff,#fafcff)}
-      #assie4-dashboard .a4-podium-card.is-1{border-color:#f0d38d;background:linear-gradient(145deg,#fffaf0,#fff)}
-      #assie4-dashboard .a4-podium-card.is-2{border-color:#d8e0ea}
-      #assie4-dashboard .a4-podium-card.is-3{border-color:#ead8c5}
-      #assie4-dashboard .a4-podium-rank{font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:800;color:#9b7b36}
-      #assie4-dashboard .a4-podium-card.is-2 .a4-podium-rank{color:#718096}
-      #assie4-dashboard .a4-podium-card.is-3 .a4-podium-rank{color:#a6784b}
-      #assie4-dashboard .a4-podium-booth{margin-top:9px;font-size:20px;font-weight:800;color:#1c3859}
-      #assie4-dashboard .a4-podium-tenant{margin-top:3px;min-height:18px;color:#718096;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-      #assie4-dashboard .a4-podium-total{position:absolute;right:18px;top:18px;color:#1d5e9f;font-size:18px;font-weight:800}
+      #assie4-dashboard .a4-pie-layout{display:grid;grid-template-columns:minmax(220px,300px) minmax(0,1fr);align-items:center;gap:30px}
+      #assie4-dashboard .a4-pie-chart{width:min(100%,280px);aspect-ratio:1;border-radius:50%;background:<?php echo esc_attr( $pie_style ); ?>;position:relative;margin:auto;box-shadow:inset 0 0 0 1px rgba(20,36,58,.06),0 8px 24px rgba(25,52,86,.1)}
+      #assie4-dashboard .a4-pie-chart:after{content:"";position:absolute;inset:27%;border-radius:50%;background:#fff;box-shadow:0 0 0 1px var(--a4-line)}
+      #assie4-dashboard .a4-pie-center{position:absolute;z-index:1;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none}
+      #assie4-dashboard .a4-pie-center strong{font-size:25px;color:#183d67;line-height:1.1}
+      #assie4-dashboard .a4-pie-center span{margin-top:4px;color:var(--a4-muted);font-size:11px}
+      #assie4-dashboard .a4-pie-legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 16px;max-height:360px;overflow:auto;padding:2px 8px 2px 2px}
+      #assie4-dashboard .a4-pie-item{display:grid;grid-template-columns:11px minmax(0,1fr) auto;align-items:center;gap:9px;min-width:0;padding:9px 10px;border:1px solid #edf1f6;border-radius:9px;background:#fbfcfe}
+      #assie4-dashboard .a4-pie-swatch{width:10px;height:10px;border-radius:50%}
+      #assie4-dashboard .a4-pie-label{min-width:0;color:#52647c;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+      #assie4-dashboard .a4-pie-label strong{color:#24415f}
+      #assie4-dashboard .a4-pie-count{color:#183d67;font-size:12px;font-weight:800;white-space:nowrap}
       #assie4-dashboard .a4-table-wrap{overflow-x:auto;border:1px solid var(--a4-line);border-radius:11px}
       #assie4-dashboard table{border:0;box-shadow:none}
       #assie4-dashboard .a4-table{border-collapse:collapse;min-width:690px;width:100%}
@@ -491,8 +506,8 @@ function assie4_admin_page() {
       #assie4-dashboard .a4-empty strong{display:block;margin-bottom:4px;color:#405674}
       #assie4-dashboard .a4-recent{max-height:530px;overflow:auto}
       #assie4-dashboard .a4-phone{font-variant-numeric:tabular-nums;white-space:nowrap}
-      @media(max-width:1000px){#assie4-dashboard .a4-dash-head{display:block}#assie4-dashboard .a4-head-actions{margin-top:16px}#assie4-dashboard .a4-kpis,#assie4-dashboard .a4-daily-grid{grid-template-columns:1fr 1fr}#assie4-dashboard .a4-podium{grid-template-columns:1fr}}
-      @media(max-width:600px){#assie4-dashboard{margin-right:10px}#assie4-dashboard .a4-dash-head{padding:20px}#assie4-dashboard .a4-dash-head h1{font-size:20px}#assie4-dashboard .a4-kpis,#assie4-dashboard .a4-daily-grid{grid-template-columns:1fr}#assie4-dashboard .a4-panel{padding:16px}#assie4-dashboard .a4-filter select{width:100%;min-width:0}#assie4-dashboard .a4-filter label{width:100%}#assie4-dashboard .a4-filter-hint{width:100%;margin:0}}
+      @media(max-width:1000px){#assie4-dashboard .a4-dash-head{display:block}#assie4-dashboard .a4-head-actions{margin-top:16px}#assie4-dashboard .a4-kpis,#assie4-dashboard .a4-daily-grid{grid-template-columns:1fr 1fr}#assie4-dashboard .a4-pie-layout{grid-template-columns:minmax(200px,260px) minmax(0,1fr);gap:20px}#assie4-dashboard .a4-pie-legend{grid-template-columns:1fr}}
+      @media(max-width:600px){#assie4-dashboard{margin-right:10px}#assie4-dashboard .a4-dash-head{padding:20px}#assie4-dashboard .a4-dash-head h1{font-size:20px}#assie4-dashboard .a4-kpis,#assie4-dashboard .a4-daily-grid{grid-template-columns:1fr}#assie4-dashboard .a4-panel{padding:16px}#assie4-dashboard .a4-filter select{width:100%;min-width:0}#assie4-dashboard .a4-filter label{width:100%}#assie4-dashboard .a4-filter-hint{width:100%;margin:0}#assie4-dashboard .a4-pie-layout{grid-template-columns:1fr;gap:18px}#assie4-dashboard .a4-pie-chart{width:min(75vw,260px)}#assie4-dashboard .a4-pie-legend{grid-template-columns:1fr;max-height:300px}}
     </style>
     <div class="wrap" id="assie4-dashboard">
       <div class="a4-dash-head">
@@ -508,14 +523,14 @@ function assie4_admin_page() {
 
       <div class="a4-kpis">
         <div class="a4-kpi" style="--kpi-color:#1766b1;--kpi-soft:#eaf3ff">
-          <div class="a4-kpi-label">Pengunjung periode ini</div>
+          <div class="a4-kpi-label">Total kunjungan booth</div>
           <div class="a4-kpi-value"><?php echo esc_html( number_format_i18n( $total_period ) ); ?></div>
-          <div class="a4-kpi-note"><?php echo esc_html( $period_label ); ?></div>
+          <div class="a4-kpi-note"><?php echo esc_html( $period_label ); ?> · Total presensi di semua booth; satu orang dapat tercatat di beberapa booth.</div>
         </div>
         <div class="a4-kpi" style="--kpi-color:#079783;--kpi-soft:#e5faf5">
           <div class="a4-kpi-label">Booth dikunjungi</div>
           <div class="a4-kpi-value"><?php echo esc_html( number_format_i18n( $active_booths ) ); ?><span style="font-size:16px;color:#8290a3;font-weight:600"> / 120</span></div>
-          <div class="a4-kpi-note">Memiliki setidaknya satu presensi</div>
+          <div class="a4-kpi-note"><?php echo esc_html( number_format_i18n( $active_booths ) ); ?> sudah dikunjungi · <?php echo esc_html( number_format_i18n( $unvisited_booths ) ); ?> belum dikunjungi pada periode ini.</div>
         </div>
         <div class="a4-kpi" style="--kpi-color:#c28412;--kpi-soft:#fff4d8">
           <div class="a4-kpi-label">Hari teramai</div>
@@ -564,32 +579,30 @@ function assie4_admin_page() {
 
       <section class="a4-panel">
         <div class="a4-section-head">
-          <div><h2>Top 3 booth</h2><p>Peringkat tertinggi berdasarkan <?php echo esc_html( strtolower( $period_label ) ); ?>.</p></div>
-          <span class="a4-booth-code"><?php echo esc_html( number_format_i18n( $total_period ) ); ?> pengunjung</span>
+          <div><h2>Distribusi kunjungan per booth</h2><p>Perbandingan jumlah presensi tiap booth pada <?php echo esc_html( strtolower( $period_label ) ); ?>. Diagram mengikuti filter rekap booth di atas.</p></div>
+          <span class="a4-booth-code"><?php echo esc_html( number_format_i18n( count( $pie_rows ) ) ); ?> booth memiliki kunjungan</span>
         </div>
-        <?php if ( empty( $top_three ) ) : ?>
-          <div class="a4-empty"><strong>Belum ada data presensi pada periode ini.</strong>Top 3 akan terisi otomatis setelah pengunjung melakukan presensi.</div>
+        <?php if ( empty( $pie_rows ) ) : ?>
+          <div class="a4-empty"><strong>Belum ada presensi pada periode ini.</strong>Diagram akan menampilkan pembagian kunjungan setelah data presensi tercatat.</div>
         <?php else : ?>
-          <div class="a4-podium">
-            <?php for ( $rank = 0; $rank < 3; $rank++ ) :
-              $row = $top_three[$rank] ?? null;
-              $booth_number = $row ? (int) $row['booth'] : 0;
-              $booth_info = $booth_number ? ( $tenant_directory[$booth_number] ?? [] ) : [];
-              $booth_code = $booth_info['code'] ?? ( $booth_number ? str_pad( (string) $booth_number, 3, '0', STR_PAD_LEFT ) : '?' );
-              $tenant_name = $booth_info['name'] ?? '';
-            ?>
-              <div class="a4-podium-card is-<?php echo esc_attr( (string) ( $rank + 1 ) ); ?>">
-                <div class="a4-podium-rank">Peringkat <?php echo esc_html( (string) ( $rank + 1 ) ); ?></div>
-                <?php if ( $row ) : ?>
-                  <div class="a4-podium-total"><?php echo esc_html( number_format_i18n( (int) $row['total'] ) ); ?></div>
-                  <div class="a4-podium-booth">Booth <?php echo esc_html( $booth_code ); ?></div>
-                  <div class="a4-podium-tenant"><?php echo esc_html( $tenant_name ?: 'Tenant belum terhubung' ); ?></div>
-                <?php else : ?>
-                  <div class="a4-podium-booth" style="color:#9aa6b5">Menunggu data</div>
-                  <div class="a4-podium-tenant">Peringkat ini akan muncul setelah ada presensi.</div>
-                <?php endif; ?>
-              </div>
-            <?php endfor; ?>
+          <div class="a4-pie-layout">
+            <div class="a4-pie-chart" role="img" aria-label="Diagram pie distribusi <?php echo esc_attr( number_format_i18n( $total_period ) ); ?> kunjungan pada <?php echo esc_attr( $period_label ); ?>">
+              <div class="a4-pie-center"><strong><?php echo esc_html( number_format_i18n( $total_period ) ); ?></strong><span>total kunjungan</span></div>
+            </div>
+            <div class="a4-pie-legend" aria-label="Rincian kunjungan per booth">
+              <?php foreach ( $pie_rows as $pie_row ) :
+                $booth_number = (int) $pie_row['booth'];
+                $booth_info = $tenant_directory[$booth_number] ?? [];
+                $booth_code = $booth_info['code'] ?? str_pad( (string) $booth_number, 3, '0', STR_PAD_LEFT );
+                $tenant_name = $booth_info['name'] ?? 'Tenant belum terhubung';
+              ?>
+                <div class="a4-pie-item">
+                  <span class="a4-pie-swatch" style="background:<?php echo esc_attr( $pie_row['color'] ); ?>"></span>
+                  <span class="a4-pie-label"><strong><?php echo esc_html( $booth_code ); ?></strong> · <?php echo esc_html( $tenant_name ); ?> <span>(<?php echo esc_html( number_format_i18n( $pie_row['percent'], 1 ) ); ?>%)</span></span>
+                  <span class="a4-pie-count"><?php echo esc_html( number_format_i18n( (int) $pie_row['total'] ) ); ?></span>
+                </div>
+              <?php endforeach; ?>
+            </div>
           </div>
         <?php endif; ?>
       </section>
