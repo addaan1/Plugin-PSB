@@ -1,5 +1,5 @@
 === ASSIE IV — Presensi Booth ===
-Versi: 1.0.0
+Versi: 1.1.0
 Requires WordPress: 5.8+
 Requires PHP: 7.4+
 
@@ -39,7 +39,7 @@ Dashboard WordPress → Menu "ASSIE IV Presensi":
   ✅ 120 booth pameran
   ✅ Simpan ke database WordPress (bukan localStorage)
   ✅ Validasi nomor telepon
-  ✅ Pencegahan duplikasi (1 nomor telp per booth per hari)
+  ✅ Pencegahan duplikasi (1 nomor telepon per booth per hari; hari event berbeda tetap dihitung)
   ✅ Halaman full-page tanpa header/footer tema
   ✅ Daftar 5 presensi terakhir per booth (real-time dari DB)
   ✅ Admin panel dengan statistik
