@@ -446,7 +446,7 @@ $rest_base = esc_url( rest_url('assie4/v1') );
   <div class="selector-label">Pilih Nomor Booth</div>
   <div class="selector-wrap">
     <select id="boothSelect" onchange="onBoothChange()">
-      <!-- 120 booth diisi via JS -->
+      <!-- 106 booth resmi diisi via JavaScript -->
     </select>
   </div>
 
@@ -460,9 +460,9 @@ $rest_base = esc_url( rest_url('assie4/v1') );
   </div>
 
   <!-- Status Lokasi -->
-  <div class="location-banner loc-idle" id="locationBanner" onclick="if(locationStatus==='idle'||locationStatus==='denied'||locationStatus==='outside')requestLocation()">
-    <span class="loc-icon">📍</span>
-    <span class="loc-text">Ketuk untuk verifikasi lokasi Anda.</span>
+  <div class="location-banner loc-idle" id="locationBanner" role="status" aria-live="polite">
+    <span class="loc-icon">ℹ️</span>
+    <span class="loc-text">Pemeriksaan lokasi Grand City sedang dinonaktifkan sementara.</span>
   </div>
 
   <!-- Form Presensi -->
@@ -496,7 +496,7 @@ $rest_base = esc_url( rest_url('assie4/v1') );
 
   <!-- Presensi Terakhir -->
   <div class="recent-section">
-    <h3>Presensi Terakhir — Booth <span id="recentLabel">001</span></h3>
+    <h3>Presensi Terakhir — <span id="recentLabel">Booth 001 · A1</span></h3>
     <div class="recent-list" id="recentList">
       <div class="empty-state">Memuat data…</div>
     </div>
@@ -519,69 +519,22 @@ $rest_base = esc_url( rest_url('assie4/v1') );
 const REST_BASE = <?php echo json_encode( $rest_base ); ?>;
 const NONCE    = <?php echo json_encode( wp_create_nonce('wp_rest') ); ?>;
 
-// ─── GPS STATE ───
-let userLat = null;
-let userLng = null;
-let locationStatus = 'idle'; // idle | loading | granted | denied | outside
+// Kode dan nama booth diambil dari pemetaan resmi serta data tenant plugin pameran.
+const BOOTH_DIRECTORY = <?php echo wp_json_encode( assie4_presensi_booth_directory(), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT ); ?>;
 
-// Koordinat & radius Grand City Surabaya (Jl. Kusuma Gubeng, Ketabang, Genteng)
-const VENUE = { lat: -7.262113648386964, lng: 112.75013597795723, radiusM: 300 };
-
-// ─── HAVERSINE (client-side preview, validasi final di server) ───
-function haversineM(lat1, lng1, lat2, lng2) {
-  const R = 6371000;
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLng = (lng2 - lng1) * Math.PI / 180;
-  const a = Math.sin(dLat/2)**2 +
-            Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) *
-            Math.sin(dLng/2)**2;
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+function boothInfo(number) {
+  return BOOTH_DIRECTORY[String(parseInt(number, 10))] || null;
 }
 
-// ─── REQUEST LOKASI ───
-function requestLocation() {
-  if (!navigator.geolocation) {
-    setLocationBanner('unsupported');
-    return;
-  }
-  setLocationBanner('loading');
-  navigator.geolocation.getCurrentPosition(
-    pos => {
-      userLat = pos.coords.latitude;
-      userLng = pos.coords.longitude;
-      const dist = haversineM(userLat, userLng, VENUE.lat, VENUE.lng);
-      if (dist <= VENUE.radiusM) {
-        locationStatus = 'granted';
-        setLocationBanner('granted');
-      } else {
-        locationStatus = 'outside';
-        setLocationBanner('outside', Math.round(dist));
-      }
-    },
-    err => {
-      locationStatus = 'denied';
-      setLocationBanner('denied');
-    },
-    { enableHighAccuracy: true, timeout: 10000 }
-  );
+function boothLabel(number) {
+  const details = boothInfo(number);
+  return details ? details.label : `Booth ${String(number).padStart(3, '0')} — belum terdaftar di denah`;
 }
 
-// ─── BANNER LOKASI ───
-function setLocationBanner(state, dist) {
-  const banner = document.getElementById('locationBanner');
-  const configs = {
-    idle:        { cls: 'loc-idle',     icon: '📍', msg: 'Ketuk untuk verifikasi lokasi Anda.' },
-    loading:     { cls: 'loc-loading',  icon: '🔄', msg: 'Mendapatkan lokasi GPS…' },
-    granted:     { cls: 'loc-granted',  icon: '✅', msg: 'Lokasi terverifikasi — Anda berada di Grand City Surabaya.' },
-    denied:      { cls: 'loc-denied',   icon: '🚫', msg: 'Akses lokasi ditolak. Aktifkan izin lokasi di browser lalu muat ulang halaman.' },
-    outside:     { cls: 'loc-outside',  icon: '⚠️', msg: `Anda berada ±${dist}m dari Grand City. Presensi hanya bisa dilakukan di dalam venue.` },
-    unsupported: { cls: 'loc-denied',   icon: '❌', msg: 'Browser Anda tidak mendukung GPS. Gunakan browser lain.' },
-  };
-  const cfg = configs[state] || configs.idle;
-  banner.className = 'location-banner ' + cfg.cls;
-  banner.innerHTML = `<span class="loc-icon">${cfg.icon}</span><span class="loc-text">${cfg.msg}</span>`;
-  if (state === 'idle') banner.style.cursor = 'pointer';
-  else banner.style.cursor = 'default';
+function boothShortLabel(number) {
+  const padded = String(number).padStart(3, '0');
+  const details = boothInfo(number);
+  return details ? `Booth ${padded} · ${details.code}` : `Booth ${padded}`;
 }
 
 
@@ -622,7 +575,7 @@ function renderLeaderboard(data) {
     return `
       <div class="lb-item ${rankCls}">
         <div class="lb-rank">${rankLabel}</div>
-        <div class="lb-booth">Booth ${String(item.booth).padStart(3,'0')}</div>
+        <div class="lb-booth">${boothShortLabel(item.booth)}</div>
         <div class="lb-bar-wrap"><div class="lb-bar" style="width:${pct}%"></div></div>
         <div class="lb-count">${item.total} org</div>
       </div>`;
@@ -630,18 +583,19 @@ function renderLeaderboard(data) {
 }
 
 const SELECT = document.getElementById('boothSelect');
-for (let i = 1; i <= 120; i++) {
+for (let i = 1; i <= 106; i++) {
   const opt = document.createElement('option');
   opt.value = i;
-  opt.textContent = `Booth ${String(i).padStart(3,'0')}`;
+  opt.textContent = boothLabel(i);
   SELECT.appendChild(opt);
 }
 
 // ─── ON BOOTH CHANGE ───
 function onBoothChange() {
   const num = parseInt(SELECT.value);
-  document.getElementById('badgeNum').textContent = String(num).padStart(2,'0');
-  document.getElementById('recentLabel').textContent = String(num).padStart(3,'0');
+  const details = boothInfo(num);
+  document.getElementById('badgeNum').textContent = details ? details.code : String(num).padStart(2,'0');
+  document.getElementById('recentLabel').textContent = boothShortLabel(num);
   document.getElementById('badgeCount').textContent = 'Memuat…';
   document.getElementById('recentList').innerHTML = '<div class="empty-state">Memuat data…</div>';
   clearForm();
@@ -723,24 +677,6 @@ function setError(field, hasError, msg) {
 
 // ─── SUBMIT KE REST API ───
 async function submitPresensi() {
-  // Cek status lokasi dulu
-  if (locationStatus === 'idle') {
-    showToast('error-toast', '📍 Ketuk banner lokasi di atas untuk verifikasi posisi Anda terlebih dahulu.');
-    return;
-  }
-  if (locationStatus === 'loading') {
-    showToast('error-toast', '🔄 Masih mendapatkan lokasi GPS, mohon tunggu sebentar.');
-    return;
-  }
-  if (locationStatus === 'denied' || locationStatus === 'unsupported') {
-    showToast('error-toast', '🚫 Izin lokasi diperlukan. Aktifkan GPS di pengaturan browser Anda.');
-    return;
-  }
-  if (locationStatus === 'outside') {
-    showToast('error-toast', '⚠️ Anda tidak berada di area Grand City Surabaya. Presensi tidak dapat dilakukan.');
-    return;
-  }
-
   if (!validate()) return;
 
   const btn  = document.getElementById('btnSubmit');
@@ -760,7 +696,7 @@ async function submitPresensi() {
         'Content-Type': 'application/json',
         'X-WP-Nonce': NONCE,
       },
-      body: JSON.stringify({ booth, nama, instansi, telp, lat: userLat, lng: userLng }),
+      body: JSON.stringify({ booth, nama, instansi, telp }),
     });
 
     const data = await res.json();
@@ -809,7 +745,6 @@ function clearForm() {
 // ─── INIT ───
 onBoothChange();
 fetchLeaderboard();
-requestLocation();
 </script>
 
 <?php wp_footer(); ?>

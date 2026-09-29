@@ -105,12 +105,10 @@ function assie4_register_routes() {
         'callback'            => 'assie4_save_presensi',
         'permission_callback' => '__return_true',
         'args'                => [
-            'booth'    => [ 'required' => true,  'type' => 'integer', 'minimum' => 1, 'maximum' => 120 ],
+            'booth'    => [ 'required' => true,  'type' => 'integer', 'minimum' => 1, 'maximum' => 106 ],
             'nama'     => [ 'required' => true,  'type' => 'string',  'sanitize_callback' => 'sanitize_text_field' ],
             'instansi' => [ 'required' => true,  'type' => 'string',  'sanitize_callback' => 'sanitize_text_field' ],
             'telp'     => [ 'required' => true,  'type' => 'string',  'sanitize_callback' => 'sanitize_text_field' ],
-            'lat'      => [ 'required' => true,  'type' => 'number' ],
-            'lng'      => [ 'required' => true,  'type' => 'number' ],
         ],
     ] );
 
@@ -144,25 +142,61 @@ function assie4_register_routes() {
     ] );
 }
 
-// ─── Validasi Koordinat Grand City Surabaya ───
-// Grand City Mall Surabaya: Jl. Kusuma Gubeng, Ketabang, Genteng, Surabaya
-// Koordinat: -7.262113648386964, 112.75013597795723
-// Radius toleransi: 300 meter (mencakup seluruh kompleks Grand City)
-function assie4_is_in_grand_city( $lat, $lng ) {
-    $center_lat = -7.262113648386964;
-    $center_lng = 112.75013597795723;
-    $radius_m   = 300;
+/**
+ * Return the official booth-number, area-code, and tenant labels for presensi.
+ * The numeric booth IDs stay aligned with the published floor plan (1–106).
+ */
+function assie4_presensi_booth_directory() {
+    $ranges = [
+        [ 'first' => 1,   'last' => 21,  'prefix' => 'A', 'area' => 'Area A' ],
+        [ 'first' => 22,  'last' => 37,  'prefix' => 'D', 'area' => 'Area D' ],
+        [ 'first' => 38,  'last' => 44,  'prefix' => 'C', 'area' => 'Area C' ],
+        [ 'first' => 45,  'last' => 50,  'prefix' => 'E', 'area' => 'Area E' ],
+        [ 'first' => 51,  'last' => 72,  'prefix' => 'F', 'area' => 'Area F' ],
+        [ 'first' => 73,  'last' => 80,  'prefix' => 'G', 'area' => 'Area G' ],
+        [ 'first' => 81,  'last' => 96,  'prefix' => 'H', 'area' => 'Area H' ],
+        [ 'first' => 97,  'last' => 106, 'prefix' => 'B', 'area' => 'Area B' ],
+    ];
 
-    // Haversine formula
-    $earth_r = 6371000; // meter
-    $d_lat   = deg2rad( $lat - $center_lat );
-    $d_lng   = deg2rad( $lng - $center_lng );
-    $a       = sin($d_lat/2) * sin($d_lat/2)
-             + cos(deg2rad($center_lat)) * cos(deg2rad($lat))
-             * sin($d_lng/2) * sin($d_lng/2);
-    $distance = $earth_r * 2 * atan2( sqrt($a), sqrt(1-$a) );
+    $tenant_source = get_option( 'assie4_pameran_tenants', null );
+    if ( ! is_array( $tenant_source ) && function_exists( 'assie4_default_tenants' ) ) {
+        $tenant_source = assie4_default_tenants();
+    }
+    if ( ! is_array( $tenant_source ) ) {
+        $tenant_source = [];
+    }
 
-    return $distance <= $radius_m;
+    $tenants_by_booth = [];
+    foreach ( $tenant_source as $tenant ) {
+        $booth_no = absint( $tenant['booth_no'] ?? 0 );
+        $name     = sanitize_text_field( $tenant['name'] ?? '' );
+        if ( $booth_no >= 1 && $booth_no <= 106 && $name !== '' ) {
+            $tenants_by_booth[$booth_no] = $name;
+        }
+    }
+
+    $directory = [];
+    foreach ( $ranges as $range ) {
+        for ( $booth_no = $range['first']; $booth_no <= $range['last']; $booth_no++ ) {
+            $code = $range['prefix'] . ( $booth_no - $range['first'] + 1 );
+            $name = $tenants_by_booth[$booth_no] ?? '';
+            $status = $name !== '' ? $name : 'Tenant belum terdaftar';
+
+            $directory[$booth_no] = [
+                'code'  => $code,
+                'area'  => $range['area'],
+                'label' => sprintf(
+                    'Booth %03d — %s · %s (%s)',
+                    $booth_no,
+                    $code,
+                    $status,
+                    $range['area']
+                ),
+            ];
+        }
+    }
+
+    return $directory;
 }
 
 
@@ -181,15 +215,7 @@ function assie4_save_presensi( WP_REST_Request $req ) {
         return new WP_Error( 'invalid_telp', 'Nomor telepon tidak valid (min. 8 angka).', [ 'status' => 400 ] );
     }
 
-    // Validasi koordinat GPS — harus berada di dalam area Grand City Surabaya
-    $lat = (float) $req->get_param('lat');
-    $lng = (float) $req->get_param('lng');
-    if ( $lat == 0 && $lng == 0 ) {
-        return new WP_Error( 'location_required', 'Izin lokasi diperlukan untuk presensi. Aktifkan GPS dan coba lagi.', [ 'status' => 403 ] );
-    }
-    if ( ! assie4_is_in_grand_city( $lat, $lng ) ) {
-        return new WP_Error( 'outside_venue', 'Presensi hanya dapat dilakukan di dalam area Grand City Surabaya.', [ 'status' => 403 ] );
-    }
+    // Pemeriksaan GPS/Grand City dinonaktifkan sementara.
 
     // Cegah 1 nomor presensi di booth yang SAMA lebih dari sekali (kapan pun)
     $duplicate = $wpdb->get_var( $wpdb->prepare(
@@ -356,7 +382,7 @@ function assie4_admin_page() {
         <div style="display:flex;gap:16px;margin:24px 0;flex-wrap:wrap;">
             <?php foreach ([
                 ['Total Pengunjung', $total_all, '#0073aa'],
-                ['Booth Aktif', $booths_used . ' / 120', '#00a32a'],
+                ['Booth Aktif', $booths_used . ' / 106', '#00a32a'],
                 ['Hari Ini', $today_count, '#d63638'],
             ] as [$label, $val, $color]): ?>
             <div style="background:#fff;border:1px solid #ccd0d4;border-top:4px solid <?php echo $color?>;border-radius:4px;padding:18px 24px;min-width:160px;">

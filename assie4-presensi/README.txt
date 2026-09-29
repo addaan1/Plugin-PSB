@@ -36,7 +36,7 @@ Dashboard WordPress → Menu "ASSIE IV Presensi":
 
 == FITUR ==
 
-  ✅ 120 booth pameran
+  ✅ 106 booth pameran sesuai denah resmi
   ✅ Simpan ke database WordPress (bukan localStorage)
   ✅ Validasi nomor telepon
   ✅ Pencegahan duplikasi (1 nomor telp per booth per hari)
