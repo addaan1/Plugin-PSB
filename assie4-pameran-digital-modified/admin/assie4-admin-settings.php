@@ -16,27 +16,37 @@ define( 'ASSIE4_OPT_TENANTS', 'assie4_pameran_tenants' );
 function assie4_normalize_tenant( $t ) {
     $t = (array) $t;
     return [
-        'id'        => sanitize_key( trim( $t['id']        ?? '' ) ),
-        'booth_no'  => intval( $t['booth_no'] ?? 0 ),
-        'code'      => strtoupper( sanitize_text_field( trim( $t['code'] ?? $t['id'] ?? '' ) ) ),
-        'cluster'   => intval( $t['cluster'] ?? 0 ),
-        'area'      => strtoupper( sanitize_text_field( trim( $t['area'] ?? 'A' ) ) ),
-        'name'      => sanitize_text_field( trim( $t['name']      ?? '' ) ),
-        'instansi'  => sanitize_text_field( trim( $t['instansi']  ?? '' ) ),
-        'pic'       => sanitize_text_field( trim( $t['pic']       ?? '' ) ),
-        'cat'       => sanitize_text_field( trim( $t['cat']       ?? '' ) ),
-        'desc'      => sanitize_textarea_field( trim( $t['desc']  ?? '' ) ),
-        'tags'      => is_array( $t['tags']  ?? null )
-                        ? array_map('sanitize_text_field', $t['tags'])
-                        : array_values( array_filter( array_map( 'trim', explode( ',', sanitize_text_field($t['tags'] ?? '') ) ) ) ),
-        'logo'      => esc_url_raw( trim( $t['logo']      ?? '' ) ),
-        'contact'   => sanitize_text_field( trim( $t['contact']   ?? '' ) ),
-        'whatsapp'  => sanitize_text_field( trim( $t['whatsapp']  ?? '' ) ),
-        'web'       => esc_url_raw( trim( $t['web']       ?? '' ) ),
-        'instagram' => sanitize_text_field( trim( $t['instagram'] ?? '' ) ),
-        'facebook'  => esc_url_raw( trim( $t['facebook']  ?? '' ) ),
-        'twitter'   => sanitize_text_field( trim( $t['twitter']   ?? '' ) ),
-        'transaksi' => sanitize_text_field( trim( $t['transaksi'] ?? '' ) ),
+        'id'              => sanitize_key( trim( $t['id']              ?? '' ) ),
+        'booth_no'        => intval( $t['booth_no'] ?? 0 ),
+        'code'            => strtoupper( sanitize_text_field( trim( $t['code'] ?? $t['id'] ?? '' ) ) ),
+        'cluster'         => intval( $t['cluster'] ?? 0 ),
+        'area'            => strtoupper( sanitize_text_field( trim( $t['area']     ?? 'A' ) ) ),
+        'name'            => sanitize_text_field( trim( $t['name']      ?? '' ) ),
+        'instansi'        => sanitize_text_field( trim( $t['instansi']  ?? '' ) ),
+        'pic'             => sanitize_text_field( trim( $t['pic']       ?? '' ) ),
+        'cat'             => sanitize_text_field( trim( $t['cat']       ?? '' ) ),
+        'tipe_usaha'      => sanitize_text_field( trim( $t['tipe_usaha']     ?? '' ) ),
+        'status_booth'    => sanitize_text_field( trim( $t['status_booth']   ?? 'aktif' ) ),
+        'hari_operasi'    => is_array( $t['hari_operasi'] ?? null )
+                              ? array_map('sanitize_text_field', $t['hari_operasi'])
+                              : array_values( array_filter( array_map( 'trim', explode( ',', sanitize_text_field($t['hari_operasi'] ?? '') ) ) ) ),
+        'produk_unggulan' => sanitize_textarea_field( trim( $t['produk_unggulan'] ?? '' ) ),
+        'desc'            => sanitize_textarea_field( trim( $t['desc']            ?? '' ) ),
+        'tags'            => is_array( $t['tags'] ?? null )
+                              ? array_map('sanitize_text_field', $t['tags'])
+                              : array_values( array_filter( array_map( 'trim', explode( ',', sanitize_text_field($t['tags'] ?? '') ) ) ) ),
+        'logo'            => esc_url_raw( trim( $t['logo']      ?? '' ) ),
+        'contact'         => sanitize_text_field( trim( $t['contact']   ?? '' ) ),
+        'whatsapp'        => sanitize_text_field( trim( $t['whatsapp']  ?? '' ) ),
+        'web'             => esc_url_raw( trim( $t['web']       ?? '' ) ),
+        'instagram'       => sanitize_text_field( trim( $t['instagram'] ?? '' ) ),
+        'facebook'        => esc_url_raw( trim( $t['facebook']  ?? '' ) ),
+        'twitter'         => sanitize_text_field( trim( $t['twitter']   ?? '' ) ),
+        'tiktok'          => sanitize_text_field( trim( $t['tiktok']    ?? '' ) ),
+        'youtube'         => esc_url_raw( trim( $t['youtube']   ?? '' ) ),
+        'tokopedia'       => esc_url_raw( trim( $t['tokopedia'] ?? '' ) ),
+        'shopee'          => esc_url_raw( trim( $t['shopee']    ?? '' ) ),
+        'transaksi'       => sanitize_text_field( trim( $t['transaksi'] ?? '' ) ),
     ];
 }
 
@@ -2039,17 +2049,27 @@ function a4_notice( $msg, $cls = 'ok' ) {
 function a4_header( $title, $sub = '' ) {
     $p   = get_page_by_path( ASSIE4_PAMERAN_SLUG );
     $url = $p ? get_permalink($p) : home_url('/'.ASSIE4_PAMERAN_SLUG.'/');
-    echo '<div class="a4-wrap">';
+    // Ensure CSS is loaded even if hook had mismatch
+    echo '<link rel="stylesheet" id="assie4-admin-css-fallback" href="' . esc_url(ASSIE4_PAMERAN_URL . 'assets/assie4-admin.css?v=' . time()) . '">';
+    echo '<div class="a4-wrap wrap">';
+    // Isolate WP admin notices above custom content
+    echo '<h1 class="wp-heading-inline screen-reader-text">' . esc_html($title) . '</h1>';
+    echo '<hr class="wp-header-end" style="display:none">';
     echo '<div class="a4-nav-bar">';
     echo '<a href="' . admin_url('admin.php?page=assie4-pameran') . '">🎪 ASSIE IV</a>';
     echo '<span>›</span>';
     echo '<span>' . esc_html($title) . '</span>';
     echo '</div>';
     echo '<div class="a4-page-header">';
-    echo '<h1>' . esc_html($title);
-    if ($sub) echo ' <span class="a4-badge a4-badge-gold">' . esc_html($sub) . '</span>';
-    echo '</h1>';
-    echo '<a href="' . esc_url($url) . '" target="_blank" class="a4-btn-gold u-text-xs u-whitespace-nowrap" style="padding:7px 14px">🔗 Lihat Halaman Pameran</a>';
+    echo '<div style="display:flex;align-items:center;gap:10px">';
+    echo '<h2 style="font-size:20px;font-weight:800;color:#fff;margin:0;letter-spacing:-0.3px">' . esc_html($title);
+    if ($sub) echo ' <span class="a4-badge a4-badge-gold" style="font-size:12px;margin-left:8px">' . esc_html($sub) . '</span>';
+    echo '</h2>';
+    echo '</div>';
+    echo '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">';
+    echo '<a href="' . admin_url('admin.php?page=assie4-tenants&edit=new') . '" class="a4-btn-gold u-text-xs u-whitespace-nowrap" style="padding:8px 16px;box-shadow:0 3px 12px rgba(212,168,67,0.35)">➕ Tambah Booth Baru</a>';
+    echo '<a href="' . esc_url($url) . '" target="_blank" class="a4-btn-ghost u-text-xs u-whitespace-nowrap" style="padding:8px 14px;color:#fff;border-color:rgba(255,255,255,0.35)">🔗 Lihat Halaman Pameran</a>';
+    echo '</div>';
     echo '</div>';
     // a4-wrap ditutup di akhir setiap fungsi
 }
@@ -2077,82 +2097,330 @@ if ( is_admin() ) {
     add_action( 'admin_enqueue_scripts', 'assie4_admin_enqueue_scripts' );
 }
 function assie4_admin_enqueue_scripts( $hook ) {
-    $our = [
-        'toplevel_page_assie4-pameran',
-        'assie4-pameran_page_assie4-info',
-        'assie4-pameran_page_assie4-slides',
-        'assie4-pameran_page_assie4-ticker',
-        'assie4-pameran_page_assie4-rundown',
-        'assie4-pameran_page_assie4-tenants',
-        'assie4-pameran_page_assie4-denah',
-        'assie4-pameran_page_assie4-pasinbis',
-        'assie4-pameran_page_assie4-export',
-    ];
-    if ( ! in_array( $hook, $our, true ) ) return;
+    $page = sanitize_text_field( $_GET['page'] ?? '' );
+    $is_our_page = ( strpos( $page, 'assie4' ) === 0 ) || ( strpos( $hook, 'assie' ) !== false );
+    if ( ! $is_our_page ) return;
 
-    wp_enqueue_style( 'assie4-admin-css', ASSIE4_PAMERAN_URL . 'assets/assie4-admin.css', [], ASSIE4_PAMERAN_VER );
-    if ( $hook === 'assie4-pameran_page_assie4-denah' ) {
+    wp_enqueue_style( 'assie4-admin-css', ASSIE4_PAMERAN_URL . 'assets/assie4-admin.css', [], time() );
+    if ( $page === 'assie4-denah' || strpos( $hook, 'denah' ) !== false ) {
         wp_enqueue_media();
     }
 }
 
 /* ═══ 1. DASHBOARD ══════════════════════════════════════ */
 function assie4_admin_dashboard() {
-    $tenants = assie4_get_tenants();
-    $rd      = get_option( ASSIE4_OPT_RUNDOWN, assie4_default_rundown() );
-    $p       = get_page_by_path( ASSIE4_PAMERAN_SLUG );
-    $url     = $p ? get_permalink($p) : home_url('/'.ASSIE4_PAMERAN_SLUG.'/');
+    $tenants    = assie4_get_tenants();
+    $rd         = get_option( ASSIE4_OPT_RUNDOWN, assie4_default_rundown() );
+    $p          = get_page_by_path( ASSIE4_PAMERAN_SLUG );
+    $url        = $p ? get_permalink($p) : home_url('/'.ASSIE4_PAMERAN_SLUG.'/');
+    $presensi_p = get_page_by_path( 'presensi-booth-assie4' );
+    $presensi_url = $presensi_p ? get_permalink($presensi_p) : home_url('/presensi-booth-assie4/');
 
+    echo '<link rel="stylesheet" id="assie4-admin-css-dash" href="' . esc_url(ASSIE4_PAMERAN_URL . 'assets/assie4-admin.css?v=' . time()) . '">';
     echo '<div class="a4-wrap wrap">';
-    echo '<div class="a4-page-header">';
-    echo '<h1>🎪 ASSIE IV Pameran Digital <span class="a4-badge a4-badge-gold">v2.8</span></h1>';
-    echo '<a href="' . esc_url($url) . '" target="_blank" class="a4-btn-gold u-text-xs u-whitespace-nowrap" style="padding:7px 14px">🔗 Lihat Halaman Pameran</a>';
-    echo '</div>';
+    // WP Admin Notice isolation so notices appear cleanly ABOVE our dashboard container
+    echo '<h1 class="wp-heading-inline screen-reader-text">ASSIE IV Pameran Digital</h1>';
+    echo '<hr class="wp-header-end" style="display:none">';
 
-    // Stats
-    echo '<div class="a4-stat-box">';
-    echo '<div class="a4-stat"><span class="a4-stat-n">' . count($tenants) . '</span><span class="a4-stat-l">Tenant</span></div>';
-    echo '<div class="a4-stat"><span class="a4-stat-n">' . count(get_option(ASSIE4_OPT_SLIDES,assie4_default_slides())) . '</span><span class="a4-stat-l">Slide Hero</span></div>';
-    echo '<div class="a4-stat"><span class="a4-stat-n">' . count($rd['events']??[]) . '</span><span class="a4-stat-l">Event Rundown</span></div>';
-    echo '<div class="a4-stat"><span class="a4-stat-n">' . count(get_option(ASSIE4_OPT_TICKER,assie4_default_ticker())) . '</span><span class="a4-stat-l">Ticker</span></div>';
-    echo '<div class="a4-stat"><span class="a4-stat-n">' . count(get_option('assie4_pameran_denah',[])) . '</span><span class="a4-stat-l">Foto Denah</span></div>';
-    echo '</div>';
+    // 1. HERO HEADER
+    ?>
+    <div class="a4-dash-hero">
+        <div class="a4-dash-hero-content">
+            <div class="a4-dash-hero-pill">
+                <span class="a4-dash-pulse"></span>
+                AIRLANGGA INNOVATION SUMMIT &amp; EXPO · ASSIE IV 2026
+            </div>
+            <h2 class="a4-dash-title">
+                ASSIE IV Pameran Digital
+                <span class="a4-dash-version">v2.8.2 PRO</span>
+            </h2>
+            <p class="a4-dash-desc">Pusat kendali operasional pameran virtual, manajemen 106 booth tenant inovasi, sinkronisasi agenda pameran, serta integrasi presensi real-time.</p>
+            <div class="a4-dash-meta-bar">
+                <span class="a4-dash-meta-item">
+                    <svg class="a4-dash-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg>
+                    Grand City Surabaya
+                </span>
+                <span class="a4-dash-meta-item">
+                    <svg class="a4-dash-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    6–8 November 2026
+                </span>
+                <span class="a4-dash-meta-item active-live">
+                    <svg class="a4-dash-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    Geofence GPS Aktif (300m)
+                </span>
+            </div>
+        </div>
+        <div class="a4-dash-hero-actions">
+            <a href="<?php echo admin_url('admin.php?page=assie4-tenants&edit=new'); ?>" class="a4-dash-btn-primary">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Tambah Booth Manual
+            </a>
+            <div class="a4-dash-btn-group">
+                <a href="<?php echo esc_url($url); ?>" target="_blank" class="a4-dash-btn-secondary">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    Lihat Pameran
+                </a>
+                <a href="<?php echo esc_url($presensi_url); ?>" target="_blank" class="a4-dash-btn-secondary">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>
+                    Presensi Booth
+                </a>
+            </div>
+        </div>
+    </div>
 
-    // Menu grid
-    $menus = [
-        ['assie4-info',    '📅','Info Acara',    'Tanggal, lokasi, jam operasional'],
-        ['assie4-slides',  '🖼️','Hero Slider',   'Slide, gambar, dan CTA'],
-        ['assie4-ticker',  '📢','Ticker',         'Teks berjalan bawah hero'],
-        ['assie4-rundown', '🗓️','Rundown',        'Jadwal acara 3 hari'],
-        ['assie4-tenants', '🏪','Kelola Tenant',  'Tambah, edit, hapus booth'],
-        ['assie4-denah',   '🗺️','Denah & Galeri', 'Upload foto denah booth'],
-        ['assie4-pasinbis','🏢','Booth PASINBIS', 'URL dan info booth PASINBIS'],
-        ['assie4-export',  '💾','Export/Reset',   'Backup JSON & reset data'],
+    <!-- 2. STATS KPI -->
+    <div class="a4-dash-stats">
+        <a href="<?php echo admin_url('admin.php?page=assie4-tenants'); ?>" class="a4-dash-stat a4-dash-stat-gold">
+            <div class="a4-dash-stat-head">
+                <span class="a4-dash-stat-tag">Kapasitas 106 Booth</span>
+                <div class="a4-dash-stat-icon gold">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                </div>
+            </div>
+            <div class="a4-dash-stat-val"><?php echo count($tenants); ?></div>
+            <div class="a4-dash-stat-lbl">Total Tenant / Booth</div>
+            <div class="a4-dash-stat-foot"><span>Kelola daftar booth</span> <span>&rarr;</span></div>
+        </a>
+
+        <a href="<?php echo admin_url('admin.php?page=assie4-slides'); ?>" class="a4-dash-stat a4-dash-stat-blue">
+            <div class="a4-dash-stat-head">
+                <span class="a4-dash-stat-tag">Banner Beranda</span>
+                <div class="a4-dash-stat-icon blue">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                </div>
+            </div>
+            <div class="a4-dash-stat-val"><?php echo count(get_option(ASSIE4_OPT_SLIDES, assie4_default_slides())); ?></div>
+            <div class="a4-dash-stat-lbl">Slide Hero Slider</div>
+            <div class="a4-dash-stat-foot"><span>Atur slide banner</span> <span>&rarr;</span></div>
+        </a>
+
+        <a href="<?php echo admin_url('admin.php?page=assie4-rundown'); ?>" class="a4-dash-stat a4-dash-stat-purple">
+            <div class="a4-dash-stat-head">
+                <span class="a4-dash-stat-tag">Agenda 3 Hari</span>
+                <div class="a4-dash-stat-icon purple">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                </div>
+            </div>
+            <div class="a4-dash-stat-val"><?php echo count($rd['events'] ?? []); ?></div>
+            <div class="a4-dash-stat-lbl">Sesi Rundown Acara</div>
+            <div class="a4-dash-stat-foot"><span>Lihat rundown</span> <span>&rarr;</span></div>
+        </a>
+
+        <a href="<?php echo admin_url('admin.php?page=assie4-ticker'); ?>" class="a4-dash-stat a4-dash-stat-rose">
+            <div class="a4-dash-stat-head">
+                <span class="a4-dash-stat-tag">Teks Berjalan</span>
+                <div class="a4-dash-stat-icon rose">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12a7 7 0 0 0-7-7H4v14h8a7 7 0 0 0 7-7z"/><path d="M16 8h2a3 3 0 0 1 3 3v2a3 3 0 0 1-3 3h-2"/></svg>
+                </div>
+            </div>
+            <div class="a4-dash-stat-val"><?php echo count(get_option(ASSIE4_OPT_TICKER, assie4_default_ticker())); ?></div>
+            <div class="a4-dash-stat-lbl">Pengumuman Ticker</div>
+            <div class="a4-dash-stat-foot"><span>Edit pengumuman</span> <span>&rarr;</span></div>
+        </a>
+
+        <a href="<?php echo admin_url('admin.php?page=assie4-denah'); ?>" class="a4-dash-stat a4-dash-stat-emerald">
+            <div class="a4-dash-stat-head">
+                <span class="a4-dash-stat-tag">Denah &amp; Media</span>
+                <div class="a4-dash-stat-icon emerald">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+                </div>
+            </div>
+            <div class="a4-dash-stat-val"><?php echo count(get_option('assie4_pameran_denah', [])); ?></div>
+            <div class="a4-dash-stat-lbl">Foto Denah &amp; Galeri</div>
+            <div class="a4-dash-stat-foot"><span>Upload denah</span> <span>&rarr;</span></div>
+        </a>
+    </div>
+
+    <!-- 3. MENU PENGATURAN PAMERAN -->
+    <?php
+    $modules = [
+        [
+            'slug'  => 'assie4-tenants',
+            'title' => 'Kelola Tenant & Booth',
+            'desc'  => 'Tambah booth manual, ubah nomor denah, kategori Area A-H, narasi inovasi, dan data PIC.',
+            'tag'   => count($tenants) . ' Tenant',
+            'color' => 'gold',
+            'svg'   => '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
+        ],
+        [
+            'slug'  => 'assie4-info',
+            'title' => 'Info Acara & Venue',
+            'desc'  => 'Konfigurasi nama kegiatan, logo resmi, lokasi Grand City Surabaya, dan jam operasional.',
+            'tag'   => 'Konfigurasi',
+            'color' => 'blue',
+            'svg'   => '<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',
+        ],
+        [
+            'slug'  => 'assie4-slides',
+            'title' => 'Hero Banner Slider',
+            'desc'  => 'Pengaturan banner carousel di beranda pameran, judul besar, subjudul, dan tombol CTA.',
+            'tag'   => count(get_option(ASSIE4_OPT_SLIDES, assie4_default_slides())) . ' Slide',
+            'color' => 'purple',
+            'svg'   => '<rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>',
+        ],
+        [
+            'slug'  => 'assie4-ticker',
+            'title' => 'Pengumuman Ticker',
+            'desc'  => 'Running text berjalan di bawah hero slider untuk update terkini dan instruksi penting.',
+            'tag'   => 'Running Text',
+            'color' => 'rose',
+            'svg'   => '<path d="M19 12a7 7 0 0 0-7-7H4v14h8a7 7 0 0 0 7-7z"/><path d="M16 8h2a3 3 0 0 1 3 3v2a3 3 0 0 1-3 3h-2"/>',
+        ],
+        [
+            'slug'  => 'assie4-rundown',
+            'title' => 'Agenda & Rundown',
+            'desc'  => 'Jadwal rangkaian kegiatan pameran, panggung utama, talkshow, live pitch, dan expo 3 hari.',
+            'tag'   => '3 Hari Acara',
+            'color' => 'amber',
+            'svg'   => '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+        ],
+        [
+            'slug'  => 'assie4-denah',
+            'title' => 'Denah & Galeri Foto',
+            'desc'  => 'Unggah foto denah lantai resolusi tinggi dan dokumentasi foto suasana pameran.',
+            'tag'   => 'Denah & Media',
+            'color' => 'emerald',
+            'svg'   => '<polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/>',
+        ],
+        [
+            'slug'  => 'assie4-pasinbis',
+            'title' => 'Booth PASINBIS',
+            'desc'  => 'Pengaturan profil khusus booth Inkubator Bisnis PASINBIS UNAIR & tautan langsung.',
+            'tag'   => 'Booth Khusus',
+            'color' => 'cyan',
+            'svg'   => '<path d="M3 21h18"/><path d="M9 8h1"/><path d="M9 12h1"/><path d="M9 16h1"/><path d="M14 8h1"/><path d="M14 12h1"/><path d="M14 16h1"/><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/>',
+        ],
+        [
+            'slug'  => 'assie4-berita-ext',
+            'title' => 'Berita & Media Eksternal',
+            'desc'  => 'Kelola tautan publikasi berita eksternal dari media partner dan siaran pers liputan expo.',
+            'tag'   => 'Liputan Media',
+            'color' => 'orange',
+            'svg'   => '<path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/>',
+        ],
+        [
+            'slug'  => 'assie4-export',
+            'title' => 'Backup & Sinkronisasi',
+            'desc'  => 'Ekspor seluruh data tenant pameran ke file JSON atau pulihkan data bawaan secara instan.',
+            'tag'   => 'Backup Data',
+            'color' => 'slate',
+            'svg'   => '<path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>',
+        ],
     ];
-    echo '<div class="a4-card">';
-    echo '<div class="a4-card-head">Menu Pengaturan</div>';
-    echo '<div class="a4-menu-grid">';
-    foreach ( $menus as [$sl, $ico, $lb, $dc] ) {
-        echo '<a href="' . admin_url('admin.php?page='.$sl) . '" class="a4-menu-item">';
-        echo '<span class="a4-menu-icon">' . $ico . '</span>';
-        echo '<span class="a4-menu-label">' . esc_html($lb) . '</span>';
-        echo '<span class="a4-menu-desc">' . esc_html($dc) . '</span>';
-        echo '</a>';
-    }
-    echo '</div></div>';
+    ?>
+    <div class="a4-card">
+        <div class="a4-card-head">
+            <div style="display:flex;align-items:center;gap:10px">
+                <span class="a4-card-head-icon" style="background:#fef3c7;color:#b45309">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                </span>
+                <span>Modul &amp; Menu Pengaturan Pameran</span>
+            </div>
+            <a href="<?php echo admin_url('admin.php?page=assie4-tenants&edit=new'); ?>" class="a4-btn-gold" style="font-size:12px;padding:7px 15px">
+                ➕ Tambah Booth
+            </a>
+        </div>
+        <div class="a4-dash-menu-grid">
+            <?php foreach ( $modules as $m ) : ?>
+            <a href="<?php echo admin_url('admin.php?page=' . $m['slug']); ?>" class="a4-dash-menu-card">
+                <div class="a4-dash-menu-icon <?php echo esc_attr($m['color']); ?>">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <?php echo $m['svg']; ?>
+                    </svg>
+                </div>
+                <div class="a4-dash-menu-body">
+                    <div class="a4-dash-menu-top">
+                        <h3 class="a4-dash-menu-title"><?php echo esc_html($m['title']); ?></h3>
+                        <span class="a4-dash-menu-pill"><?php echo esc_html($m['tag']); ?></span>
+                    </div>
+                    <p class="a4-dash-menu-desc"><?php echo esc_html($m['desc']); ?></p>
+                    <span class="a4-dash-menu-action">Buka pengaturan &rarr;</span>
+                </div>
+            </a>
+            <?php endforeach; ?>
+        </div>
+    </div>
 
-    // Info
-    echo '<div class="a4-card">';
-    echo '<div class="a4-card-head">Info Plugin</div>';
-    echo '<table class="a4-info-table">';
-    echo '<tr><th>URL Halaman Pameran</th><td><a href="'.esc_url($url).'" target="_blank">'.esc_url($url).'</a></td></tr>';
-    echo '<tr><th>Shortcode</th><td><code>[assie4_pameran]</code></td></tr>';
-    echo '<tr><th>Status Halaman</th><td>' . ($p ? '<span class="a4-badge a4-badge-green">Published</span>' : '<span class="a4-badge a4-badge-red">Belum dibuat</span>') . '</td></tr>';
-    echo '<tr><th>Versi</th><td>2.8.1</td></tr>';
-    echo '<tr><th>PHP Version</th><td>'.esc_html(PHP_VERSION).'</td></tr>';
-    echo '<tr><th>WordPress Version</th><td>'.esc_html($GLOBALS['wp_version']).'</td></tr>';
-    echo '</table></div>';
-    echo '</div>';
+    <!-- 4. SYSTEM SPECS & INTEGRASI -->
+    <div class="a4-card">
+        <div class="a4-card-head">
+            <div style="display:flex;align-items:center;gap:10px">
+                <span class="a4-dash-head-icon" style="background:#e0f2fe;color:#0284c7;width:32px;height:32px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                </span>
+                <span>Info Integrasi &amp; Lingkungan Sistem</span>
+            </div>
+        </div>
+        <div class="a4-sys-grid">
+            <!-- Box 1: Integrasi Frontend -->
+            <div class="a4-sys-box">
+                <div style="font-weight:800;font-size:13px;color:#0f1c35;margin-bottom:4px;display:flex;align-items:center;gap:8px">
+                    <span style="color:#d4a843">✦</span> Tautan &amp; Shortcode Pameran
+                </div>
+                <div class="a4-sys-item">
+                    <div>
+                        <div class="a4-sys-label">URL Halaman Pameran</div>
+                        <div style="font-size:12.5px;color:#0f1c35;font-weight:600;word-break:break-all;margin-top:2px"><?php echo esc_html($url); ?></div>
+                    </div>
+                    <div class="a4-sys-val">
+                        <button type="button" class="a4-copy-btn" onclick="navigator.clipboard.writeText('<?php echo esc_js($url); ?>');this.innerText='Tersalin!';setTimeout(()=>this.innerText='Salin',1500)">Salin</button>
+                        <a href="<?php echo esc_url($url); ?>" target="_blank" class="a4-btn-ghost" style="padding:4px 10px;font-size:11.5px">Buka &nearr;</a>
+                    </div>
+                </div>
+                <div class="a4-sys-item">
+                    <div>
+                        <div class="a4-sys-label">Shortcode WordPress</div>
+                        <div style="margin-top:2px"><code style="background:#e2e8f0;padding:3px 8px;border-radius:5px;font-size:12.5px;color:#0f1c35;font-weight:700">[assie4_pameran]</code></div>
+                    </div>
+                    <div class="a4-sys-val">
+                        <button type="button" class="a4-copy-btn" onclick="navigator.clipboard.writeText('[assie4_pameran]');this.innerText='Tersalin!';setTimeout(()=>this.innerText='Salin',1500)">Salin</button>
+                    </div>
+                </div>
+                <div class="a4-sys-item">
+                    <div>
+                        <div class="a4-sys-label">URL Presensi Pengunjung</div>
+                        <div style="font-size:12.5px;color:#0f1c35;font-weight:600;word-break:break-all;margin-top:2px"><?php echo esc_html($presensi_url); ?></div>
+                    </div>
+                    <div class="a4-sys-val">
+                        <a href="<?php echo esc_url($presensi_url); ?>" target="_blank" class="a4-btn-ghost" style="padding:4px 10px;font-size:11.5px">Buka &nearr;</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Box 2: Status & Lingkungan Server -->
+            <div class="a4-sys-box">
+                <div style="font-weight:800;font-size:13px;color:#0f1c35;margin-bottom:4px;display:flex;align-items:center;gap:8px">
+                    <span style="color:#2563eb">✦</span> Status Server &amp; Konfigurasi
+                </div>
+                <div class="a4-sys-item">
+                    <div class="a4-sys-label">Status Publikasi Halaman</div>
+                    <div class="a4-sys-val">
+                        <?php echo $p ? '<span class="a4-badge a4-badge-green">● Published &amp; Online</span>' : '<span class="a4-badge a4-badge-red">Draft / Belum Dibuat</span>'; ?>
+                    </div>
+                </div>
+                <div class="a4-sys-item">
+                    <div class="a4-sys-label">Proteksi Geofence GPS</div>
+                    <div class="a4-sys-val">
+                        <span class="a4-badge a4-badge-blue">● Aktif: Grand City (300m)</span>
+                    </div>
+                </div>
+                <div class="a4-sys-item">
+                    <div class="a4-sys-label">Versi Plugin Pameran</div>
+                    <div class="a4-sys-val">
+                        <span class="a4-badge a4-badge-gold">v2.8.2 PRO (Refined UI)</span>
+                    </div>
+                </div>
+                <div class="a4-sys-item">
+                    <div class="a4-sys-label">Lingkungan Server</div>
+                    <div class="a4-sys-val">
+                        <span style="font-size:12px;font-weight:600;color:#475569">PHP <?php echo esc_html(PHP_VERSION); ?> · WP <?php echo esc_html($GLOBALS['wp_version']); ?></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <?php
 }
 
 /* ═══ 2. INFO ACARA ═════════════════════════════════════ */
@@ -2344,43 +2612,54 @@ function assie4_admin_tenants() {
 
     $page_url = admin_url('admin.php?page=assie4-tenants');
 
-    /* Hapus tenant */
+    /* ── Hapus tenant ── */
     if ( isset($_GET['del_t'], $_GET['_wpnonce']) && wp_verify_nonce($_GET['_wpnonce'], 'del_t_'.$_GET['del_t']) ) {
         $del_id  = sanitize_text_field($_GET['del_t']);
         $tenants = assie4_get_tenants();
         $tenants = array_values( array_filter($tenants, fn($t) => $t['id'] !== $del_id) );
         assie4_save_tenants($tenants);
-        a4_notice('✅ Tenant '.esc_html($del_id).' dihapus. Halaman pameran terupdate.');
+        a4_notice('Tenant '.esc_html($del_id).' berhasil dihapus.');
     }
 
-    /* Simpan (tambah/edit) */
+    /* ── Simpan (tambah / edit) ── */
     if ( isset($_POST['_nt']) && wp_verify_nonce($_POST['_nt'], 'a4_tenant') ) {
         $edit_id = sanitize_text_field($_POST['original_id'] ?? '');
         $new_id  = strtoupper(sanitize_text_field($_POST['t_id'] ?? ''));
         if ( empty($new_id) ) {
-            a4_notice('❌ Kode Booth tidak boleh kosong.','err');
+            a4_notice('Kode Booth tidak boleh kosong.','err');
         } else {
-            $tags = array_values( array_filter( array_map('trim', explode(',', sanitize_text_field($_POST['t_tags']??''))) ) );
+            $tags         = array_values( array_filter( array_map('trim', explode(',', sanitize_text_field($_POST['t_tags']??''))) ) );
+            $hari_operasi = isset($_POST['t_hari_operasi']) && is_array($_POST['t_hari_operasi'])
+                            ? array_map('sanitize_text_field', $_POST['t_hari_operasi'])
+                            : [];
             $new_tenant = assie4_normalize_tenant([
-                'id'        => strtolower($new_id),
-                'booth_no'  => intval($_POST['t_booth_no'] ?? 0),
-                'code'      => $new_id,
-                'cluster'   => intval($_POST['t_cluster'] ?? 0),
-                'area'      => strtoupper(sanitize_text_field($_POST['t_area']      ?? 'A')),
-                'name'      => sanitize_text_field($_POST['t_name']      ?? ''),
-                'instansi'  => sanitize_text_field($_POST['t_instansi']  ?? ''),
-                'pic'       => sanitize_text_field($_POST['t_pic']       ?? ''),
-                'cat'       => sanitize_text_field($_POST['t_cat']       ?? ''),
-                'desc'      => sanitize_textarea_field($_POST['t_desc']  ?? ''),
-                'tags'      => $tags,
-                'logo'      => esc_url_raw($_POST['t_logo']              ?? ''),
-                'contact'   => sanitize_text_field($_POST['t_contact']   ?? ''),
-                'whatsapp'  => sanitize_text_field($_POST['t_whatsapp']  ?? ''),
-                'web'       => esc_url_raw($_POST['t_web']               ?? ''),
-                'instagram' => sanitize_text_field($_POST['t_instagram'] ?? ''),
-                'facebook'  => esc_url_raw($_POST['t_facebook']          ?? ''),
-                'twitter'   => sanitize_text_field($_POST['t_twitter']   ?? ''),
-                'transaksi' => sanitize_text_field($_POST['t_transaksi'] ?? ''),
+                'id'              => strtolower($new_id),
+                'booth_no'        => intval($_POST['t_booth_no']      ?? 0),
+                'code'            => $new_id,
+                'cluster'         => intval($_POST['t_cluster']       ?? 0),
+                'area'            => strtoupper(sanitize_text_field($_POST['t_area']     ?? 'A')),
+                'name'            => sanitize_text_field($_POST['t_name']      ?? ''),
+                'instansi'        => sanitize_text_field($_POST['t_instansi']  ?? ''),
+                'pic'             => sanitize_text_field($_POST['t_pic']       ?? ''),
+                'cat'             => sanitize_text_field($_POST['t_cat']       ?? ''),
+                'tipe_usaha'      => sanitize_text_field($_POST['t_tipe_usaha']     ?? ''),
+                'status_booth'    => sanitize_text_field($_POST['t_status_booth']   ?? 'aktif'),
+                'hari_operasi'    => $hari_operasi,
+                'produk_unggulan' => sanitize_textarea_field($_POST['t_produk_unggulan'] ?? ''),
+                'desc'            => sanitize_textarea_field($_POST['t_desc']      ?? ''),
+                'tags'            => $tags,
+                'logo'            => esc_url_raw($_POST['t_logo']              ?? ''),
+                'contact'         => sanitize_text_field($_POST['t_contact']    ?? ''),
+                'whatsapp'        => sanitize_text_field($_POST['t_whatsapp']   ?? ''),
+                'web'             => esc_url_raw($_POST['t_web']                ?? ''),
+                'instagram'       => sanitize_text_field($_POST['t_instagram']  ?? ''),
+                'facebook'        => esc_url_raw($_POST['t_facebook']           ?? ''),
+                'twitter'         => sanitize_text_field($_POST['t_twitter']    ?? ''),
+                'tiktok'          => sanitize_text_field($_POST['t_tiktok']     ?? ''),
+                'youtube'         => esc_url_raw($_POST['t_youtube']            ?? ''),
+                'tokopedia'       => esc_url_raw($_POST['t_tokopedia']          ?? ''),
+                'shopee'          => esc_url_raw($_POST['t_shopee']             ?? ''),
+                'transaksi'       => sanitize_text_field($_POST['t_transaksi']  ?? ''),
             ]);
             $tenants = assie4_get_tenants();
             if ( $edit_id ) {
@@ -2388,8 +2667,8 @@ function assie4_admin_tenants() {
                 foreach ($tenants as $k => $t) { if ($t['id']===$edit_id){$tenants[$k]=$new_tenant;$found=true;break;} }
                 if (!$found) $tenants[] = $new_tenant;
             } else {
-                if ( in_array($new_id, array_column($tenants,'id'), true) ) {
-                    a4_notice('❌ Kode Booth "'.$new_id.'" sudah ada.','err');
+                if ( in_array(strtolower($new_id), array_column($tenants,'id'), true) ) {
+                    a4_notice('Kode Booth "'.$new_id.'" sudah ada. Gunakan kode lain.','err');
                     $new_tenant = null;
                 } else {
                     $tenants[] = $new_tenant;
@@ -2397,166 +2676,511 @@ function assie4_admin_tenants() {
             }
             if ( isset($new_tenant) && $new_tenant ) {
                 assie4_save_tenants($tenants);
-                $mode = $edit_id ? 'diupdate' : 'ditambahkan';
-                a4_notice('✅ Tenant '.$new_id.' berhasil '.$mode.'! Halaman pameran sudah terupdate.');
-                echo '<script>setTimeout(function(){window.location.href="'.esc_url($page_url).'"},1200);</script>';
+                $mode = $edit_id ? 'diperbarui' : 'ditambahkan';
+                a4_notice('Tenant '.$new_id.' berhasil '.$mode.'! Halaman pameran sudah terupdate.');
+                echo '<script>setTimeout(function(){window.location.href="'.esc_url($page_url).'"},1400);</script>';
             }
         }
     }
 
-    $tenants   = assie4_get_tenants();
-    $editId    = $_GET['edit'] ?? null;
-    $fa        = $_GET['fa']   ?? 'all';
-    $search    = strtolower(trim($_GET['s'] ?? ''));
-    $apc       = ['A'=>'ap-A','B'=>'ap-B','C'=>'ap-C','D'=>'ap-D','E'=>'ap-E','F'=>'ap-F','G'=>'ap-G','H'=>'ap-H'];
+    $tenants = assie4_get_tenants();
+    $editId  = $_GET['edit'] ?? null;
+    $fa      = $_GET['fa']   ?? 'all';
+    $fcat    = $_GET['fcat'] ?? 'all';
+    $search  = strtolower(trim($_GET['s'] ?? ''));
+    $apc     = ['A'=>'ap-A','B'=>'ap-B','C'=>'ap-C','D'=>'ap-D','E'=>'ap-E','F'=>'ap-F','G'=>'ap-G','H'=>'ap-H'];
 
-    a4_header('Kelola Tenant', count($tenants).' tenant');
+    $area_meta = [
+        'A' => ['label'=>'Area A — UNAIR',           'icon'=>'🏛️'],
+        'B' => ['label'=>'Area B — Riset & Unit',     'icon'=>'🔬'],
+        'C' => ['label'=>'Area C — Sponsorship',      'icon'=>'🤝'],
+        'D' => ['label'=>'Area D — Startup & Mitra',  'icon'=>'🚀'],
+        'E' => ['label'=>'Area E — Inkubasi Bisnis',  'icon'=>'💡'],
+        'F' => ['label'=>'Area F — Startup Inovasi',  'icon'=>'⚡'],
+        'G' => ['label'=>'Area G — Kuliner & Bisnis', 'icon'=>'🍜'],
+        'H' => ['label'=>'Area H — Craft & Fashion',  'icon'=>'🎨'],
+    ];
+    $cat_opts = [
+        '' => 'Pilih kategori…',
+        'Internal UNAIR'   => 'Internal UNAIR',
+        'Startup'          => 'Startup',
+        'UMKM'             => 'UMKM',
+        'Riset & Inovasi'  => 'Riset & Inovasi',
+        'Kuliner & F&B'    => 'Kuliner & F&B',
+        'Craft & Fashion'  => 'Craft & Fashion',
+        'Teknologi'        => 'Teknologi',
+        'Kesehatan'        => 'Kesehatan',
+        'Pendidikan'       => 'Pendidikan',
+        'Keuangan & Fintech' => 'Keuangan & Fintech',
+        'Agrikultur'       => 'Agrikultur',
+        'Energi Hijau'     => 'Energi Hijau',
+        'Sponsorship'      => 'Sponsorship',
+        'Lainnya'          => 'Lainnya',
+    ];
+    $tipe_opts = [
+        '' => 'Pilih tipe usaha…',
+        'PT (Perseroan Terbatas)' => 'PT (Perseroan Terbatas)',
+        'CV (Commanditaire Vennootschap)' => 'CV (Commanditaire Vennootschap)',
+        'UD (Usaha Dagang)'     => 'UD (Usaha Dagang)',
+        'Koperasi'              => 'Koperasi',
+        'Yayasan'               => 'Yayasan',
+        'Lembaga Penelitian'    => 'Lembaga Penelitian',
+        'Perguruan Tinggi'      => 'Perguruan Tinggi',
+        'Unit / Departemen'     => 'Unit / Departemen',
+        'Perorangan / Freelance'=> 'Perorangan / Freelance',
+        'Komunitas / Organisasi'=> 'Komunitas / Organisasi',
+        'Lainnya'               => 'Lainnya',
+    ];
+    $hari_labels = ['Jumat, 6 Nov','Sabtu, 7 Nov','Minggu, 8 Nov'];
 
-    // Preview bar
-    $p = get_page_by_path(ASSIE4_PAMERAN_SLUG);
-    if ($p) echo '<div class="a4-preview-bar">✅ Perubahan tenant <strong>langsung tampil</strong> di <a href="'.esc_url(get_permalink($p)).'" target="_blank">halaman pameran</a>.</div>';
-
-    /* Form tambah / edit */
     if ( $editId !== null ) {
         $t      = null;
         $is_new = ($editId === 'new');
         if ( !$is_new ) { foreach ($tenants as $item) { if ($item['id']===$editId){$t=$item;break;} } }
         if ( !$t ) $t = assie4_normalize_tenant([]);
+        $hari_sel = is_array($t['hari_operasi']) ? $t['hari_operasi'] : [];
+        $title_text = $is_new ? 'Tambah Booth Baru' : 'Edit Booth ' . strtoupper($editId);
+        $sub_text   = $is_new ? 'Formulir Lengkap' : 'Perbarui Data';
+
+        a4_header($title_text, $sub_text);
+
+        $p = get_page_by_path(ASSIE4_PAMERAN_SLUG);
+        if ($p) echo '<div class="a4-preview-bar">💡 Perubahan data booth <strong>langsung disinkronkan</strong> ke <a href="'.esc_url(get_permalink($p)).'" target="_blank">halaman pameran publik &rarr;</a></div>';
         ?>
-        <div class="a4-card">
-        <div class="a4-card-head"><?php echo $is_new ? '➕ Tambah Tenant Baru' : '✏️ Edit Tenant — '.esc_html($editId); ?></div>
-        <form method="post" action="<?php echo esc_url($page_url); ?>">
+        <div class="a4-card" style="box-shadow:0 6px 24px rgba(0,0,0,0.06);border:1.5px solid #e2e8f0;padding:28px">
+            <div class="a4-card-head" style="margin-bottom:24px;padding-bottom:16px">
+                <div>
+                    <h2 style="margin:0;font-size:18px;font-weight:800;color:#0f1c35">
+                        <?php echo $is_new ? '✨ Tambah Booth / Tenant Baru' : '✏️ Ubah Data Booth: <code style="font-family:monospace;font-size:16px;color:#d4a843;background:rgba(212,168,67,0.12);padding:2px 8px;border-radius:6px">'.esc_html(strtoupper($t['code']?:$editId)).'</code> &mdash; '.esc_html($t['name']?:'Tanpa Nama'); ?>
+                    </h2>
+                    <p style="margin:4px 0 0;font-size:12.5px;color:#64748b">Lengkapi opsi pilihan di bawah ini agar informasi booth tampil detail, rapi, dan mudah dicari oleh pengunjung pameran.</p>
+                </div>
+                <a href="<?php echo esc_url($page_url); ?>" class="a4-btn-ghost" style="padding:8px 16px;font-size:13px">&larr; Kembali ke Daftar Booth</a>
+            </div>
+
+            <form method="post" action="<?php echo esc_url($page_url); ?>" id="a4-tenant-form">
             <?php wp_nonce_field('a4_tenant','_nt'); ?>
             <input type="hidden" name="original_id" value="<?php echo $is_new ? '' : esc_attr($editId); ?>">
 
-            <span class="a4-sect">📋 Identitas Booth & Perusahaan</span>
-            <div class="a4-row a4-row-3">
-                <div class="a4-field"><label>1. Kode Booth (Plot)</label><input name="t_id" value="<?php echo esc_attr($t['code'] ?: $t['id']); ?>" placeholder="mis: A1, B3, F2" required></div>
-                <div class="a4-field"><label>2. No. Booth Denah (1–106)</label><input type="number" name="t_booth_no" value="<?php echo esc_attr($t['booth_no'] ?: ''); ?>" placeholder="mis: 99, 52" min="1" max="106"></div>
-                <div class="a4-field"><label>3. Area</label>
-                    <select name="t_area">
-                        <?php 
-                        $area_labels = [
-                            'A'=>'Area A — UNAIR',
-                            'B'=>'Area B — Riset & Unit',
-                            'C'=>'Area C — Sponsorship',
-                            'D'=>'Area D — Startup & Mitra',
-                            'E'=>'Area E — Inkubasi Bisnis',
-                            'F'=>'Area F — Startup Inovasi',
-                            'G'=>'Area G — Kuliner & Bisnis',
-                            'H'=>'Area H — Craft & Fashion'
-                        ];
-                        foreach ($area_labels as $ar=>$lbl)
-                            echo '<option value="'.$ar.'"'.($t['area']===$ar?' selected':'').'>'.esc_html($lbl).'</option>'; ?>
-                    </select>
+            <!-- ╔════════════════════════════════════════╗
+                 ║  SEKSI 1 — IDENTITAS & DENAH BOOTH     ║
+                 ╚════════════════════════════════════════╝ -->
+            <div class="a4-form-section">
+                <div class="a4-form-section-title"><span class="ico">📍</span> 1. Identitas & Lokasi Denah Booth</div>
+
+                <div class="a4-row-4">
+                    <div class="a4-field">
+                        <label>Kode Booth <span class="a4-req" style="color:#ef4444">*</span></label>
+                        <input name="t_id" id="t_id" value="<?php echo esc_attr($t['code'] ?: $t['id']); ?>" placeholder="mis: A1, B3, F10" required autocomplete="off" style="font-weight:700;letter-spacing:0.5px">
+                        <span class="a4-field-hint">Plot lokasi di denah (contoh: A1, B12)</span>
+                    </div>
+                    <div class="a4-field">
+                        <label>No. Booth Denah</label>
+                        <input type="number" name="t_booth_no" value="<?php echo esc_attr($t['booth_no'] ?: ''); ?>" placeholder="1 – 106" min="1" max="200">
+                        <span class="a4-field-hint">Nomor urut hotspot denah interaktif</span>
+                    </div>
+                    <div class="a4-field">
+                        <label>Area Pameran <span class="a4-req" style="color:#ef4444">*</span></label>
+                        <select name="t_area" id="t_area" required>
+                            <?php foreach ($area_meta as $ar => $am)
+                                echo '<option value="'.$ar.'"'.($t['area']===$ar?' selected':'').'>'.esc_html($am['icon'].' '.$am['label']).'</option>'; ?>
+                        </select>
+                        <span class="a4-field-hint">Zona lokasi stan pameran</span>
+                    </div>
+                    <div class="a4-field">
+                        <label>Cluster (Angka)</label>
+                        <input type="number" name="t_cluster" value="<?php echo esc_attr($t['cluster'] ?: '0'); ?>" placeholder="0" min="0">
+                        <span class="a4-field-hint">Kelompok stan khusus dalam area</span>
+                    </div>
                 </div>
             </div>
-            <div class="a4-row">
-                <div class="a4-field"><label>4. Nama Tenant / Brand</label><input name="t_name" value="<?php echo esc_attr($t['name']); ?>" placeholder="Nama booth atau brand" required></div>
-                <div class="a4-field"><label>5. Badan Usaha / PT / CV / Instansi</label><input name="t_instansi" value="<?php echo esc_attr($t['instansi']); ?>" placeholder="mis: PT Jobhun Membangun Indonesia"></div>
-            </div>
-            <div class="a4-row a4-row-3">
-                <div class="a4-field"><label>6. Kategori</label><input name="t_cat" value="<?php echo esc_attr($t['cat']); ?>" placeholder="mis: Startup, Riset, Craft"></div>
-                <div class="a4-field"><label>7. Nama PIC</label><input name="t_pic" value="<?php echo esc_attr($t['pic']); ?>" placeholder="Nama penanggung jawab"></div>
-                <div class="a4-field"><label>8. Transaksi di Booth</label>
-                    <select name="t_transaksi">
-                        <option value="Ya"<?php echo ($t['transaksi']==='Ya'?' selected':''); ?>>Ya (Ada Transaksi)</option>
-                        <option value="Tidak"<?php echo ($t['transaksi']==='Tidak'?' selected':''); ?>>Tidak</option>
-                    </select>
+
+            <!-- ╔════════════════════════════════════════╗
+                 ║  SEKSI 2 — PROFIL USAHA & BRAND        ║
+                 ╚════════════════════════════════════════╝ -->
+            <div class="a4-form-section">
+                <div class="a4-form-section-title"><span class="ico">🏢</span> 2. Profil Usaha & Brand</div>
+
+                <div class="a4-row">
+                    <div class="a4-field">
+                        <label>Nama Tenant / Brand <span class="a4-req" style="color:#ef4444">*</span></label>
+                        <input name="t_name" value="<?php echo esc_attr($t['name']); ?>" placeholder="mis: NanoMedica, PT Inovasi, Kopi Nusantara" required style="font-size:14px;font-weight:600">
+                        <span class="a4-field-hint">Nama merek/produk yang dipamerkan di booth</span>
+                    </div>
+                    <div class="a4-field">
+                        <label>Badan Usaha / Instansi / Lembaga</label>
+                        <input name="t_instansi" value="<?php echo esc_attr($t['instansi']); ?>" placeholder="mis: PT Inovasi Nusantara / Fakultas Sains & Teknologi">
+                        <span class="a4-field-hint">Nama entitas legal atau departemen asal</span>
+                    </div>
+                </div>
+
+                <div class="a4-row-3">
+                    <div class="a4-field">
+                        <label>Kategori Booth <span class="a4-req" style="color:#ef4444">*</span></label>
+                        <select name="t_cat" required>
+                            <?php foreach ($cat_opts as $val => $lbl)
+                                echo '<option value="'.esc_attr($val).'"'.($t['cat']===$val?' selected':'').'>'.esc_html($lbl).'</option>'; ?>
+                        </select>
+                        <span class="a4-field-hint">Kategori utama untuk filter pengunjung</span>
+                    </div>
+                    <div class="a4-field">
+                        <label>Tipe Usaha / Legalitas</label>
+                        <select name="t_tipe_usaha">
+                            <?php foreach ($tipe_opts as $val => $lbl)
+                                echo '<option value="'.esc_attr($val).'"'.($t['tipe_usaha']===$val?' selected':'').'>'.esc_html($lbl).'</option>'; ?>
+                        </select>
+                        <span class="a4-field-hint">Bentuk legalitas / institusi usaha</span>
+                    </div>
+                    <div class="a4-field">
+                        <label>Nama PIC (Person in Charge)</label>
+                        <input name="t_pic" value="<?php echo esc_attr($t['pic']); ?>" placeholder="mis: Dr. Budi Santoso, S.T.">
+                        <span class="a4-field-hint">Penanggung jawab teknis booth</span>
+                    </div>
                 </div>
             </div>
-            <div class="a4-field u-mb-md"><label>9. Deskripsi Singkat</label><textarea name="t_desc" rows="3" placeholder="Deskripsi tentang tenant / produk ini…"><?php echo esc_textarea($t['desc']); ?></textarea></div>
-            <div class="a4-row">
-                <div class="a4-field"><label>10. Tags <small>(pisah koma)</small></label><input name="t_tags" value="<?php echo esc_attr(implode(', ',$t['tags'])); ?>" placeholder="Startup, Teknologi, Inovasi"></div>
-                <div class="a4-field"><label>11. Logo <small>(URL gambar langsung atau Drive thumbnail)</small></label><input type="url" name="t_logo" value="<?php echo esc_attr($t['logo']); ?>" placeholder="https://..."></div>
+
+            <!-- ╔════════════════════════════════════════╗
+                 ║  SEKSI 3 — OPERASIONAL & STATUS        ║
+                 ╚════════════════════════════════════════╝ -->
+            <div class="a4-form-section">
+                <div class="a4-form-section-title"><span class="ico">⏱️</span> 3. Operasional & Status Booth</div>
+
+                <div class="a4-row-3">
+                    <div class="a4-field">
+                        <label>Status Booth</label>
+                        <select name="t_status_booth">
+                            <option value="aktif"<?php echo ($t['status_booth']==='aktif'||$t['status_booth']===''?' selected':''); ?>>🟢 Aktif (Buka & Melayani)</option>
+                            <option value="standby"<?php echo ($t['status_booth']==='standby'?' selected':''); ?>>🟡 Standby (Persiapan)</option>
+                            <option value="kosong"<?php echo ($t['status_booth']==='kosong'?' selected':''); ?>>⚪ Belum Terisi / Kosong</option>
+                            <option value="nonaktif"<?php echo ($t['status_booth']==='nonaktif'?' selected':''); ?>>🔴 Nonaktif (Tutup)</option>
+                        </select>
+                        <span class="a4-field-hint">Status kesiapan stan pameran</span>
+                    </div>
+                    <div class="a4-field">
+                        <label>Transaksi Jual/Beli di Booth?</label>
+                        <select name="t_transaksi">
+                            <option value="Ya"<?php echo ($t['transaksi']==='Ya'?' selected':''); ?>>💰 Ya — Ada Transaksi Langsung</option>
+                            <option value="Tidak"<?php echo ($t['transaksi']==='Tidak'||$t['transaksi']===''?' selected':''); ?>>🏷️ Tidak — Hanya Display / Demo / Branding</option>
+                        </select>
+                        <span class="a4-field-hint">Apakah pengunjung dapat membeli produk di booth</span>
+                    </div>
+                    <div class="a4-field">
+                        <label>Hari Operasi Booth</label>
+                        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:2px">
+                            <?php foreach ($hari_labels as $hi => $hl) :
+                                $hval = (string)($hi+1);
+                                $checked = in_array($hval, $hari_sel) ? ' checked' : '';
+                            ?>
+                            <label class="a4-checkbox-pill">
+                                <input type="checkbox" name="t_hari_operasi[]" value="<?php echo $hval; ?>"<?php echo $checked; ?>>
+                                <span><?php echo esc_html($hl); ?></span>
+                            </label>
+                            <?php endforeach; ?>
+                        </div>
+                        <span class="a4-field-hint">Pilih hari stan buka melayani pengunjung</span>
+                    </div>
+                </div>
+
+                <div class="a4-field" style="margin-top:10px">
+                    <label>Produk / Inovasi Unggulan</label>
+                    <textarea name="t_produk_unggulan" rows="2" placeholder="Sebutkan produk atau inovasi utama yang dipamerkan (mis: Alat pendeteksi dini gula darah tanpa jarum suntik, Madu propolis fermentasi, Platform IoT Smart Green House)"><?php echo esc_textarea($t['produk_unggulan']); ?></textarea>
+                    <span class="a4-field-hint">Daftar produk atau inovasi yang jadi daya tarik utama stan</span>
+                </div>
             </div>
 
-            <span class="a4-sect">📱 Kontak & Media Sosial</span>
-            <div class="a4-row">
-                <div class="a4-field"><label>12. Email Kontak</label><input type="text" name="t_contact" value="<?php echo esc_attr($t['contact']); ?>" placeholder="email@domain.com"></div>
-                <div class="a4-field"><label>13. WhatsApp / HP</label><input type="text" name="t_whatsapp" value="<?php echo esc_attr($t['whatsapp']); ?>" placeholder="mis: 08123456789"></div>
-                <div class="a4-field"><label>14. Website / URL</label><input type="url" name="t_web" value="<?php echo esc_attr($t['web']); ?>" placeholder="https://..."></div>
-            </div>
-            <div class="a4-row a4-row-3">
-                <div class="a4-field"><label>15. Instagram</label><input name="t_instagram" value="<?php echo esc_attr($t['instagram']); ?>" placeholder="@namaakun"></div>
-                <div class="a4-field"><label>16. Facebook</label><input name="t_facebook" value="<?php echo esc_attr($t['facebook']); ?>" placeholder="https://facebook.com/..."></div>
-                <div class="a4-field"><label>17. X / Twitter</label><input name="t_twitter" value="<?php echo esc_attr($t['twitter']); ?>" placeholder="@namaakun"></div>
+            <!-- ╔════════════════════════════════════════╗
+                 ║  SEKSI 4 — DESKRIPSI & LOGO VISUAL     ║
+                 ╚════════════════════════════════════════╝ -->
+            <div class="a4-form-section">
+                <div class="a4-form-section-title"><span class="ico">📝</span> 4. Deskripsi Lengkap & Logo Visual</div>
+
+                <div class="a4-field" style="margin-bottom:18px">
+                    <label>Deskripsi Booth & Profil Perusahaan</label>
+                    <textarea name="t_desc" rows="4" placeholder="Jelaskan mengenai booth ini secara lengkap: visi inovasi, portofolio produk, teknologi yang digunakan, peluang kemitraan/investasi, atau informasi penting lainnya..."><?php echo esc_textarea($t['desc']); ?></textarea>
+                    <span class="a4-field-hint">Teks ini akan dibaca oleh pengunjung saat mengklik detail booth pada denah atau direktori</span>
+                </div>
+
+                <div class="a4-row">
+                    <div class="a4-field">
+                        <label>Tags Filter <small style="font-weight:normal;color:#64748b">(Pisahkan dengan tanda koma)</small></label>
+                        <input name="t_tags" value="<?php echo esc_attr(implode(', ',$t['tags'])); ?>" placeholder="Startup, Teknologi, Inovasi, UMKM, Transaksi Booth…">
+                        <div class="a4-tags-hint" style="margin-top:8px">
+                            <span style="font-size:11px;color:#94a3b8;margin-right:4px">Klik untuk tambah cepat:</span>
+                            <?php foreach (['Internal UNAIR','Startup','UMKM','Riset & Inovasi','Kuliner','Craft','Fashion','Teknologi','Kesehatan','Transaksi Booth'] as $ts)
+                                echo '<span class="a4-tag-chip" onclick="a4TagAdd(this,\''.$ts.'\')">+ '.$ts.'</span>'; ?>
+                        </div>
+                    </div>
+                    <div class="a4-field">
+                        <label>URL Gambar Logo</label>
+                        <input type="url" name="t_logo" id="t_logo" value="<?php echo esc_attr($t['logo']); ?>" placeholder="https://domain.com/path/ke/logo.png" oninput="a4LogoPreview(this.value)">
+                        <span class="a4-field-hint">Gunakan tautan gambar PNG transparan atau JPG persegi</span>
+                        
+                        <div class="a4-logo-preview-box">
+                            <img id="a4-logo-preview" src="<?php echo esc_url($t['logo'] ?: ASSIE4_PAMERAN_URL . 'assets/logo-assie4.png'); ?>" style="<?php echo $t['logo'] ? '' : 'opacity:0.3;filter:grayscale(1)'; ?>" onerror="this.src='<?php echo esc_url(ASSIE4_PAMERAN_URL . 'assets/logo-assie4.png'); ?>';this.style.opacity='0.3'">
+                            <div>
+                                <strong style="font-size:12px;color:#334155;display:block">Live Logo Preview</strong>
+                                <span style="font-size:11px;color:#94a3b8" id="a4-logo-status"><?php echo $t['logo'] ? 'Gambar logo terdeteksi' : 'Masukkan URL di atas untuk melihat preview'; ?></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="u-flex u-items-center u-gap-md" style="margin-top:20px;padding-top:16px;border-top:1px solid #e5e7eb">
-                <button type="submit" class="a4-btn-primary"><?php echo $is_new ? '➕ Tambah Tenant' : '💾 Simpan Perubahan'; ?></button>
-                <a href="<?php echo esc_url($page_url); ?>" class="u-text-light u-text-xs u-text-semibold" style="text-decoration:none">← Batal</a>
+            <!-- ╔════════════════════════════════════════╗
+                 ║  SEKSI 5 — KONTAK & MEDIA SOSIAL       ║
+                 ╚════════════════════════════════════════╝ -->
+            <div class="a4-form-section">
+                <div class="a4-form-section-title"><span class="ico">🌐</span> 5. Kontak & Media Sosial / Marketplace</div>
+                <p style="margin:-10px 0 16px;font-size:12px;color:#64748b">Tombol kontak dan media sosial akan otomatis muncul interaktif pada modal detail booth pengunjung.</p>
+
+                <div class="a4-row-3">
+                    <div class="a4-field">
+                        <label>📧 Email Kontak</label>
+                        <input type="text" name="t_contact" value="<?php echo esc_attr($t['contact']); ?>" placeholder="kontak@perusahaan.com">
+                    </div>
+                    <div class="a4-field">
+                        <label>💬 WhatsApp Official</label>
+                        <input type="text" name="t_whatsapp" value="<?php echo esc_attr($t['whatsapp']); ?>" placeholder="081234567890">
+                    </div>
+                    <div class="a4-field">
+                        <label>🌐 Website Resmi</label>
+                        <input type="url" name="t_web" value="<?php echo esc_attr($t['web']); ?>" placeholder="https://namatenant.com">
+                    </div>
+                </div>
+
+                <div class="a4-row-4" style="margin-top:10px">
+                    <div class="a4-field">
+                        <label>📷 Instagram</label>
+                        <input name="t_instagram" value="<?php echo esc_attr($t['instagram']); ?>" placeholder="@nama_instagram">
+                    </div>
+                    <div class="a4-field">
+                        <label>🎵 TikTok</label>
+                        <input name="t_tiktok" value="<?php echo esc_attr($t['tiktok']); ?>" placeholder="@nama_tiktok">
+                    </div>
+                    <div class="a4-field">
+                        <label>🐦 X / Twitter</label>
+                        <input name="t_twitter" value="<?php echo esc_attr($t['twitter']); ?>" placeholder="@nama_akun">
+                    </div>
+                    <div class="a4-field">
+                        <label>👍 Facebook</label>
+                        <input name="t_facebook" value="<?php echo esc_attr($t['facebook']); ?>" placeholder="https://facebook.com/halaman">
+                    </div>
+                </div>
+
+                <div class="a4-row-3" style="margin-top:10px">
+                    <div class="a4-field">
+                        <label>▶️ YouTube Channel</label>
+                        <input type="url" name="t_youtube" value="<?php echo esc_attr($t['youtube']); ?>" placeholder="https://youtube.com/@channel">
+                    </div>
+                    <div class="a4-field">
+                        <label>🛍️ Tokopedia Store</label>
+                        <input type="url" name="t_tokopedia" value="<?php echo esc_attr($t['tokopedia']); ?>" placeholder="https://tokopedia.com/nama-toko">
+                    </div>
+                    <div class="a4-field">
+                        <label>🛒 Shopee Official</label>
+                        <input type="url" name="t_shopee" value="<?php echo esc_attr($t['shopee']); ?>" placeholder="https://shopee.co.id/nama-toko">
+                    </div>
+                </div>
             </div>
-        </form>
+
+            <!-- Sticky Footer Action Bar -->
+            <div class="a4-form-footer" style="position:sticky;bottom:15px;background:#ffffff;padding:18px 24px;border-radius:14px;border:2px solid #d4a843;box-shadow:0 10px 30px rgba(0,0,0,0.14);z-index:99;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-top:28px">
+                <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+                    <button type="submit" class="a4-btn-gold" id="a4-submit-btn" style="padding:12px 30px;font-size:14px;font-weight:800;border-radius:10px;box-shadow:0 4px 18px rgba(212,168,67,0.45)">
+                        <?php echo $is_new ? '💾 Simpan & Terbitkan Booth Baru' : '💾 Simpan Perubahan Data Booth'; ?>
+                    </button>
+                    <a href="<?php echo esc_url($page_url); ?>" class="a4-btn-ghost" style="padding:12px 22px;font-size:13.5px;border-radius:10px">&larr; Batal</a>
+                </div>
+                <div style="font-size:12px;color:#64748b;display:flex;align-items:center;gap:6px">
+                    <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#10b981"></span>
+                    <span>Perubahan tersimpan otomatis tampil di denah & direktori.</span>
+                </div>
+            </div>
+
+            </form>
         </div>
-        <?php
-    }
 
-    /* Tabel daftar tenant */
-    $filtered = array_filter($tenants, function($t) use($fa,$search){
-        return ($fa==='all'||$t['area']===$fa) && (!$search || stripos($t['id'].$t['name'].$t['cat'],$search)!==false);
+        <script>
+        // Live logo preview
+        function a4LogoPreview(url) {
+            var img = document.getElementById('a4-logo-preview');
+            var status = document.getElementById('a4-logo-status');
+            if (!img) return;
+            if (url && url.length > 5) {
+                img.src = url;
+                img.style.opacity = '1';
+                img.style.filter = 'none';
+                if (status) status.innerText = 'Gambar logo aktif';
+            } else {
+                img.src = '<?php echo esc_url(ASSIE4_PAMERAN_URL . 'assets/logo-assie4.png'); ?>';
+                img.style.opacity = '0.3';
+                img.style.filter = 'grayscale(1)';
+                if (status) status.innerText = 'Masukkan URL di atas untuk melihat preview';
+            }
+        }
+        // Chip tag helper
+        function a4TagAdd(el, tag) {
+            var inp = document.querySelector('[name="t_tags"]');
+            if (!inp) return;
+            var current = inp.value.split(',').map(s=>s.trim()).filter(Boolean);
+            if (!current.includes(tag)) {
+                current.push(tag);
+                inp.value = current.join(', ');
+                el.style.background = '#dbeafe';
+                el.style.color = '#1d4ed8';
+                el.style.borderColor = '#93c5fd';
+            }
+        }
+        // Auto-uppercase kode booth
+        document.addEventListener('DOMContentLoaded', function(){
+            var idEl = document.getElementById('t_id');
+            if (idEl) {
+                idEl.addEventListener('input', function(){
+                    this.value = this.value.toUpperCase();
+                });
+            }
+        });
+        </script>
+        <?php
+        echo '</div>'; // Tutup .a4-wrap
+        return; // Hentikan render agar tabel 79 tenant TIDAK dicetak di bawah form!
+    } /* ── end form ── */
+
+    /* ═══════════════════════════════
+       TABEL DAFTAR TENANT
+    ═══════════════════════════════ */
+    a4_header('Kelola Tenant', count($tenants).' tenant');
+    $p = get_page_by_path(ASSIE4_PAMERAN_SLUG);
+    if ($p) echo '<div class="a4-preview-bar">💡 Perubahan tenant <strong>langsung tampil</strong> di <a href="'.esc_url(get_permalink($p)).'" target="_blank">halaman pameran publik &rarr;</a></div>';
+    $filtered = array_filter($tenants, function($t) use($fa,$fcat,$search){
+        $ok_area = ($fa==='all' || $t['area']===$fa);
+        $ok_cat  = ($fcat==='all' || stripos($t['cat'], $fcat) !== false);
+        $ok_srch = (!$search || stripos($t['id'].$t['name'].$t['cat'].$t['instansi'], $search) !== false);
+        return $ok_area && $ok_cat && $ok_srch;
     });
+
+    // Stats mini per area
+    $area_counts = [];
+    foreach ($tenants as $t) {
+        $area_counts[$t['area']] = ($area_counts[$t['area']] ?? 0) + 1;
+    }
     ?>
     <div class="a4-card">
         <div class="a4-card-head">
-            <span>Daftar Tenant (<?php echo count($filtered); ?>/<?php echo count($tenants); ?>)</span>
-            <a href="<?php echo esc_url(add_query_arg('edit','new',$page_url)); ?>" class="a4-btn-gold" style="font-size:12px;padding:7px 16px;margin-top:0">＋ Tambah Tenant</a>
+            <span>Daftar Tenant
+                <span class="a4-badge a4-badge-blue" style="font-size:11px;margin-left:6px"><?php echo count($filtered); ?> / <?php echo count($tenants); ?></span>
+            </span>
+            <a href="<?php echo esc_url(add_query_arg('edit','new',$page_url)); ?>" class="a4-btn-gold" style="padding:8px 18px">+ Tambah Tenant</a>
         </div>
+
+        <!-- Mini stat pills per area -->
+        <div class="a4-tenant-stat-row">
+            <?php foreach ($area_meta as $ar => $am) :
+                $cnt = $area_counts[$ar] ?? 0;
+                $dotcol = ['A'=>'#3b82f6','B'=>'#22c55e','C'=>'#f59e0b','D'=>'#8b5cf6','E'=>'#06b6d4','F'=>'#ec4899','G'=>'#f97316','H'=>'#10b981'][$ar] ?? '#94a3b8';
+                if (!$cnt) continue;
+            ?>
+            <span class="a4-tenant-stat-pill">
+                <span class="dot" style="background:<?php echo $dotcol; ?>"></span>
+                <?php echo esc_html($am['icon'].' '.$ar); ?> <strong><?php echo $cnt; ?></strong>
+            </span>
+            <?php endforeach; ?>
+        </div>
+
+        <!-- Filter bar -->
         <div class="a4-filter-bar">
             <form method="get" id="a4SF" style="display:contents">
                 <input type="hidden" name="page" value="assie4-tenants">
+                <span class="a4-filter-label">Filter:</span>
                 <select name="fa" onchange="this.form.submit()">
                     <option value="all">Semua Area</option>
-                    <?php foreach (['A'=>'Area A — UNAIR','B'=>'Area B — Riset & Unit','C'=>'Area C — Sponsor','D'=>'Area D — Startup','E'=>'Area E — Inkubasi','F'=>'Area F — Inovasi','G'=>'Area G — Kuliner','H'=>'Area H — Craft'] as $ar=>$lbl)
-                        echo '<option value="'.$ar.'"'.($fa===$ar?' selected':'').'>'.esc_html($lbl).'</option>'; ?>
+                    <?php foreach ($area_meta as $ar => $am)
+                        echo '<option value="'.$ar.'"'.($fa===$ar?' selected':'').'>'.esc_html($am['icon'].' '.$am['label']).'</option>'; ?>
                 </select>
-                <input type="text" name="s" id="a4SI" value="<?php echo esc_attr($search); ?>" placeholder="Cari kode / nama…"
+                <select name="fcat" onchange="this.form.submit()">
+                    <option value="all">Semua Kategori</option>
+                    <?php foreach (array_slice($cat_opts,1) as $val=>$lbl)
+                        echo '<option value="'.esc_attr($val).'"'.($fcat===$val?' selected':'').'>'.esc_html($lbl).'</option>'; ?>
+                </select>
+                <input type="text" name="s" id="a4SI" value="<?php echo esc_attr($search); ?>" placeholder="Cari kode, nama, instansi…"
                        onkeyup="clearTimeout(window._a4t);window._a4t=setTimeout(function(){document.getElementById('a4SF').submit()},500)">
             </form>
         </div>
+
         <?php if ( empty($filtered) ) : ?>
         <div class="a4-empty-state">
             <span class="a4-es-ico">🏪</span>
-            <h3><?php echo count($tenants)===0 ? 'Belum ada tenant' : 'Tidak ditemukan'; ?></h3>
-            <p><?php echo count($tenants)===0 ? 'Mulai tambahkan tenant pertama untuk ditampilkan di halaman pameran.' : 'Ubah filter atau kata kunci.'; ?></p>
+            <h3><?php echo count($tenants)===0 ? 'Belum ada tenant terdaftar' : 'Tidak ada hasil yang cocok'; ?></h3>
+            <p><?php echo count($tenants)===0
+                ? 'Klik "+ Tambah Tenant" untuk mendaftarkan booth pertama pada pameran.'
+                : 'Coba ubah filter area, kategori, atau kata kunci pencarian.'; ?></p>
             <?php if (count($tenants)===0) : ?>
-            <a href="<?php echo esc_url(add_query_arg('edit','new',$page_url)); ?>" class="a4-btn-gold">➕ Tambah Tenant Pertama</a>
+            <a href="<?php echo esc_url(add_query_arg('edit','new',$page_url)); ?>" class="a4-btn-gold">+ Tambah Tenant Pertama</a>
             <?php endif; ?>
         </div>
         <?php else : ?>
         <table class="a4-table">
-            <thead><tr><th>No Denah</th><th>Kode</th><th>Area</th><th>Nama Tenant / Brand</th><th>Instansi / PT / CV</th><th>Kategori</th><th>Sosmed</th><th>Aksi</th></tr></thead>
+            <thead><tr>
+                <th style="width:60px">No Denah</th>
+                <th style="width:70px">Kode</th>
+                <th style="width:80px">Area</th>
+                <th>Nama Tenant / Brand</th>
+                <th>Instansi / Badan Usaha</th>
+                <th style="width:110px">Kategori</th>
+                <th style="width:90px">Status</th>
+                <th style="width:90px">Media</th>
+                <th style="width:100px">Aksi</th>
+            </tr></thead>
             <tbody>
             <?php foreach ($filtered as $t) :
                 $eu = esc_url(add_query_arg('edit', urlencode($t['id']), $page_url));
                 $du = esc_url(wp_nonce_url(add_query_arg(['del_t'=>$t['id']],$page_url),'del_t_'.$t['id']));
+                $status_lbl  = ['aktif'=>'Aktif','standby'=>'Standby','kosong'=>'Kosong','nonaktif'=>'Nonaktif'][$t['status_booth']] ?? 'Aktif';
+                $status_col  = ['aktif'=>'#059669','standby'=>'#d97706','kosong'=>'#94a3b8','nonaktif'=>'#dc2626'][$t['status_booth']] ?? '#059669';
+                $status_bg   = ['aktif'=>'#ecfdf5','standby'=>'#fffbeb','kosong'=>'#f8f9fc','nonaktif'=>'#fef2f2'][$t['status_booth']] ?? '#ecfdf5';
             ?>
             <tr>
-                <td><strong style="color:#d4a843"><?php echo esc_html($t['booth_no'] ?: '—'); ?></strong></td>
-                <td><strong><?php echo esc_html($t['code'] ?: strtoupper($t['id'])); ?></strong></td>
-                <td><span class="a4-ap <?php echo $apc[$t['area']]??''; ?>"><?php echo esc_html($t['area']); ?></span></td>
+                <td><strong style="color:#d4a843;font-size:14px"><?php echo esc_html($t['booth_no'] ?: '—'); ?></strong></td>
+                <td><code style="font-weight:800;font-size:13px;color:#1e2a4a"><?php echo esc_html($t['code'] ?: strtoupper($t['id'])); ?></code></td>
+                <td><span class="a4-ap <?php echo $apc[$t['area']] ?? ''; ?>"><?php echo esc_html($area_meta[$t['area']]['icon'] ?? ''); ?> <?php echo esc_html($t['area']); ?></span></td>
                 <td>
-                    <?php if($t['logo']) : ?><img src="<?php echo esc_url($t['logo']); ?>" style="height:20px;margin-right:6px;vertical-align:middle;border-radius:3px" onerror="this.remove()"><?php endif; ?>
-                    <strong><?php echo esc_html($t['name']); ?></strong>
-                    <?php if($t['desc']) : ?><div style="font-size:11px;color:#94a3b8;margin-top:2px"><?php echo esc_html(mb_strimwidth($t['desc'],0,55,'…')); ?></div><?php endif; ?>
+                    <?php if ($t['logo']) : ?>
+                    <img src="<?php echo esc_url($t['logo']); ?>" style="height:22px;width:22px;object-fit:contain;margin-right:7px;vertical-align:middle;border-radius:4px;background:#f3f4f6;border:1px solid #e5e7eb;padding:1px" onerror="this.remove()">
+                    <?php endif; ?>
+                    <strong style="color:#0f1c35"><?php echo esc_html($t['name']); ?></strong>
+                    <?php if ($t['instansi'] && $t['instansi'] !== $t['name']) : ?>
+                    <div style="font-size:11px;color:#94a3b8;margin-top:2px"><?php echo esc_html(mb_strimwidth($t['instansi'],0,48,'…')); ?></div>
+                    <?php endif; ?>
                 </td>
-                <td style="font-size:12px;color:#93c5fd"><?php echo esc_html($t['instansi'] ?: '—'); ?></td>
-                <td style="font-size:12px;color:#64748b"><?php echo esc_html($t['cat']); ?></td>
+                <td style="font-size:12px;color:#3b82f6"><?php echo esc_html($t['instansi'] ?: '—'); ?></td>
+                <td style="font-size:12px"><?php echo esc_html($t['cat'] ?: '—'); ?></td>
+                <td>
+                    <span style="display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;background:<?php echo $status_bg; ?>;color:<?php echo $status_col; ?>">
+                        <span style="width:6px;height:6px;border-radius:50%;background:<?php echo $status_col; ?>"></span>
+                        <?php echo esc_html($status_lbl); ?>
+                    </span>
+                    <?php if ($t['transaksi']==='Ya') echo '<div style="font-size:10px;color:#059669;margin-top:3px;font-weight:600">Jual/Beli</div>'; ?>
+                </td>
                 <td class="a4-ic">
-                    <?php if($t['contact']) echo '<a href="mailto:'.esc_attr($t['contact']).'" title="'.esc_attr($t['contact']).'">📧</a>'; ?>
-                    <?php if($t['web'])     echo '<a href="'.esc_url($t['web']).'" target="_blank" title="'.esc_attr($t['web']).'">🌐</a>'; ?>
-                    <?php if($t['instagram']){$u=strpos($t['instagram'],'http')===0?$t['instagram']:'https://instagram.com/'.ltrim($t['instagram'],'@');echo '<a href="'.esc_url($u).'" target="_blank">📷</a>';}?>
-                    <?php if($t['facebook'])echo '<a href="'.esc_url($t['facebook']).'" target="_blank">👍</a>'; ?>
-                    <?php if($t['twitter']){$u=strpos($t['twitter'],'http')===0?$t['twitter']:'https://x.com/'.ltrim($t['twitter'],'@');echo '<a href="'.esc_url($u).'" target="_blank">🐦</a>';}?>
+                    <?php if($t['contact'])   echo '<a href="mailto:'.esc_attr($t['contact']).'" title="Email: '.esc_attr($t['contact']).'">📧</a>'; ?>
+                    <?php if($t['whatsapp'])  echo '<a href="https://wa.me/'.preg_replace('/[^0-9]/','',$t['whatsapp']).'" target="_blank" title="WA: '.esc_attr($t['whatsapp']).'">💬</a>'; ?>
+                    <?php if($t['web'])       echo '<a href="'.esc_url($t['web']).'" target="_blank" title="'.esc_attr($t['web']).'">🌐</a>'; ?>
+                    <?php if($t['instagram']){$u=strpos($t['instagram'],'http')===0?$t['instagram']:'https://instagram.com/'.ltrim($t['instagram'],'@');echo '<a href="'.esc_url($u).'" target="_blank" title="IG">📷</a>';}?>
+                    <?php if($t['tiktok'])   {$u=strpos($t['tiktok'],'http')===0?$t['tiktok']:'https://tiktok.com/@'.ltrim($t['tiktok'],'@');echo '<a href="'.esc_url($u).'" target="_blank" title="TikTok">🎵</a>';}?>
+                    <?php if($t['tokopedia'])echo '<a href="'.esc_url($t['tokopedia']).'" target="_blank" title="Tokopedia">🛍️</a>'; ?>
+                    <?php if($t['shopee'])   echo '<a href="'.esc_url($t['shopee']).'" target="_blank" title="Shopee">🛒</a>'; ?>
                 </td>
                 <td style="white-space:nowrap">
-                    <a href="<?php echo $eu; ?>" style="font-size:12px;font-weight:700;color:#1e40af;text-decoration:none;margin-right:8px">✏️ Edit</a>
-                    <a href="<?php echo $du; ?>" onclick="return confirm('Hapus <?php echo esc_js($t['id'].': '.$t['name']); ?>?')" style="font-size:12px;font-weight:700;color:#dc2626;text-decoration:none">✕ Hapus</a>
+                    <a href="<?php echo $eu; ?>" class="a4-table-action a4-table-action-edit">Ubah</a>
+                    <a href="<?php echo $du; ?>" onclick="return confirm('Hapus booth <?php echo esc_js($t['code'].': '.$t['name']); ?>? Tindakan ini tidak bisa dibatalkan.')" class="a4-table-action a4-table-action-del" style="margin-top:4px">Hapus</a>
                 </td>
             </tr>
             <?php endforeach; ?>
             </tbody>
         </table>
+        <div style="font-size:11px;color:#94a3b8;padding:10px 0 2px;text-align:right">
+            Menampilkan <?php echo count($filtered); ?> dari <?php echo count($tenants); ?> tenant total
+        </div>
         <?php endif; ?>
     </div>
     </div>

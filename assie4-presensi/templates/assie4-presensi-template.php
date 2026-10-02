@@ -92,6 +92,17 @@ $exhibition_url = $exhibition_page ? get_permalink( $exhibition_page ) : home_ur
   .toast { display:none; padding:12px; margin-top:14px; border-radius:6px; font-size:13px; }
   .toast.success { display:block; color:var(--success); background:#12372c; }
   .toast.error-toast { display:block; color:var(--error); background:#39222b; }
+  /* ─── LOCATION BANNER ─── */
+  .location-banner { margin-bottom:20px; border-radius:8px; padding:13px 16px; display:flex; align-items:center; gap:12px; font-size:13px; border:1px solid; transition:background .2s, border-color .2s; }
+  .loc-icon { font-size:18px; flex-shrink:0; display:inline-flex; align-items:center; }
+  .loc-text { line-height:1.4; }
+  .loc-idle { background:#152034; border-color:#3b485d; color:var(--muted); cursor:pointer; }
+  .loc-idle:hover { border-color:var(--gold); }
+  .loc-loading { background:#162438; border-color:#3a567d; color:#8ec5fc; }
+  .loc-granted { background:#122c22; border-color:#245744; color:var(--success); }
+  .loc-denied { background:#331a22; border-color:#612f3e; color:var(--error); cursor:pointer; }
+  .loc-outside { background:#332714; border-color:#64491c; color:#f5c056; cursor:pointer; }
+  .loc-loading .loc-icon { display:inline-block; animation:spin .7s linear infinite; }
   .side-column { min-width:0; }
   .leaderboard-section { background:var(--surface); border:1px solid var(--border); border-radius:14px; overflow:hidden; }
   .leaderboard-heading { display:flex; align-items:center; justify-content:space-between; padding:23px 23px 0; gap:12px; }
@@ -194,6 +205,12 @@ $exhibition_url = $exhibition_page ? get_permalink( $exhibition_page ) : home_ur
     <span class="bm-count" id="badgeCount" role="status">Memuat…</span>
   </div>
 
+  <!-- Status Lokasi -->
+  <div class="location-banner loc-idle" id="locationBanner" onclick="if(locationStatus==='idle'||locationStatus==='denied'||locationStatus==='outside')requestLocation()" role="status" aria-live="polite">
+    <span class="loc-icon">📍</span>
+    <span class="loc-text">Ketuk untuk verifikasi lokasi Anda di Grand City Surabaya.</span>
+  </div>
+
   <!-- Form Presensi -->
   <form class="form-card" id="attendanceForm" novalidate>
     <h2 class="section-label"><span>02</span>Data pengunjung</h2>
@@ -249,6 +266,72 @@ $exhibition_url = $exhibition_page ? get_permalink( $exhibition_page ) : home_ur
 <script>
 const NONCE    = <?php echo json_encode( wp_create_nonce('wp_rest') ); ?>;
 
+// ─── GPS STATE ───
+let userLat = null;
+let userLng = null;
+let locationStatus = 'idle'; // idle | loading | granted | denied | outside
+
+// Koordinat & radius Grand City Surabaya (Jl. Kusuma Gubeng, Ketabang, Genteng)
+const VENUE = { lat: -7.262113648386964, lng: 112.75013597795723, radiusM: 300 };
+
+// ─── HAVERSINE (client-side preview, validasi final di server) ───
+function haversineM(lat1, lng1, lat2, lng2) {
+  const R = 6371000;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a = Math.sin(dLat/2)**2 +
+            Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) *
+            Math.sin(dLng/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+// ─── REQUEST LOKASI ───
+function requestLocation() {
+  if (!navigator.geolocation) {
+    setLocationBanner('unsupported');
+    return;
+  }
+  setLocationBanner('loading');
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      userLat = pos.coords.latitude;
+      userLng = pos.coords.longitude;
+      const dist = haversineM(userLat, userLng, VENUE.lat, VENUE.lng);
+      if (dist <= VENUE.radiusM) {
+        locationStatus = 'granted';
+        setLocationBanner('granted');
+      } else {
+        locationStatus = 'outside';
+        setLocationBanner('outside', Math.round(dist));
+      }
+    },
+    err => {
+      locationStatus = 'denied';
+      setLocationBanner('denied');
+    },
+    { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+  );
+}
+
+// ─── BANNER LOKASI ───
+function setLocationBanner(state, dist) {
+  const banner = document.getElementById('locationBanner');
+  if (!banner) return;
+  const configs = {
+    idle:        { cls: 'loc-idle',     icon: '📍', msg: 'Ketuk untuk verifikasi lokasi Anda di Grand City Surabaya.' },
+    loading:     { cls: 'loc-loading',  icon: '🔄', msg: 'Mendapatkan lokasi GPS…' },
+    granted:     { cls: 'loc-granted',  icon: '✅', msg: 'Lokasi terverifikasi — Anda berada di Grand City Surabaya.' },
+    denied:      { cls: 'loc-denied',   icon: '🚫', msg: 'Akses lokasi ditolak. Aktifkan GPS/izin lokasi di browser lalu ketuk untuk coba lagi.' },
+    outside:     { cls: 'loc-outside',  icon: '⚠️', msg: `Anda berada ±${dist}m dari Grand City. Presensi hanya bisa dilakukan di dalam venue.` },
+    unsupported: { cls: 'loc-denied',   icon: '❌', msg: 'Browser Anda tidak mendukung GPS. Gunakan browser lain.' },
+  };
+  const cfg = configs[state] || configs.idle;
+  banner.className = 'location-banner ' + cfg.cls;
+  banner.innerHTML = `<span class="loc-icon">${cfg.icon}</span><span class="loc-text">${cfg.msg}</span>`;
+  if (state === 'idle' || state === 'denied' || state === 'outside') banner.style.cursor = 'pointer';
+  else banner.style.cursor = 'default';
+}
+
 // Kode dan nama booth diambil dari pemetaan resmi serta data tenant plugin pameran.
 const BOOTH_DIRECTORY = <?php echo wp_json_encode( assie4_presensi_booth_directory(), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT ); ?>;
 
@@ -281,7 +364,7 @@ function validCount(value) {
 }
 async function fetchLeaderboard() {
   try {
-    const res = await fetch(apiUrl('leaderboard', {limit:3}), { headers:{'X-WP-Nonce':NONCE} });
+    const res = await fetch(apiUrl('leaderboard', {limit:3}), { cache: 'no-store' });
     const data = await res.json();
     if (!res.ok || !Array.isArray(data.leaderboard) || !validCount(data.total_today)) throw new Error('Invalid leaderboard');
     renderLeaderboard(data);
@@ -419,9 +502,7 @@ function onBoothChange() {
 // ─── FETCH DATA BOOTH DARI REST API ───
 async function fetchBoothData(booth) {
   try {
-    const res = await fetch(apiUrl('presensi', {booth, limit:5}), {
-      headers: { 'X-WP-Nonce': NONCE }
-    });
+    const res = await fetch(apiUrl('presensi', {booth, limit:5}), { cache: 'no-store' });
     const data = await res.json();
 
     if (!res.ok || !validCount(data.total) || !Array.isArray(data.entries)) throw new Error('Invalid booth response');
@@ -493,6 +574,31 @@ function setError(field, hasError, msg) {
 // ─── SUBMIT KE REST API ───
 async function submitPresensi() {
   if (document.getElementById('btnSubmit').disabled) return;
+
+  // Cek status lokasi dulu
+  if (locationStatus === 'idle') {
+    requestLocation();
+    showToast('error-toast', 'Ketuk banner verifikasi lokasi terlebih dahulu.');
+    return;
+  }
+  if (locationStatus === 'loading') {
+    showToast('error-toast', 'Sedang memverifikasi lokasi GPS, mohon tunggu sebentar.');
+    return;
+  }
+  if (locationStatus === 'denied' || locationStatus === 'unsupported') {
+    showToast('error-toast', 'Izin lokasi GPS diperlukan untuk presensi di Grand City.');
+    return;
+  }
+  if (locationStatus === 'outside') {
+    showToast('error-toast', 'Presensi hanya dapat dilakukan di dalam area Grand City Surabaya.');
+    return;
+  }
+  if (userLat === null || userLng === null) {
+    requestLocation();
+    showToast('error-toast', 'Koordinat lokasi belum didapatkan. Silakan coba lagi.');
+    return;
+  }
+
   if (!validate()) {
     const btn = document.getElementById('btnSubmit');
     btn.classList.remove('is-invalid');
@@ -519,30 +625,32 @@ async function submitPresensi() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-WP-Nonce': NONCE,
       },
-      body: JSON.stringify({ booth, nama, instansi, telp }),
+      body: JSON.stringify({ booth, nama, instansi, telp, lat: userLat, lng: userLng }),
     });
 
     const data = await res.json();
 
     if (res.ok && data.success) {
       saved = true;
-      showToast('success', '✅ Presensi berhasil dicatat! Selamat menikmati pameran.');
-      clearForm();
+      showToast('success', 'Presensi berhasil dicatat! Selamat menikmati pameran.');
+      try {
+        localStorage.setItem('assie4_pengunjung', JSON.stringify({ nama, instansi, telp }));
+      } catch(e) {}
+      clearErrors();
       fetchBoothData(booth);
       fetchLeaderboard();
     } else {
       const msg = data.message || 'Gagal menyimpan presensi. Silakan coba lagi.';
-      showToast('error-toast', '⚠️ ' + msg);
+      showToast('error-toast', msg);
     }
 
   } catch(e) {
-    showToast('error-toast', '⚠️ Koneksi gagal. Periksa internet Anda dan coba lagi.');
+    showToast('error-toast', 'Koneksi gagal. Periksa internet Anda dan coba lagi.');
   } finally {
     if (saved) {
       btn.classList.add('is-success');
-      btn.textContent = 'Berhasil dicatat ✓';
+      btn.textContent = 'Berhasil dicatat';
       window.setTimeout(() => {
         btn.classList.remove('is-success');
         btn.textContent = 'Catat kehadiran →';
@@ -567,14 +675,32 @@ function hideToast() {
   document.getElementById('toast').className = 'toast';
 }
 
-function clearForm() {
+function clearErrors() {
   ['nama','instansi','telp'].forEach(id => {
-    document.getElementById(id).value = '';
-    document.getElementById(id).classList.remove('invalid');
+    document.getElementById(id)?.classList.remove('invalid');
   });
   ['field-nama','field-instansi','field-telp'].forEach(id => {
-    document.getElementById(id).classList.remove('has-error');
+    document.getElementById(id)?.classList.remove('has-error');
   });
+}
+
+function clearForm() {
+  clearErrors();
+}
+
+function restoreVisitorData() {
+  try {
+    const stored = JSON.parse(localStorage.getItem('assie4_pengunjung') || '{}');
+    if (stored.nama && !document.getElementById('nama').value) {
+      document.getElementById('nama').value = stored.nama;
+    }
+    if (stored.instansi && !document.getElementById('instansi').value) {
+      document.getElementById('instansi').value = stored.instansi;
+    }
+    if (stored.telp && !document.getElementById('telp').value) {
+      document.getElementById('telp').value = stored.telp;
+    }
+  } catch(e) {}
 }
 
 // ─── INIT ───
@@ -582,8 +708,10 @@ document.getElementById('attendanceForm').addEventListener('submit', event => {
   event.preventDefault();
   submitPresensi();
 });
+restoreVisitorData();
 onBoothChange();
 fetchLeaderboard();
+requestLocation();
 </script>
 
 <?php wp_footer(); ?>
