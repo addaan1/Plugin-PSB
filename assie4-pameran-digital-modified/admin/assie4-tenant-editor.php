@@ -21,7 +21,9 @@ function assie4_day_label( $text ) {
 
 function assie4_brand_values( $value ) {
     if ( is_array( $value ) ) return array_map( 'assie4_brand_values', $value );
-    return is_string( $value ) ? assie4_brand_text( $value ) : $value;
+    if ( ! is_string( $value ) ) return $value;
+    $value = preg_replace_callback( '/\\\\+([\x{0027}\x{0022}])/u', function( $m ) { return $m[1]; }, $value );
+    return assie4_brand_text( $value );
 }
 
 /** Repair only escaped quotes in old options; preserve ordinary path backslashes and line breaks. */

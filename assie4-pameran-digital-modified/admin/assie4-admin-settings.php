@@ -109,7 +109,7 @@ function assie4_default_ticker() {
     return ['Selamat datang di IM ASSIE IV 2026','6-8 November 2026 · Grand City Atrium Surabaya','Booth startup & inovasi','Belanja produk tenant online di tokoua.unair.ac.id','Presensi digital tersedia di setiap booth','PASINBIS Universitas Airlangga'];
 }
 function assie4_default_tenants() {
-    return [
+    $tenants = [
         [
             'id' => 'a1',
             'booth_no' => 1,
@@ -1847,11 +1847,158 @@ Berbagai produk dan layanan tersebut merupakan bagian dari upaya PUI-PT CoE-PSQ 
             'transaksi' => 'Ya',
         ],
     ];
+    return assie4_apply_updated_official_roster( $tenants );
+}
+
+/** Apply the latest official booth map while keeping the existing tenant records. */
+function assie4_apply_updated_official_roster( $tenants ) {
+    $moves = [
+        'd8' => ['id'=>'f1', 'code'=>'F1'],
+        'f1' => ['id'=>'d15', 'code'=>'D15'],
+    ];
+
+    foreach ( $tenants as &$tenant ) {
+        $old_id = sanitize_key( $tenant['id'] ?? '' );
+        if ( isset( $moves[$old_id] ) ) {
+            $target = $moves[$old_id];
+            $tenant['id'] = $target['id'];
+            $tenant['code'] = $target['code'];
+            $tenant['area'] = substr( $target['code'], 0, 1 );
+            $location = assie4_booth_location( $target['code'] );
+            if ( $location ) {
+                $tenant['booth_no'] = $location['booth_no'];
+                $tenant['cluster'] = $location['cluster'];
+            }
+        }
+
+        if ( sanitize_key( $tenant['id'] ?? '' ) === 'd1' ) {
+            $tenant['name'] = 'AirBiliNest & AirBiliSun';
+            $tenant['instansi'] = 'PT Medika Karya Airlangga';
+            $tenant['desc'] = 'AirBiliNest Smart Phototherapy System dikembangkan untuk penanganan hiperbilirubinemia neonatal melalui kolaborasi riset dan industri. PT Medika Karya Airlangga berperan dalam riset dan pengembangan, PT Astra Komponen Indonesia sebagai mitra manufaktur, serta PT IDS Medical Systems Indonesia sebagai distributor. AirBiliSun adalah inovasi fototerapi dengan cahaya matahari terfilter yang dirancang aman bagi bayi kuning dan mendukung pemerataan akses fototerapi, terutama di wilayah 3T Indonesia.';
+            $tenant['logo'] = ASSIE4_PAMERAN_URL . 'assets/tenant-logos/airbilinest.png';
+        }
+
+        if ( sanitize_key( $tenant['id'] ?? '' ) === 'g1' ) {
+            $tenant['name'] = 'WEBS FEB';
+            $tenant['instansi'] = 'Fakultas Ekonomi dan Bisnis Universitas Airlangga';
+            $tenant['cat'] = 'Startup';
+            $tenant['desc'] = 'Booth WEBS FEB menampilkan tenant mahasiswa, di antaranya Deorans, Minum dan Mekar, Weubi Ubi Bakar Cilembu, Chewy Slime, Ghetto Ghetti, dan Théava.';
+            $tenant['tags'] = ['Startup', 'Internal UNAIR'];
+            $tenant['logo'] = '';
+            $tenant['contact'] = '';
+            $tenant['whatsapp'] = '';
+            $tenant['web'] = '';
+            $tenant['instagram'] = '';
+            $tenant['facebook'] = '';
+            $tenant['twitter'] = '';
+        }
+    }
+    unset( $tenant );
+
+    $base = ASSIE4_PAMERAN_URL . 'assets/tenant-logos/';
+    $additions = [
+        [
+            'id'=>'a13', 'booth_no'=>13, 'code'=>'A13', 'cluster'=>1, 'area'=>'A',
+            'name'=>'Fakultas Ilmu Sosial dan Ilmu Politik',
+            'instansi'=>'Fakultas Ilmu Sosial dan Ilmu Politik Universitas Airlangga',
+            'pic'=>'', 'cat'=>'Internal UNAIR', 'desc'=>'Fakultas Ilmu Sosial dan Ilmu Politik Universitas Airlangga memiliki tujuh departemen atau program studi, salah satunya Ilmu Komunikasi. Di bidang Ilmu Komunikasi, himpunan mahasiswa menaungi klub-klub yang mewadahi minat dan bakat mahasiswa sesuai kompetensi keilmuan. Melalui organisasi ini, mahasiswa diharapkan dapat mengasah bekal yang diperlukan di dunia kerja.',
+            'tags'=>['Internal UNAIR'], 'logo'=>$base . 'fisip-unair.jpg', 'contact'=>'', 'whatsapp'=>'',
+            'web'=>'https://fisip.unair.ac.id', 'instagram'=>'@fisip_unair', 'facebook'=>'https://www.facebook.com/fisipunairofficial', 'twitter'=>'@FISIP_UA', 'transaksi'=>'Ya',
+        ],
+        [
+            'id'=>'a14', 'booth_no'=>14, 'code'=>'A14', 'cluster'=>1, 'area'=>'A',
+            'name'=>'Fakultas Hukum UNAIR — ALC FH', 'instansi'=>'Fakultas Hukum Universitas Airlangga',
+            'pic'=>'', 'cat'=>'Internal UNAIR', 'desc'=>'Airlangga Center for Legal Drafting & Professional Development (ALC FH UNAIR) adalah unit pelaksana di bawah Fakultas Hukum Universitas Airlangga yang melaksanakan dan mengoordinasikan layanan perancangan hukum serta pendidikan hukum berkelanjutan.',
+            'tags'=>['Internal UNAIR', 'Pendidikan'], 'logo'=>$base . 'alc-fh-unair.png', 'contact'=>'', 'whatsapp'=>'',
+            'web'=>'https://alc-fhunair.com/', 'instagram'=>'alcfhunair', 'facebook'=>'', 'twitter'=>'', 'transaksi'=>'Ya',
+        ],
+        [
+            'id'=>'a15', 'booth_no'=>15, 'code'=>'A15', 'cluster'=>1, 'area'=>'A',
+            'name'=>'Fakultas Keperawatan UNAIR', 'instansi'=>'Fakultas Keperawatan Universitas Airlangga',
+            'pic'=>'', 'cat'=>'Internal UNAIR', 'desc'=>'Booth Fakultas Keperawatan UNAIR menghadirkan inovasi website pengabdian masyarakat yang mengintegrasikan kegiatan pengabdian dengan pencapaian SDGs. Booth juga melayani pemeriksaan kesehatan oleh mahasiswa keperawatan dengan pendampingan dosen; kegiatan pemeriksaan berlangsung dalam dua shift dengan empat mahasiswa per shift.',
+            'tags'=>['Internal UNAIR', 'Kesehatan'], 'logo'=>$base . 'fakultas-keperawatan-unair.png', 'contact'=>'', 'whatsapp'=>'',
+            'web'=>'https://ners.unair.ac.id/', 'instagram'=>'https://www.instagram.com/fkp_unair/', 'facebook'=>'https://www.facebook.com/FKpUNAIROfficial/', 'twitter'=>'https://x.com/fkp_Unair', 'transaksi'=>'Ya',
+        ],
+        [
+            'id'=>'d8', 'booth_no'=>29, 'code'=>'D8', 'cluster'=>2, 'area'=>'D',
+            'name'=>'D’toekoe Dimsum', 'instansi'=>'PASINBIS Universitas Airlangga',
+            'pic'=>'', 'cat'=>'Kuliner & F&B', 'desc'=>'D’toekoe Dimsum merupakan UMKM kuliner asal Surabaya yang memproduksi dimsum premium homemade dari bahan berkualitas, halal, dan tanpa bahan pengawet. Berdiri sejak 2020, D’toekoe menghadirkan produk siap saji dan frozen dalam beragam varian untuk pasar ritel, food service, katering, dan peluang ekspor, serta terbuka untuk kemitraan dan pengembangan distribusi.',
+            'tags'=>['Kuliner & F&B', 'UMKM'], 'logo'=>'', 'contact'=>'', 'whatsapp'=>'',
+            'web'=>'', 'instagram'=>'https://www.instagram.com/dtoekoe_69/', 'facebook'=>'', 'twitter'=>'', 'transaksi'=>'Ya',
+        ],
+        [
+            'id'=>'d12', 'booth_no'=>33, 'code'=>'D12', 'cluster'=>2, 'area'=>'D',
+            'name'=>'DIKST Universitas Brawijaya', 'instansi'=>'Direktorat Inovasi dan Kawasan Sains & Teknologi, Universitas Brawijaya',
+            'pic'=>'', 'cat'=>'Riset & Inovasi', 'desc'=>'Direktorat Inovasi dan Kawasan Sains & Teknologi Universitas Brawijaya menaungi inovasi dosen sebagai peneliti dan startup mahasiswa.',
+            'tags'=>['Riset & Inovasi', 'Pendidikan'], 'logo'=>$base . 'dikst-ub.png', 'contact'=>'', 'whatsapp'=>'',
+            'web'=>'https://dikst.ub.ac.id', 'instagram'=>'@dikst.ub', 'facebook'=>'', 'twitter'=>'', 'transaksi'=>'Ya',
+        ],
+        [
+            'id'=>'d13', 'booth_no'=>34, 'code'=>'D13', 'cluster'=>2, 'area'=>'D',
+            'name'=>'Universitas Hang Tuah', 'instansi'=>'Universitas Hang Tuah',
+            'pic'=>'', 'cat'=>'Pendidikan', 'desc'=>'Universitas Hang Tuah — Kampus Unggul, Excellence in Maritime Education, Jala Cendekia Perkasa.',
+            'tags'=>['Pendidikan', 'Riset & Inovasi'], 'logo'=>$base . 'universitas-hang-tuah.png', 'contact'=>'', 'whatsapp'=>'',
+            'web'=>'https://hangtuah.ac.id', 'instagram'=>'@universitas.hangtuah', 'facebook'=>'', 'twitter'=>'', 'transaksi'=>'Ya',
+        ],
+        [
+            'id'=>'d14', 'booth_no'=>35, 'code'=>'D14', 'cluster'=>2, 'area'=>'D',
+            'name'=>'Inkubator Universitas Negeri Surabaya', 'instansi'=>'Universitas Negeri Surabaya',
+            'pic'=>'', 'cat'=>'Startup', 'desc'=>'', 'tags'=>['Startup', 'Inkubasi'], 'logo'=>'', 'contact'=>'', 'whatsapp'=>'',
+            'web'=>'', 'instagram'=>'', 'facebook'=>'', 'twitter'=>'', 'transaksi'=>'',
+        ],
+        [
+            'id'=>'d16', 'booth_no'=>37, 'code'=>'D16', 'cluster'=>2, 'area'=>'D',
+            'name'=>'Markaswalet', 'instansi'=>'Markaswalet',
+            'pic'=>'', 'cat'=>'Agrikultur', 'desc'=>'Markaswalet adalah ekosistem bisnis walet yang menyediakan produk dan teknologi budidaya, sekaligus membeli dan menjual sarang walet. Markaswalet membantu petani meningkatkan produktivitas dan kualitas melalui edukasi, teknologi, serta akses pasar.',
+            'tags'=>['Agrikultur', 'Teknologi'], 'logo'=>$base . 'markaswalet.png', 'contact'=>'', 'whatsapp'=>'',
+            'web'=>'https://markaswalet.com', 'instagram'=>'https://www.instagram.com/markaswaletdotcom/', 'facebook'=>'markaswalet', 'twitter'=>'', 'transaksi'=>'Ya',
+        ],
+        [
+            'id'=>'f19', 'booth_no'=>69, 'code'=>'F19', 'cluster'=>4, 'area'=>'F',
+            'name'=>'Petime Animal Care', 'instansi'=>'Petime Indonesia',
+            'pic'=>'', 'cat'=>'Kesehatan', 'desc'=>'Petime Animal Care menyediakan layanan Pet Clinic, Pet Grooming, Pet Hotel, Pet Shop, dan Pet Sitter untuk hewan peliharaan.',
+            'tags'=>['Kesehatan', 'Layanan'], 'logo'=>$base . 'petime-animal-care.png', 'contact'=>'', 'whatsapp'=>'',
+            'web'=>'https://petime.id', 'instagram'=>'petime.id', 'facebook'=>'petime.id', 'twitter'=>'', 'transaksi'=>'Ya',
+        ],
+        [
+            'id'=>'f20', 'booth_no'=>70, 'code'=>'F20', 'cluster'=>4, 'area'=>'F',
+            'name'=>'Vascular Indonesia', 'instansi'=>'Vascular Indonesia',
+            'pic'=>'', 'cat'=>'Kesehatan', 'desc'=>'Vascular Indonesia berfokus pada peningkatan pengetahuan, kesadaran, dan edukasi mengenai kesehatan pembuluh darah. Melalui kolaborasi, edukasi, dan kegiatan ilmiah, Vascular Indonesia mendukung pencegahan, deteksi dini, serta penanganan penyakit vaskular untuk meningkatkan kualitas hidup masyarakat.',
+            'tags'=>['Kesehatan', 'Edukasi'], 'logo'=>$base . 'vascular-indonesia.png', 'contact'=>'', 'whatsapp'=>'',
+            'web'=>'https://www.vascularindonesia.com', 'instagram'=>'@vascularindonesia', 'facebook'=>'vascularindonesia', 'twitter'=>'vascularindonesia', 'transaksi'=>'Ya',
+        ],
+        [
+            'id'=>'f21', 'booth_no'=>71, 'code'=>'F21', 'cluster'=>4, 'area'=>'F',
+            'name'=>'PT Inovasi Bioproduk Indonesia (INOBI)', 'instansi'=>'PT Inovasi Bioproduk Indonesia',
+            'pic'=>'', 'cat'=>'Riset & Inovasi', 'desc'=>'Inovasi Bioproduk Indonesia (INOBI) menyediakan produk inovasi, perlengkapan laboratorium, diagnostik, serta kebutuhan riset dan pendidikan melalui platform terpadu untuk mendukung peneliti dan pendidik.',
+            'tags'=>['Riset & Inovasi', 'Teknologi'], 'logo'=>$base . 'inobi.png', 'contact'=>'', 'whatsapp'=>'',
+            'web'=>'https://inobi.id', 'instagram'=>'inobi.id', 'facebook'=>'', 'twitter'=>'', 'transaksi'=>'Ya',
+        ],
+        [
+            'id'=>'h15', 'booth_no'=>95, 'code'=>'H15', 'cluster'=>6, 'area'=>'H',
+            'name'=>'ERPEH CHROMA', 'instansi'=>'ERPEH CHROMA',
+            'pic'=>'', 'cat'=>'Craft & Fashion', 'desc'=>'ERPEH CHROMA adalah brand hijab yang menerjemahkan motif dan warna menjadi sebuah cerita. Setiap motif lahir dari gagasan dan komposisi visual dengan karakter tersendiri. Rangkaian chapter dan shade menghadirkan suasana serta makna yang berbeda. Bagi ERPEH CHROMA, hijab juga menjadi cara untuk mengekspresikan perasaan, gagasan, kenangan, maupun momen. When every motif has a story.',
+            'tags'=>['Craft & Fashion'], 'logo'=>'', 'contact'=>'', 'whatsapp'=>'',
+            'web'=>'', 'instagram'=>'', 'facebook'=>'', 'twitter'=>'', 'transaksi'=>'Ya',
+        ],
+    ];
+
+    $existing_ids = array_fill_keys( array_map( static function( $tenant ) { return sanitize_key( $tenant['id'] ?? '' ); }, $tenants ), true );
+    foreach ( $additions as $tenant ) {
+        if ( ! isset( $existing_ids[$tenant['id']] ) ) {
+            $tenants[] = $tenant;
+        }
+    }
+
+    return $tenants;
 }
 function assie4_default_tenant_logos() {
     $base = ASSIE4_PAMERAN_URL . 'assets/tenant-logos/';
     $files = [
         'a1'  => 'LOGO FK UNAIR 2025.jpg.jpeg',
+        'a13' => 'fisip-unair.jpg',
+        'a14' => 'alc-fh-unair.png',
+        'a15' => 'fakultas-keperawatan-unair.png',
         'a2'  => 'Logo FKG.png',
         'a3'  => 'fakultas farmasi outline.png',
         'a4'  => 'FKH UNAIR Logo ALternatif.png',
@@ -1868,17 +2015,24 @@ function assie4_default_tenant_logos() {
         'a20' => 'Logo Pushal x LPH.png',
         'a21' => 'Logo pusba_kotak final.png',
         'd4'  => 'fast_unair.png',
+        'd1'  => 'airbilinest.png',
+        'd12' => 'dikst-ub.png',
+        'd13' => 'universitas-hang-tuah.png',
+        'd15' => 'bangga_evcs.png',
+        'd16' => 'markaswalet.png',
+        'f1'  => 'MULIA SAMUDRA MAJU ABADI.jpg',
+        'f19' => 'petime-animal-care.png',
+        'f20' => 'vascular-indonesia.png',
+        'f21' => 'inobi.png',
         'd7'  => 'sahabat_spondan.png',
         'g3'  => 'partner_sehatin.png',
         'g8'  => 'sahabat_spondan.png',
-        'd1'  => 'AirBiliSun (1).jpg',
         'd2'  => 'Logo CESGS.png',
         'd5'  => 'Logo Madu Onggu Recreate-03.png',
         'd6'  => 'Logo Kopi Setengah Serius.jpg',
         'd9'  => 'LOGO FLORDEQUEEN OFFICIAL.png',
         'd11' => 'logo ulul albab uin malang.png',
         'c1'  => 'Badan POM White Outline.png',
-        'f1'  => 'Logo Bangga EVCS.png',
         'f2'  => 'Copy of Kinara Industries-Logo 2.png',
         'f3'  => 'Logo Olimnesia.jpg',
         'f4'  => 'JOBHUN HITAM border.png',
@@ -1893,7 +2047,6 @@ function assie4_default_tenant_logos() {
         'f15' => 'logo braja.png',
         'f17' => 'Logo APPA Tech.png',
         'f18' => 'Logo Likur Production.png',
-        'g1'  => 'LOGO DEORANS.png',
         'g2'  => 'Logo Tawdeo.png',
         'g4'  => 'Logo Sweet Food.jpg',
         'g5'  => 'Logo Golden Gate Dimsum.png',
@@ -1917,7 +2070,6 @@ function assie4_default_tenant_logos() {
         'b1'  => 'p3ua.png',
         'd10' => 'inbis_ppns.jpg',
         'h5'  => 'allbouquets.png',
-        'd8'  => 'MULIA SAMUDRA MAJU ABADI.jpg',
         'f16' => 'SRIWIJAYA KONTRAKTOR.png',
         'h14' => 'Zaruna Gift.jpg',
     ];
@@ -1958,6 +2110,77 @@ function assie4_default_rundown() {
 }
 
 /* ═══ HELPERS ═══════════════════════════════════════════ */
+function assie4_upgrade_official_roster( $tenants ) {
+    $defaults = assie4_default_tenants();
+    $by_code = [];
+    foreach ( $defaults as $default ) {
+        $by_code[strtoupper( $default['code'] ?? '' )] = $default;
+    }
+
+    $updated = [];
+    $seen_ids = [];
+    foreach ( (array) $tenants as $tenant ) {
+        $tenant = (array) $tenant;
+        $old_id = sanitize_key( $tenant['id'] ?? '' );
+        $old_name = strtolower( trim( (string) ( $tenant['name'] ?? '' ) ) );
+        $code = strtoupper( trim( (string) ( $tenant['code'] ?? $old_id ) ) );
+
+        // These two tenants exchanged positions in the updated booth plan.
+        if ( $old_id === 'd8' && strpos( $old_name, 'mulia samudra' ) !== false ) $code = 'F1';
+        if ( $old_id === 'f1' && strpos( $old_name, 'bangga' ) !== false ) $code = 'D15';
+
+        if ( isset( $by_code[$code] ) ) {
+            $default = $by_code[$code];
+            $merged = array_merge( $default, $tenant );
+            $is_placeholder = preg_match( '/^(tenant belum terdaftar|belum terdaftar|booth kosong)$/i', $old_name );
+
+            if ( $is_placeholder ) {
+                foreach ( ['name','instansi','cat','desc','tags','logo','transaksi'] as $field ) {
+                    $merged[$field] = $default[$field] ?? '';
+                }
+            }
+
+            // AirBiliNest and AirBiliSun are a single exhibitor at D1.
+            if ( $code === 'D1' && ( strpos( $old_name, 'airbili' ) !== false || strpos( $old_name, 'bilirubin' ) !== false || $is_placeholder ) ) {
+                foreach ( ['name','instansi','desc','logo'] as $field ) $merged[$field] = $default[$field] ?? '';
+            }
+
+            // The official plan assigns one shared booth to the WEBS FEB cohort.
+            if ( $code === 'G1' && strpos( $old_name, 'deorans' ) !== false ) {
+                foreach ( ['name','instansi','cat','desc','tags','logo','contact','whatsapp','web','instagram','facebook','twitter'] as $field ) {
+                    $merged[$field] = $default[$field] ?? '';
+                }
+            }
+
+            $location = assie4_booth_location( $code );
+            $merged['id'] = strtolower( $code );
+            $merged['code'] = $code;
+            if ( $location ) {
+                $merged['booth_no'] = $location['booth_no'];
+                $merged['area'] = $location['area'];
+                $merged['cluster'] = $location['cluster'];
+            }
+            $tenant = $merged;
+        }
+
+        $id = sanitize_key( $tenant['id'] ?? '' );
+        if ( $id === '' || isset( $seen_ids[$id] ) ) continue;
+        $seen_ids[$id] = true;
+        $updated[] = $tenant;
+    }
+
+    // Add only assigned booths missing from the saved directory; keep custom records.
+    foreach ( $defaults as $default ) {
+        $id = sanitize_key( $default['id'] ?? '' );
+        if ( $id !== '' && ! isset( $seen_ids[$id] ) ) {
+            $seen_ids[$id] = true;
+            $updated[] = $default;
+        }
+    }
+
+    return $updated;
+}
+
 function assie4_get_tenants() {
     $raw = get_option( ASSIE4_OPT_TENANTS, null );
     // Seed only a missing option. Never replace saved tenants on a version change,
@@ -1966,12 +2189,24 @@ function assie4_get_tenants() {
         $raw = assie4_default_tenants();
         update_option( ASSIE4_OPT_TENANTS, $raw, false );
         update_option( 'assie4_directory_seed_state', 'v7', false );
+        update_option( 'assie4_official_booth_roster_version', '2026-10-03', false );
         assie4_rebuild_js_data();
     }
     if ( ! is_array($raw) ) $raw = [];
 
+    if ( get_option( 'assie4_official_booth_roster_version' ) !== '2026-10-03' ) {
+        $updated_roster = assie4_upgrade_official_roster( $raw );
+        update_option( ASSIE4_OPT_TENANTS, $updated_roster, false );
+        if ( get_option( ASSIE4_OPT_TENANTS ) !== $updated_roster ) {
+            return array_values( array_map( 'assie4_normalize_tenant', $raw ) );
+        }
+        $raw = $updated_roster;
+        update_option( 'assie4_official_booth_roster_version', '2026-10-03', false );
+        assie4_rebuild_js_data();
+    }
+
     // Repair bundled booth logos once while preserving media-library uploads.
-    if ( get_option( 'assie4_local_tenant_logos_version' ) !== '5' ) {
+    if ( get_option( 'assie4_local_tenant_logos_version' ) !== '6' ) {
         $local_logos = assie4_default_tenant_logos();
         $site_host = wp_parse_url( home_url( '/' ), PHP_URL_HOST );
         $asset_path = wp_parse_url( ASSIE4_PAMERAN_URL . 'assets/tenant-logos/', PHP_URL_PATH );
@@ -1989,7 +2224,7 @@ function assie4_get_tenants() {
             'h10' => 'https://drive.google.com/drive/folders/12gH6jh1EaibV_DayJiJn8dzNg928eNcS',
             'h14' => 'https://id.shp.ee/SHug2F2W',
         ];
-        $logo_repair_blank_ids = [ 'b1' => true, 'd8' => true, 'd10' => true, 'f16' => true, 'h5' => true, 'h14' => true ];
+        $logo_repair_blank_ids = [ 'b1' => true, 'd10' => true, 'f16' => true, 'h5' => true, 'h14' => true ];
         $logos_changed = false;
 
         foreach ( $raw as &$tenant ) {
@@ -2012,11 +2247,9 @@ function assie4_get_tenants() {
         }
         unset( $tenant );
 
-        if ( $logos_changed ) {
-            update_option( ASSIE4_OPT_TENANTS, $raw, false );
-            assie4_rebuild_js_data();
-        }
-        update_option( 'assie4_local_tenant_logos_version', '5', false );
+        if ( $logos_changed ) update_option( ASSIE4_OPT_TENANTS, $raw, false );
+        update_option( 'assie4_local_tenant_logos_version', '6', false );
+        if ( $logos_changed ) assie4_rebuild_js_data();
     }
 
     return array_values( array_map( 'assie4_normalize_tenant', $raw ) );
