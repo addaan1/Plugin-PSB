@@ -241,6 +241,38 @@ function assie4_presensi_booth_directory() {
     return $directory;
 }
 
+/**
+ * Mengembalikan kode prefix area (A-H) berdasarkan nomor booth
+ */
+function assie4_get_booth_area( $b ) {
+    $b = (int) $b;
+    if ( $b >= 1  && $b <= 21 ) return 'A';
+    if ( $b >= 22 && $b <= 37 ) return 'D';
+    if ( $b >= 38 && $b <= 44 ) return 'C';
+    if ( $b >= 45 && $b <= 50 ) return 'E';
+    if ( $b >= 51 && $b <= 72 ) return 'F';
+    if ( $b >= 73 && $b <= 80 ) return 'G';
+    if ( $b >= 81 && $b <= 96 ) return 'H';
+    if ( $b >= 97 && $b <= 106 ) return 'B';
+    return 'A';
+}
+
+/**
+ * Mengembalikan metadata warna dan label untuk setiap Area A-H
+ */
+function assie4_get_area_meta() {
+    return [
+        'A' => [ 'label' => 'Area A — UNAIR',        'color' => '#2563eb', 'bg' => '#eff6ff', 'badge' => '#dbeafe', 'border' => '#93c5fd' ],
+        'B' => [ 'label' => 'Area B — Riset & Unit',  'color' => '#059669', 'bg' => '#ecfdf5', 'badge' => '#d1fae5', 'border' => '#6ee7b7' ],
+        'C' => [ 'label' => 'Area C — Sponsor',       'color' => '#d97706', 'bg' => '#fffbeb', 'badge' => '#fef3c7', 'border' => '#fcd34d' ],
+        'D' => [ 'label' => 'Area D — Startup',       'color' => '#7c3aed', 'bg' => '#f5f3ff', 'badge' => '#ede9fe', 'border' => '#c4b5fd' ],
+        'E' => [ 'label' => 'Area E — Inkubasi',      'color' => '#0891b2', 'bg' => '#ecfeff', 'badge' => '#cffafe', 'border' => '#67e8f9' ],
+        'F' => [ 'label' => 'Area F — Inovasi',       'color' => '#4f46e5', 'bg' => '#eef2ff', 'badge' => '#e0e7ff', 'border' => '#a5b4fc' ],
+        'G' => [ 'label' => 'Area G — Kuliner',       'color' => '#e11d48', 'bg' => '#fff1f2', 'badge' => '#ffe4e6', 'border' => '#fda4af' ],
+        'H' => [ 'label' => 'Area H — Craft',         'color' => '#ca8a04', 'bg' => '#fefce8', 'badge' => '#fef9c3', 'border' => '#fde047' ],
+    ];
+}
+
 function assie4_save_presensi( WP_REST_Request $req ) {
     global $wpdb;
     $table = $wpdb->prefix . ASSIE4_TABLE;
@@ -623,6 +655,66 @@ function assie4_admin_page() {
         ];
     }
 
+    $area_meta = assie4_get_area_meta();
+
+    $db_matrix = $wpdb->get_results(
+        "SELECT booth, DATE(waktu) AS event_date, COUNT(*) AS total
+         FROM {$table}
+         GROUP BY booth, DATE(waktu)",
+        ARRAY_A
+    );
+    $daily_booth_matrix = [];
+    $daily_area_totals = [];
+    foreach ( ( $db_matrix ?: [] ) as $row ) {
+        $b_no = (int) $row['booth'];
+        $d_str = $row['event_date'];
+        $c_num = (int) $row['total'];
+        $area_code = assie4_get_booth_area( $b_no );
+
+        if ( ! isset( $daily_booth_matrix[$d_str] ) ) {
+            $daily_booth_matrix[$d_str] = [];
+        }
+        $daily_booth_matrix[$d_str][$b_no] = $c_num;
+
+        if ( ! isset( $daily_area_totals[$d_str] ) ) {
+            $daily_area_totals[$d_str] = array_fill_keys( array_keys( $area_meta ), 0 );
+        }
+        $daily_area_totals[$d_str][$area_code] += $c_num;
+    }
+
+    $area_totals_all = array_fill_keys( array_keys( $area_meta ), 0 );
+    foreach ( $daily_area_totals as $d_str => $areas ) {
+        foreach ( $areas as $ar_code => $val ) {
+            $area_totals_all[$ar_code] += $val;
+        }
+    }
+
+    $booth_list_for_chart = [];
+    foreach ( $booth_dir as $b_no => $b_data ) {
+        $ar = assie4_get_booth_area( $b_no );
+        $booth_list_for_chart[$b_no] = [
+            'booth' => $b_no,
+            'code'  => $b_data['code'] ?? str_pad( (string) $b_no, 3, '0', STR_PAD_LEFT ),
+            'name'  => $b_data['name'] ?? '',
+            'area'  => $ar,
+            'color' => $area_meta[$ar]['color'] ?? '#2475e8',
+            'bg'    => $area_meta[$ar]['bg'] ?? '#eff6ff',
+            'badge' => $area_meta[$ar]['badge'] ?? '#dbeafe',
+            'total' => $counts[$b_no] ?? 0,
+        ];
+    }
+
+    $chart_config = [
+        'days'              => $days,
+        'day_totals'        => $day_totals,
+        'areas'             => $area_meta,
+        'area_totals_all'   => $area_totals_all,
+        'daily_area_totals' => $daily_area_totals,
+        'daily_booth'       => $daily_booth_matrix,
+        'booths'            => $booth_list_for_chart,
+        'total_period'      => $total_period,
+    ];
+
     $unvisited_booths = max( 0, 120 - $active_booths );
     $pie_segments = [];
     $pie_running = 0;
@@ -655,7 +747,7 @@ function assie4_admin_page() {
       #assie4-dashboard .a4-head-actions .button{min-height:38px;display:inline-flex;align-items:center;padding:0 14px;border:1px solid rgba(255,255,255,.32);border-radius:9px;background:rgba(255,255,255,.1);color:#fff;font-weight:600}
       #assie4-dashboard .a4-head-actions .button-primary{background:#fff;color:#174a7d;border-color:#fff}
       #assie4-dashboard .a4-panel{background:#fff;border:1px solid var(--a4-line);border-radius:15px;padding:21px 23px;margin-top:19px;box-shadow:0 5px 18px rgba(25,52,86,.045)}
-      #assie4-dashboard .a4-section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 16px}
+      #assie4-dashboard .a4-section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 16px;flex-wrap:wrap}
       #assie4-dashboard .a4-section-head h2{margin:0;padding:0;font-size:16px;color:var(--a4-ink);font-weight:700}
       #assie4-dashboard .a4-section-head p{margin:4px 0 0;color:var(--a4-muted);font-size:12px}
       #assie4-dashboard .a4-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;margin-top:18px}
@@ -670,6 +762,64 @@ function assie4_admin_page() {
       #assie4-dashboard .a4-day-count{margin:7px 0 10px;font-size:22px;font-weight:800;color:#1e5fa8}
       #assie4-dashboard .a4-progress{height:7px;border-radius:20px;background:#edf2f8;overflow:hidden}
       #assie4-dashboard .a4-progress span{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#28b8a6,#4386ed)}
+
+      /* ── BAR CHART STYLES ── */
+      .a4-tab-group{display:inline-flex;background:#f0f4f9;border-radius:10px;padding:4px;gap:4px;flex-wrap:wrap}
+      .a4-tab-btn{border:0;background:transparent;border-radius:7px;padding:7px 14px;font-size:12px;font-weight:700;color:#50627a;cursor:pointer;transition:all .18s}
+      .a4-tab-btn:hover{color:#172b4d;background:rgba(255,255,255,.5)}
+      .a4-tab-btn.active{background:#13243d;color:#fff;box-shadow:0 3px 8px rgba(19,36,61,.18)}
+      .a4-area-legend{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:12px 14px;background:#f8fbfe;border:1px solid var(--a4-line);border-radius:10px;margin-bottom:15px}
+      .a4-legend-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:#64748b}
+      .a4-legend-chips{display:flex;flex-wrap:wrap;gap:6px}
+      .a4-area-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:7px;border:1px solid #dbe3ed;background:#fff;font-size:11px;font-weight:700;color:#334155;cursor:pointer;transition:all .15s}
+      .a4-area-chip:hover{border-color:#94a3b8;transform:translateY(-1px)}
+      .a4-area-chip.active{border-color:#0f172a;box-shadow:0 2px 6px rgba(15,23,42,.12);background:#f8fafc}
+      .a4-chip-dot{width:8px;height:8px;border-radius:50%;flex:none}
+      .a4-chip-count{padding:1px 6px;border-radius:10px;font-size:10px;font-weight:800}
+      .a4-chart-toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:14px;padding-bottom:14px;border-bottom:1px solid var(--a4-line);margin-bottom:16px}
+      .a4-chart-toolbar label{font-size:12px;font-weight:700;color:#475569;display:flex;align-items:center;gap:8px}
+      .a4-chart-toolbar select{min-height:36px;border:1px solid #d1d5db;border-radius:7px;padding:0 30px 0 10px;font-size:12px;font-weight:600;background:#fff;color:#1e293b}
+      .a4-toolbar-meta{margin-left:auto;font-size:12px;color:#64748b}
+      .a4-vbars-wrapper{display:flex;align-items:flex-end;justify-content:space-around;gap:20px;min-height:270px;padding:24px 16px 12px;background:linear-gradient(180deg,#fafcff 0%,#fff 100%);border:1px solid var(--a4-line);border-radius:12px}
+      .a4-vbars-single-wrap{justify-content:center;gap:36px}
+      .a4-vbar-col{flex:1;max-width:180px;display:flex;flex-direction:column;align-items:center;gap:10px}
+      .a4-vbar-val{font-size:13px;font-weight:800;color:#1e40af;text-align:center;white-space:nowrap}
+      .a4-vbar-val small{font-size:11px;font-weight:600;color:#64748b}
+      .a4-vbar-track{width:100%;height:180px;background:#f1f5fa;border-radius:9px 9px 0 0;display:flex;align-items:flex-end;overflow:hidden;box-shadow:inset 0 1px 3px rgba(0,0,0,.04)}
+      .a4-vbar-fill{width:100%;border-radius:9px 9px 0 0;display:flex;flex-direction:column-reverse;overflow:hidden;transition:height .35s ease}
+      .a4-bar-segment{width:100%;transition:all .18s;cursor:pointer}
+      .a4-bar-segment:hover{filter:brightness(1.15)}
+      .a4-bar-empty-fill{width:100%;height:6px;background:#cbd5e1}
+      .a4-vbar-foot{text-align:center;margin-top:4px}
+      .a4-vbar-foot strong{display:block;font-size:12px;color:#0f172a}
+      .a4-vbar-foot span{display:block;font-size:11px;color:#64748b;margin-top:2px}
+      .a4-area-summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:16px}
+      .a4-area-card{padding:11px 13px;background:#fff;border:1px solid #edf2f7;border-radius:9px;box-shadow:0 2px 5px rgba(0,0,0,.02)}
+      .a4-ac-name{font-size:11px;font-weight:700;color:#475569}
+      .a4-ac-val{font-size:14px;font-weight:800;margin-top:4px}
+      .a4-ac-val small{font-size:11px;font-weight:600;color:#64748b}
+      .a4-ac-bar{height:5px;border-radius:10px;background:#f1f5f9;margin-top:6px;overflow:hidden}
+      .a4-ac-bar span{display:block;height:100%;border-radius:inherit}
+      .a4-hbars-list{display:flex;flex-direction:column;gap:8px;max-height:550px;overflow-y:auto;padding-right:6px}
+      .a4-hbar-row{display:grid;grid-template-columns:36px minmax(200px,280px) minmax(0,1fr) 110px;align-items:center;gap:12px;padding:8px 12px;background:#fff;border:1px solid #edf2f7;border-radius:8px;transition:background .15s}
+      .a4-hbar-row:hover{background:#f8fafc}
+      .a4-hb-rank{display:inline-flex;justify-content:center;font-size:11px;font-weight:800;color:#64748b;background:#f1f5f9;border-radius:6px;padding:3px 0}
+      .a4-hb-info{display:flex;flex-direction:column;gap:2px;min-width:0}
+      .a4-hb-code{display:inline-flex;align-items:center;font-size:11px;font-weight:800;border-radius:6px;padding:2px 7px;width:fit-content}
+      .a4-hb-name{font-size:11px;color:#64748b;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+      .a4-hb-track{height:14px;background:#f1f5f9;border-radius:20px;overflow:hidden}
+      .a4-hb-fill{height:100%;border-radius:inherit;transition:width .35s ease}
+      .a4-hb-val{text-align:right;font-size:12px;white-space:nowrap}
+      .a4-hb-val strong{font-size:13px;font-weight:800}
+      .a4-sb-card{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 20px;background:#fff;border:1px solid #e2e8f0;border-radius:10px;margin-bottom:16px}
+      .a4-sb-title{margin:6px 0 0;font-size:16px;color:#0f172a;font-weight:700}
+      .a4-sb-area-tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;margin-left:6px}
+      .a4-sb-total-wrap{text-align:right}
+      .a4-sb-total-lbl{display:block;font-size:11px;font-weight:700;color:#64748b}
+      .a4-sb-total-num{font-size:22px;font-weight:800}
+      .a4-sb-total-num small{font-size:12px;color:#64748b}
+      .a4-chart-empty{padding:36px;text-align:center;color:#94a3b8;font-size:13px;font-weight:600}
+
       #assie4-dashboard .a4-filter{display:flex;align-items:flex-end;flex-wrap:wrap;gap:12px}
       #assie4-dashboard .a4-filter label{display:grid;gap:6px;color:#68788e;font-size:12px;font-weight:700}
       #assie4-dashboard .a4-filter select{min-width:210px;min-height:39px;border:1px solid #d7e0eb;border-radius:8px;padding:0 34px 0 11px;color:#263d59;background:#fff}
@@ -701,8 +851,8 @@ function assie4_admin_page() {
       #assie4-dashboard .a4-empty strong{display:block;margin-bottom:4px;color:#405674}
       #assie4-dashboard .a4-recent{max-height:530px;overflow:auto}
       #assie4-dashboard .a4-phone{font-variant-numeric:tabular-nums;white-space:nowrap}
-      @media(max-width:1000px){#assie4-dashboard .a4-dash-head{display:block}#assie4-dashboard .a4-head-actions{margin-top:16px}#assie4-dashboard .a4-kpis,#assie4-dashboard .a4-daily-grid{grid-template-columns:1fr 1fr}#assie4-dashboard .a4-pie-layout{grid-template-columns:minmax(200px,260px) minmax(0,1fr);gap:20px}#assie4-dashboard .a4-pie-legend{grid-template-columns:1fr}}
-      @media(max-width:600px){#assie4-dashboard{margin-right:10px}#assie4-dashboard .a4-dash-head{padding:20px}#assie4-dashboard .a4-dash-head .a4-head-title{font-size:20px}#assie4-dashboard .a4-kpis,#assie4-dashboard .a4-daily-grid{grid-template-columns:1fr}#assie4-dashboard .a4-panel{padding:16px}#assie4-dashboard .a4-filter select{width:100%;min-width:0}#assie4-dashboard .a4-filter label{width:100%}#assie4-dashboard .a4-filter-hint{width:100%;margin:0}#assie4-dashboard .a4-pie-layout{grid-template-columns:1fr;gap:18px}#assie4-dashboard .a4-pie-chart{width:min(75vw,260px)}#assie4-dashboard .a4-pie-legend{grid-template-columns:1fr;max-height:300px}}
+      @media(max-width:1000px){#assie4-dashboard .a4-dash-head{display:block}#assie4-dashboard .a4-head-actions{margin-top:16px}#assie4-dashboard .a4-kpis,#assie4-dashboard .a4-daily-grid{grid-template-columns:1fr 1fr}#assie4-dashboard .a4-pie-layout{grid-template-columns:minmax(200px,260px) minmax(0,1fr);gap:20px}#assie4-dashboard .a4-pie-legend{grid-template-columns:1fr}.a4-hbar-row{grid-template-columns:30px 180px minmax(0,1fr) 90px}}
+      @media(max-width:600px){#assie4-dashboard{margin-right:10px}#assie4-dashboard .a4-dash-head{padding:20px}#assie4-dashboard .a4-dash-head .a4-head-title{font-size:20px}#assie4-dashboard .a4-kpis,#assie4-dashboard .a4-daily-grid{grid-template-columns:1fr}#assie4-dashboard .a4-panel{padding:16px}#assie4-dashboard .a4-filter select{width:100%;min-width:0}#assie4-dashboard .a4-filter label{width:100%}#assie4-dashboard .a4-filter-hint{width:100%;margin:0}#assie4-dashboard .a4-pie-layout{grid-template-columns:1fr;gap:18px}#assie4-dashboard .a4-pie-chart{width:min(75vw,260px)}#assie4-dashboard .a4-pie-legend{grid-template-columns:1fr;max-height:300px}.a4-hbar-row{grid-template-columns:1fr;gap:6px}.a4-hb-val{text-align:left}}
     </style>
     <div class="wrap">
       <h1 class="wp-heading-inline" style="display:none"></h1>
@@ -748,6 +898,107 @@ function assie4_admin_page() {
               <div class="a4-progress"><span style="width:<?php echo esc_attr( (string) round( $day_count / $max_day * 100 ) ); ?>%"></span></div>
             </div>
           <?php endforeach; ?>
+        </div>
+      </section>
+
+      <!-- ── SECTION: BAR CHART PERBANDINGAN HARI 1-3 & PER BOOTH DENGAN WARNA KATEGORI AREA A-H ── -->
+      <section class="a4-panel a4-chart-panel" id="a4AnalyticsPanel">
+        <div class="a4-section-head">
+          <div>
+            <h2>Grafik Perbandingan Kunjungan (Hari 1 – Hari 3)</h2>
+            <p>Perbandingan jumlah pengunjung per hari dan per booth dengan kategori warna Area A–H.</p>
+          </div>
+          <div class="a4-tab-group" role="tablist">
+            <button type="button" class="a4-tab-btn active" data-tab="daily" onclick="a4SwitchChartTab('daily')">📊 Jumlah Semua Booth</button>
+            <button type="button" class="a4-tab-btn" data-tab="booths" onclick="a4SwitchChartTab('booths')">🏢 Perbandingan Per Booth</button>
+            <button type="button" class="a4-tab-btn" data-tab="single" onclick="a4SwitchChartTab('single')">🎯 Fokus Satu Booth</button>
+          </div>
+        </div>
+
+        <!-- Legend Area A-H (Interaktif) -->
+        <div class="a4-area-legend">
+          <span class="a4-legend-title">Kategori Area:</span>
+          <div class="a4-legend-chips" id="a4LegendChips">
+            <button type="button" class="a4-area-chip active" data-area="all" onclick="a4FilterArea('all')">
+              <span class="a4-chip-dot" style="background:#0f172a"></span>
+              <span>Semua Area</span>
+              <span class="a4-chip-count" style="background:#e2e8f0;color:#334155"><?php echo esc_html( number_format_i18n( $total_period ) ); ?></span>
+            </button>
+            <?php foreach ( $area_meta as $ar_code => $ar_info ) :
+              $ar_count = $area_totals_all[$ar_code] ?? 0;
+            ?>
+              <button type="button" class="a4-area-chip" data-area="<?php echo esc_attr( $ar_code ); ?>" onclick="a4FilterArea('<?php echo esc_js( $ar_code ); ?>')">
+                <span class="a4-chip-dot" style="background:<?php echo esc_attr( $ar_info['color'] ); ?>"></span>
+                <span><?php echo esc_html( $ar_info['label'] ); ?></span>
+                <span class="a4-chip-count" style="background:<?php echo esc_attr( $ar_info['bg'] ); ?>;color:<?php echo esc_attr( $ar_info['color'] ); ?>"><?php echo esc_html( number_format_i18n( $ar_count ) ); ?></span>
+              </button>
+            <?php endforeach; ?>
+          </div>
+        </div>
+
+        <!-- Toolbar Filter untuk Tab Booths & Single -->
+        <div class="a4-chart-toolbar" id="a4ChartToolbar" style="display:none">
+          <div id="a4ToolbarDayWrap" style="display:none">
+            <label>Periode Hari:
+              <select id="a4ChartDaySelect" onchange="a4OnDayChange(this.value)">
+                <option value="all">Akumulasi Seluruh Hari (Hari 1 – 3)</option>
+                <?php foreach ( $days as $d_date => $d_lbl ) : ?>
+                  <option value="<?php echo esc_attr( $d_date ); ?>"><?php echo esc_html( $d_lbl ); ?></option>
+                <?php endforeach; ?>
+              </select>
+            </label>
+          </div>
+
+          <div id="a4ToolbarSpecificBoothWrap" style="display:none">
+            <label>Pilih Booth:
+              <select id="a4SpecificBoothSelect" onchange="a4OnSpecificBoothChange(this.value)">
+                <?php foreach ( $booth_list_for_chart as $b_no => $b_data ) : ?>
+                  <option value="<?php echo esc_attr( (string) $b_no ); ?>">
+                    [<?php echo esc_html( $b_data['area'] ); ?>] Booth <?php echo esc_html( $b_data['code'] ); ?> — <?php echo esc_html( $b_data['name'] ?: 'Tanpa Tenant' ); ?> (<?php echo esc_html( number_format_i18n( $b_data['total'] ) ); ?> kunjungan)
+                  </option>
+                <?php endforeach; ?>
+              </select>
+            </label>
+          </div>
+
+          <div class="a4-toolbar-meta" id="a4ToolbarMeta"></div>
+        </div>
+
+        <!-- View 1: Jumlah Semua Booth (Harian) -->
+        <div id="a4ViewDaily" class="a4-chart-view">
+          <div class="a4-vbars-wrapper" id="a4DailyBars">
+            <!-- Diisi oleh JS renderDaily() -->
+          </div>
+          <!-- Rekap Kotak Kategori Area A-H -->
+          <div class="a4-area-summary-grid">
+            <?php foreach ( $area_meta as $ar_code => $ar_info ) :
+              $ar_val = $area_totals_all[$ar_code] ?? 0;
+              $ar_pct = $total_period > 0 ? round( ( $ar_val / $total_period ) * 100, 1 ) : 0;
+            ?>
+              <div class="a4-area-card" style="border-top:3px solid <?php echo esc_attr( $ar_info['color'] ); ?>">
+                <div class="a4-ac-name" style="color:<?php echo esc_attr( $ar_info['color'] ); ?>"><?php echo esc_html( $ar_info['label'] ); ?></div>
+                <div class="a4-ac-val" style="color:#0f172a"><?php echo esc_html( number_format_i18n( $ar_val ) ); ?> <small>pengunjung (<?php echo esc_html( $ar_pct ); ?>%)</small></div>
+                <div class="a4-ac-bar"><span style="width:<?php echo esc_attr( (string) $ar_pct ); ?>%;background:<?php echo esc_attr( $ar_info['color'] ); ?>"></span></div>
+              </div>
+            <?php endforeach; ?>
+          </div>
+        </div>
+
+        <!-- View 2: Perbandingan Per Booth (Horizontal Bar Chart) -->
+        <div id="a4ViewBooths" class="a4-chart-view" style="display:none">
+          <div class="a4-hbars-list" id="a4BoothsList">
+            <!-- Diisi oleh JS renderBooths() -->
+          </div>
+        </div>
+
+        <!-- View 3: Fokus Satu Booth (Perbandingan Hari 1-3 untuk Booth Terpilih) -->
+        <div id="a4ViewSingle" class="a4-chart-view" style="display:none">
+          <div class="a4-sb-card" id="a4SingleBoothCard">
+            <!-- Diisi oleh JS renderSingle() -->
+          </div>
+          <div class="a4-vbars-wrapper a4-vbars-single-wrap" id="a4SingleBars">
+            <!-- Diisi oleh JS renderSingle() -->
+          </div>
         </div>
       </section>
 
@@ -818,12 +1069,21 @@ function assie4_admin_page() {
                 $booth_code = $booth_info['code'] ?? str_pad( (string) $booth_number, 3, '0', STR_PAD_LEFT );
                 $tenant_name = $booth_info['name'] ?? '';
                 $bar_width = (int) round( (int) $row['total'] / $max_count * 100 );
+                $b_area = assie4_get_booth_area( $booth_number );
+                $b_meta = $area_meta[$b_area] ?? null;
+                $b_color = $b_meta['color'] ?? '#2475e8';
+                $b_bg = $b_meta['badge'] ?? '#edf5ff';
               ?>
                 <tr>
                   <td><span class="a4-rank-chip">#<?php echo esc_html( (string) ( $index + 1 ) ); ?></span></td>
-                  <td><span class="a4-booth-code"><?php echo esc_html( $booth_code ); ?></span><?php if ( $tenant_name ) : ?><span class="a4-tenant-name"><?php echo esc_html( $tenant_name ); ?></span><?php endif; ?></td>
+                  <td>
+                    <span class="a4-booth-code" style="background:<?php echo esc_attr( $b_bg ); ?>;color:<?php echo esc_attr( $b_color ); ?>;border:1px solid <?php echo esc_attr( $b_color ); ?>30">
+                      <?php echo esc_html( $booth_code ); ?> · Area <?php echo esc_html( $b_area ); ?>
+                    </span>
+                    <?php if ( $tenant_name ) : ?><span class="a4-tenant-name"><?php echo esc_html( $tenant_name ); ?></span><?php endif; ?>
+                  </td>
                   <td class="a4-count"><?php echo esc_html( number_format_i18n( (int) $row['total'] ) ); ?></td>
-                  <td><div class="a4-progress"><span style="width:<?php echo esc_attr( (string) $bar_width ); ?>%"></span></div></td>
+                  <td><div class="a4-progress"><span style="width:<?php echo esc_attr( (string) $bar_width ); ?>%;background:<?php echo esc_attr( $b_color ); ?>"></span></div></td>
                 </tr>
               <?php endforeach; ?>
             </tbody>
@@ -843,9 +1103,18 @@ function assie4_admin_page() {
                 $booth_number = (int) $entry['booth'];
                 $booth_info = $tenant_directory[$booth_number] ?? [];
                 $booth_code = $booth_info['code'] ?? str_pad( (string) $booth_number, 3, '0', STR_PAD_LEFT );
+                $b_area = assie4_get_booth_area( $booth_number );
+                $b_meta = $area_meta[$b_area] ?? null;
+                $b_color = $b_meta['color'] ?? '#1f62a7';
+                $b_bg = $b_meta['badge'] ?? '#edf5ff';
               ?>
                 <tr>
-                  <td><span class="a4-booth-code"><?php echo esc_html( $booth_code ); ?></span><?php if ( ! empty( $booth_info['name'] ) ) : ?><span class="a4-tenant-name"><?php echo esc_html( $booth_info['name'] ); ?></span><?php endif; ?></td>
+                  <td>
+                    <span class="a4-booth-code" style="background:<?php echo esc_attr( $b_bg ); ?>;color:<?php echo esc_attr( $b_color ); ?>;border:1px solid <?php echo esc_attr( $b_color ); ?>30">
+                      <?php echo esc_html( $booth_code ); ?> · Area <?php echo esc_html( $b_area ); ?>
+                    </span>
+                    <?php if ( ! empty( $booth_info['name'] ) ) : ?><span class="a4-tenant-name"><?php echo esc_html( $booth_info['name'] ); ?></span><?php endif; ?>
+                  </td>
                   <td><?php echo esc_html( $entry['nama'] ); ?></td>
                   <td><?php echo esc_html( $entry['instansi'] ); ?></td>
                   <td class="a4-phone"><?php echo esc_html( $entry['telp'] ); ?></td>
@@ -858,6 +1127,279 @@ function assie4_admin_page() {
       </section>
     </div>
   </div>
+
+  <script>
+    (function(){
+      const DATA = <?php echo wp_json_encode( $chart_config ); ?>;
+      let currentTab = 'daily';
+      let currentArea = 'all';
+      let currentDay = 'all';
+
+      function formatDayLabel(dKey, fullLabel, idx) {
+        if (dKey === '2026-11-06') return { title: 'Hari 1 (Resmi)', date: 'Jumat, 6 Nov 2026' };
+        if (dKey === '2026-11-07') return { title: 'Hari 2 (Resmi)', date: 'Sabtu, 7 Nov 2026' };
+        if (dKey === '2026-11-08') return { title: 'Hari 3 (Resmi)', date: 'Minggu, 8 Nov 2026' };
+        const parts = (fullLabel || '').split(',');
+        return {
+          title: parts[0] ? parts[0].trim() : ('Hari ' + (idx + 1)),
+          date: parts[1] ? parts[1].trim() : dKey
+        };
+      }
+
+      window.a4SwitchChartTab = function(tab) {
+        currentTab = tab;
+        document.querySelectorAll('.a4-tab-btn').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.tab === tab);
+        });
+        document.getElementById('a4ViewDaily').style.display = tab === 'daily' ? 'block' : 'none';
+        document.getElementById('a4ViewBooths').style.display = tab === 'booths' ? 'block' : 'none';
+        document.getElementById('a4ViewSingle').style.display = tab === 'single' ? 'block' : 'none';
+
+        const toolbar = document.getElementById('a4ChartToolbar');
+        const dayWrap = document.getElementById('a4ToolbarDayWrap');
+        const boothWrap = document.getElementById('a4ToolbarSpecificBoothWrap');
+
+        if (tab === 'daily') {
+          toolbar.style.display = 'none';
+          renderDaily();
+        } else if (tab === 'booths') {
+          toolbar.style.display = 'flex';
+          dayWrap.style.display = 'block';
+          boothWrap.style.display = 'none';
+          renderBooths();
+        } else if (tab === 'single') {
+          toolbar.style.display = 'flex';
+          dayWrap.style.display = 'none';
+          boothWrap.style.display = 'block';
+          renderSingle();
+        }
+      };
+
+      window.a4FilterArea = function(area) {
+        currentArea = area;
+        document.querySelectorAll('#a4LegendChips .a4-area-chip').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.area === area);
+        });
+        if (currentTab === 'daily') {
+          renderDaily();
+        } else if (currentTab === 'booths') {
+          renderBooths();
+        } else if (currentTab === 'single') {
+          filterSpecificBoothDropdown(area);
+          renderSingle();
+        }
+      };
+
+      window.a4OnDayChange = function(val) {
+        currentDay = val;
+        renderBooths();
+      };
+
+      window.a4OnSpecificBoothChange = function(val) {
+        renderSingle();
+      };
+
+      function filterSpecificBoothDropdown(area) {
+        const select = document.getElementById('a4SpecificBoothSelect');
+        if (!select) return;
+        let firstMatch = null;
+        Array.from(select.options).forEach(opt => {
+          const bNo = parseInt(opt.value, 10);
+          const bData = DATA.booths[bNo];
+          if (!bData) return;
+          const match = (area === 'all' || bData.area === area);
+          opt.style.display = match ? '' : 'none';
+          if (match && !firstMatch) firstMatch = opt.value;
+        });
+        if (firstMatch && (!DATA.booths[select.value] || (area !== 'all' && DATA.booths[select.value].area !== area))) {
+          select.value = firstMatch;
+        }
+      }
+
+      function renderDaily() {
+        const container = document.getElementById('a4DailyBars');
+        if (!container) return;
+        const dayKeys = Object.keys(DATA.days);
+        if (!dayKeys.length) {
+          container.innerHTML = '<div class="a4-chart-empty">Tidak ada jadwal hari yang tersedia.</div>';
+          return;
+        }
+
+        const countsByDay = {};
+        let maxCount = 1;
+        dayKeys.forEach(d => {
+          let total = 0;
+          if (currentArea === 'all') {
+            total = DATA.day_totals[d] || 0;
+          } else {
+            total = (DATA.daily_area_totals[d] && DATA.daily_area_totals[d][currentArea]) || 0;
+          }
+          countsByDay[d] = total;
+          if (total > maxCount) maxCount = total;
+        });
+
+        const grandTotal = Object.values(countsByDay).reduce((a, b) => a + b, 0);
+
+        let html = '';
+        dayKeys.forEach((d, idx) => {
+          const dayCount = countsByDay[d];
+          const pct = grandTotal > 0 ? Math.round((dayCount / grandTotal) * 100) : 0;
+          const barHeightPct = dayCount > 0 ? Math.max(8, Math.round((dayCount / maxCount) * 100)) : 4;
+          const lbl = formatDayLabel(d, DATA.days[d], idx);
+
+          let segmentsHtml = '';
+          if (dayCount > 0) {
+            if (currentArea === 'all') {
+              Object.keys(DATA.areas).forEach(arCode => {
+                const arVal = (DATA.daily_area_totals[d] && DATA.daily_area_totals[d][arCode]) || 0;
+                if (arVal > 0) {
+                  const segPct = (arVal / dayCount) * 100;
+                  const arInfo = DATA.areas[arCode];
+                  const tooltip = `${arInfo.label}: ${arVal.toLocaleString()} pengunjung (${segPct.toFixed(1)}%)`;
+                  segmentsHtml += `<div class="a4-bar-segment" title="${tooltip}" style="height:${segPct}%;background:${arInfo.color}"></div>`;
+                }
+              });
+            } else {
+              const arInfo = DATA.areas[currentArea];
+              segmentsHtml = `<div class="a4-bar-segment" style="height:100%;background:${arInfo.color}" title="${arInfo.label}: ${dayCount.toLocaleString()} pengunjung"></div>`;
+            }
+          } else {
+            segmentsHtml = '<div class="a4-bar-empty-fill"></div>';
+          }
+
+          html += `
+            <div class="a4-vbar-col">
+              <div class="a4-vbar-val">${dayCount.toLocaleString()} <small>(${pct}%)</small></div>
+              <div class="a4-vbar-track">
+                <div class="a4-vbar-fill" style="height:${barHeightPct}%">${segmentsHtml}</div>
+              </div>
+              <div class="a4-vbar-foot">
+                <strong>${lbl.title}</strong>
+                <span>${lbl.date}</span>
+              </div>
+            </div>
+          `;
+        });
+
+        container.innerHTML = html;
+      }
+
+      function renderBooths() {
+        const container = document.getElementById('a4BoothsList');
+        const meta = document.getElementById('a4ToolbarMeta');
+        if (!container) return;
+
+        let list = Object.values(DATA.booths);
+        if (currentArea !== 'all') {
+          list = list.filter(b => b.area === currentArea);
+        }
+
+        list = list.map(b => {
+          let count = 0;
+          if (currentDay === 'all') {
+            count = b.total;
+          } else {
+            count = (DATA.daily_booth[currentDay] && DATA.daily_booth[currentDay][b.booth]) || 0;
+          }
+          return Object.assign({}, b, { _count: count });
+        });
+
+        list.sort((a, b) => b._count - a._count || a.booth - b.booth);
+
+        const visitedList = list.filter(b => b._count > 0);
+        const showList = visitedList.length > 0 ? visitedList : list.slice(0, 30);
+        const maxVal = Math.max(1, ...showList.map(b => b._count));
+
+        const areaLabel = currentArea === 'all' ? 'Semua Area' : DATA.areas[currentArea].label;
+        const dayLabel = currentDay === 'all' ? 'Akumulasi Hari 1 – 3' : (DATA.days[currentDay] || currentDay);
+        if (meta) {
+          meta.innerHTML = `Menampilkan <strong>${visitedList.length}</strong> booth dikunjungi · <em>${areaLabel}</em> · <em>${dayLabel}</em>`;
+        }
+
+        if (visitedList.length === 0) {
+          container.innerHTML = `<div class="a4-chart-empty">Belum ada kunjungan untuk kriteria filter ini (${areaLabel} pada ${dayLabel}).</div>`;
+          return;
+        }
+
+        let html = '';
+        showList.forEach((b, idx) => {
+          const widthPct = Math.max(2, Math.round((b._count / maxVal) * 100));
+          html += `
+            <div class="a4-hbar-row">
+              <span class="a4-hb-rank">#${idx + 1}</span>
+              <div class="a4-hb-info">
+                <span class="a4-hb-code" style="background:${b.bg};color:${b.color};border:1px solid ${b.color}35">Booth ${b.code} · Area ${b.area}</span>
+                <span class="a4-hb-name" title="${b.name || 'Tanpa tenant'}">${b.name || 'Tenant belum terdaftar'}</span>
+              </div>
+              <div class="a4-hb-track">
+                <div class="a4-hb-fill" style="width:${widthPct}%;background:${b.color}"></div>
+              </div>
+              <div class="a4-hb-val">
+                <strong>${b._count.toLocaleString()}</strong> <small>kunjungan</small>
+              </div>
+            </div>
+          `;
+        });
+
+        container.innerHTML = html;
+      }
+
+      function renderSingle() {
+        const select = document.getElementById('a4SpecificBoothSelect');
+        const card = document.getElementById('a4SingleBoothCard');
+        const barsContainer = document.getElementById('a4SingleBars');
+        if (!select || !card || !barsContainer) return;
+
+        const bNo = parseInt(select.value, 10);
+        const booth = DATA.booths[bNo];
+        if (!booth) return;
+
+        const arInfo = DATA.areas[booth.area] || { label: 'Area ' + booth.area, color: '#2563eb', bg: '#eff6ff' };
+
+        card.innerHTML = `
+          <div>
+            <span class="a4-booth-code" style="background:${booth.bg};color:${booth.color};border:1px solid ${booth.color}40;font-size:13px;padding:6px 12px">Booth ${booth.code}</span>
+            <span class="a4-sb-area-tag" style="background:${booth.bg};color:${booth.color}">${arInfo.label}</span>
+            <h3 class="a4-sb-title">${booth.name || 'Tenant belum terdaftar'}</h3>
+          </div>
+          <div class="a4-sb-total-wrap">
+            <span class="a4-sb-total-lbl">Total Kunjungan (Semua Hari)</span>
+            <span class="a4-sb-total-num" style="color:${booth.color}">${booth.total.toLocaleString()} <small>pengunjung</small></span>
+          </div>
+        `;
+
+        const dayKeys = Object.keys(DATA.days);
+        const dayCounts = dayKeys.map(d => (DATA.daily_booth[d] && DATA.daily_booth[d][booth.booth]) || 0);
+        const maxVal = Math.max(1, ...dayCounts);
+
+        let html = '';
+        dayKeys.forEach((d, idx) => {
+          const count = (DATA.daily_booth[d] && DATA.daily_booth[d][booth.booth]) || 0;
+          const pct = booth.total > 0 ? Math.round((count / booth.total) * 100) : 0;
+          const barHeightPct = count > 0 ? Math.max(8, Math.round((count / maxVal) * 100)) : 4;
+          const lbl = formatDayLabel(d, DATA.days[d], idx);
+          const fillStyle = count > 0 ? `background:${booth.color}` : 'background:#cbd5e1';
+
+          html += `
+            <div class="a4-vbar-col">
+              <div class="a4-vbar-val" style="color:${booth.color}">${count.toLocaleString()} <small>(${pct}%)</small></div>
+              <div class="a4-vbar-track">
+                <div class="a4-vbar-fill" style="height:${barHeightPct}%;${fillStyle}"></div>
+              </div>
+              <div class="a4-vbar-foot">
+                <strong>${lbl.title}</strong>
+                <span>${lbl.date}</span>
+              </div>
+            </div>
+          `;
+        });
+
+        barsContainer.innerHTML = html;
+      }
+
+      renderDaily();
+    })();
+  </script>
   <?php
 }
 
