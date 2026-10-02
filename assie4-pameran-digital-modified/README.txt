@@ -1,12 +1,12 @@
 ===================================================================
   ASSIE IV — PAMERAN DIGITAL
-  WordPress Plugin v2.8.1
+  WordPress Plugin v2.14.0
   PASINBIS Universitas Airlangga
 ===================================================================
 
 == DESKRIPSI ==
 
-Plugin ini mengubah tampilan pameran digital ASSIE IV 2026 menjadi
+Plugin ini mengubah tampilan pameran digital IM ASSIE IV 2026 menjadi
 halaman WordPress full-featured dengan:
 
   ✅ Hero slider otomatis dengan background image support

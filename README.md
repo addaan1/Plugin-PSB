@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assie4-pameran-digital-modified/assets/assie-iv-wordmark.png" width="250" alt="Industry Matching ASSIE IV 2026">
+  <img src="assie4-pameran-digital-modified/assets/assie-iv-wordmark.png" width="250" alt="IM ASSIE IV 2026">
 </p>
 
 <h1 align="center">ASSIE IV · Plugin Suite</h1>
@@ -30,12 +30,12 @@
 
 ## Tentang proyek
 
-Repository ini berisi dua plugin WordPress yang mendukung kebutuhan utama ASSIE IV 2026. Plugin pameran menyajikan informasi acara dan tenant kepada pengunjung; plugin presensi mencatat kunjungan booth dan menyediakan rekap untuk pengelola.
+Repository ini berisi dua plugin WordPress yang mendukung kebutuhan utama IM ASSIE IV 2026. Plugin pameran menyajikan informasi acara dan tenant kepada pengunjung; plugin presensi mencatat kunjungan booth dan menyediakan rekap untuk pengelola.
 
 | Plugin | Versi source | Fungsi |
 | --- | :---: | --- |
-| **ASSIE IV — Pameran Digital** | `2.13.0` | Situs pameran, rundown, direktori tenant, denah interaktif, dan berita |
-| **ASSIE IV — Presensi Booth** | `1.1.0` | Form presensi, validasi lokasi, ringkasan kunjungan, dan dashboard admin |
+| **ASSIE IV — Pameran Digital** | `2.14.0` | Situs pameran, rundown, direktori tenant, denah interaktif, dan berita |
+| **ASSIE IV — Presensi Booth** | `1.1.1` | Form presensi, validasi lokasi, ringkasan kunjungan, dan dashboard admin |
 
 ## Fitur
 
@@ -105,6 +105,10 @@ Plugin menggunakan API dan lifecycle WordPress secara langsung. Tampilan publik 
 3. Aktivasi plugin presensi membuat tabel database dan halaman `/presensi-booth-assie4/` bila belum tersedia.
 4. Buka dashboard **ASSIE IV Pameran** untuk mengatur konten acara dan tenant.
 5. Pastikan halaman pameran memuat shortcode `[assie4_pameran]`.
+
+Pada **Kelola Tenant**, gunakan kode booth sesuai denah (misalnya `A1` atau `H15`) dan upload logo langsung dari komputer. Nomor internal denah dihitung otomatis; semua booth aktif selama tiga hari, 6–8 November 2026. Upload mengikuti izin Media Library serta batas ukuran file hosting WordPress.
+
+Versi `2.14.0` memperbaiki escape tanda kutip pada data lama, menormalkan label `Jumat`, dan mempertahankan daftar tenant yang sudah disimpan saat versi plugin berubah. Pembaruan tidak mengembalikan daftar tersebut ke data bawaan.
 
 Struktur instalasi:
 
