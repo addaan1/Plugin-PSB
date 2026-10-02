@@ -776,10 +776,14 @@ function assie4_admin_page() {
       .a4-area-chip.active{border-color:#0f172a;box-shadow:0 2px 6px rgba(15,23,42,.12);background:#f8fafc}
       .a4-chip-dot{width:8px;height:8px;border-radius:50%;flex:none}
       .a4-chip-count{padding:1px 6px;border-radius:10px;font-size:10px;font-weight:800}
-      .a4-chart-toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:14px;padding-bottom:14px;border-bottom:1px solid var(--a4-line);margin-bottom:16px}
-      .a4-chart-toolbar label{font-size:12px;font-weight:700;color:#475569;display:flex;align-items:center;gap:8px}
-      .a4-chart-toolbar select{min-height:36px;border:1px solid #d1d5db;border-radius:7px;padding:0 30px 0 10px;font-size:12px;font-weight:600;background:#fff;color:#1e293b}
-      .a4-toolbar-meta{margin-left:auto;font-size:12px;color:#64748b}
+      .a4-chart-toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;padding:14px 18px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;margin-bottom:18px;box-shadow:0 1px 3px rgba(15,23,42,.03)}
+      .a4-filter-group{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+      .a4-filter-label{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:#475569;white-space:nowrap}
+      .a4-filter-label svg{width:14px;height:14px;stroke:#64748b;flex:none}
+      .a4-select-styled{min-height:38px;border:1.5px solid #cbd5e1;border-radius:9px;padding:0 34px 0 12px;font-size:12px;font-weight:600;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 11px center;color:#0f172a;box-shadow:0 1px 2px rgba(0,0,0,.03);transition:all .2s;cursor:pointer;max-width:100%}
+      .a4-select-styled:hover{border-color:#94a3b8;background-color:#fcfdfd}
+      .a4-select-styled:focus{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.12);outline:none}
+      .a4-toolbar-meta{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:#fff;border:1px solid #e2e8f0;border-radius:20px;font-size:11px;font-weight:700;color:#334155;box-shadow:0 1px 2px rgba(0,0,0,.02);margin-left:auto}
       .a4-vbars-wrapper{display:flex;align-items:flex-end;justify-content:space-around;gap:20px;min-height:270px;padding:24px 16px 12px;background:linear-gradient(180deg,#fafcff 0%,#fff 100%);border:1px solid var(--a4-line);border-radius:12px}
       .a4-vbars-single-wrap{justify-content:center;gap:36px}
       .a4-vbar-col{flex:1;max-width:180px;display:flex;flex-direction:column;align-items:center;gap:10px}
@@ -820,11 +824,28 @@ function assie4_admin_page() {
       .a4-sb-total-num small{font-size:12px;color:#64748b}
       .a4-chart-empty{padding:36px;text-align:center;color:#94a3b8;font-size:13px;font-weight:600}
 
-      #assie4-dashboard .a4-filter{display:flex;align-items:flex-end;flex-wrap:wrap;gap:12px}
-      #assie4-dashboard .a4-filter label{display:grid;gap:6px;color:#68788e;font-size:12px;font-weight:700}
-      #assie4-dashboard .a4-filter select{min-width:210px;min-height:39px;border:1px solid #d7e0eb;border-radius:8px;padding:0 34px 0 11px;color:#263d59;background:#fff}
-      #assie4-dashboard .a4-filter .button{min-height:39px;padding:0 18px;border-radius:8px;font-weight:700}
-      #assie4-dashboard .a4-filter-hint{margin-left:auto;color:#8794a6;font-size:12px;padding-bottom:9px}
+      /* ── REDESIGNED FILTER PANEL (AESTHETIC & MODERN) ── */
+      #assie4-dashboard .a4-filter-panel{background:linear-gradient(180deg,#fff 0%,#fbfcfe 100%);border:1px solid #e2e8f0;border-radius:16px;padding:22px 24px;box-shadow:0 4px 18px rgba(15,23,42,.04);margin-top:19px}
+      #assie4-dashboard .a4-filter-header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px;flex-wrap:wrap}
+      #assie4-dashboard .a4-filter-title-wrap h2{margin:6px 0 0;font-size:16px;font-weight:800;color:#0f172a;letter-spacing:-.2px}
+      #assie4-dashboard .a4-filter-title-wrap p{margin:4px 0 0;font-size:12px;color:#64748b}
+      #assie4-dashboard .a4-filter-badge{display:inline-flex;padding:3px 8px;border-radius:6px;background:#f1f5f9;color:#475569;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.6px}
+      #assie4-dashboard .a4-filter-active-pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:#f0f7ff;border:1px solid #bfdbfe;border-radius:30px;font-size:12px;color:#1e40af;font-weight:600}
+      #assie4-dashboard .a4-filter-active-pill strong{font-weight:800;color:#1d4ed8}
+      #assie4-dashboard .a4-pulse-dot{width:7px;height:7px;border-radius:50%;background:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.2);flex:none}
+      #assie4-dashboard .a4-filter-form{display:grid;grid-template-columns:minmax(230px,1fr) minmax(230px,1fr) auto;align-items:flex-end;gap:16px;padding:16px 18px;background:#f8fafc;border:1px solid #eef2f6;border-radius:12px}
+      #assie4-dashboard .a4-filter-field{display:flex;flex-direction:column;gap:7px}
+      #assie4-dashboard .a4-field-label{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.65px;color:#475569}
+      #assie4-dashboard .a4-field-label svg{width:14px;height:14px;stroke:#64748b;flex:none}
+      #assie4-dashboard .a4-field-select-wrap{position:relative;width:100%}
+      #assie4-dashboard .a4-filter-select{width:100%;min-height:42px;border:1.5px solid #cbd5e1;border-radius:10px;padding:0 36px 0 14px;font-size:13px;font-weight:600;color:#0f172a;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 13px center;box-shadow:0 1px 2px rgba(0,0,0,.03);transition:all .2s;cursor:pointer}
+      #assie4-dashboard .a4-filter-select:hover{border-color:#94a3b8;background-color:#fdfefe}
+      #assie4-dashboard .a4-filter-select:focus{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.12);outline:none}
+      #assie4-dashboard .a4-btn-submit{min-height:42px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:0 24px;border-radius:10px;border:none;background:linear-gradient(135deg,#1d4ed8 0%,#2563eb 100%);color:#fff;font-size:13px;font-weight:700;letter-spacing:.2px;cursor:pointer;box-shadow:0 4px 12px rgba(37,99,235,.25);transition:all .2s;white-space:nowrap}
+      #assie4-dashboard .a4-btn-submit svg{width:15px;height:15px;stroke:#fff;transition:transform .3s ease}
+      #assie4-dashboard .a4-btn-submit:hover{background:linear-gradient(135deg,#1e40af 0%,#1d4ed8 100%);box-shadow:0 6px 18px rgba(37,99,235,.32);transform:translateY(-1px)}
+      #assie4-dashboard .a4-btn-submit:hover svg{transform:rotate(45deg)}
+      #assie4-dashboard .a4-btn-submit:active{transform:translateY(0);box-shadow:0 2px 6px rgba(37,99,235,.2)}
       #assie4-dashboard .a4-pie-layout{display:grid;grid-template-columns:minmax(220px,300px) minmax(0,1fr);align-items:center;gap:30px}
       #assie4-dashboard .a4-pie-chart{width:min(100%,280px);aspect-ratio:1;border-radius:50%;background:<?php echo esc_attr( $pie_style ); ?>;position:relative;margin:auto;box-shadow:inset 0 0 0 1px rgba(20,36,58,.06),0 8px 24px rgba(25,52,86,.1)}
       #assie4-dashboard .a4-pie-chart:after{content:"";position:absolute;inset:27%;border-radius:50%;background:#fff;box-shadow:0 0 0 1px var(--a4-line)}
@@ -852,7 +873,8 @@ function assie4_admin_page() {
       #assie4-dashboard .a4-recent{max-height:530px;overflow:auto}
       #assie4-dashboard .a4-phone{font-variant-numeric:tabular-nums;white-space:nowrap}
       @media(max-width:1000px){#assie4-dashboard .a4-dash-head{display:block}#assie4-dashboard .a4-head-actions{margin-top:16px}#assie4-dashboard .a4-kpis,#assie4-dashboard .a4-daily-grid{grid-template-columns:1fr 1fr}#assie4-dashboard .a4-pie-layout{grid-template-columns:minmax(200px,260px) minmax(0,1fr);gap:20px}#assie4-dashboard .a4-pie-legend{grid-template-columns:1fr}.a4-hbar-row{grid-template-columns:30px 180px minmax(0,1fr) 90px}}
-      @media(max-width:600px){#assie4-dashboard{margin-right:10px}#assie4-dashboard .a4-dash-head{padding:20px}#assie4-dashboard .a4-dash-head .a4-head-title{font-size:20px}#assie4-dashboard .a4-kpis,#assie4-dashboard .a4-daily-grid{grid-template-columns:1fr}#assie4-dashboard .a4-panel{padding:16px}#assie4-dashboard .a4-filter select{width:100%;min-width:0}#assie4-dashboard .a4-filter label{width:100%}#assie4-dashboard .a4-filter-hint{width:100%;margin:0}#assie4-dashboard .a4-pie-layout{grid-template-columns:1fr;gap:18px}#assie4-dashboard .a4-pie-chart{width:min(75vw,260px)}#assie4-dashboard .a4-pie-legend{grid-template-columns:1fr;max-height:300px}.a4-hbar-row{grid-template-columns:1fr;gap:6px}.a4-hb-val{text-align:left}}
+      @media(max-width:860px){#assie4-dashboard .a4-filter-form{grid-template-columns:1fr}#assie4-dashboard .a4-btn-submit{width:100%}}
+      @media(max-width:600px){#assie4-dashboard{margin-right:10px}#assie4-dashboard .a4-dash-head{padding:20px}#assie4-dashboard .a4-dash-head .a4-head-title{font-size:20px}#assie4-dashboard .a4-kpis,#assie4-dashboard .a4-daily-grid{grid-template-columns:1fr}#assie4-dashboard .a4-panel{padding:16px}#assie4-dashboard .a4-pie-layout{grid-template-columns:1fr;gap:18px}#assie4-dashboard .a4-pie-chart{width:min(75vw,260px)}#assie4-dashboard .a4-pie-legend{grid-template-columns:1fr;max-height:300px}.a4-hbar-row{grid-template-columns:1fr;gap:6px}.a4-hb-val{text-align:left}.a4-chart-toolbar{flex-direction:column;align-items:stretch}.a4-filter-group{flex-direction:column;align-items:stretch}.a4-select-styled{width:100%}.a4-toolbar-meta{margin-left:0;justify-content:center}}
     </style>
     <div class="wrap">
       <h1 class="wp-heading-inline" style="display:none"></h1>
@@ -909,9 +931,9 @@ function assie4_admin_page() {
             <p>Perbandingan jumlah pengunjung per hari dan per booth dengan kategori warna Area A–H.</p>
           </div>
           <div class="a4-tab-group" role="tablist">
-            <button type="button" class="a4-tab-btn active" data-tab="daily" onclick="a4SwitchChartTab('daily')">📊 Jumlah Semua Booth</button>
-            <button type="button" class="a4-tab-btn" data-tab="booths" onclick="a4SwitchChartTab('booths')">🏢 Perbandingan Per Booth</button>
-            <button type="button" class="a4-tab-btn" data-tab="single" onclick="a4SwitchChartTab('single')">🎯 Fokus Satu Booth</button>
+            <button type="button" class="a4-tab-btn active" data-tab="daily" onclick="a4SwitchChartTab('daily')">Jumlah Semua Booth</button>
+            <button type="button" class="a4-tab-btn" data-tab="booths" onclick="a4SwitchChartTab('booths')">Perbandingan Per Booth</button>
+            <button type="button" class="a4-tab-btn" data-tab="single" onclick="a4SwitchChartTab('single')">Fokus Satu Booth</button>
           </div>
         </div>
 
@@ -938,27 +960,31 @@ function assie4_admin_page() {
 
         <!-- Toolbar Filter untuk Tab Booths & Single -->
         <div class="a4-chart-toolbar" id="a4ChartToolbar" style="display:none">
-          <div id="a4ToolbarDayWrap" style="display:none">
-            <label>Periode Hari:
-              <select id="a4ChartDaySelect" onchange="a4OnDayChange(this.value)">
-                <option value="all">Akumulasi Seluruh Hari (Hari 1 – 3)</option>
-                <?php foreach ( $days as $d_date => $d_lbl ) : ?>
-                  <option value="<?php echo esc_attr( $d_date ); ?>"><?php echo esc_html( $d_lbl ); ?></option>
-                <?php endforeach; ?>
-              </select>
-            </label>
+          <div id="a4ToolbarDayWrap" class="a4-filter-group" style="display:none">
+            <span class="a4-filter-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              Periode Hari
+            </span>
+            <select id="a4ChartDaySelect" class="a4-select-styled" onchange="a4OnDayChange(this.value)">
+              <option value="all">Akumulasi Seluruh Hari (Hari 1 – 3)</option>
+              <?php foreach ( $days as $d_date => $d_lbl ) : ?>
+                <option value="<?php echo esc_attr( $d_date ); ?>"><?php echo esc_html( $d_lbl ); ?></option>
+              <?php endforeach; ?>
+            </select>
           </div>
 
-          <div id="a4ToolbarSpecificBoothWrap" style="display:none">
-            <label>Pilih Booth:
-              <select id="a4SpecificBoothSelect" onchange="a4OnSpecificBoothChange(this.value)">
-                <?php foreach ( $booth_list_for_chart as $b_no => $b_data ) : ?>
-                  <option value="<?php echo esc_attr( (string) $b_no ); ?>">
-                    [<?php echo esc_html( $b_data['area'] ); ?>] Booth <?php echo esc_html( $b_data['code'] ); ?> — <?php echo esc_html( $b_data['name'] ?: 'Tanpa Tenant' ); ?> (<?php echo esc_html( number_format_i18n( $b_data['total'] ) ); ?> kunjungan)
-                  </option>
-                <?php endforeach; ?>
-              </select>
-            </label>
+          <div id="a4ToolbarSpecificBoothWrap" class="a4-filter-group" style="display:none">
+            <span class="a4-filter-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+              Pilih Booth
+            </span>
+            <select id="a4SpecificBoothSelect" class="a4-select-styled" onchange="a4OnSpecificBoothChange(this.value)">
+              <?php foreach ( $booth_list_for_chart as $b_no => $b_data ) : ?>
+                <option value="<?php echo esc_attr( (string) $b_no ); ?>">
+                  [<?php echo esc_html( $b_data['area'] ); ?>] Booth <?php echo esc_html( $b_data['code'] ); ?> — <?php echo esc_html( $b_data['name'] ?: 'Tanpa Tenant' ); ?> (<?php echo esc_html( number_format_i18n( $b_data['total'] ) ); ?> kunjungan)
+                </option>
+              <?php endforeach; ?>
+            </select>
           </div>
 
           <div class="a4-toolbar-meta" id="a4ToolbarMeta"></div>
@@ -1002,26 +1028,57 @@ function assie4_admin_page() {
         </div>
       </section>
 
-      <section class="a4-panel">
-        <div class="a4-section-head"><div><h2>Filter rekap booth</h2><p>Pilih satu hari atau lihat akumulasi seluruh hari pameran.</p></div></div>
-        <form class="a4-filter" method="get" action="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>">
+      <!-- ── SECTION: FILTER REKAP BOOTH (REDESIGNED) ── -->
+      <section class="a4-panel a4-filter-panel">
+        <div class="a4-filter-header">
+          <div class="a4-filter-title-wrap">
+            <span class="a4-filter-badge">Filter Data</span>
+            <h2>Rekapitulasi Kunjungan Booth</h2>
+            <p>Pilih periode pameran dan atur urutan peringkat untuk analisis performa tenant.</p>
+          </div>
+          <div class="a4-filter-active-pill">
+            <span class="a4-pulse-dot"></span>
+            <span>Periode Aktif: <strong><?php echo esc_html( $period_label ); ?></strong></span>
+          </div>
+        </div>
+
+        <form class="a4-filter-form" method="get" action="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>">
           <input type="hidden" name="page" value="assie4-presensi">
-          <label>Periode
-            <select name="range">
-              <option value="all" <?php selected( $range, 'all' ); ?>>Akumulasi tiga hari</option>
-              <?php foreach ( $days as $day_date => $day_label ) : ?>
-                <option value="<?php echo esc_attr( $day_date ); ?>" <?php selected( $range, $day_date ); ?>><?php echo esc_html( $day_label ); ?></option>
-              <?php endforeach; ?>
-            </select>
-          </label>
-          <label>Urutan jumlah pengunjung
-            <select name="sort">
-              <option value="desc" <?php selected( $sort, 'desc' ); ?>>Tertinggi ke terendah</option>
-              <option value="asc" <?php selected( $sort, 'asc' ); ?>>Terendah ke tertinggi</option>
-            </select>
-          </label>
-          <button type="submit" class="button button-primary">Tampilkan rekap</button>
-          <span class="a4-filter-hint">Periode aktif: <?php echo esc_html( $period_label ); ?></span>
+
+          <div class="a4-filter-field">
+            <label for="a4-range-select" class="a4-field-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              Periode Pameran
+            </label>
+            <div class="a4-field-select-wrap">
+              <select id="a4-range-select" name="range" class="a4-filter-select">
+                <option value="all" <?php selected( $range, 'all' ); ?>>Akumulasi tiga hari</option>
+                <?php foreach ( $days as $day_date => $day_label ) : ?>
+                  <option value="<?php echo esc_attr( $day_date ); ?>" <?php selected( $range, $day_date ); ?>><?php echo esc_html( $day_label ); ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+          </div>
+
+          <div class="a4-filter-field">
+            <label for="a4-sort-select" class="a4-field-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>
+              Urutan Jumlah Pengunjung
+            </label>
+            <div class="a4-field-select-wrap">
+              <select id="a4-sort-select" name="sort" class="a4-filter-select">
+                <option value="desc" <?php selected( $sort, 'desc' ); ?>>Tertinggi ke terendah</option>
+                <option value="asc" <?php selected( $sort, 'asc' ); ?>>Terendah ke tertinggi</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="a4-filter-submit-wrap">
+            <button type="submit" class="a4-btn-submit">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+              Terapkan Filter
+            </button>
+          </div>
         </form>
       </section>
 
@@ -1164,13 +1221,13 @@ function assie4_admin_page() {
           renderDaily();
         } else if (tab === 'booths') {
           toolbar.style.display = 'flex';
-          dayWrap.style.display = 'block';
+          dayWrap.style.display = 'flex';
           boothWrap.style.display = 'none';
           renderBooths();
         } else if (tab === 'single') {
           toolbar.style.display = 'flex';
           dayWrap.style.display = 'none';
-          boothWrap.style.display = 'block';
+          boothWrap.style.display = 'flex';
           renderSingle();
         }
       };

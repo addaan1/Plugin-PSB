@@ -525,7 +525,7 @@ async function submitPresensi() {
 
     if (res.ok && data.success) {
       saved = true;
-      showToast('success', '✅ Presensi berhasil dicatat! Selamat menikmati pameran.');
+      showToast('success', 'Presensi berhasil dicatat! Selamat menikmati pameran.');
       try {
         localStorage.setItem('assie4_pengunjung', JSON.stringify({ nama, instansi, telp }));
       } catch(e) {}
@@ -534,15 +534,15 @@ async function submitPresensi() {
       fetchLeaderboard();
     } else {
       const msg = data.message || 'Gagal menyimpan presensi. Silakan coba lagi.';
-      showToast('error-toast', '⚠️ ' + msg);
+      showToast('error-toast', msg);
     }
 
   } catch(e) {
-    showToast('error-toast', '⚠️ Koneksi gagal. Periksa internet Anda dan coba lagi.');
+    showToast('error-toast', 'Koneksi gagal. Periksa internet Anda dan coba lagi.');
   } finally {
     if (saved) {
       btn.classList.add('is-success');
-      btn.textContent = 'Berhasil dicatat ✓';
+      btn.textContent = 'Berhasil dicatat';
       window.setTimeout(() => {
         btn.classList.remove('is-success');
         btn.textContent = 'Catat kehadiran →';
