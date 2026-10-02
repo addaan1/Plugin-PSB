@@ -137,6 +137,8 @@ function assie4_register_routes() {
             'nama'     => [ 'required' => true,  'type' => 'string',  'sanitize_callback' => 'sanitize_text_field' ],
             'instansi' => [ 'required' => true,  'type' => 'string',  'sanitize_callback' => 'sanitize_text_field' ],
             'telp'     => [ 'required' => true,  'type' => 'string',  'sanitize_callback' => 'sanitize_text_field' ],
+            'lat'      => [ 'required' => true,  'type' => 'number' ],
+            'lng'      => [ 'required' => true,  'type' => 'number' ],
         ],
     ] );
 
@@ -289,7 +291,14 @@ function assie4_save_presensi( WP_REST_Request $req ) {
     }
 
     // Validasi koordinat GPS — harus berada di dalam area Grand City Surabaya
-    // Pemeriksaan GPS/Grand City dinonaktifkan sementara.
+    $lat = (float) $req->get_param('lat');
+    $lng = (float) $req->get_param('lng');
+    if ( $lat == 0 && $lng == 0 ) {
+        return new WP_Error( 'location_required', 'Izin lokasi diperlukan untuk presensi. Aktifkan GPS dan coba lagi.', [ 'status' => 403 ] );
+    }
+    if ( ! assie4_is_in_grand_city( $lat, $lng ) ) {
+        return new WP_Error( 'outside_venue', 'Presensi hanya dapat dilakukan di dalam area Grand City Surabaya.', [ 'status' => 403 ] );
+    }
 
     // Aturan Presensi:
     // Satu orang (berdasarkan nomor HP) bisa absen di semua booth pada hari yang sama.
