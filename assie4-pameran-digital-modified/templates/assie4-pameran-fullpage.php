@@ -1,6 +1,6 @@
 <?php
 /**
- * Full-page template — ASSIE IV Pameran Digital
+ * Full-page template — IM ASSIE IV Pameran Digital
  * Menggantikan template tema sehingga halaman tampil tanpa header/footer.
  */
 if ( ! defined( 'ABSPATH' ) ) exit;

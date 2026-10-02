@@ -2130,7 +2130,7 @@
       content.className='a4-sl-composition';
       content.innerHTML='<div class="a4-sl-content">'+
         '<div class="a4-sl-eyebrow">'+escH(s.subtitle||'Industry Matching · IM ASSIE IV 2026')+'</div>'+
-        heading+'<p class="a4-sl-p">'+escH(s.desc||'Temukan karya inovasi, bertemu para tenant, dan jelajahi agenda ASSIE IV.')+'</p>'+
+        heading+'<p class="a4-sl-p">'+escH(s.desc||'Temukan karya inovasi, bertemu para tenant, dan jelajahi agenda IM ASSIE IV.')+'</p>'+
         '<div class="a4-hero-actions"><a href="'+escH(link)+'" class="a4-sl-cta">'+escH(s.cta||'Jelajahi Pameran')+uiIcon('arrow')+'</a>'+
         '<a href="#rundown" class="a4-hero-secondary" onclick="a4GoTo(\'rundown\');return false;">Agenda acara <span aria-hidden="true">↗</span></a></div>'+
         '<div class="a4-hero-location">'+uiIcon('pin')+escH(DATA.info.location||'Grand City Atrium, Surabaya')+'</div></div>';
