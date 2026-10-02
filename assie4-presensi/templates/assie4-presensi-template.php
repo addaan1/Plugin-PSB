@@ -281,7 +281,7 @@ function validCount(value) {
 }
 async function fetchLeaderboard() {
   try {
-    const res = await fetch(apiUrl('leaderboard', {limit:3}), { headers:{'X-WP-Nonce':NONCE} });
+    const res = await fetch(apiUrl('leaderboard', {limit:3}), { cache: 'no-store' });
     const data = await res.json();
     if (!res.ok || !Array.isArray(data.leaderboard) || !validCount(data.total_today)) throw new Error('Invalid leaderboard');
     renderLeaderboard(data);
@@ -419,9 +419,7 @@ function onBoothChange() {
 // ─── FETCH DATA BOOTH DARI REST API ───
 async function fetchBoothData(booth) {
   try {
-    const res = await fetch(apiUrl('presensi', {booth, limit:5}), {
-      headers: { 'X-WP-Nonce': NONCE }
-    });
+    const res = await fetch(apiUrl('presensi', {booth, limit:5}), { cache: 'no-store' });
     const data = await res.json();
 
     if (!res.ok || !validCount(data.total) || !Array.isArray(data.entries)) throw new Error('Invalid booth response');
@@ -519,7 +517,6 @@ async function submitPresensi() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-WP-Nonce': NONCE,
       },
       body: JSON.stringify({ booth, nama, instansi, telp }),
     });
@@ -529,7 +526,10 @@ async function submitPresensi() {
     if (res.ok && data.success) {
       saved = true;
       showToast('success', '✅ Presensi berhasil dicatat! Selamat menikmati pameran.');
-      clearForm();
+      try {
+        localStorage.setItem('assie4_pengunjung', JSON.stringify({ nama, instansi, telp }));
+      } catch(e) {}
+      clearErrors();
       fetchBoothData(booth);
       fetchLeaderboard();
     } else {
@@ -567,14 +567,32 @@ function hideToast() {
   document.getElementById('toast').className = 'toast';
 }
 
-function clearForm() {
+function clearErrors() {
   ['nama','instansi','telp'].forEach(id => {
-    document.getElementById(id).value = '';
-    document.getElementById(id).classList.remove('invalid');
+    document.getElementById(id)?.classList.remove('invalid');
   });
   ['field-nama','field-instansi','field-telp'].forEach(id => {
-    document.getElementById(id).classList.remove('has-error');
+    document.getElementById(id)?.classList.remove('has-error');
   });
+}
+
+function clearForm() {
+  clearErrors();
+}
+
+function restoreVisitorData() {
+  try {
+    const stored = JSON.parse(localStorage.getItem('assie4_pengunjung') || '{}');
+    if (stored.nama && !document.getElementById('nama').value) {
+      document.getElementById('nama').value = stored.nama;
+    }
+    if (stored.instansi && !document.getElementById('instansi').value) {
+      document.getElementById('instansi').value = stored.instansi;
+    }
+    if (stored.telp && !document.getElementById('telp').value) {
+      document.getElementById('telp').value = stored.telp;
+    }
+  } catch(e) {}
 }
 
 // ─── INIT ───
@@ -582,6 +600,7 @@ document.getElementById('attendanceForm').addEventListener('submit', event => {
   event.preventDefault();
   submitPresensi();
 });
+restoreVisitorData();
 onBoothChange();
 fetchLeaderboard();
 </script>
