@@ -2051,16 +2051,21 @@ function a4_header( $title, $sub = '' ) {
     $url = $p ? get_permalink($p) : home_url('/'.ASSIE4_PAMERAN_SLUG.'/');
     // Ensure CSS is loaded even if hook had mismatch
     echo '<link rel="stylesheet" id="assie4-admin-css-fallback" href="' . esc_url(ASSIE4_PAMERAN_URL . 'assets/assie4-admin.css?v=' . time()) . '">';
-    echo '<div class="a4-wrap">';
+    echo '<div class="a4-wrap wrap">';
+    // Isolate WP admin notices above custom content
+    echo '<h1 class="wp-heading-inline screen-reader-text">' . esc_html($title) . '</h1>';
+    echo '<hr class="wp-header-end" style="display:none">';
     echo '<div class="a4-nav-bar">';
     echo '<a href="' . admin_url('admin.php?page=assie4-pameran') . '">🎪 ASSIE IV</a>';
     echo '<span>›</span>';
     echo '<span>' . esc_html($title) . '</span>';
     echo '</div>';
     echo '<div class="a4-page-header">';
-    echo '<h1>' . esc_html($title);
-    if ($sub) echo ' <span class="a4-badge a4-badge-gold">' . esc_html($sub) . '</span>';
-    echo '</h1>';
+    echo '<div style="display:flex;align-items:center;gap:10px">';
+    echo '<h2 style="font-size:20px;font-weight:800;color:#fff;margin:0;letter-spacing:-0.3px">' . esc_html($title);
+    if ($sub) echo ' <span class="a4-badge a4-badge-gold" style="font-size:12px;margin-left:8px">' . esc_html($sub) . '</span>';
+    echo '</h2>';
+    echo '</div>';
     echo '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">';
     echo '<a href="' . admin_url('admin.php?page=assie4-tenants&edit=new') . '" class="a4-btn-gold u-text-xs u-whitespace-nowrap" style="padding:8px 16px;box-shadow:0 3px 12px rgba(212,168,67,0.35)">➕ Tambah Booth Baru</a>';
     echo '<a href="' . esc_url($url) . '" target="_blank" class="a4-btn-ghost u-text-xs u-whitespace-nowrap" style="padding:8px 14px;color:#fff;border-color:rgba(255,255,255,0.35)">🔗 Lihat Halaman Pameran</a>';
@@ -2104,68 +2109,318 @@ function assie4_admin_enqueue_scripts( $hook ) {
 
 /* ═══ 1. DASHBOARD ══════════════════════════════════════ */
 function assie4_admin_dashboard() {
-    $tenants = assie4_get_tenants();
-    $rd      = get_option( ASSIE4_OPT_RUNDOWN, assie4_default_rundown() );
-    $p       = get_page_by_path( ASSIE4_PAMERAN_SLUG );
-    $url     = $p ? get_permalink($p) : home_url('/'.ASSIE4_PAMERAN_SLUG.'/');
+    $tenants    = assie4_get_tenants();
+    $rd         = get_option( ASSIE4_OPT_RUNDOWN, assie4_default_rundown() );
+    $p          = get_page_by_path( ASSIE4_PAMERAN_SLUG );
+    $url        = $p ? get_permalink($p) : home_url('/'.ASSIE4_PAMERAN_SLUG.'/');
+    $presensi_p = get_page_by_path( 'presensi-booth-assie4' );
+    $presensi_url = $presensi_p ? get_permalink($presensi_p) : home_url('/presensi-booth-assie4/');
 
     echo '<link rel="stylesheet" id="assie4-admin-css-dash" href="' . esc_url(ASSIE4_PAMERAN_URL . 'assets/assie4-admin.css?v=' . time()) . '">';
     echo '<div class="a4-wrap wrap">';
-    echo '<div class="a4-page-header">';
-    echo '<div>';
-    echo '<h1>🎪 ASSIE IV Pameran Digital <span class="a4-badge a4-badge-gold">v2.8</span></h1>';
-    echo '<p style="color:rgba(255,255,255,0.7);margin:4px 0 0;font-size:13px">Pusat kendali pameran & expo startup Airlangga Innovation Summit</p>';
-    echo '</div>';
-    echo '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">';
-    echo '<a href="' . admin_url('admin.php?page=assie4-tenants&edit=new') . '" class="a4-btn-gold u-text-xs u-whitespace-nowrap" style="padding:9px 18px;font-size:13px;box-shadow:0 4px 14px rgba(212,168,67,0.4)">➕ Tambah Booth Manual</a>';
-    echo '<a href="' . esc_url($url) . '" target="_blank" class="a4-btn-ghost u-text-xs u-whitespace-nowrap" style="padding:9px 14px;color:#fff;border-color:rgba(255,255,255,0.35)">🔗 Lihat Pameran</a>';
-    echo '</div>';
-    echo '</div>';
+    // WP Admin Notice isolation so notices appear cleanly ABOVE our dashboard container
+    echo '<h1 class="wp-heading-inline screen-reader-text">ASSIE IV Pameran Digital</h1>';
+    echo '<hr class="wp-header-end" style="display:none">';
 
-    // Stats
-    echo '<div class="a4-stat-box">';
-    echo '<div class="a4-stat" style="cursor:pointer" onclick="location.href=\''.admin_url('admin.php?page=assie4-tenants').'\'"><span class="a4-stat-n">' . count($tenants) . '</span><span class="a4-stat-l">Total Tenant / Booth</span><div style="margin-top:6px;font-size:11px;color:#fde68a;font-weight:600">Klik kelola booth &rarr;</div></div>';
-    echo '<div class="a4-stat"><span class="a4-stat-n">' . count(get_option(ASSIE4_OPT_SLIDES,assie4_default_slides())) . '</span><span class="a4-stat-l">Slide Hero</span></div>';
-    echo '<div class="a4-stat"><span class="a4-stat-n">' . count($rd['events']??[]) . '</span><span class="a4-stat-l">Event Rundown</span></div>';
-    echo '<div class="a4-stat"><span class="a4-stat-n">' . count(get_option(ASSIE4_OPT_TICKER,assie4_default_ticker())) . '</span><span class="a4-stat-l">Ticker</span></div>';
-    echo '<div class="a4-stat"><span class="a4-stat-n">' . count(get_option('assie4_pameran_denah',[])) . '</span><span class="a4-stat-l">Foto Denah</span></div>';
-    echo '</div>';
+    // 1. HERO HEADER
+    ?>
+    <div class="a4-dash-hero">
+        <div class="a4-dash-hero-content">
+            <div class="a4-dash-hero-pill">
+                <span class="a4-dash-pulse"></span>
+                AIRLANGGA INNOVATION SUMMIT &amp; EXPO · ASSIE IV 2026
+            </div>
+            <h2 class="a4-dash-title">
+                ASSIE IV Pameran Digital
+                <span class="a4-dash-version">v2.8.2 PRO</span>
+            </h2>
+            <p class="a4-dash-desc">Pusat kendali operasional pameran virtual, manajemen 106 booth tenant inovasi, sinkronisasi agenda pameran, serta integrasi presensi real-time.</p>
+            <div class="a4-dash-meta-bar">
+                <span class="a4-dash-meta-item">
+                    <svg class="a4-dash-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg>
+                    Grand City Surabaya
+                </span>
+                <span class="a4-dash-meta-item">
+                    <svg class="a4-dash-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    6–8 November 2026
+                </span>
+                <span class="a4-dash-meta-item active-live">
+                    <svg class="a4-dash-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    Geofence GPS Aktif (300m)
+                </span>
+            </div>
+        </div>
+        <div class="a4-dash-hero-actions">
+            <a href="<?php echo admin_url('admin.php?page=assie4-tenants&edit=new'); ?>" class="a4-dash-btn-primary">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Tambah Booth Manual
+            </a>
+            <div class="a4-dash-btn-group">
+                <a href="<?php echo esc_url($url); ?>" target="_blank" class="a4-dash-btn-secondary">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    Lihat Pameran
+                </a>
+                <a href="<?php echo esc_url($presensi_url); ?>" target="_blank" class="a4-dash-btn-secondary">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>
+                    Presensi Booth
+                </a>
+            </div>
+        </div>
+    </div>
 
-    // Menu grid
-    $menus = [
-        ['assie4-tenants', '🏪','Kelola Tenant',  'Tambah booth manual, edit kategori, data PIC & denah'],
-        ['assie4-info',    '📅','Info Acara',    'Tanggal, lokasi, jam operasional pameran'],
-        ['assie4-slides',  '🖼️','Hero Slider',   'Slide banner utama, judul & tombol CTA'],
-        ['assie4-ticker',  '📢','Ticker',         'Pengumuman berjalan di bawah hero slider'],
-        ['assie4-rundown', '🗓️','Rundown',        'Jadwal agenda pameran 3 hari berturut-turut'],
-        ['assie4-denah',   '🗺️','Denah & Galeri', 'Denah interaktif dan upload foto pameran'],
-        ['assie4-pasinbis','🏢','Booth PASINBIS', 'Informasi profil & link booth PASINBIS'],
-        ['assie4-export',  '💾','Export/Reset',   'Cadangkan data JSON & sinkronisasi'],
+    <!-- 2. STATS KPI -->
+    <div class="a4-dash-stats">
+        <a href="<?php echo admin_url('admin.php?page=assie4-tenants'); ?>" class="a4-dash-stat a4-dash-stat-gold">
+            <div class="a4-dash-stat-head">
+                <span class="a4-dash-stat-tag">Kapasitas 106 Booth</span>
+                <div class="a4-dash-stat-icon gold">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                </div>
+            </div>
+            <div class="a4-dash-stat-val"><?php echo count($tenants); ?></div>
+            <div class="a4-dash-stat-lbl">Total Tenant / Booth</div>
+            <div class="a4-dash-stat-foot"><span>Kelola daftar booth</span> <span>&rarr;</span></div>
+        </a>
+
+        <a href="<?php echo admin_url('admin.php?page=assie4-slides'); ?>" class="a4-dash-stat a4-dash-stat-blue">
+            <div class="a4-dash-stat-head">
+                <span class="a4-dash-stat-tag">Banner Beranda</span>
+                <div class="a4-dash-stat-icon blue">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                </div>
+            </div>
+            <div class="a4-dash-stat-val"><?php echo count(get_option(ASSIE4_OPT_SLIDES, assie4_default_slides())); ?></div>
+            <div class="a4-dash-stat-lbl">Slide Hero Slider</div>
+            <div class="a4-dash-stat-foot"><span>Atur slide banner</span> <span>&rarr;</span></div>
+        </a>
+
+        <a href="<?php echo admin_url('admin.php?page=assie4-rundown'); ?>" class="a4-dash-stat a4-dash-stat-purple">
+            <div class="a4-dash-stat-head">
+                <span class="a4-dash-stat-tag">Agenda 3 Hari</span>
+                <div class="a4-dash-stat-icon purple">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                </div>
+            </div>
+            <div class="a4-dash-stat-val"><?php echo count($rd['events'] ?? []); ?></div>
+            <div class="a4-dash-stat-lbl">Sesi Rundown Acara</div>
+            <div class="a4-dash-stat-foot"><span>Lihat rundown</span> <span>&rarr;</span></div>
+        </a>
+
+        <a href="<?php echo admin_url('admin.php?page=assie4-ticker'); ?>" class="a4-dash-stat a4-dash-stat-rose">
+            <div class="a4-dash-stat-head">
+                <span class="a4-dash-stat-tag">Teks Berjalan</span>
+                <div class="a4-dash-stat-icon rose">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12a7 7 0 0 0-7-7H4v14h8a7 7 0 0 0 7-7z"/><path d="M16 8h2a3 3 0 0 1 3 3v2a3 3 0 0 1-3 3h-2"/></svg>
+                </div>
+            </div>
+            <div class="a4-dash-stat-val"><?php echo count(get_option(ASSIE4_OPT_TICKER, assie4_default_ticker())); ?></div>
+            <div class="a4-dash-stat-lbl">Pengumuman Ticker</div>
+            <div class="a4-dash-stat-foot"><span>Edit pengumuman</span> <span>&rarr;</span></div>
+        </a>
+
+        <a href="<?php echo admin_url('admin.php?page=assie4-denah'); ?>" class="a4-dash-stat a4-dash-stat-emerald">
+            <div class="a4-dash-stat-head">
+                <span class="a4-dash-stat-tag">Denah &amp; Media</span>
+                <div class="a4-dash-stat-icon emerald">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+                </div>
+            </div>
+            <div class="a4-dash-stat-val"><?php echo count(get_option('assie4_pameran_denah', [])); ?></div>
+            <div class="a4-dash-stat-lbl">Foto Denah &amp; Galeri</div>
+            <div class="a4-dash-stat-foot"><span>Upload denah</span> <span>&rarr;</span></div>
+        </a>
+    </div>
+
+    <!-- 3. MENU PENGATURAN PAMERAN -->
+    <?php
+    $modules = [
+        [
+            'slug'  => 'assie4-tenants',
+            'title' => 'Kelola Tenant & Booth',
+            'desc'  => 'Tambah booth manual, ubah nomor denah, kategori Area A-H, narasi inovasi, dan data PIC.',
+            'tag'   => count($tenants) . ' Tenant',
+            'color' => 'gold',
+            'svg'   => '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
+        ],
+        [
+            'slug'  => 'assie4-info',
+            'title' => 'Info Acara & Venue',
+            'desc'  => 'Konfigurasi nama kegiatan, logo resmi, lokasi Grand City Surabaya, dan jam operasional.',
+            'tag'   => 'Konfigurasi',
+            'color' => 'blue',
+            'svg'   => '<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',
+        ],
+        [
+            'slug'  => 'assie4-slides',
+            'title' => 'Hero Banner Slider',
+            'desc'  => 'Pengaturan banner carousel di beranda pameran, judul besar, subjudul, dan tombol CTA.',
+            'tag'   => count(get_option(ASSIE4_OPT_SLIDES, assie4_default_slides())) . ' Slide',
+            'color' => 'purple',
+            'svg'   => '<rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>',
+        ],
+        [
+            'slug'  => 'assie4-ticker',
+            'title' => 'Pengumuman Ticker',
+            'desc'  => 'Running text berjalan di bawah hero slider untuk update terkini dan instruksi penting.',
+            'tag'   => 'Running Text',
+            'color' => 'rose',
+            'svg'   => '<path d="M19 12a7 7 0 0 0-7-7H4v14h8a7 7 0 0 0 7-7z"/><path d="M16 8h2a3 3 0 0 1 3 3v2a3 3 0 0 1-3 3h-2"/>',
+        ],
+        [
+            'slug'  => 'assie4-rundown',
+            'title' => 'Agenda & Rundown',
+            'desc'  => 'Jadwal rangkaian kegiatan pameran, panggung utama, talkshow, live pitch, dan expo 3 hari.',
+            'tag'   => '3 Hari Acara',
+            'color' => 'amber',
+            'svg'   => '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+        ],
+        [
+            'slug'  => 'assie4-denah',
+            'title' => 'Denah & Galeri Foto',
+            'desc'  => 'Unggah foto denah lantai resolusi tinggi dan dokumentasi foto suasana pameran.',
+            'tag'   => 'Denah & Media',
+            'color' => 'emerald',
+            'svg'   => '<polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/>',
+        ],
+        [
+            'slug'  => 'assie4-pasinbis',
+            'title' => 'Booth PASINBIS',
+            'desc'  => 'Pengaturan profil khusus booth Inkubator Bisnis PASINBIS UNAIR & tautan langsung.',
+            'tag'   => 'Booth Khusus',
+            'color' => 'cyan',
+            'svg'   => '<path d="M3 21h18"/><path d="M9 8h1"/><path d="M9 12h1"/><path d="M9 16h1"/><path d="M14 8h1"/><path d="M14 12h1"/><path d="M14 16h1"/><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/>',
+        ],
+        [
+            'slug'  => 'assie4-berita-ext',
+            'title' => 'Berita & Media Eksternal',
+            'desc'  => 'Kelola tautan publikasi berita eksternal dari media partner dan siaran pers liputan expo.',
+            'tag'   => 'Liputan Media',
+            'color' => 'orange',
+            'svg'   => '<path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/>',
+        ],
+        [
+            'slug'  => 'assie4-export',
+            'title' => 'Backup & Sinkronisasi',
+            'desc'  => 'Ekspor seluruh data tenant pameran ke file JSON atau pulihkan data bawaan secara instan.',
+            'tag'   => 'Backup Data',
+            'color' => 'slate',
+            'svg'   => '<path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>',
+        ],
     ];
-    echo '<div class="a4-card">';
-    echo '<div class="a4-card-head"><span>Menu Pengaturan Pameran</span><a href="' . admin_url('admin.php?page=assie4-tenants&edit=new') . '" class="a4-btn-gold" style="font-size:12px;padding:6px 14px">+ Tambah Booth</a></div>';
-    echo '<div class="a4-menu-grid">';
-    foreach ( $menus as [$sl, $ico, $lb, $dc] ) {
-        echo '<a href="' . admin_url('admin.php?page='.$sl) . '" class="a4-menu-item">';
-        echo '<span class="a4-menu-icon">' . $ico . '</span>';
-        echo '<span class="a4-menu-label">' . esc_html($lb) . '</span>';
-        echo '<span class="a4-menu-desc">' . esc_html($dc) . '</span>';
-        echo '</a>';
-    }
-    echo '</div></div>';
+    ?>
+    <div class="a4-card">
+        <div class="a4-card-head">
+            <div style="display:flex;align-items:center;gap:10px">
+                <span class="a4-card-head-icon" style="background:#fef3c7;color:#b45309">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                </span>
+                <span>Modul &amp; Menu Pengaturan Pameran</span>
+            </div>
+            <a href="<?php echo admin_url('admin.php?page=assie4-tenants&edit=new'); ?>" class="a4-btn-gold" style="font-size:12px;padding:7px 15px">
+                ➕ Tambah Booth
+            </a>
+        </div>
+        <div class="a4-dash-menu-grid">
+            <?php foreach ( $modules as $m ) : ?>
+            <a href="<?php echo admin_url('admin.php?page=' . $m['slug']); ?>" class="a4-dash-menu-card">
+                <div class="a4-dash-menu-icon <?php echo esc_attr($m['color']); ?>">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <?php echo $m['svg']; ?>
+                    </svg>
+                </div>
+                <div class="a4-dash-menu-body">
+                    <div class="a4-dash-menu-top">
+                        <h3 class="a4-dash-menu-title"><?php echo esc_html($m['title']); ?></h3>
+                        <span class="a4-dash-menu-pill"><?php echo esc_html($m['tag']); ?></span>
+                    </div>
+                    <p class="a4-dash-menu-desc"><?php echo esc_html($m['desc']); ?></p>
+                    <span class="a4-dash-menu-action">Buka pengaturan &rarr;</span>
+                </div>
+            </a>
+            <?php endforeach; ?>
+        </div>
+    </div>
 
-    // Info
-    echo '<div class="a4-card">';
-    echo '<div class="a4-card-head">Info Plugin & Integrasi</div>';
-    echo '<table class="a4-info-table">';
-    echo '<tr><th>URL Halaman Pameran</th><td><a href="'.esc_url($url).'" target="_blank">'.esc_url($url).'</a></td></tr>';
-    echo '<tr><th>Shortcode</th><td><code>[assie4_pameran]</code></td></tr>';
-    echo '<tr><th>Status Halaman</th><td>' . ($p ? '<span class="a4-badge a4-badge-green">Published</span>' : '<span class="a4-badge a4-badge-red">Belum dibuat</span>') . '</td></tr>';
-    echo '<tr><th>Versi Plugin</th><td>2.8.2 (Refined UI)</td></tr>';
-    echo '<tr><th>PHP Version</th><td>'.esc_html(PHP_VERSION).'</td></tr>';
-    echo '<tr><th>WordPress Version</th><td>'.esc_html($GLOBALS['wp_version']).'</td></tr>';
-    echo '</table></div>';
-    echo '</div>';
+    <!-- 4. SYSTEM SPECS & INTEGRASI -->
+    <div class="a4-card">
+        <div class="a4-card-head">
+            <div style="display:flex;align-items:center;gap:10px">
+                <span class="a4-dash-head-icon" style="background:#e0f2fe;color:#0284c7;width:32px;height:32px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                </span>
+                <span>Info Integrasi &amp; Lingkungan Sistem</span>
+            </div>
+        </div>
+        <div class="a4-sys-grid">
+            <!-- Box 1: Integrasi Frontend -->
+            <div class="a4-sys-box">
+                <div style="font-weight:800;font-size:13px;color:#0f1c35;margin-bottom:4px;display:flex;align-items:center;gap:8px">
+                    <span style="color:#d4a843">✦</span> Tautan &amp; Shortcode Pameran
+                </div>
+                <div class="a4-sys-item">
+                    <div>
+                        <div class="a4-sys-label">URL Halaman Pameran</div>
+                        <div style="font-size:12.5px;color:#0f1c35;font-weight:600;word-break:break-all;margin-top:2px"><?php echo esc_html($url); ?></div>
+                    </div>
+                    <div class="a4-sys-val">
+                        <button type="button" class="a4-copy-btn" onclick="navigator.clipboard.writeText('<?php echo esc_js($url); ?>');this.innerText='Tersalin!';setTimeout(()=>this.innerText='Salin',1500)">Salin</button>
+                        <a href="<?php echo esc_url($url); ?>" target="_blank" class="a4-btn-ghost" style="padding:4px 10px;font-size:11.5px">Buka &nearr;</a>
+                    </div>
+                </div>
+                <div class="a4-sys-item">
+                    <div>
+                        <div class="a4-sys-label">Shortcode WordPress</div>
+                        <div style="margin-top:2px"><code style="background:#e2e8f0;padding:3px 8px;border-radius:5px;font-size:12.5px;color:#0f1c35;font-weight:700">[assie4_pameran]</code></div>
+                    </div>
+                    <div class="a4-sys-val">
+                        <button type="button" class="a4-copy-btn" onclick="navigator.clipboard.writeText('[assie4_pameran]');this.innerText='Tersalin!';setTimeout(()=>this.innerText='Salin',1500)">Salin</button>
+                    </div>
+                </div>
+                <div class="a4-sys-item">
+                    <div>
+                        <div class="a4-sys-label">URL Presensi Pengunjung</div>
+                        <div style="font-size:12.5px;color:#0f1c35;font-weight:600;word-break:break-all;margin-top:2px"><?php echo esc_html($presensi_url); ?></div>
+                    </div>
+                    <div class="a4-sys-val">
+                        <a href="<?php echo esc_url($presensi_url); ?>" target="_blank" class="a4-btn-ghost" style="padding:4px 10px;font-size:11.5px">Buka &nearr;</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Box 2: Status & Lingkungan Server -->
+            <div class="a4-sys-box">
+                <div style="font-weight:800;font-size:13px;color:#0f1c35;margin-bottom:4px;display:flex;align-items:center;gap:8px">
+                    <span style="color:#2563eb">✦</span> Status Server &amp; Konfigurasi
+                </div>
+                <div class="a4-sys-item">
+                    <div class="a4-sys-label">Status Publikasi Halaman</div>
+                    <div class="a4-sys-val">
+                        <?php echo $p ? '<span class="a4-badge a4-badge-green">● Published &amp; Online</span>' : '<span class="a4-badge a4-badge-red">Draft / Belum Dibuat</span>'; ?>
+                    </div>
+                </div>
+                <div class="a4-sys-item">
+                    <div class="a4-sys-label">Proteksi Geofence GPS</div>
+                    <div class="a4-sys-val">
+                        <span class="a4-badge a4-badge-blue">● Aktif: Grand City (300m)</span>
+                    </div>
+                </div>
+                <div class="a4-sys-item">
+                    <div class="a4-sys-label">Versi Plugin Pameran</div>
+                    <div class="a4-sys-val">
+                        <span class="a4-badge a4-badge-gold">v2.8.2 PRO (Refined UI)</span>
+                    </div>
+                </div>
+                <div class="a4-sys-item">
+                    <div class="a4-sys-label">Lingkungan Server</div>
+                    <div class="a4-sys-val">
+                        <span style="font-size:12px;font-weight:600;color:#475569">PHP <?php echo esc_html(PHP_VERSION); ?> · WP <?php echo esc_html($GLOBALS['wp_version']); ?></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <?php
 }
 
 /* ═══ 2. INFO ACARA ═════════════════════════════════════ */
