@@ -12,30 +12,35 @@ define( 'ASSIE4_OPT_TICKER',  'assie4_pameran_ticker'  );
 define( 'ASSIE4_OPT_RUNDOWN', 'assie4_pameran_rundown' );
 define( 'ASSIE4_OPT_TENANTS', 'assie4_pameran_tenants' );
 
+require_once __DIR__ . '/assie4-tenant-editor.php';
+
 /* ═══ NORMALIZE TENANT ══════════════════════════════════ */
 function assie4_normalize_tenant( $t ) {
-    $t = (array) $t;
+    $t = assie4_brand_values( (array) $t );
+    $code = strtoupper( sanitize_text_field( trim( $t['code'] ?? $t['id'] ?? '' ) ) );
+    $location = assie4_booth_location( $code );
+    $logo_id = absint( $t['logo_id'] ?? 0 );
+    $logo_url = $logo_id ? wp_get_attachment_url( $logo_id ) : '';
     return [
         'id'              => sanitize_key( trim( $t['id']              ?? '' ) ),
-        'booth_no'        => intval( $t['booth_no'] ?? 0 ),
-        'code'            => strtoupper( sanitize_text_field( trim( $t['code'] ?? $t['id'] ?? '' ) ) ),
-        'cluster'         => intval( $t['cluster'] ?? 0 ),
+        'booth_no'        => $location['booth_no'] ?? intval( $t['booth_no'] ?? 0 ),
+        'code'            => $code,
+        'cluster'         => $location['cluster'] ?? intval( $t['cluster'] ?? 0 ),
         'area'            => strtoupper( sanitize_text_field( trim( $t['area']     ?? 'A' ) ) ),
         'name'            => sanitize_text_field( trim( $t['name']      ?? '' ) ),
         'instansi'        => sanitize_text_field( trim( $t['instansi']  ?? '' ) ),
         'pic'             => sanitize_text_field( trim( $t['pic']       ?? '' ) ),
         'cat'             => sanitize_text_field( trim( $t['cat']       ?? '' ) ),
         'tipe_usaha'      => sanitize_text_field( trim( $t['tipe_usaha']     ?? '' ) ),
-        'status_booth'    => sanitize_text_field( trim( $t['status_booth']   ?? 'aktif' ) ),
-        'hari_operasi'    => is_array( $t['hari_operasi'] ?? null )
-                              ? array_map('sanitize_text_field', $t['hari_operasi'])
-                              : array_values( array_filter( array_map( 'trim', explode( ',', sanitize_text_field($t['hari_operasi'] ?? '') ) ) ) ),
+        'status_booth'    => 'aktif',
+        'hari_operasi'    => ['1', '2', '3'],
         'produk_unggulan' => sanitize_textarea_field( trim( $t['produk_unggulan'] ?? '' ) ),
         'desc'            => sanitize_textarea_field( trim( $t['desc']            ?? '' ) ),
         'tags'            => is_array( $t['tags'] ?? null )
                               ? array_map('sanitize_text_field', $t['tags'])
                               : array_values( array_filter( array_map( 'trim', explode( ',', sanitize_text_field($t['tags'] ?? '') ) ) ) ),
-        'logo'            => esc_url_raw( trim( $t['logo']      ?? '' ) ),
+        'logo_id'         => $logo_id,
+        'logo'            => esc_url_raw( $logo_url ?: trim( $t['logo'] ?? '' ) ),
         'contact'         => sanitize_text_field( trim( $t['contact']   ?? '' ) ),
         'whatsapp'        => sanitize_text_field( trim( $t['whatsapp']  ?? '' ) ),
         'web'             => esc_url_raw( trim( $t['web']       ?? '' ) ),
@@ -57,7 +62,7 @@ function assie4_default_info() {
 function assie4_default_slides() {
     return [
         [
-            'title'    => 'ASSIE IV 2026',
+            'title'    => 'IM ASSIE IV 2026',
             'subtitle' => 'Airlangga Startup Summit & Innovation Expo',
             'desc'     => 'Ajang pameran startup & inovasi terbesar di Jawa Timur.',
             'cta'      => 'Jelajahi Pameran',
@@ -90,7 +95,7 @@ function assie4_default_slides() {
         ],
         [
             'title'    => 'Industry Matching',
-            'subtitle' => 'ASSIE IV 2026',
+            'subtitle' => 'IM ASSIE IV 2026',
             'desc'     => '',
             'cta'      => '',
             'link'     => '#denah',
@@ -101,10 +106,10 @@ function assie4_default_slides() {
     ];
 }
 function assie4_default_ticker() {
-    return ['Selamat datang di ASSIE IV 2026','6-8 November 2026 · Grand City Atrium Surabaya','Booth startup & inovasi','Belanja produk tenant online di tokoua.unair.ac.id','Presensi digital tersedia di setiap booth','PASINBIS Universitas Airlangga'];
+    return ['Selamat datang di IM ASSIE IV 2026','6-8 November 2026 · Grand City Atrium Surabaya','Booth startup & inovasi','Belanja produk tenant online di tokoua.unair.ac.id','Presensi digital tersedia di setiap booth','PASINBIS Universitas Airlangga'];
 }
 function assie4_default_tenants() {
-    return [
+    $tenants = [
         [
             'id' => 'a1',
             'booth_no' => 1,
@@ -771,7 +776,7 @@ MSMA juga mengembangkan inovasi teknologi akuakultur, seperti IoT, pakan otomati
             'instansi' => 'PT Jaminan Kredit Indonesia (Jamkrindo)',
             'pic' => '',
             'cat' => 'Sponsorship / Mitra',
-            'desc' => 'Booth Sponsorship Jamkrindo di pameran inovasi ASSIE IV 2026.',
+            'desc' => 'Booth Sponsorship Jamkrindo di pameran inovasi IM ASSIE IV 2026.',
             'tags' => ['Sponsorship / Mitra'],
             'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/jamkrindo.png',
             'contact' => '',
@@ -1788,7 +1793,7 @@ Berbagai produk dan layanan tersebut merupakan bagian dari upaya PUI-PT CoE-PSQ 
             'instansi' => 'RSGM UNAIR',
             'pic' => 'drg. Vankalayya Y. D',
             'cat' => 'Internal UNAIR',
-            'desc' => 'RSGM UNAIR berpartisipasi dalam Industry Matching IM ASSIE IV 2026 sebagai wadah untuk memperkenalkan layanan, inovasi, dan pengembangan teknologi di bidang kesehatan gigi dan mulut serta membuka peluang kolaborasi strategis dengan berbagai pihak.',
+            'desc' => 'RSGM UNAIR berpartisipasi dalam IM ASSIE IV 2026 sebagai wadah untuk memperkenalkan layanan, inovasi, dan pengembangan teknologi di bidang kesehatan gigi dan mulut serta membuka peluang kolaborasi strategis dengan berbagai pihak.',
             'tags' => ['Internal UNAIR', 'Transaksi Booth'],
             'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/rsgm.png',
             'contact' => 'adm@rsgm.unair.ac.id',
@@ -1842,11 +1847,158 @@ Berbagai produk dan layanan tersebut merupakan bagian dari upaya PUI-PT CoE-PSQ 
             'transaksi' => 'Ya',
         ],
     ];
+    return assie4_apply_updated_official_roster( $tenants );
+}
+
+/** Apply the latest official booth map while keeping the existing tenant records. */
+function assie4_apply_updated_official_roster( $tenants ) {
+    $moves = [
+        'd8' => ['id'=>'f1', 'code'=>'F1'],
+        'f1' => ['id'=>'d15', 'code'=>'D15'],
+    ];
+
+    foreach ( $tenants as &$tenant ) {
+        $old_id = sanitize_key( $tenant['id'] ?? '' );
+        if ( isset( $moves[$old_id] ) ) {
+            $target = $moves[$old_id];
+            $tenant['id'] = $target['id'];
+            $tenant['code'] = $target['code'];
+            $tenant['area'] = substr( $target['code'], 0, 1 );
+            $location = assie4_booth_location( $target['code'] );
+            if ( $location ) {
+                $tenant['booth_no'] = $location['booth_no'];
+                $tenant['cluster'] = $location['cluster'];
+            }
+        }
+
+        if ( sanitize_key( $tenant['id'] ?? '' ) === 'd1' ) {
+            $tenant['name'] = 'AirBiliNest & AirBiliSun';
+            $tenant['instansi'] = 'PT Medika Karya Airlangga';
+            $tenant['desc'] = 'AirBiliNest Smart Phototherapy System dikembangkan untuk penanganan hiperbilirubinemia neonatal melalui kolaborasi riset dan industri. PT Medika Karya Airlangga berperan dalam riset dan pengembangan, PT Astra Komponen Indonesia sebagai mitra manufaktur, serta PT IDS Medical Systems Indonesia sebagai distributor. AirBiliSun adalah inovasi fototerapi dengan cahaya matahari terfilter yang dirancang aman bagi bayi kuning dan mendukung pemerataan akses fototerapi, terutama di wilayah 3T Indonesia.';
+            $tenant['logo'] = ASSIE4_PAMERAN_URL . 'assets/tenant-logos/airbilinest.png';
+        }
+
+        if ( sanitize_key( $tenant['id'] ?? '' ) === 'g1' ) {
+            $tenant['name'] = 'WEBS FEB';
+            $tenant['instansi'] = 'Fakultas Ekonomi dan Bisnis Universitas Airlangga';
+            $tenant['cat'] = 'Startup';
+            $tenant['desc'] = 'Booth WEBS FEB menampilkan tenant mahasiswa, di antaranya Deorans, Minum dan Mekar, Weubi Ubi Bakar Cilembu, Chewy Slime, Ghetto Ghetti, dan Théava.';
+            $tenant['tags'] = ['Startup', 'Internal UNAIR'];
+            $tenant['logo'] = '';
+            $tenant['contact'] = '';
+            $tenant['whatsapp'] = '';
+            $tenant['web'] = '';
+            $tenant['instagram'] = '';
+            $tenant['facebook'] = '';
+            $tenant['twitter'] = '';
+        }
+    }
+    unset( $tenant );
+
+    $base = ASSIE4_PAMERAN_URL . 'assets/tenant-logos/';
+    $additions = [
+        [
+            'id'=>'a13', 'booth_no'=>13, 'code'=>'A13', 'cluster'=>1, 'area'=>'A',
+            'name'=>'Fakultas Ilmu Sosial dan Ilmu Politik',
+            'instansi'=>'Fakultas Ilmu Sosial dan Ilmu Politik Universitas Airlangga',
+            'pic'=>'', 'cat'=>'Internal UNAIR', 'desc'=>'Fakultas Ilmu Sosial dan Ilmu Politik Universitas Airlangga memiliki tujuh departemen atau program studi, salah satunya Ilmu Komunikasi. Di bidang Ilmu Komunikasi, himpunan mahasiswa menaungi klub-klub yang mewadahi minat dan bakat mahasiswa sesuai kompetensi keilmuan. Melalui organisasi ini, mahasiswa diharapkan dapat mengasah bekal yang diperlukan di dunia kerja.',
+            'tags'=>['Internal UNAIR'], 'logo'=>$base . 'fisip-unair.jpg', 'contact'=>'', 'whatsapp'=>'',
+            'web'=>'https://fisip.unair.ac.id', 'instagram'=>'@fisip_unair', 'facebook'=>'https://www.facebook.com/fisipunairofficial', 'twitter'=>'@FISIP_UA', 'transaksi'=>'Ya',
+        ],
+        [
+            'id'=>'a14', 'booth_no'=>14, 'code'=>'A14', 'cluster'=>1, 'area'=>'A',
+            'name'=>'Fakultas Hukum UNAIR — ALC FH', 'instansi'=>'Fakultas Hukum Universitas Airlangga',
+            'pic'=>'', 'cat'=>'Internal UNAIR', 'desc'=>'Airlangga Center for Legal Drafting & Professional Development (ALC FH UNAIR) adalah unit pelaksana di bawah Fakultas Hukum Universitas Airlangga yang melaksanakan dan mengoordinasikan layanan perancangan hukum serta pendidikan hukum berkelanjutan.',
+            'tags'=>['Internal UNAIR', 'Pendidikan'], 'logo'=>$base . 'alc-fh-unair.png', 'contact'=>'', 'whatsapp'=>'',
+            'web'=>'https://alc-fhunair.com/', 'instagram'=>'alcfhunair', 'facebook'=>'', 'twitter'=>'', 'transaksi'=>'Ya',
+        ],
+        [
+            'id'=>'a15', 'booth_no'=>15, 'code'=>'A15', 'cluster'=>1, 'area'=>'A',
+            'name'=>'Fakultas Keperawatan UNAIR', 'instansi'=>'Fakultas Keperawatan Universitas Airlangga',
+            'pic'=>'', 'cat'=>'Internal UNAIR', 'desc'=>'Booth Fakultas Keperawatan UNAIR menghadirkan inovasi website pengabdian masyarakat yang mengintegrasikan kegiatan pengabdian dengan pencapaian SDGs. Booth juga melayani pemeriksaan kesehatan oleh mahasiswa keperawatan dengan pendampingan dosen; kegiatan pemeriksaan berlangsung dalam dua shift dengan empat mahasiswa per shift.',
+            'tags'=>['Internal UNAIR', 'Kesehatan'], 'logo'=>$base . 'fakultas-keperawatan-unair.png', 'contact'=>'', 'whatsapp'=>'',
+            'web'=>'https://ners.unair.ac.id/', 'instagram'=>'https://www.instagram.com/fkp_unair/', 'facebook'=>'https://www.facebook.com/FKpUNAIROfficial/', 'twitter'=>'https://x.com/fkp_Unair', 'transaksi'=>'Ya',
+        ],
+        [
+            'id'=>'d8', 'booth_no'=>29, 'code'=>'D8', 'cluster'=>2, 'area'=>'D',
+            'name'=>'D’toekoe Dimsum', 'instansi'=>'PASINBIS Universitas Airlangga',
+            'pic'=>'', 'cat'=>'Kuliner & F&B', 'desc'=>'D’toekoe Dimsum merupakan UMKM kuliner asal Surabaya yang memproduksi dimsum premium homemade dari bahan berkualitas, halal, dan tanpa bahan pengawet. Berdiri sejak 2020, D’toekoe menghadirkan produk siap saji dan frozen dalam beragam varian untuk pasar ritel, food service, katering, dan peluang ekspor, serta terbuka untuk kemitraan dan pengembangan distribusi.',
+            'tags'=>['Kuliner & F&B', 'UMKM'], 'logo'=>'', 'contact'=>'', 'whatsapp'=>'',
+            'web'=>'', 'instagram'=>'https://www.instagram.com/dtoekoe_69/', 'facebook'=>'', 'twitter'=>'', 'transaksi'=>'Ya',
+        ],
+        [
+            'id'=>'d12', 'booth_no'=>33, 'code'=>'D12', 'cluster'=>2, 'area'=>'D',
+            'name'=>'DIKST Universitas Brawijaya', 'instansi'=>'Direktorat Inovasi dan Kawasan Sains & Teknologi, Universitas Brawijaya',
+            'pic'=>'', 'cat'=>'Riset & Inovasi', 'desc'=>'Direktorat Inovasi dan Kawasan Sains & Teknologi Universitas Brawijaya menaungi inovasi dosen sebagai peneliti dan startup mahasiswa.',
+            'tags'=>['Riset & Inovasi', 'Pendidikan'], 'logo'=>$base . 'dikst-ub.png', 'contact'=>'', 'whatsapp'=>'',
+            'web'=>'https://dikst.ub.ac.id', 'instagram'=>'@dikst.ub', 'facebook'=>'', 'twitter'=>'', 'transaksi'=>'Ya',
+        ],
+        [
+            'id'=>'d13', 'booth_no'=>34, 'code'=>'D13', 'cluster'=>2, 'area'=>'D',
+            'name'=>'Universitas Hang Tuah', 'instansi'=>'Universitas Hang Tuah',
+            'pic'=>'', 'cat'=>'Pendidikan', 'desc'=>'Universitas Hang Tuah — Kampus Unggul, Excellence in Maritime Education, Jala Cendekia Perkasa.',
+            'tags'=>['Pendidikan', 'Riset & Inovasi'], 'logo'=>$base . 'universitas-hang-tuah.png', 'contact'=>'', 'whatsapp'=>'',
+            'web'=>'https://hangtuah.ac.id', 'instagram'=>'@universitas.hangtuah', 'facebook'=>'', 'twitter'=>'', 'transaksi'=>'Ya',
+        ],
+        [
+            'id'=>'d14', 'booth_no'=>35, 'code'=>'D14', 'cluster'=>2, 'area'=>'D',
+            'name'=>'Inkubator Universitas Negeri Surabaya', 'instansi'=>'Universitas Negeri Surabaya',
+            'pic'=>'', 'cat'=>'Startup', 'desc'=>'', 'tags'=>['Startup', 'Inkubasi'], 'logo'=>'', 'contact'=>'', 'whatsapp'=>'',
+            'web'=>'', 'instagram'=>'', 'facebook'=>'', 'twitter'=>'', 'transaksi'=>'',
+        ],
+        [
+            'id'=>'d16', 'booth_no'=>37, 'code'=>'D16', 'cluster'=>2, 'area'=>'D',
+            'name'=>'Markaswalet', 'instansi'=>'Markaswalet',
+            'pic'=>'', 'cat'=>'Agrikultur', 'desc'=>'Markaswalet adalah ekosistem bisnis walet yang menyediakan produk dan teknologi budidaya, sekaligus membeli dan menjual sarang walet. Markaswalet membantu petani meningkatkan produktivitas dan kualitas melalui edukasi, teknologi, serta akses pasar.',
+            'tags'=>['Agrikultur', 'Teknologi'], 'logo'=>$base . 'markaswalet.png', 'contact'=>'', 'whatsapp'=>'',
+            'web'=>'https://markaswalet.com', 'instagram'=>'https://www.instagram.com/markaswaletdotcom/', 'facebook'=>'markaswalet', 'twitter'=>'', 'transaksi'=>'Ya',
+        ],
+        [
+            'id'=>'f19', 'booth_no'=>69, 'code'=>'F19', 'cluster'=>4, 'area'=>'F',
+            'name'=>'Petime Animal Care', 'instansi'=>'Petime Indonesia',
+            'pic'=>'', 'cat'=>'Kesehatan', 'desc'=>'Petime Animal Care menyediakan layanan Pet Clinic, Pet Grooming, Pet Hotel, Pet Shop, dan Pet Sitter untuk hewan peliharaan.',
+            'tags'=>['Kesehatan', 'Layanan'], 'logo'=>$base . 'petime-animal-care.png', 'contact'=>'', 'whatsapp'=>'',
+            'web'=>'https://petime.id', 'instagram'=>'petime.id', 'facebook'=>'petime.id', 'twitter'=>'', 'transaksi'=>'Ya',
+        ],
+        [
+            'id'=>'f20', 'booth_no'=>70, 'code'=>'F20', 'cluster'=>4, 'area'=>'F',
+            'name'=>'Vascular Indonesia', 'instansi'=>'Vascular Indonesia',
+            'pic'=>'', 'cat'=>'Kesehatan', 'desc'=>'Vascular Indonesia berfokus pada peningkatan pengetahuan, kesadaran, dan edukasi mengenai kesehatan pembuluh darah. Melalui kolaborasi, edukasi, dan kegiatan ilmiah, Vascular Indonesia mendukung pencegahan, deteksi dini, serta penanganan penyakit vaskular untuk meningkatkan kualitas hidup masyarakat.',
+            'tags'=>['Kesehatan', 'Edukasi'], 'logo'=>$base . 'vascular-indonesia.png', 'contact'=>'', 'whatsapp'=>'',
+            'web'=>'https://www.vascularindonesia.com', 'instagram'=>'@vascularindonesia', 'facebook'=>'vascularindonesia', 'twitter'=>'vascularindonesia', 'transaksi'=>'Ya',
+        ],
+        [
+            'id'=>'f21', 'booth_no'=>71, 'code'=>'F21', 'cluster'=>4, 'area'=>'F',
+            'name'=>'PT Inovasi Bioproduk Indonesia (INOBI)', 'instansi'=>'PT Inovasi Bioproduk Indonesia',
+            'pic'=>'', 'cat'=>'Riset & Inovasi', 'desc'=>'Inovasi Bioproduk Indonesia (INOBI) menyediakan produk inovasi, perlengkapan laboratorium, diagnostik, serta kebutuhan riset dan pendidikan melalui platform terpadu untuk mendukung peneliti dan pendidik.',
+            'tags'=>['Riset & Inovasi', 'Teknologi'], 'logo'=>$base . 'inobi.png', 'contact'=>'', 'whatsapp'=>'',
+            'web'=>'https://inobi.id', 'instagram'=>'inobi.id', 'facebook'=>'', 'twitter'=>'', 'transaksi'=>'Ya',
+        ],
+        [
+            'id'=>'h15', 'booth_no'=>95, 'code'=>'H15', 'cluster'=>6, 'area'=>'H',
+            'name'=>'ERPEH CHROMA', 'instansi'=>'ERPEH CHROMA',
+            'pic'=>'', 'cat'=>'Craft & Fashion', 'desc'=>'ERPEH CHROMA adalah brand hijab yang menerjemahkan motif dan warna menjadi sebuah cerita. Setiap motif lahir dari gagasan dan komposisi visual dengan karakter tersendiri. Rangkaian chapter dan shade menghadirkan suasana serta makna yang berbeda. Bagi ERPEH CHROMA, hijab juga menjadi cara untuk mengekspresikan perasaan, gagasan, kenangan, maupun momen. When every motif has a story.',
+            'tags'=>['Craft & Fashion'], 'logo'=>'', 'contact'=>'', 'whatsapp'=>'',
+            'web'=>'', 'instagram'=>'', 'facebook'=>'', 'twitter'=>'', 'transaksi'=>'Ya',
+        ],
+    ];
+
+    $existing_ids = array_fill_keys( array_map( static function( $tenant ) { return sanitize_key( $tenant['id'] ?? '' ); }, $tenants ), true );
+    foreach ( $additions as $tenant ) {
+        if ( ! isset( $existing_ids[$tenant['id']] ) ) {
+            $tenants[] = $tenant;
+        }
+    }
+
+    return $tenants;
 }
 function assie4_default_tenant_logos() {
     $base = ASSIE4_PAMERAN_URL . 'assets/tenant-logos/';
     $files = [
         'a1'  => 'LOGO FK UNAIR 2025.jpg.jpeg',
+        'a13' => 'fisip-unair.jpg',
+        'a14' => 'alc-fh-unair.png',
+        'a15' => 'fakultas-keperawatan-unair.png',
         'a2'  => 'Logo FKG.png',
         'a3'  => 'fakultas farmasi outline.png',
         'a4'  => 'FKH UNAIR Logo ALternatif.png',
@@ -1863,17 +2015,24 @@ function assie4_default_tenant_logos() {
         'a20' => 'Logo Pushal x LPH.png',
         'a21' => 'Logo pusba_kotak final.png',
         'd4'  => 'fast_unair.png',
+        'd1'  => 'airbilinest.png',
+        'd12' => 'dikst-ub.png',
+        'd13' => 'universitas-hang-tuah.png',
+        'd15' => 'bangga_evcs.png',
+        'd16' => 'markaswalet.png',
+        'f1'  => 'MULIA SAMUDRA MAJU ABADI.jpg',
+        'f19' => 'petime-animal-care.png',
+        'f20' => 'vascular-indonesia.png',
+        'f21' => 'inobi.png',
         'd7'  => 'sahabat_spondan.png',
         'g3'  => 'partner_sehatin.png',
         'g8'  => 'sahabat_spondan.png',
-        'd1'  => 'AirBiliSun (1).jpg',
         'd2'  => 'Logo CESGS.png',
         'd5'  => 'Logo Madu Onggu Recreate-03.png',
         'd6'  => 'Logo Kopi Setengah Serius.jpg',
         'd9'  => 'LOGO FLORDEQUEEN OFFICIAL.png',
         'd11' => 'logo ulul albab uin malang.png',
         'c1'  => 'Badan POM White Outline.png',
-        'f1'  => 'Logo Bangga EVCS.png',
         'f2'  => 'Copy of Kinara Industries-Logo 2.png',
         'f3'  => 'Logo Olimnesia.jpg',
         'f4'  => 'JOBHUN HITAM border.png',
@@ -1888,7 +2047,6 @@ function assie4_default_tenant_logos() {
         'f15' => 'logo braja.png',
         'f17' => 'Logo APPA Tech.png',
         'f18' => 'Logo Likur Production.png',
-        'g1'  => 'LOGO DEORANS.png',
         'g2'  => 'Logo Tawdeo.png',
         'g4'  => 'Logo Sweet Food.jpg',
         'g5'  => 'Logo Golden Gate Dimsum.png',
@@ -1912,7 +2070,6 @@ function assie4_default_tenant_logos() {
         'b1'  => 'p3ua.png',
         'd10' => 'inbis_ppns.jpg',
         'h5'  => 'allbouquets.png',
-        'd8'  => 'MULIA SAMUDRA MAJU ABADI.jpg',
         'f16' => 'SRIWIJAYA KONTRAKTOR.png',
         'h14' => 'Zaruna Gift.jpg',
     ];
@@ -1953,27 +2110,103 @@ function assie4_default_rundown() {
 }
 
 /* ═══ HELPERS ═══════════════════════════════════════════ */
-function assie4_get_tenants() {
-    $raw = get_option( ASSIE4_OPT_TENANTS, [] );
-    if ( ! is_array($raw) ) $raw = [];
-    $seed_state = get_option( 'assie4_directory_seed_state' );
+function assie4_upgrade_official_roster( $tenants ) {
+    $defaults = assie4_default_tenants();
+    $by_code = [];
+    foreach ( $defaults as $default ) {
+        $by_code[strtoupper( $default['code'] ?? '' )] = $default;
+    }
 
-    $has_old_dummy = false;
-    foreach ($raw as $t) {
-        if (isset($t['id']) && in_array($t['id'], ['b13', 'b16', 'c10', 'd10', 'd11', 'e15'], true) && empty($t['instansi'])) {
-            $has_old_dummy = true;
-            break;
+    $updated = [];
+    $seen_ids = [];
+    foreach ( (array) $tenants as $tenant ) {
+        $tenant = (array) $tenant;
+        $old_id = sanitize_key( $tenant['id'] ?? '' );
+        $old_name = strtolower( trim( (string) ( $tenant['name'] ?? '' ) ) );
+        $code = strtoupper( trim( (string) ( $tenant['code'] ?? $old_id ) ) );
+
+        // These two tenants exchanged positions in the updated booth plan.
+        if ( $old_id === 'd8' && strpos( $old_name, 'mulia samudra' ) !== false ) $code = 'F1';
+        if ( $old_id === 'f1' && strpos( $old_name, 'bangga' ) !== false ) $code = 'D15';
+
+        if ( isset( $by_code[$code] ) ) {
+            $default = $by_code[$code];
+            $merged = array_merge( $default, $tenant );
+            $is_placeholder = preg_match( '/^(tenant belum terdaftar|belum terdaftar|booth kosong)$/i', $old_name );
+
+            if ( $is_placeholder ) {
+                foreach ( ['name','instansi','cat','desc','tags','logo','transaksi'] as $field ) {
+                    $merged[$field] = $default[$field] ?? '';
+                }
+            }
+
+            // AirBiliNest and AirBiliSun are a single exhibitor at D1.
+            if ( $code === 'D1' && ( strpos( $old_name, 'airbili' ) !== false || strpos( $old_name, 'bilirubin' ) !== false || $is_placeholder ) ) {
+                foreach ( ['name','instansi','desc','logo'] as $field ) $merged[$field] = $default[$field] ?? '';
+            }
+
+            // The official plan assigns one shared booth to the WEBS FEB cohort.
+            if ( $code === 'G1' && strpos( $old_name, 'deorans' ) !== false ) {
+                foreach ( ['name','instansi','cat','desc','tags','logo','contact','whatsapp','web','instagram','facebook','twitter'] as $field ) {
+                    $merged[$field] = $default[$field] ?? '';
+                }
+            }
+
+            $location = assie4_booth_location( $code );
+            $merged['id'] = strtolower( $code );
+            $merged['code'] = $code;
+            if ( $location ) {
+                $merged['booth_no'] = $location['booth_no'];
+                $merged['area'] = $location['area'];
+                $merged['cluster'] = $location['cluster'];
+            }
+            $tenant = $merged;
+        }
+
+        $id = sanitize_key( $tenant['id'] ?? '' );
+        if ( $id === '' || isset( $seen_ids[$id] ) ) continue;
+        $seen_ids[$id] = true;
+        $updated[] = $tenant;
+    }
+
+    // Add only assigned booths missing from the saved directory; keep custom records.
+    foreach ( $defaults as $default ) {
+        $id = sanitize_key( $default['id'] ?? '' );
+        if ( $id !== '' && ! isset( $seen_ids[$id] ) ) {
+            $seen_ids[$id] = true;
+            $updated[] = $default;
         }
     }
-    if ( empty($raw) || $has_old_dummy || $seed_state !== 'v7' ) {
+
+    return $updated;
+}
+
+function assie4_get_tenants() {
+    $raw = get_option( ASSIE4_OPT_TENANTS, null );
+    // Seed only a missing option. Never replace saved tenants on a version change,
+    // a particular booth ID, or an intentionally empty directory.
+    if ( $raw === null ) {
         $raw = assie4_default_tenants();
         update_option( ASSIE4_OPT_TENANTS, $raw, false );
         update_option( 'assie4_directory_seed_state', 'v7', false );
+        update_option( 'assie4_official_booth_roster_version', '2026-10-03', false );
+        assie4_rebuild_js_data();
+    }
+    if ( ! is_array($raw) ) $raw = [];
+
+    if ( get_option( 'assie4_official_booth_roster_version' ) !== '2026-10-03' ) {
+        $updated_roster = assie4_upgrade_official_roster( $raw );
+        update_option( ASSIE4_OPT_TENANTS, $updated_roster, false );
+        if ( get_option( ASSIE4_OPT_TENANTS ) !== $updated_roster ) {
+            return array_values( array_map( 'assie4_normalize_tenant', $raw ) );
+        }
+        $raw = $updated_roster;
+        update_option( 'assie4_official_booth_roster_version', '2026-10-03', false );
         assie4_rebuild_js_data();
     }
 
     // Repair bundled booth logos once while preserving media-library uploads.
-    if ( get_option( 'assie4_local_tenant_logos_version' ) !== '5' ) {
+    if ( get_option( 'assie4_local_tenant_logos_version' ) !== '6' ) {
         $local_logos = assie4_default_tenant_logos();
         $site_host = wp_parse_url( home_url( '/' ), PHP_URL_HOST );
         $asset_path = wp_parse_url( ASSIE4_PAMERAN_URL . 'assets/tenant-logos/', PHP_URL_PATH );
@@ -1991,7 +2224,7 @@ function assie4_get_tenants() {
             'h10' => 'https://drive.google.com/drive/folders/12gH6jh1EaibV_DayJiJn8dzNg928eNcS',
             'h14' => 'https://id.shp.ee/SHug2F2W',
         ];
-        $logo_repair_blank_ids = [ 'b1' => true, 'd8' => true, 'd10' => true, 'f16' => true, 'h5' => true, 'h14' => true ];
+        $logo_repair_blank_ids = [ 'b1' => true, 'd10' => true, 'f16' => true, 'h5' => true, 'h14' => true ];
         $logos_changed = false;
 
         foreach ( $raw as &$tenant ) {
@@ -2014,11 +2247,9 @@ function assie4_get_tenants() {
         }
         unset( $tenant );
 
-        if ( $logos_changed ) {
-            update_option( ASSIE4_OPT_TENANTS, $raw, false );
-            assie4_rebuild_js_data();
-        }
-        update_option( 'assie4_local_tenant_logos_version', '5', false );
+        if ( $logos_changed ) update_option( ASSIE4_OPT_TENANTS, $raw, false );
+        update_option( 'assie4_local_tenant_logos_version', '6', false );
+        if ( $logos_changed ) assie4_rebuild_js_data();
     }
 
     return array_values( array_map( 'assie4_normalize_tenant', $raw ) );
@@ -2032,6 +2263,9 @@ function assie4_save_tenants( $tenants ) {
         return strcmp($a['id'], $b['id']);
     });
     update_option( ASSIE4_OPT_TENANTS, $tenants, false );
+    if ( get_option( ASSIE4_OPT_TENANTS ) !== $tenants ) {
+        return new WP_Error( 'assie4_save_failed', 'Server belum berhasil menyimpan data booth. Data formulir dipertahankan; silakan coba kembali atau periksa log database hosting.' );
+    }
     update_option( 'assie4_directory_seed_state', 'v7', false );
     assie4_rebuild_js_data();
     return $tenants;
@@ -2102,6 +2336,9 @@ function assie4_admin_enqueue_scripts( $hook ) {
     if ( ! $is_our_page ) return;
 
     wp_enqueue_style( 'assie4-admin-css', ASSIE4_PAMERAN_URL . 'assets/assie4-admin.css', [], time() );
+    if ( $page === 'assie4-tenants' ) {
+        wp_enqueue_script( 'assie4-tenant-admin', ASSIE4_PAMERAN_URL . 'assets/assie4-tenant-admin.js', [], ASSIE4_PAMERAN_VER, true );
+    }
     if ( $page === 'assie4-denah' || strpos( $hook, 'denah' ) !== false ) {
         wp_enqueue_media();
     }
@@ -2128,7 +2365,7 @@ function assie4_admin_dashboard() {
         <div class="a4-dash-hero-content">
             <div class="a4-dash-hero-pill">
                 <span class="a4-dash-pulse"></span>
-                AIRLANGGA INNOVATION SUMMIT &amp; EXPO · ASSIE IV 2026
+                AIRLANGGA INNOVATION SUMMIT &amp; EXPO · IM ASSIE IV 2026
             </div>
             <h2 class="a4-dash-title">
                 ASSIE IV Pameran Digital
@@ -2425,15 +2662,16 @@ function assie4_admin_dashboard() {
 
 /* ═══ 2. INFO ACARA ═════════════════════════════════════ */
 function assie4_admin_info() {
+    $post = assie4_brand_values( wp_unslash( $_POST ) );
     if ( ! current_user_can('manage_options') ) return;
-    if ( isset($_POST['_n']) && wp_verify_nonce($_POST['_n'],'a4_info') ) {
+    if ( isset($post['_n']) && wp_verify_nonce($post['_n'],'a4_info') ) {
         update_option( ASSIE4_OPT_INFO, [
-            'logo'      => esc_url_raw($_POST['logo']      ?? ''),
-            'date'      => sanitize_text_field($_POST['date']      ?? ''),
-            'location'  => sanitize_text_field($_POST['location']  ?? ''),
-            'org'       => sanitize_text_field($_POST['org']       ?? ''),
-            'timeOpen'  => sanitize_text_field($_POST['timeOpen']  ?? '08:00'),
-            'timeClose' => sanitize_text_field($_POST['timeClose'] ?? '20:00'),
+            'logo'      => esc_url_raw($post['logo']      ?? ''),
+            'date'      => sanitize_text_field($post['date']      ?? ''),
+            'location'  => sanitize_text_field($post['location']  ?? ''),
+            'org'       => sanitize_text_field($post['org']       ?? ''),
+            'timeOpen'  => sanitize_text_field($post['timeOpen']  ?? '08:00'),
+            'timeClose' => sanitize_text_field($post['timeClose'] ?? '20:00'),
         ] );
         assie4_rebuild_js_data();
         a4_notice('✅ Info acara berhasil disimpan!');
@@ -2453,7 +2691,7 @@ function assie4_admin_info() {
                 ?>
                 <img src="<?php echo esc_url($cur_logo); ?>" style="height:36px;background:#fff;padding:3px 8px;border-radius:6px;border:1px solid #ddd;box-shadow:0 1px 3px rgba(0,0,0,0.1)" alt="Preview Logo">
             </div>
-            <small style="color:#666">Logo default: <code>assets/logo-assie4.png</code> (Industry Matching ASSIE IV 2026)</small>
+            <small style="color:#666">Logo default: <code>assets/logo-assie4.png</code> (IM ASSIE IV 2026)</small>
         </div>
         <div class="a4-row">
             <div class="a4-field"><label>Tanggal Acara</label><input name="date" value="<?php echo esc_attr($i['date']); ?>" placeholder="6-8 November 2026"></div>
@@ -2473,11 +2711,12 @@ function assie4_admin_info() {
 
 /* ═══ 3. SLIDES ═════════════════════════════════════════ */
 function assie4_admin_slides() {
+    $post = assie4_brand_values( wp_unslash( $_POST ) );
     if ( ! current_user_can('manage_options') ) return;
-    if ( isset($_POST['_n']) && wp_verify_nonce($_POST['_n'],'a4_slides') ) {
+    if ( isset($post['_n']) && wp_verify_nonce($post['_n'],'a4_slides') ) {
         $sl = [];
-        foreach ( ($_POST['s_title'] ?? []) as $i => $t ) {
-            $sl[] = ['title'=>sanitize_text_field($t),'subtitle'=>sanitize_text_field($_POST['s_subtitle'][$i]??''),'desc'=>sanitize_textarea_field($_POST['s_desc'][$i]??''),'cta'=>sanitize_text_field($_POST['s_cta'][$i]??''),'link'=>esc_url_raw($_POST['s_link'][$i]??''),'bg'=>sanitize_text_field($_POST['s_bg'][$i]??'')];
+        foreach ( ($post['s_title'] ?? []) as $i => $t ) {
+            $sl[] = ['title'=>sanitize_text_field($t),'subtitle'=>sanitize_text_field($post['s_subtitle'][$i]??''),'desc'=>sanitize_textarea_field($post['s_desc'][$i]??''),'cta'=>sanitize_text_field($post['s_cta'][$i]??''),'link'=>esc_url_raw($post['s_link'][$i]??''),'bg'=>sanitize_text_field($post['s_bg'][$i]??'')];
         }
         update_option( ASSIE4_OPT_SLIDES, $sl );
         assie4_rebuild_js_data();
@@ -2512,16 +2751,17 @@ function assie4_admin_slides() {
     </form>
     </div>
     <script>
-    function a4AS(){document.getElementById('a4SW').insertAdjacentHTML('beforeend','<div class="a4-item-box"><div class="a4-item-header"><span class="a4-item-num">🖼 Slide Baru</span><button type="button" class="a4-btn-del" onclick="this.closest(\'.a4-item-box\').remove()">✕ Hapus</button></div><div class="a4-row"><div class="a4-field"><label>Judul</label><input name="s_title[]" value=""></div><div class="a4-field"><label>Sub Judul</label><input name="s_subtitle[]" value="ASSIE IV 2026"></div></div><div class="a4-field" style="margin-bottom:12px"><label>Deskripsi</label><textarea name="s_desc[]" rows="2"></textarea></div><div class="a4-row"><div class="a4-field"><label>Teks Tombol</label><input name="s_cta[]" value="Selengkapnya"></div><div class="a4-field"><label>Link</label><input name="s_link[]" value="#denah"></div></div><div class="a4-field"><label>Background (URL gambar atau CSS)</label><input name="s_bg[]" value="linear-gradient(135deg,#03050e,#0c1a40)"></div></div>');}
+    function a4AS(){document.getElementById('a4SW').insertAdjacentHTML('beforeend','<div class="a4-item-box"><div class="a4-item-header"><span class="a4-item-num">🖼 Slide Baru</span><button type="button" class="a4-btn-del" onclick="this.closest(\'.a4-item-box\').remove()">✕ Hapus</button></div><div class="a4-row"><div class="a4-field"><label>Judul</label><input name="s_title[]" value=""></div><div class="a4-field"><label>Sub Judul</label><input name="s_subtitle[]" value="IM ASSIE IV 2026"></div></div><div class="a4-field" style="margin-bottom:12px"><label>Deskripsi</label><textarea name="s_desc[]" rows="2"></textarea></div><div class="a4-row"><div class="a4-field"><label>Teks Tombol</label><input name="s_cta[]" value="Selengkapnya"></div><div class="a4-field"><label>Link</label><input name="s_link[]" value="#denah"></div></div><div class="a4-field"><label>Background (URL gambar atau CSS)</label><input name="s_bg[]" value="linear-gradient(135deg,#03050e,#0c1a40)"></div></div>');}
     </script>
     <?php
 }
 
 /* ═══ 4. TICKER ═════════════════════════════════════════ */
 function assie4_admin_ticker() {
+    $post = assie4_brand_values( wp_unslash( $_POST ) );
     if ( ! current_user_can('manage_options') ) return;
-    if ( isset($_POST['_n']) && wp_verify_nonce($_POST['_n'],'a4_ticker') ) {
-        $items = array_values( array_filter( array_map( 'sanitize_text_field', explode("\n", $_POST['ticker'] ?? '') ) ) );
+    if ( isset($post['_n']) && wp_verify_nonce($post['_n'],'a4_ticker') ) {
+        $items = array_values( array_filter( array_map( 'sanitize_text_field', explode("\n", $post['ticker'] ?? '') ) ) );
         update_option( ASSIE4_OPT_TICKER, $items );
         assie4_rebuild_js_data();
         a4_notice('✅ Ticker disimpan!');
@@ -2544,13 +2784,14 @@ function assie4_admin_ticker() {
 
 /* ═══ 5. RUNDOWN ════════════════════════════════════════ */
 function assie4_admin_rundown() {
+    $post = assie4_brand_values( wp_unslash( $_POST ) );
     if ( ! current_user_can('manage_options') ) return;
-    if ( isset($_POST['_n']) && wp_verify_nonce($_POST['_n'],'a4_rundown') ) {
-        $days = array_map( fn($l) => ['label'=>sanitize_text_field($l)], ($_POST['dl']??[]) );
+    if ( isset($post['_n']) && wp_verify_nonce($post['_n'],'a4_rundown') ) {
+        $days = array_map( fn($l) => ['label'=>assie4_day_label($l)], ($post['dl']??[]) );
         $evs  = [];
-        foreach ( ($_POST['en']??[]) as $i => $name ) {
+        foreach ( ($post['en']??[]) as $i => $name ) {
             if (!trim($name)) continue;
-            $evs[] = ['day'=>intval($_POST['ed'][$i]??0),'time'=>sanitize_text_field($_POST['et'][$i]??''),'end'=>sanitize_text_field($_POST['ee'][$i]??''),'name'=>sanitize_text_field($name),'type'=>sanitize_text_field($_POST['ety'][$i]??'keynote'),'loc'=>sanitize_text_field($_POST['el'][$i]??'')];
+            $evs[] = ['day'=>intval($post['ed'][$i]??0),'time'=>sanitize_text_field($post['et'][$i]??''),'end'=>sanitize_text_field($post['ee'][$i]??''),'name'=>sanitize_text_field($name),'type'=>sanitize_text_field($post['ety'][$i]??'keynote'),'loc'=>sanitize_text_field($post['el'][$i]??'')];
         }
         usort( $evs, fn($a,$b) => $a['day']<=>$b['day'] ?: strcmp($a['time'],$b['time']) );
         update_option( ASSIE4_OPT_RUNDOWN, ['days'=>$days,'events'=>$evs] );
@@ -2617,70 +2858,15 @@ function assie4_admin_tenants() {
         $del_id  = sanitize_text_field($_GET['del_t']);
         $tenants = assie4_get_tenants();
         $tenants = array_values( array_filter($tenants, fn($t) => $t['id'] !== $del_id) );
-        assie4_save_tenants($tenants);
-        a4_notice('Tenant '.esc_html($del_id).' berhasil dihapus.');
+        $saved = assie4_save_tenants($tenants);
+        if ( is_wp_error($saved) ) a4_notice($saved->get_error_message(), 'err');
+        else a4_notice('Tenant '.$del_id.' berhasil dihapus.');
     }
 
-    /* ── Simpan (tambah / edit) ── */
-    if ( isset($_POST['_nt']) && wp_verify_nonce($_POST['_nt'], 'a4_tenant') ) {
-        $edit_id = sanitize_text_field($_POST['original_id'] ?? '');
-        $new_id  = strtoupper(sanitize_text_field($_POST['t_id'] ?? ''));
-        if ( empty($new_id) ) {
-            a4_notice('Kode Booth tidak boleh kosong.','err');
-        } else {
-            $tags         = array_values( array_filter( array_map('trim', explode(',', sanitize_text_field($_POST['t_tags']??''))) ) );
-            $hari_operasi = isset($_POST['t_hari_operasi']) && is_array($_POST['t_hari_operasi'])
-                            ? array_map('sanitize_text_field', $_POST['t_hari_operasi'])
-                            : [];
-            $new_tenant = assie4_normalize_tenant([
-                'id'              => strtolower($new_id),
-                'booth_no'        => intval($_POST['t_booth_no']      ?? 0),
-                'code'            => $new_id,
-                'cluster'         => intval($_POST['t_cluster']       ?? 0),
-                'area'            => strtoupper(sanitize_text_field($_POST['t_area']     ?? 'A')),
-                'name'            => sanitize_text_field($_POST['t_name']      ?? ''),
-                'instansi'        => sanitize_text_field($_POST['t_instansi']  ?? ''),
-                'pic'             => sanitize_text_field($_POST['t_pic']       ?? ''),
-                'cat'             => sanitize_text_field($_POST['t_cat']       ?? ''),
-                'tipe_usaha'      => sanitize_text_field($_POST['t_tipe_usaha']     ?? ''),
-                'status_booth'    => sanitize_text_field($_POST['t_status_booth']   ?? 'aktif'),
-                'hari_operasi'    => $hari_operasi,
-                'produk_unggulan' => sanitize_textarea_field($_POST['t_produk_unggulan'] ?? ''),
-                'desc'            => sanitize_textarea_field($_POST['t_desc']      ?? ''),
-                'tags'            => $tags,
-                'logo'            => esc_url_raw($_POST['t_logo']              ?? ''),
-                'contact'         => sanitize_text_field($_POST['t_contact']    ?? ''),
-                'whatsapp'        => sanitize_text_field($_POST['t_whatsapp']   ?? ''),
-                'web'             => esc_url_raw($_POST['t_web']                ?? ''),
-                'instagram'       => sanitize_text_field($_POST['t_instagram']  ?? ''),
-                'facebook'        => esc_url_raw($_POST['t_facebook']           ?? ''),
-                'twitter'         => sanitize_text_field($_POST['t_twitter']    ?? ''),
-                'tiktok'          => sanitize_text_field($_POST['t_tiktok']     ?? ''),
-                'youtube'         => esc_url_raw($_POST['t_youtube']            ?? ''),
-                'tokopedia'       => esc_url_raw($_POST['t_tokopedia']          ?? ''),
-                'shopee'          => esc_url_raw($_POST['t_shopee']             ?? ''),
-                'transaksi'       => sanitize_text_field($_POST['t_transaksi']  ?? ''),
-            ]);
-            $tenants = assie4_get_tenants();
-            if ( $edit_id ) {
-                $found = false;
-                foreach ($tenants as $k => $t) { if ($t['id']===$edit_id){$tenants[$k]=$new_tenant;$found=true;break;} }
-                if (!$found) $tenants[] = $new_tenant;
-            } else {
-                if ( in_array(strtolower($new_id), array_column($tenants,'id'), true) ) {
-                    a4_notice('Kode Booth "'.$new_id.'" sudah ada. Gunakan kode lain.','err');
-                    $new_tenant = null;
-                } else {
-                    $tenants[] = $new_tenant;
-                }
-            }
-            if ( isset($new_tenant) && $new_tenant ) {
-                assie4_save_tenants($tenants);
-                $mode = $edit_id ? 'diperbarui' : 'ditambahkan';
-                a4_notice('Tenant '.$new_id.' berhasil '.$mode.'! Halaman pameran sudah terupdate.');
-                echo '<script>setTimeout(function(){window.location.href="'.esc_url($page_url).'"},1400);</script>';
-            }
-        }
+    $flash = get_transient( assie4_tenant_flash_key() );
+    if ( $flash ) {
+        delete_transient( assie4_tenant_flash_key() );
+        a4_notice( $flash['message'], ! empty( $flash['success'] ) ? 'ok' : 'err' );
     }
 
     $tenants = assie4_get_tenants();
@@ -2731,14 +2917,14 @@ function assie4_admin_tenants() {
         'Komunitas / Organisasi'=> 'Komunitas / Organisasi',
         'Lainnya'               => 'Lainnya',
     ];
-    $hari_labels = ['Jumat, 6 Nov','Sabtu, 7 Nov','Minggu, 8 Nov'];
-
     if ( $editId !== null ) {
         $t      = null;
         $is_new = ($editId === 'new');
         if ( !$is_new ) { foreach ($tenants as $item) { if ($item['id']===$editId){$t=$item;break;} } }
         if ( !$t ) $t = assie4_normalize_tenant([]);
-        $hari_sel = is_array($t['hari_operasi']) ? $t['hari_operasi'] : [];
+        if ( ! empty( $flash['data'] ) ) $t = $flash['data'];
+        if ( $t['cat'] && ! isset( $cat_opts[$t['cat']] ) ) $cat_opts[$t['cat']] = $t['cat'];
+        if ( $t['tipe_usaha'] && ! isset( $tipe_opts[$t['tipe_usaha']] ) ) $tipe_opts[$t['tipe_usaha']] = $t['tipe_usaha'];
         $title_text = $is_new ? 'Tambah Booth Baru' : 'Edit Booth ' . strtoupper($editId);
         $sub_text   = $is_new ? 'Formulir Lengkap' : 'Perbarui Data';
 
@@ -2758,9 +2944,11 @@ function assie4_admin_tenants() {
                 <a href="<?php echo esc_url($page_url); ?>" class="a4-btn-ghost" style="padding:8px 16px;font-size:13px">&larr; Kembali ke Daftar Booth</a>
             </div>
 
-            <form method="post" action="<?php echo esc_url($page_url); ?>" id="a4-tenant-form">
+            <form method="post" enctype="multipart/form-data" action="<?php echo esc_url(admin_url('admin-post.php?action=assie4_save_tenant')); ?>" id="a4-tenant-form">
+            <input type="hidden" name="action" value="assie4_save_tenant">
             <?php wp_nonce_field('a4_tenant','_nt'); ?>
             <input type="hidden" name="original_id" value="<?php echo $is_new ? '' : esc_attr($editId); ?>">
+            <input type="hidden" name="t_logo_id" value="<?php echo esc_attr($t['logo_id']); ?>">
 
             <!-- ╔════════════════════════════════════════╗
                  ║  SEKSI 1 — IDENTITAS & DENAH BOOTH     ║
@@ -2768,16 +2956,11 @@ function assie4_admin_tenants() {
             <div class="a4-form-section">
                 <div class="a4-form-section-title"><span class="ico">📍</span> 1. Identitas & Lokasi Denah Booth</div>
 
-                <div class="a4-row-4">
+                <div class="a4-row">
                     <div class="a4-field">
                         <label>Kode Booth <span class="a4-req" style="color:#ef4444">*</span></label>
                         <input name="t_id" id="t_id" value="<?php echo esc_attr($t['code'] ?: $t['id']); ?>" placeholder="mis: A1, B3, F10" required autocomplete="off" style="font-weight:700;letter-spacing:0.5px">
                         <span class="a4-field-hint">Plot lokasi di denah (contoh: A1, B12)</span>
-                    </div>
-                    <div class="a4-field">
-                        <label>No. Booth Denah</label>
-                        <input type="number" name="t_booth_no" value="<?php echo esc_attr($t['booth_no'] ?: ''); ?>" placeholder="1 – 106" min="1" max="200">
-                        <span class="a4-field-hint">Nomor urut hotspot denah interaktif</span>
                     </div>
                     <div class="a4-field">
                         <label>Area Pameran <span class="a4-req" style="color:#ef4444">*</span></label>
@@ -2786,11 +2969,6 @@ function assie4_admin_tenants() {
                                 echo '<option value="'.$ar.'"'.($t['area']===$ar?' selected':'').'>'.esc_html($am['icon'].' '.$am['label']).'</option>'; ?>
                         </select>
                         <span class="a4-field-hint">Zona lokasi stan pameran</span>
-                    </div>
-                    <div class="a4-field">
-                        <label>Cluster (Angka)</label>
-                        <input type="number" name="t_cluster" value="<?php echo esc_attr($t['cluster'] ?: '0'); ?>" placeholder="0" min="0">
-                        <span class="a4-field-hint">Kelompok stan khusus dalam area</span>
                     </div>
                 </div>
             </div>
@@ -2845,39 +3023,19 @@ function assie4_admin_tenants() {
             <div class="a4-form-section">
                 <div class="a4-form-section-title"><span class="ico">⏱️</span> 3. Operasional & Status Booth</div>
 
-                <div class="a4-row-3">
-                    <div class="a4-field">
-                        <label>Status Booth</label>
-                        <select name="t_status_booth">
-                            <option value="aktif"<?php echo ($t['status_booth']==='aktif'||$t['status_booth']===''?' selected':''); ?>>🟢 Aktif (Buka & Melayani)</option>
-                            <option value="standby"<?php echo ($t['status_booth']==='standby'?' selected':''); ?>>🟡 Standby (Persiapan)</option>
-                            <option value="kosong"<?php echo ($t['status_booth']==='kosong'?' selected':''); ?>>⚪ Belum Terisi / Kosong</option>
-                            <option value="nonaktif"<?php echo ($t['status_booth']==='nonaktif'?' selected':''); ?>>🔴 Nonaktif (Tutup)</option>
-                        </select>
-                        <span class="a4-field-hint">Status kesiapan stan pameran</span>
-                    </div>
+                <div class="a4-row">
                     <div class="a4-field">
                         <label>Transaksi Jual/Beli di Booth?</label>
                         <select name="t_transaksi">
-                            <option value="Ya"<?php echo ($t['transaksi']==='Ya'?' selected':''); ?>>💰 Ya — Ada Transaksi Langsung</option>
-                            <option value="Tidak"<?php echo ($t['transaksi']==='Tidak'||$t['transaksi']===''?' selected':''); ?>>🏷️ Tidak — Hanya Display / Demo / Branding</option>
+                            <option value="Ya"<?php selected($t['transaksi'], 'Ya'); ?>>Ya — Ada Transaksi Langsung</option>
+                            <option value="Tidak"<?php selected($t['transaksi'] !== 'Ya'); ?>>Tidak — Display / Demo / Branding</option>
                         </select>
                         <span class="a4-field-hint">Apakah pengunjung dapat membeli produk di booth</span>
                     </div>
-                    <div class="a4-field">
-                        <label>Hari Operasi Booth</label>
-                        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:2px">
-                            <?php foreach ($hari_labels as $hi => $hl) :
-                                $hval = (string)($hi+1);
-                                $checked = in_array($hval, $hari_sel) ? ' checked' : '';
-                            ?>
-                            <label class="a4-checkbox-pill">
-                                <input type="checkbox" name="t_hari_operasi[]" value="<?php echo $hval; ?>"<?php echo $checked; ?>>
-                                <span><?php echo esc_html($hl); ?></span>
-                            </label>
-                            <?php endforeach; ?>
-                        </div>
-                        <span class="a4-field-hint">Pilih hari stan buka melayani pengunjung</span>
+                    <div class="a4-booth-operation-note">
+                        <strong>Aktif selama 3 hari pameran</strong>
+                        <span>Jumat–Minggu, 6–8 November 2026</span>
+                        <p>Status dan hari operasi sudah ditetapkan otomatis untuk semua booth.</p>
                     </div>
                 </div>
 
@@ -2900,29 +3058,20 @@ function assie4_admin_tenants() {
                     <span class="a4-field-hint">Teks ini akan dibaca oleh pengunjung saat mengklik detail booth pada denah atau direktori</span>
                 </div>
 
-                <div class="a4-row">
-                    <div class="a4-field">
-                        <label>Tags Filter <small style="font-weight:normal;color:#64748b">(Pisahkan dengan tanda koma)</small></label>
-                        <input name="t_tags" value="<?php echo esc_attr(implode(', ',$t['tags'])); ?>" placeholder="Startup, Teknologi, Inovasi, UMKM, Transaksi Booth…">
-                        <div class="a4-tags-hint" style="margin-top:8px">
-                            <span style="font-size:11px;color:#94a3b8;margin-right:4px">Klik untuk tambah cepat:</span>
-                            <?php foreach (['Internal UNAIR','Startup','UMKM','Riset & Inovasi','Kuliner','Craft','Fashion','Teknologi','Kesehatan','Transaksi Booth'] as $ts)
-                                echo '<span class="a4-tag-chip" onclick="a4TagAdd(this,\''.$ts.'\')">+ '.$ts.'</span>'; ?>
+                <div class="a4-field a4-tenant-logo-upload">
+                    <label for="t_logo_file">Upload Logo Tenant</label>
+                    <input type="file" name="t_logo_file" id="t_logo_file" accept="image/png,image/jpeg,image/webp,image/gif">
+                    <span class="a4-field-hint">PNG, JPG, WebP, atau GIF · maksimal <?php echo esc_html(size_format(min(5 * MB_IN_BYTES, wp_max_upload_size()))); ?>. Gambar disimpan di Media Library situs ini.</span>
+                    <div class="a4-logo-preview-box">
+                        <img id="a4-logo-preview" src="<?php echo esc_url($t['logo']); ?>" data-has-logo="<?php echo $t['logo'] ? '1' : ''; ?>" alt="Preview logo tenant"<?php echo $t['logo'] ? '' : ' hidden'; ?>>
+                        <div>
+                            <strong>Preview logo</strong>
+                            <span id="a4-logo-status"><?php echo $t['logo'] ? 'Logo saat ini dipertahankan bila tidak memilih file baru.' : 'Pilih gambar dari komputer untuk melihat preview.'; ?></span>
                         </div>
                     </div>
-                    <div class="a4-field">
-                        <label>URL Gambar Logo</label>
-                        <input type="url" name="t_logo" id="t_logo" value="<?php echo esc_attr($t['logo']); ?>" placeholder="https://domain.com/path/ke/logo.png" oninput="a4LogoPreview(this.value)">
-                        <span class="a4-field-hint">Gunakan tautan gambar PNG transparan atau JPG persegi</span>
-                        
-                        <div class="a4-logo-preview-box">
-                            <img id="a4-logo-preview" src="<?php echo esc_url($t['logo'] ?: ASSIE4_PAMERAN_URL . 'assets/logo-assie4.png'); ?>" style="<?php echo $t['logo'] ? '' : 'opacity:0.3;filter:grayscale(1)'; ?>" onerror="this.src='<?php echo esc_url(ASSIE4_PAMERAN_URL . 'assets/logo-assie4.png'); ?>';this.style.opacity='0.3'">
-                            <div>
-                                <strong style="font-size:12px;color:#334155;display:block">Live Logo Preview</strong>
-                                <span style="font-size:11px;color:#94a3b8" id="a4-logo-status"><?php echo $t['logo'] ? 'Gambar logo terdeteksi' : 'Masukkan URL di atas untuk melihat preview'; ?></span>
-                            </div>
-                        </div>
-                    </div>
+                    <?php if ($t['logo']) : ?>
+                    <label class="a4-logo-remove"><input type="checkbox" name="t_remove_logo" id="t_remove_logo" value="1"> Hapus logo saat menyimpan</label>
+                    <?php endif; ?>
                 </div>
             </div>
 
@@ -3000,47 +3149,6 @@ function assie4_admin_tenants() {
             </form>
         </div>
 
-        <script>
-        // Live logo preview
-        function a4LogoPreview(url) {
-            var img = document.getElementById('a4-logo-preview');
-            var status = document.getElementById('a4-logo-status');
-            if (!img) return;
-            if (url && url.length > 5) {
-                img.src = url;
-                img.style.opacity = '1';
-                img.style.filter = 'none';
-                if (status) status.innerText = 'Gambar logo aktif';
-            } else {
-                img.src = '<?php echo esc_url(ASSIE4_PAMERAN_URL . 'assets/logo-assie4.png'); ?>';
-                img.style.opacity = '0.3';
-                img.style.filter = 'grayscale(1)';
-                if (status) status.innerText = 'Masukkan URL di atas untuk melihat preview';
-            }
-        }
-        // Chip tag helper
-        function a4TagAdd(el, tag) {
-            var inp = document.querySelector('[name="t_tags"]');
-            if (!inp) return;
-            var current = inp.value.split(',').map(s=>s.trim()).filter(Boolean);
-            if (!current.includes(tag)) {
-                current.push(tag);
-                inp.value = current.join(', ');
-                el.style.background = '#dbeafe';
-                el.style.color = '#1d4ed8';
-                el.style.borderColor = '#93c5fd';
-            }
-        }
-        // Auto-uppercase kode booth
-        document.addEventListener('DOMContentLoaded', function(){
-            var idEl = document.getElementById('t_id');
-            if (idEl) {
-                idEl.addEventListener('input', function(){
-                    this.value = this.value.toUpperCase();
-                });
-            }
-        });
-        </script>
         <?php
         echo '</div>'; // Tutup .a4-wrap
         return; // Hentikan render agar tabel 79 tenant TIDAK dicetak di bawah form!
@@ -3189,22 +3297,23 @@ function assie4_admin_tenants() {
 
 /* ═══ 7. DENAH & GALERI ═════════════════════════════════ */
 function assie4_admin_denah() {
+    $post = assie4_brand_values( wp_unslash( $_POST ) );
     if ( ! current_user_can('manage_options') ) return;
-    if ( isset($_POST['_nd']) && wp_verify_nonce($_POST['_nd'],'a4_denah') ) {
-        if ( isset($_POST['d_base_reset']) ) {
+    if ( isset($post['_nd']) && wp_verify_nonce($post['_nd'],'a4_denah') ) {
+        if ( isset($post['d_base_reset']) ) {
             delete_option('assie4_pameran_denah_base_image');
         } else {
-            update_option('assie4_pameran_denah_base_image', esc_url_raw(trim($_POST['d_base_url'] ?? '')));
+            update_option('assie4_pameran_denah_base_image', esc_url_raw(trim($post['d_base_url'] ?? '')));
         }
         $imgs = [];
-        foreach ( ($_POST['d_url']??[]) as $i => $url ) {
+        foreach ( ($post['d_url']??[]) as $i => $url ) {
             $url = esc_url_raw(trim($url));
             if (!$url) continue;
-            $imgs[] = ['url'=>$url,'caption'=>sanitize_text_field($_POST['d_cap'][$i]??'')];
+            $imgs[] = ['url'=>$url,'caption'=>sanitize_text_field($post['d_cap'][$i]??'')];
         }
         update_option('assie4_pameran_denah', $imgs);
         assie4_rebuild_js_data();
-        a4_notice(isset($_POST['d_base_reset']) ? '✅ Denah kembali memakai gambar bawaan plugin.' : '✅ Gambar denah disimpan! Halaman pameran terupdate.');
+        a4_notice(isset($post['d_base_reset']) ? '✅ Denah kembali memakai gambar bawaan plugin.' : '✅ Gambar denah disimpan! Halaman pameran terupdate.');
     }
     $imgs = get_option('assie4_pameran_denah', []);
     $base_url = get_option('assie4_pameran_denah_base_image', '');
@@ -3279,14 +3388,15 @@ function assie4_admin_denah() {
 
 /* ═══ 8. BOOTH PASINBIS ═════════════════════════════════ */
 function assie4_admin_pasinbis() {
+    $post = assie4_brand_values( wp_unslash( $_POST ) );
     if ( ! current_user_can('manage_options') ) return;
-    if ( isset($_POST['_np']) && wp_verify_nonce($_POST['_np'],'a4_pasinbis') ) {
-        update_option('assie4_pasinbis_url',  esc_url_raw($_POST['pasinbis_url']  ?? ''));
-        update_option('assie4_pasinbis_nama', sanitize_text_field($_POST['pasinbis_nama'] ?? ''));
-        update_option('assie4_pasinbis_desk', sanitize_textarea_field($_POST['pasinbis_desk'] ?? ''));
-        update_option('assie4_pasinbis_logo', esc_url_raw($_POST['pasinbis_logo'] ?? ''));
-        update_option('assie4_pasinbis_ig',   sanitize_text_field($_POST['pasinbis_ig']   ?? ''));
-        update_option('assie4_pasinbis_web',  esc_url_raw($_POST['pasinbis_web']  ?? ''));
+    if ( isset($post['_np']) && wp_verify_nonce($post['_np'],'a4_pasinbis') ) {
+        update_option('assie4_pasinbis_url',  esc_url_raw($post['pasinbis_url']  ?? ''));
+        update_option('assie4_pasinbis_nama', sanitize_text_field($post['pasinbis_nama'] ?? ''));
+        update_option('assie4_pasinbis_desk', sanitize_textarea_field($post['pasinbis_desk'] ?? ''));
+        update_option('assie4_pasinbis_logo', esc_url_raw($post['pasinbis_logo'] ?? ''));
+        update_option('assie4_pasinbis_ig',   sanitize_text_field($post['pasinbis_ig']   ?? ''));
+        update_option('assie4_pasinbis_web',  esc_url_raw($post['pasinbis_web']  ?? ''));
         assie4_rebuild_js_data();
         a4_notice('✅ Informasi Booth PASINBIS disimpan!');
     }
@@ -3324,7 +3434,7 @@ function assie4_admin_export() {
         update_option( ASSIE4_OPT_TENANTS, assie4_default_tenants(), false );
         update_option( 'assie4_directory_seed_state', 'v4', false );
         assie4_rebuild_js_data();
-        a4_notice('✅ Berhasil memuat ulang 79 data tenant resmi dari Excel ASSIE IV 2026!');
+        a4_notice('✅ Berhasil memuat ulang 79 data tenant resmi dari Excel IM ASSIE IV 2026!');
     }
     if ( isset($_POST['_nr']) && wp_verify_nonce($_POST['_nr'],'a4_reset') ) {
         if (isset($_POST['ri'])) { delete_option(ASSIE4_OPT_INFO);    a4_notice('✅ Info acara direset ke default.'); }
@@ -3348,8 +3458,8 @@ function assie4_admin_export() {
     a4_header('Export & Reset');
     ?>
         <div class="a4-card">
-        <div class="a4-card-head">🔄 Muat Ulang Data Resmi Excel ASSIE IV 2026</div>
-        <p class="u-text-sm u-text-light u-mb-md">Muat ulang seluruh 79 data tenant resmi dari file Excel Ploting Booth & Formulir Kesediaan Peserta ASSIE IV 2026 (termasuk deskripsi, logo, medsos, dan identitas PT/CV).</p>
+        <div class="a4-card-head">🔄 Muat Ulang Data Resmi Excel IM ASSIE IV 2026</div>
+        <p class="u-text-sm u-text-light u-mb-md">Muat ulang seluruh 79 data tenant resmi dari file Excel Ploting Booth & Formulir Kesediaan Peserta IM ASSIE IV 2026 (termasuk deskripsi, logo, medsos, dan identitas PT/CV).</p>
         <a href="<?php echo esc_url(wp_nonce_url(admin_url('admin.php?page=assie4-export&a4_reload_official=1'),'a4_reload_official')); ?>" class="a4-btn-gold" onclick="return confirm('Muat ulang 79 data tenant resmi dari Excel?')">🔄 Muat Ulang Data Resmi (79 Tenant)</a>
     </div>
     <div class="a4-card">

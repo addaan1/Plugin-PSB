@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name: ASSIE IV — Presensi Booth
- * Description: Sistem presensi digital pengunjung booth pameran ASSIE IV 2026. Menyimpan data ke database WordPress dan menampilkan halaman presensi full-page.
- * Version:     1.1.0
- * Author:      ASSIE IV 2026
+ * Description: Sistem presensi digital pengunjung booth pameran IM ASSIE IV 2026. Menyimpan data ke database WordPress dan menampilkan halaman presensi full-page.
+ * Version:     1.1.1
+ * Author:      IM ASSIE IV 2026
  * Text Domain: assie4-presensi
  */
 
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 define( 'ASSIE4_DIR',     plugin_dir_path( __FILE__ ) );
 define( 'ASSIE4_URL',     plugin_dir_url( __FILE__ ) );
-define( 'ASSIE4_VERSION', '1.1.0' );
+define( 'ASSIE4_VERSION', '1.1.1' );
 define( 'ASSIE4_TABLE',   'assie4_presensi' );
 
 // ═══════════════════════════════════════════════════
@@ -62,7 +62,7 @@ function assie4_create_page() {
     if ( $existing ) return;
 
     wp_insert_post( [
-        'post_title'   => 'Presensi Booth — ASSIE IV 2026',
+        'post_title'   => 'Presensi Booth — IM ASSIE IV 2026',
         'post_name'    => 'presensi-booth-assie4',
         'post_status'  => 'publish',
         'post_type'    => 'page',
@@ -890,7 +890,7 @@ function assie4_admin_page() {
       <div id="assie4-dashboard">
         <div class="a4-dash-head">
           <div>
-            <div class="a4-head-title">ASSIE IV 2026 <span style="font-weight:400;opacity:.8">/ Dashboard Presensi</span></div>
+            <div class="a4-head-title">IM ASSIE IV 2026 <span style="font-weight:400;opacity:.8">/ Dashboard Presensi</span></div>
             <p>Pantau jumlah pengunjung setiap booth selama pameran.</p>
           </div>
           <div class="a4-head-actions">

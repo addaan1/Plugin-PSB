@@ -1,5 +1,5 @@
 === ASSIE IV — Presensi Booth ===
-Versi: 1.1.0
+Versi: 1.1.1
 Requires WordPress: 5.8+
 Requires PHP: 7.4+
 
@@ -21,7 +21,7 @@ Requires PHP: 7.4+
 
 3. Saat aktivasi, plugin akan otomatis:
    ✅ Membuat tabel database `wp_assie4_presensi`
-   ✅ Membuat halaman WordPress bernama "Presensi Booth — ASSIE IV 2026"
+   ✅ Membuat halaman WordPress bernama "Presensi Booth — IM ASSIE IV 2026"
       di URL: /presensi-booth-assie4/
 
 4. Buka halaman tersebut → sistem presensi siap digunakan!

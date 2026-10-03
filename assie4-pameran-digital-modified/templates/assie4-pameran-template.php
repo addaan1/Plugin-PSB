@@ -14,8 +14,8 @@ $a4_brand_logo_url = !empty($a4_info_data['logo']) ? $a4_info_data['logo'] : (AS
 <!-- NAV -->
 <nav class="a4-nav" id="a4Nav">
   <div class="a4-nav-logo">
-    <a href="#home" onclick="a4GoTo('home')" class="a4-nav-logo-link" title="Industry Matching ASSIE IV 2026">
-      <img src="<?php echo esc_url( $a4_brand_logo_url ); ?>" alt="Industry Matching ASSIE IV 2026" class="a4-nav-logo-img" decoding="async">
+    <a href="#home" onclick="a4GoTo('home')" class="a4-nav-logo-link" title="IM ASSIE IV 2026">
+      <img src="<?php echo esc_url( $a4_brand_logo_url ); ?>" alt="IM ASSIE IV 2026" class="a4-nav-logo-img" decoding="async">
     </a>
   </div>
   <button type="button" class="a4-menu-toggle" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="a4NavMenu" onclick="a4ToggleMenu()"><?php echo $a4_ui_icon('menu'); ?></button>
@@ -136,7 +136,7 @@ $a4_brand_logo_url = !empty($a4_info_data['logo']) ? $a4_info_data['logo'] : (AS
 <!-- BERITA -->
 <section id="berita" class="a4-sec">
   <span class="a4-sec-tag">Berita</span>
-  <h2 class="a4-sec-h">Berita ASSIE IV 2026</h2>
+  <h2 class="a4-sec-h">Berita IM ASSIE IV 2026</h2>
   <p class="a4-sec-sub">Liputan dan informasi terbaru seputar Airlangga Startup Summit & Innovation Expo 2026.</p>
   <div class="a4-news-grid" id="a4NewsGrid">
     <div class="a4-news-loading">Memuat berita…</div>
@@ -198,7 +198,7 @@ $a4_brand_logo_url = !empty($a4_info_data['logo']) ? $a4_info_data['logo'] : (AS
 
       <!-- Info -->
       <div class="a4-tku-info">
-        <p class="a4-tku-desc">TokoUA adalah platform belanja resmi Universitas Airlangga — temukan produk inovatif dari tenant &amp; startup peserta pameran ASSIE IV 2026 dan dukung ekosistem wirausaha Airlangga.</p>
+        <p class="a4-tku-desc">TokoUA adalah platform belanja resmi Universitas Airlangga — temukan produk inovatif dari tenant &amp; startup peserta pameran IM ASSIE IV 2026 dan dukung ekosistem wirausaha Airlangga.</p>
         <div class="a4-tku-badges">
           <div class="a4-tku-badge"><?php echo $a4_ui_icon('check'); ?> Platform Resmi UNAIR</div>
           <div class="a4-tku-badge"><?php echo $a4_ui_icon('spark'); ?> Produk Startup Lokal</div>
@@ -246,8 +246,8 @@ $a4_brand_logo_url = !empty($a4_info_data['logo']) ? $a4_info_data['logo'] : (AS
 <!-- FOOTER -->
 <footer class="a4-footer">
   <div class="a4-footer-logo-wrap" style="margin-bottom:16px">
-    <img src="<?php echo esc_url( $a4_brand_logo_url ); ?>" alt="Industry Matching ASSIE IV 2026" class="a4-footer-logo-img" decoding="async">
+    <img src="<?php echo esc_url( $a4_brand_logo_url ); ?>" alt="IM ASSIE IV 2026" class="a4-footer-logo-img" decoding="async">
   </div>
-  <p>© 2026 <strong>PASINBIS Universitas Airlangga</strong> · ASSIE IV 2026</p>
+  <p>© 2026 <strong>PASINBIS Universitas Airlangga</strong> · IM ASSIE IV 2026</p>
   <p class="a4-footer-sub">Airlangga Startup Summit &amp; Innovation Expo · Grand City Atrium, Surabaya</p>
 </footer>

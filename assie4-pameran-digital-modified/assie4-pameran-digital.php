@@ -2,8 +2,8 @@
 /**
  * Plugin Name: ASSIE IV - Pameran Digital
  * Plugin URI: https://pasinbis.unair.ac.id
- * Description: Pameran digital ASSIE IV 2026. Shortcode [assie4_pameran] dan [assie4_berita].
- * Version: 2.13.0
+ * Description: Pameran digital IM ASSIE IV 2026. Shortcode [assie4_pameran] dan [assie4_berita].
+ * Version: 2.14.1
  * Author: PASINBIS Universitas Airlangga
  * Author URI: https://pasinbis.unair.ac.id
  * License: GPL-2.0-or-later
@@ -34,7 +34,7 @@ add_action( 'admin_enqueue_scripts', function( $hook ) {
 /* ══════════════════════════════════════════════════════
    DEFINE CONSTANTS
    ══════════════════════════════════════════════════════ */
-define( 'ASSIE4_PAMERAN_VER',  '2.13.0' );
+define( 'ASSIE4_PAMERAN_VER',  '2.14.1' );
 define( 'ASSIE4_PAMERAN_DIR',  plugin_dir_path( __FILE__ ) );
 define( 'ASSIE4_PAMERAN_URL',  plugin_dir_url( __FILE__ ) );
 define( 'ASSIE4_PAMERAN_SLUG', 'pameran-assie4' );
@@ -49,7 +49,7 @@ register_activation_hook( __FILE__, 'assie4_pameran_activate' );
 function assie4_pameran_activate() {
     if ( ! get_page_by_path( ASSIE4_PAMERAN_SLUG ) ) {
         wp_insert_post([
-            'post_title'   => 'Pameran Digital — ASSIE IV 2026',
+            'post_title'   => 'Pameran Digital — IM ASSIE IV 2026',
             'post_name'    => ASSIE4_PAMERAN_SLUG,
             'post_content' => '[assie4_pameran]',
             'post_status'  => 'publish',
@@ -184,7 +184,7 @@ function assie4_sc_berita( $atts ) {
     $a = shortcode_atts([
         'jumlah' => 9,
         'kolom'  => 3,
-        'judul'  => 'Berita ASSIE IV 2026',
+        'judul'  => 'Berita IM ASSIE IV 2026',
         'cache'  => 15,
     ], $atts, 'assie4_berita' );
 
@@ -437,10 +437,10 @@ function assie4_auto_scrape_pasinbis_news() {
                 'thumb' => 'https://pasinbis.unair.ac.id/wp-content/uploads/2026/07/Bootcamp-10-10.jpg',
             ],
             [
-                'title' => 'ASSIE IV 2026: Hadirkan Satu Ruang untuk Ribuan Inovasi dan Kolaborasi',
+                'title' => 'IM ASSIE IV 2026: Hadirkan Satu Ruang untuk Ribuan Inovasi dan Kolaborasi',
                 'link'  => 'https://pasinbis.unair.ac.id/2026/07/08/assie-iv-2026-hadirkan-satu-ruang-untuk-ribuan-inovasi-dan-kolaborasi/',
                 'date'  => '2026-07-08T04:07:58',
-                'desc'  => 'Airlangga StartUp Summit and Innovation Expo (ASSIE IV 2026) kembali hadir mempertemukan ratusan inovasi kampus, startup potensial, dan mitra industri...',
+                'desc'  => 'Airlangga StartUp Summit and Innovation Expo (IM ASSIE IV 2026) kembali hadir mempertemukan ratusan inovasi kampus, startup potensial, dan mitra industri...',
                 'thumb' => 'https://pasinbis.unair.ac.id/wp-content/uploads/2026/07/poster-e-flyer-ASSIE-IV-2.png',
             ],
             [

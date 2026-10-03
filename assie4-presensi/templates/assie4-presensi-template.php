@@ -1,7 +1,7 @@
 <?php
 /**
  * Template Name: ASSIE IV — Presensi Booth (Full Page)
- * Halaman penuh presensi booth pameran ASSIE IV 2026.
+ * Halaman penuh presensi booth pameran IM ASSIE IV 2026.
  * Data disimpan ke database WordPress via REST API.
  */
 
@@ -17,7 +17,7 @@ $exhibition_url = $exhibition_page ? get_permalink( $exhibition_page ) : home_ur
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Presensi Pengunjung — ASSIE IV 2026</title>
+<title>Presensi Pengunjung — IM ASSIE IV 2026</title>
 <?php remove_action( 'wp_head', 'wp_site_icon', 99 ); wp_head(); ?>
 <?php $unair_icon = 'https://fst.unair.ac.id/wp-content/uploads/2024/03/Logo-Branding-UNAIR-biru-1024x1024.png?ver=presensi-2'; ?>
 <link rel="icon" type="image/png" href="<?php echo esc_url( $unair_icon ); ?>">
@@ -261,7 +261,7 @@ $exhibition_url = $exhibition_page ? get_permalink( $exhibition_page ) : home_ur
 </aside>
 </main>
 
-<footer class="footer"><span>ASSIE IV 2026 · Industry Matching</span><span>PASINBIS Universitas Airlangga</span></footer>
+<footer class="footer"><span>IM ASSIE IV 2026 · Industry Matching</span><span>PASINBIS Universitas Airlangga</span></footer>
 
 <script>
 const NONCE    = <?php echo json_encode( wp_create_nonce('wp_rest') ); ?>;

@@ -1287,3 +1287,20 @@
   border: 1.5px dashed var(--border); border-radius: var(--r-lg);
   font-size: 13px;
 }
+/* Tenant editor: uploaded logos and fixed event operation. */
+.a4-booth-operation-note{padding:18px 20px;background:#f6f9fc;border:1px solid #dce4ee;border-radius:10px;color:#31435b;align-self:start}
+.a4-booth-operation-note strong,.a4-booth-operation-note span{display:block}
+.a4-booth-operation-note strong{color:#10233d;margin-bottom:5px}
+.a4-booth-operation-note p{margin:8px 0 0;font-size:12px;color:#64748b}
+.a4-tenant-logo-upload input[type=file]{width:100%;max-width:100%;box-sizing:border-box;padding:12px;border:1px solid #cbd5e1;border-radius:9px;background:#f8fafc}
+.a4-tenant-logo-upload input[type=file]::file-selector-button{margin-right:14px;padding:9px 14px;border:0;border-radius:6px;background:#10233d;color:#fff;font-weight:600;cursor:pointer}
+.a4-tenant-logo-upload .a4-logo-preview-box img{width:80px;height:80px;object-fit:contain;object-position:center;background:#fff;padding:8px;box-sizing:border-box}
+.a4-tenant-logo-upload .a4-logo-preview-box [hidden]{display:none!important}
+.a4-tenant-logo-upload .a4-logo-preview-box strong,.a4-tenant-logo-upload .a4-logo-preview-box span{display:block;overflow-wrap:anywhere}
+.a4-tenant-logo-upload .a4-logo-preview-box span{margin-top:5px;font-size:12px;color:#64748b}
+.a4-tenant-logo-upload .a4-logo-remove{display:flex;align-items:center;gap:8px;margin-top:14px;font-size:12px;text-transform:none;letter-spacing:0}
+#a4-tenant-form .a4-logo-remove{justify-content:flex-start;text-transform:none!important;letter-spacing:0!important}
+#a4-tenant-form .a4-logo-remove input[type=checkbox]{width:16px;min-width:16px;height:16px;flex:none;padding:0;margin:0}
+#a4-tenant-form .a4-form-footer>div{min-width:0;max-width:100%}
+@media(max-width:600px){#a4-tenant-form .a4-form-footer{position:static!important;padding:16px!important}#a4-tenant-form .a4-form-footer>div{width:100%}#a4-tenant-form .a4-form-footer .a4-btn-gold,#a4-tenant-form .a4-form-footer .a4-btn-ghost{width:100%;max-width:100%;padding:12px!important;white-space:normal;text-align:center;justify-content:center}}
+@media(max-width:600px){.a4-tenant-logo-upload .a4-logo-preview-box{align-items:flex-start;gap:12px}.a4-tenant-logo-upload .a4-logo-preview-box img{width:64px;height:64px;flex-shrink:0}}

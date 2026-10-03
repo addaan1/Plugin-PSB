@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════
-   ASSIE IV 2026 — Pameran Digital · WordPress JS v2.6
+   IM ASSIE IV 2026 — Pameran Digital · WordPress JS v2.6
    ═══════════════════════════════════════════════════════ */
 (function () {
   'use strict';
@@ -10,11 +10,11 @@
   var DATA = {
     info:    { date:'6-8 November 2026', location:'Grand City Atrium, Surabaya', org:'PASINBIS Universitas Airlangga', timeOpen:'10:00', timeClose:'22:00' },
     slides:  [
-      { title:'ASSIE IV 2026', subtitle:'Airlangga Startup Summit & Innovation Expo', desc:'Ajang pameran startup & inovasi terbesar di Jawa Timur. 3 hari penuh inovasi.', cta:'Jelajahi Pameran', link:'#denah', bg:'linear-gradient(135deg,#03050e 0%,#0c1a40 100%)' },
+      { title:'IM ASSIE IV 2026', subtitle:'Airlangga Startup Summit & Innovation Expo', desc:'Ajang pameran startup & inovasi terbesar di Jawa Timur. 3 hari penuh inovasi.', cta:'Jelajahi Pameran', link:'#denah', bg:'linear-gradient(135deg,#03050e 0%,#0c1a40 100%)' },
       { title:'Inovasi Tanpa Batas', subtitle:'Grand City Atrium · Surabaya', desc:'Temui inovator muda dan ekosistem startup Jawa Timur.', cta:'Lihat Denah Booth', link:'#denah', bg:'linear-gradient(135deg,#03050e 0%,#0d200e 100%)' },
       { title:'Dukung Startup Lokal', subtitle:'TokoUA · tokoua.unair.ac.id', desc:'Beli produk tenant pameran secara online melalui TokoUA.', cta:'Kunjungi TokoUA', link:'https://tokoua.unair.ac.id/', bg:'linear-gradient(135deg,#03050e 0%,#1a0a00 100%)' },
     ],
-    ticker:  ['Selamat datang di ASSIE IV 2026','6-8 November 2026 · Grand City Atrium Surabaya','Booth startup & inovasi','Belanja produk tenant online di tokoua.unair.ac.id','Presensi digital tersedia di setiap booth','PASINBIS Universitas Airlangga'],
+    ticker:  ['Selamat datang di IM ASSIE IV 2026','6-8 November 2026 · Grand City Atrium Surabaya','Booth startup & inovasi','Belanja produk tenant online di tokoua.unair.ac.id','Presensi digital tersedia di setiap booth','PASINBIS Universitas Airlangga'],
     rundown: {
       days:   [{ label:'Jumat, 6 November 2026' },{ label:'Sabtu, 7 November 2026' },{ label:'Minggu, 8 November 2026' }],
       events: [
@@ -799,7 +799,7 @@
         "instansi": "PT Jaminan Kredit Indonesia (Jamkrindo)",
         "pic": "",
         "cat": "Sponsorship / Mitra",
-        "desc": "Booth Sponsorship Jamkrindo di pameran inovasi ASSIE IV 2026.",
+        "desc": "Booth Sponsorship Jamkrindo di pameran inovasi IM ASSIE IV 2026.",
         "tags": [
             "Sponsorship / Mitra"
         ],
@@ -1945,7 +1945,7 @@
         "instansi": "RSGM UNAIR",
         "pic": "drg. Vankalayya Y. D",
         "cat": "Internal UNAIR",
-        "desc": "RSGM UNAIR berpartisipasi dalam Industry Matching IM ASSIE IV 2026 sebagai wadah untuk memperkenalkan layanan, inovasi, dan pengembangan teknologi di bidang kesehatan gigi dan mulut serta membuka peluang kolaborasi strategis dengan berbagai pihak.",
+        "desc": "RSGM UNAIR berpartisipasi dalam IM ASSIE IV 2026 sebagai wadah untuk memperkenalkan layanan, inovasi, dan pengembangan teknologi di bidang kesehatan gigi dan mulut serta membuka peluang kolaborasi strategis dengan berbagai pihak.",
         "tags": [
             "Internal UNAIR",
             "Transaksi Booth"
@@ -2051,7 +2051,7 @@
     if (db.denah   && Array.isArray(db.denah))                DATA.denah   = db.denah;
     if (typeof db.denahBaseImage === 'string')                DATA.denahBaseImage = db.denahBaseImage;
     if (typeof db.denahDefaultImage === 'string')             DATA.denahDefaultImage = db.denahDefaultImage;
-    if (db.tenants && Array.isArray(db.tenants) && db.tenants.length > 0) {
+    if (Array.isArray(db.tenants)) {
       DATA.tenants = db.tenants.map(normTenant);
     }
   })();
@@ -2122,15 +2122,15 @@
       var logoSlide=s.is_logo||s.logo_only||(s.title&&s.title.trim().toLowerCase()==='industry matching');
       var lUrl=s.logo||((window.ASSIE4_CFG||{}).pluginUrl||'')+'assets/logo-assie4.png';
       var heading=logoSlide
-        ? '<img class="a4-hero-brand" src="'+escH(lUrl)+'" alt="Industry Matching ASSIE IV 2026">'
-        : '<'+(i===0?'h1':'h2')+' class="a4-sl-h1">'+escH(s.title||'ASSIE IV 2026')+'</'+(i===0?'h1':'h2')+'>';
+        ? '<img class="a4-hero-brand" src="'+escH(lUrl)+'" alt="IM ASSIE IV 2026">'
+        : '<'+(i===0?'h1':'h2')+' class="a4-sl-h1">'+escH(s.title||'IM ASSIE IV 2026')+'</'+(i===0?'h1':'h2')+'>';
       var link=s.link||'#denah';
       if(!/^(https?:\/\/|#|\/)/i.test(link)) link='#denah';
       var content=document.createElement('div');
       content.className='a4-sl-composition';
       content.innerHTML='<div class="a4-sl-content">'+
-        '<div class="a4-sl-eyebrow">'+escH(s.subtitle||'Industry Matching · ASSIE IV 2026')+'</div>'+
-        heading+'<p class="a4-sl-p">'+escH(s.desc||'Temukan karya inovasi, bertemu para tenant, dan jelajahi agenda ASSIE IV.')+'</p>'+
+        '<div class="a4-sl-eyebrow">'+escH(s.subtitle||'Industry Matching · IM ASSIE IV 2026')+'</div>'+
+        heading+'<p class="a4-sl-p">'+escH(s.desc||'Temukan karya inovasi, bertemu para tenant, dan jelajahi agenda IM ASSIE IV.')+'</p>'+
         '<div class="a4-hero-actions"><a href="'+escH(link)+'" class="a4-sl-cta">'+escH(s.cta||'Jelajahi Pameran')+uiIcon('arrow')+'</a>'+
         '<a href="#rundown" class="a4-hero-secondary" onclick="a4GoTo(\'rundown\');return false;">Agenda acara <span aria-hidden="true">↗</span></a></div>'+
         '<div class="a4-hero-location">'+uiIcon('pin')+escH(DATA.info.location||'Grand City Atrium, Surabaya')+'</div></div>';
@@ -2676,7 +2676,7 @@
         (String(t.transaksi).toLowerCase()==='ya'?'<div><dt>Transaksi</dt><dd>Tersedia di booth</dd></div>':'')+
       '</dl>':'';
 
-    var formattedDesc = (t.desc || '').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>');
+    var formattedDesc = escH(t.desc || '').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>');
     var descBlock=t.desc?'<section class="a4-m-profile"><h3 class="a4-m-section-label">Tentang tenant</h3><div class="a4-m-desc">'+formattedDesc+'</div></section>':'';
 
     var igUrl='',twUrl='',waUrl='';
