@@ -49,13 +49,13 @@
         "instansi": "Fakultas Kedokteran",
         "pic": "Reny I'tishom",
         "cat": "Internal UNAIR",
-        "desc": "Fakultas Kedokteran Universitas Airlangga (FK Unair) di Surabaya merupakan salah satu fakultas kedokteran tertua dan paling bersejarah di Indonesia. Sejarahnya berakar dari tradisi pendidikan medis era Hindia Belanda yang diawali oleh pencerahan Sekolah Dokter Jawa pada pertengahan abad ke-19.\n\nSecara resmi, cikal bakal FK Unair berdiri pada 1 November 1913 di Surabaya dengan nama NIAS (Nederlandsch Indische Artsen School). Lembaga ini mencetak para dokter pribumi yang berperan besar dalam pelayanan kesehatan dan pergerakan nasional. Memasuki masa pendudukan Jepang, NIAS berganti nama menjadi Surabaya Ika Daigaku. Setelah kemerdekaan, sekolah ini sempat berstatus sebagai cabang Fakultas Kedokteran Universitas Indonesia (FK UI) sebelum akhirnya diresmikan oleh Presiden Soekarno menjadi bagian dari Universitas Airlangga pada 10 November 1954.\n\nSaat ini, FK Unair menjadi salah satu pusat pendidikan kedokteran unggulan berakreditasi internasional di Indonesia. Didukung oleh jaringan rumah sakit pendidikan utama seperti RSUD Dr. Soetomo dan Rumah Sakit Universitas Airlangga (RSUA), FK Unair terus melahirkan tenaga medis bertaraf global, memperkuat riset kesehatan, dan menjaga warisan sejarahnya sebagai pilar kedokteran tanah air.",
+        "desc": "Fakultas Kedokteran Universitas Airlangga (FK Unair) di Surabaya merupakan salah satu fakultas kedokteran tertua dan paling bersejarah di Indonesia. Sejarahnya berakar dari tradisi pendidikan medis era Hindia Belanda yang diawali oleh pencerahan Sekolah Dokter Jawa pada pertengahan abad ke-19.\r\n\r\nSecara resmi, cikal bakal FK Unair berdiri pada 1 November 1913 di Surabaya dengan nama NIAS (Nederlandsch Indische Artsen School). Lembaga ini mencetak para dokter pribumi yang berperan besar dalam pelayanan kesehatan dan pergerakan nasional. Memasuki masa pendudukan Jepang, NIAS berganti nama menjadi Surabaya Ika Daigaku. Setelah kemerdekaan, sekolah ini sempat berstatus sebagai cabang Fakultas Kedokteran Universitas Indonesia (FK UI) sebelum akhirnya diresmikan oleh Presiden Soekarno menjadi bagian dari Universitas Airlangga pada 10 November 1954.\r\n\r\nSaat ini, FK Unair menjadi salah satu pusat pendidikan kedokteran unggulan berakreditasi internasional di Indonesia. Didukung oleh jaringan rumah sakit pendidikan utama seperti RSUD Dr. Soetomo dan Rumah Sakit Universitas Airlangga (RSUA), FK Unair terus melahirkan tenaga medis bertaraf global, memperkuat riset kesehatan, dan menjaga warisan sejarahnya sebagai pilar kedokteran tanah air.",
         "tags": [
             "Internal UNAIR",
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/fk_unair.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/fk_unair.png",
         "contact": "ritishom@fk.unair.ac.id & humas@fk.unair.ac.id",
         "whatsapp": "08121644432 & 085961510996",
         "web": "https://fk.unair.ac.id/",
@@ -80,7 +80,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/fkg.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/fkg.png",
         "contact": "andari.sarasati@fkg.unair.ac.id",
         "whatsapp": "81333343938.0",
         "web": "https://unair.ac.id/fakultas-kedokteran-gigi/",
@@ -105,7 +105,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/farmasi_unair.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/farmasi_unair.png",
         "contact": "yusuf.alif@ff.unair.ac.id",
         "whatsapp": "089605257473",
         "web": "https://ff.unair.ac.id",
@@ -130,7 +130,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/fkh_unair.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/fkh_unair.png",
         "contact": "dhandy.koesoemo.wardhana@fkh.unair.ac.id",
         "whatsapp": "081553121891",
         "web": "https://fkh.unair.ac.id/",
@@ -155,7 +155,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/fast_unair.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/fast_unair.png",
         "contact": "m.fariz.fadillah.m@fst.unair.ac.id",
         "whatsapp": "081330733130",
         "web": "https://fst.unair.ac.id/",
@@ -180,7 +180,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/unair.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/LOGONEW_FTMM_forLightBG-Colour.png",
         "contact": "vinanci@staf.unair.ac.id",
         "whatsapp": "0822-3216-6441",
         "web": "https://ftmm.unair.ac.id/",
@@ -205,7 +205,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/vokasi_unair.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/vokasi_unair.png",
         "contact": "hanifa.nurrosyidah@vokasi.unair.ac.id",
         "whatsapp": "085190648711",
         "web": "",
@@ -230,7 +230,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/fpk_unair.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/fpk_unair.png",
         "contact": "daruti-dinda-n@fpk.unair.ac.id",
         "whatsapp": "+62 822-3172-4191",
         "web": "https://fpk.unair.ac.id",
@@ -254,7 +254,7 @@
             "Internal UNAIR",
             "UNAIR"
         ],
-        "logo": "assets/tenant-logos/feb_unair.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/feb_unair.png",
         "contact": "",
         "whatsapp": "",
         "web": "https://feb.unair.ac.id/",
@@ -273,13 +273,13 @@
         "instansi": "Fakultas Kesehatan Masyarakat UNAIR",
         "pic": "Rizna Notarianti",
         "cat": "Internal UNAIR",
-        "desc": "Booth Public Health UNAIR merupakan ruang yang memperkenalkan dan memasarkan berbagai produk inovasi karya dosen dan mahasiswa Fakultas Kesehatan Masyarakat Universitas Airlangga. Booth ini menghadirkan beragam inovasi di bidang gizi dan kesehatan masyarakat yang dikembangkan berdasarkan kreativitas, keilmuan, serta kebutuhan masyarakat.\n\nMelalui produk-produk yang ditawarkan, Booth FKM UNAIR menjadi wadah untuk mempertemukan hasil inovasi akademik dengan masyarakat secara lebih luas. Setiap produk diharapkan tidak hanya memiliki nilai guna dan nilai ekonomi, tetapi juga memberikan kontribusi nyata dalam mendukung peningkatan kualitas kesehatan dan kesejahteraan masyarakat.\n\nDengan semangat “Dari Kampus untuk Masyarakat”, Booth FKM UNAIR hadir sebagai representasi kreativitas dan inovasi sivitas akademika FKM UNAIR, sekaligus mendorong pemanfaatan hasil karya dosen dan mahasiswa agar dapat memberikan dampak positif bagi masyarakat.",
+        "desc": "Booth Public Health UNAIR merupakan ruang yang memperkenalkan dan memasarkan berbagai produk inovasi karya dosen dan mahasiswa Fakultas Kesehatan Masyarakat Universitas Airlangga. Booth ini menghadirkan beragam inovasi di bidang gizi dan kesehatan masyarakat yang dikembangkan berdasarkan kreativitas, keilmuan, serta kebutuhan masyarakat.\r\n\r\nMelalui produk-produk yang ditawarkan, Booth FKM UNAIR menjadi wadah untuk mempertemukan hasil inovasi akademik dengan masyarakat secara lebih luas. Setiap produk diharapkan tidak hanya memiliki nilai guna dan nilai ekonomi, tetapi juga memberikan kontribusi nyata dalam mendukung peningkatan kualitas kesehatan dan kesejahteraan masyarakat.\r\n\r\nDengan semangat “Dari Kampus untuk Masyarakat”, Booth FKM UNAIR hadir sebagai representasi kreativitas dan inovasi sivitas akademika FKM UNAIR, sekaligus mendorong pemanfaatan hasil karya dosen dan mahasiswa agar dapat memberikan dampak positif bagi masyarakat.",
         "tags": [
             "Internal UNAIR",
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/fkm.jpg",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/fkm.jpg",
         "contact": "riznanotarianti@fkm.unair.ac.id",
         "whatsapp": "081904251396",
         "web": "",
@@ -304,7 +304,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/fib.jpg",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/fib.jpg",
         "contact": "nuri.hermawan@fib.unair.ac.id",
         "whatsapp": "085736753801",
         "web": "https://fib.unair.ac.id/fib-main/",
@@ -329,7 +329,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/fikkia_unair.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/fikkia_unair.png",
         "contact": "bintang.gumilang@staf.unair.ac.id",
         "whatsapp": "08980614045",
         "web": "https://fikkia.unair.ac.id",
@@ -354,7 +354,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/lpt_unair.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/lpt_unair.png",
         "contact": "laura.navika@fkm.unair.ac.id",
         "whatsapp": "085649152890",
         "web": "https://itd.unair.ac.id/wp/",
@@ -379,7 +379,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/airlangga_enterprise.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/airlangga_enterprise.png",
         "contact": "rio.yuniar2406@gmail.com",
         "whatsapp": "+6282257814415",
         "web": "https://airlanggaenterprise.unair.ac.id",
@@ -404,7 +404,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/dormitory_center.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/dormitory_center.png",
         "contact": "ariaheru@staf.unair.ac.id",
         "whatsapp": "08819301869",
         "web": "https://asrama.unair.ac.id",
@@ -429,7 +429,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/puspas_unair.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/puspas_unair.png",
         "contact": "info@puspas.unair.ac.id",
         "whatsapp": "081327976923",
         "web": "https://puspas.unair.ac.id",
@@ -454,7 +454,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/pusat_halal.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/Logo Pushal x LPH.png",
         "contact": "info@halal.unair.ac.id",
         "whatsapp": "089697458211",
         "web": "https://halal.unair.ac.id/",
@@ -473,13 +473,13 @@
         "instansi": "Pusat Bahasa dan Multibudaya",
         "pic": "Iyun Witari",
         "cat": "Internal UNAIR",
-        "desc": "*Pusat Bahasa dan Multibudaya (Pusbamulya) Universitas Airlangga* merupakan unit penunjang penyeleggara layanan bahasa dan kebudayaan profesional di lingkungan Universitas Airlangga. Berada di bawah koordinasi pimpinan universitas, Pusbamulya berkomitmen mendukung penguatan akademik, internasionalisasi, serta pengembangan kompetensi sumber daya manusia.\n\nLayanan unggulan Pusbamulya mencakup tiga bidang utama:\n\n1. *Pengujian Bahasa:* Penyelenggaraan tes kemahiran bahasa terstandar, seperti English Language Proficiency Test (ELPT UNAIR), TOEFL ITP, NAT-TEST (Bahasa Jepang), dan uji kompetensi bahasa lainnya secara luring maupun daring.\n2. *Pelatihan dan Kursus Bahasa:* Program pelatihan bahasa Inggris (ELPT/IELTS preparation, general conversation, English for specific purposes) serta kelas bahasa asing seperti Jepang, Prancis, Belanda, dan BIPA.\n3. *Penerjemahan dan Penjurubahasaan:* Jasa penerjemahan dokumen resmi/akademik, proofreading, serta layanan interpreter profesional.\n\nDidukung oleh staf pengajar berpengalaman, kurikulum berkualitas, dan fasilitas modern, Pusbamulya tidak hanya melayani civitas akademika UNAIR, melainkan juga terbuka bagi masyarakat umum, instansi pemerintah, serta mitra korporat.",
+        "desc": "*Pusat Bahasa dan Multibudaya (Pusbamulya) Universitas Airlangga* merupakan unit penunjang penyeleggara layanan bahasa dan kebudayaan profesional di lingkungan Universitas Airlangga. Berada di bawah koordinasi pimpinan universitas, Pusbamulya berkomitmen mendukung penguatan akademik, internasionalisasi, serta pengembangan kompetensi sumber daya manusia.\r\n\r\nLayanan unggulan Pusbamulya mencakup tiga bidang utama:\r\n\r\n1. *Pengujian Bahasa:* Penyelenggaraan tes kemahiran bahasa terstandar, seperti English Language Proficiency Test (ELPT UNAIR), TOEFL ITP, NAT-TEST (Bahasa Jepang), dan uji kompetensi bahasa lainnya secara luring maupun daring.\r\n2. *Pelatihan dan Kursus Bahasa:* Program pelatihan bahasa Inggris (ELPT/IELTS preparation, general conversation, English for specific purposes) serta kelas bahasa asing seperti Jepang, Prancis, Belanda, dan BIPA.\r\n3. *Penerjemahan dan Penjurubahasaan:* Jasa penerjemahan dokumen resmi/akademik, proofreading, serta layanan interpreter profesional.\r\n\r\nDidukung oleh staf pengajar berpengalaman, kurikulum berkualitas, dan fasilitas modern, Pusbamulya tidak hanya melayani civitas akademika UNAIR, melainkan juga terbuka bagi masyarakat umum, instansi pemerintah, serta mitra korporat.",
         "tags": [
             "Internal UNAIR",
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "https://1drv.ms/i/c/d980f1cf28fccf2b/IQA7mB1lMLQjRaB9Z2HsWQWFASJWfNf7SPIL0g6QtXlb2ig?e=hYNyEj",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/Logo pusba_kotak final.png",
         "contact": "iyunwitari@staf.unair.ac.id",
         "whatsapp": "+62 812-1691-5819",
         "web": "https://pusatbahasa.unair.ac.id/",
@@ -494,17 +494,17 @@
         "code": "D1",
         "cluster": 2,
         "area": "D",
-        "name": "Airlangga Bilirubin Sun",
+        "name": "AirBiliNest & AirBiliSun",
         "instansi": "PT Medika Karya Airlangga",
         "pic": "Hasbi Assidiq",
         "cat": "Kesehatan & Farmasi",
-        "desc": "AirBiliSun adalah inovasi fototerapi cahaya matahari terfilter yang aman untuk bayi kuning, mencegah paparan sinar UV, serta mendukung pemerataan akses fototerapi, terutama di wilayah 3T Indonesia.",
+        "desc": "AirBiliNest Smart Phototherapy System dikembangkan untuk penanganan hiperbilirubinemia neonatal melalui kolaborasi riset dan industri. PT Medika Karya Airlangga berperan dalam riset dan pengembangan, PT Astra Komponen Indonesia sebagai mitra manufaktur, serta PT IDS Medical Systems Indonesia sebagai distributor. AirBiliSun adalah inovasi fototerapi dengan cahaya matahari terfilter yang dirancang aman bagi bayi kuning dan mendukung pemerataan akses fototerapi, terutama di wilayah 3T Indonesia.",
         "tags": [
             "Kesehatan & Farmasi",
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/airbilisun.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/airbilinest.png",
         "contact": "hasbi.assidiq1990@gmail.com",
         "whatsapp": "+62 851-1755-2990",
         "web": "https://airbilisun.com",
@@ -530,7 +530,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/unair.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/Logo CESGS.png",
         "contact": "esgi.dataset@gmail.com",
         "whatsapp": "085171700942",
         "web": "https://cesgs.unair.ac.id/",
@@ -549,13 +549,13 @@
         "instansi": "Unit Layanan Pengujian Fakultas Farmasi Unair (ULPFFUA)",
         "pic": "Rizka Elvira Puteri",
         "cat": "Internal UNAIR",
-        "desc": "Unit Layanan Pengujian Fakultas Farmasi Universitas Airlangga adalah Laboratorium pengujian kimia dan mikrobilogis produk obat, makanan dan kosmetik. ULP-FFUA merupakan salah satu unit pendukung Fakultas Farmasi Universitas Airlangga yang didirikan dan dikembangkan untuk memberikan pelayanan pengujian untuk keperluan pendidikan, penelitian dan pengabdian masyarakat.\n\nUntuk Menjamin Kualitas Layanan pengujiannya ULP-FFUA pada tahun 2005 mulai mengajukan sertifikasi ISO 17025 dengan no LD-325-IDN. Untuk meningkatkan performa Unit Layanan Pengujian lebih lanjut, maka dilakukan penataan manajemen dan restruksi organisasi berdasarkan SK Dekan Fakultas Farmasi Unair no.2284/JO3.1.20/PP/2008 tertanggal 31 Oktober 2008.",
+        "desc": "Unit Layanan Pengujian Fakultas Farmasi Universitas Airlangga adalah Laboratorium pengujian kimia dan mikrobilogis produk obat, makanan dan kosmetik. ULP-FFUA merupakan salah satu unit pendukung Fakultas Farmasi Universitas Airlangga yang didirikan dan dikembangkan untuk memberikan pelayanan pengujian untuk keperluan pendidikan, penelitian dan pengabdian masyarakat.\r\n\r\nUntuk Menjamin Kualitas Layanan pengujiannya ULP-FFUA pada tahun 2005 mulai mengajukan sertifikasi ISO 17025 dengan no LD-325-IDN. Untuk meningkatkan performa Unit Layanan Pengujian lebih lanjut, maka dilakukan penataan manajemen dan restruksi organisasi berdasarkan SK Dekan Fakultas Farmasi Unair no.2284/JO3.1.20/PP/2008 tertanggal 31 Oktober 2008.",
         "tags": [
             "Internal UNAIR",
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/farmasi_unair.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/farmasi_unair.png",
         "contact": "ulpffunair@gmail.com",
         "whatsapp": "082234079377",
         "web": "https://ff.unair.ac.id/pgs/418/contact",
@@ -570,23 +570,24 @@
         "code": "D4",
         "cluster": 2,
         "area": "D",
-        "name": "PUI-PT Bisnis Berkelanjutan",
-        "instansi": "Universitas Airlangga",
-        "pic": "",
-        "cat": "Riset & Pengembangan",
-        "desc": "Pusat Unggulan Ipteks Perguruan Tinggi Bisnis Berkelanjutan Universitas Airlangga.",
+        "name": "Inkubator Bisnis STP LPPM UPN \"Veteran\" Jawa Timur",
+        "instansi": "Inkubator Bisnis STP LPPM UPN \"Veteran\" Jawa Timur",
+        "pic": "Septyari",
+        "cat": "Eksternal UNAIR",
+        "desc": "Inkubator Bisnis STP LPPM UPN \"Veteran\" Jawa Timur memamerkan program inkubasi dan hilirisasi inovasi teknologi serta produk riset unggulan.",
         "tags": [
-            "Riset & Pengembangan",
-            "Startup"
+            "Eksternal UNAIR",
+            "Startup",
+            "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/unair.png",
-        "contact": "",
-        "whatsapp": "",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/upn_veteran.png",
+        "contact": "inbistechnopark@upnjatim.ac.id",
+        "whatsapp": "085655567262",
         "web": "",
-        "instagram": "",
+        "instagram": "https://www.instagram.com/stp_upnvjatim/",
         "facebook": "",
         "twitter": "",
-        "transaksi": ""
+        "transaksi": "Ya"
     },
     {
         "id": "d5",
@@ -604,7 +605,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/onggu_honey.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/onggu_honey.png",
         "contact": "rumahmataharipagi@gmail.com",
         "whatsapp": "+62 813-5772-9664",
         "web": "https://sites.google.com/view/onggu-honey/beranda",
@@ -624,13 +625,13 @@
         "instansi": "Espresso by Kopi Setengah Serious",
         "pic": "Eka",
         "cat": "Food & Beverage",
-        "desc": "Kopi Setengah Serious adalah produsen espresso literan dari Surabaya, yang menjadi solusi simpel dan mudah untuk membuat kopi enak ala kafe tanpa harus investasi alat. \n‎\n‎Praktis tinggal tuang dan campur dengan air atau susu, produk kami telah terjual ribuan liter di e-commerce dan digunakan oleh pemilik kafe, umkm, kedai makanan maupun kopi keliling yang sedang merintis usaha dan ingin membuat menu kopi susu yang cepat namun tetap nikmat karena 1 Liter Espresso bisa untuk membuat 25-30 gelas kopi kekinian.\n‎ \n‎Kami berbagi ide resep dan konsultasi resep kopi kekinian di Instagram & Tiktok @kopisetengahserious.",
+        "desc": "Kopi Setengah Serious adalah produsen espresso literan dari Surabaya, yang menjadi solusi simpel dan mudah untuk membuat kopi enak ala kafe tanpa harus investasi alat. \r\n‎\r\n‎Praktis tinggal tuang dan campur dengan air atau susu, produk kami telah terjual ribuan liter di e-commerce dan digunakan oleh pemilik kafe, umkm, kedai makanan maupun kopi keliling yang sedang merintis usaha dan ingin membuat menu kopi susu yang cepat namun tetap nikmat karena 1 Liter Espresso bisa untuk membuat 25-30 gelas kopi kekinian.\r\n‎ \r\n‎Kami berbagi ide resep dan konsultasi resep kopi kekinian di Instagram & Tiktok @kopisetengahserious.",
         "tags": [
             "Food & Beverage",
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/kopi_serious.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/kopi_serious.png",
         "contact": "kopisetengahserious@gmail.com",
         "whatsapp": "087722617299",
         "web": "https://linktr.ee/kopisetengahserious",
@@ -645,21 +646,21 @@
         "code": "D7",
         "cluster": 2,
         "area": "D",
-        "name": "Sahabat Spondan",
-        "instansi": "Sahabat Spondan",
-        "pic": "AMRETA LARAS PERTIWI",
-        "cat": "PGN",
-        "desc": "Produk olahan siap saji yang menemani setiap kegiatanmu menjadi lebih berwarna. Menghadirkan cita rasa otentik dengan harga terjangkau yang dikemas dan disajikan dengan rasa cinta. Setiap gigitan menciptakan kehangatan dalam setiap kegiatan bersama teman, keluarga dan orang tersayang kamu.",
+        "name": "SyariHub",
+        "instansi": "SyariHub (Mengaji Online Privat)",
+        "pic": "Sasa",
+        "cat": "Jasa",
+        "desc": "SyariHub adalah layanan belajar mengaji Al-Quran secara online/daring dan privat (1 murid 1 ustadz/ah). SyariHub memiliki berbagai pilihan paket belajar mengaji yang ramah untuk segala usia mulai dari anak-anak, remaja, dewasa hingga lansia.",
         "tags": [
-            "PGN",
+            "Jasa",
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/sahabat_spondan.png",
-        "contact": "amretapertiwi3@gmail.com",
-        "whatsapp": "085730171516",
-        "web": "",
-        "instagram": "https://www.instagram.com/sahabatspondan_sby?igsh=MTU1bzBzZXl1cHEzcQ==",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/syarihub.png",
+        "contact": "syarihub@gmail.com",
+        "whatsapp": "085704978982",
+        "web": "https://syarihub.id",
+        "instagram": "https://www.instagram.com/syarihub.id?",
         "facebook": "",
         "twitter": "",
         "transaksi": "Ya"
@@ -670,22 +671,22 @@
         "code": "D8",
         "cluster": 2,
         "area": "D",
-        "name": "MULIA SAMUDRA MAJU ABADI",
-        "instansi": "Mulia samudra maju abadi",
-        "pic": "Muhammad Syarif Satriyo samudra",
-        "cat": "Agrikultur & Akuakultur",
-        "desc": "CV. Mulia Samudra Maju Abadi (MSMA) merupakan usaha yang bergerak di bidang perikanan dan akuakultur berkelanjutan, dengan fokus pada budidaya dan pengembangan komoditas ikan serta rumput laut Gracilaria. MSMA mengintegrasikan kegiatan pembenihan, budidaya, pengumpulan hasil, pengolahan, hingga pemasaran untuk menghasilkan produk perikanan berkualitas dan bernilai ekonomi.\nMSMA juga mengembangkan inovasi teknologi akuakultur, seperti IoT, pakan otomatis, monitoring kualitas air, serta konsep budidaya yang efisien dan ramah lingkungan, dengan tujuan membangun ekosistem perikanan modern, produktif, dan berkelanjutan.",
+        "name": "PE-NOVTRA",
+        "instansi": "POLITEKNIK ELEKTRONIKA NEGERI SURABAYA",
+        "pic": "MUHAMMAD AR RAYAN",
+        "cat": "Eksternal UNAIR",
+        "desc": "PE-NOVTRA adalah startup agritech binaan Politeknik Elektronika Negeri Surabaya yang mengembangkan HydroCover, sistem budidaya modular berbasis teknologi untuk membantu petani modern meningkatkan produktivitas dan efisiensi pertanian.",
         "tags": [
-            "Agrikultur & Akuakultur",
+            "Eksternal UNAIR",
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "https://www.instagram.com/muliasamudra?stkn=MWV3eTFneGxhdHk1Zw==",
-        "contact": "msatriyo@magister.ciputra.ac.id",
-        "whatsapp": "081259545859",
-        "web": "https://Muliasamudra.com",
-        "instagram": "Muliasamudra",
-        "facebook": "Mulia Samudra",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/pe_novtra.png",
+        "contact": "penovtraid@gmail.com",
+        "whatsapp": "081363157885",
+        "web": "",
+        "instagram": "@penovtra",
+        "facebook": "",
         "twitter": "",
         "transaksi": "Ya"
     },
@@ -705,7 +706,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/flordequeen.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/flordequeen.png",
         "contact": "flordequeen@gmail.com",
         "whatsapp": "0817290298",
         "web": "https://flordequeen.com",
@@ -730,7 +731,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/poltekpel.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/inbis_ppns.jpg",
         "contact": "yesica@ppns.ac.id",
         "whatsapp": "082332357444",
         "web": "",
@@ -755,7 +756,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/uin_malang.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/uin_malang.png",
         "contact": "noviamaulina@gmail.com",
         "whatsapp": "081296050993",
         "web": "https://fkik.uin-malang.ac.id/",
@@ -764,6 +765,31 @@
         "twitter": "",
         "transaksi": "Ya",
         "desk": "UIN Maliki Malang melalui Phytonomics Research Group mengembangkan inovasi bahan alam menjadi produk kesehatan dan kosmetik, seperti Hermarin, Osteprint, dan produk herbal unggulan lainnya."
+    },
+    {
+        "id": "d15",
+        "booth_no": 36,
+        "code": "D15",
+        "cluster": 2,
+        "area": "D",
+        "name": "Bangga EVCS",
+        "instansi": "Bangga EVCS",
+        "pic": "Ibnu Andhika Hidayat",
+        "cat": "Manufaktur",
+        "desc": "Bangga EVCS merupakan sebuah inisiatif berbasis riset dari Universitas Airlangga yang berfokus pada pengembangan sistem charging kendaraan listrik (Electric Vehicle/EV). Inisiatif ini melibatkan kolaborasi antara mahasiswa dan dosen, sehingga mampu menggabungkan kekuatan inovasi, riset akademik, serta pengalaman praktis dalam menjawab kebutuhan infrastruktur pengisian daya di Indonesia yang terus berkembang.\n\nFokus utama Bangga EVCS terletak pada perancangan dan pengembangan teknologi charging yang adaptif, efisien, dan relevan dengan kondisi kelistrikan nasional. Sistem yang dikembangkan umumnya mengacu pada standar internasional, dengan kemampuan operasional pada konfigurasi 1 phase hingga 3 phase, serta rentang daya yang kompetitif untuk penggunaan residensial maupun komersial. Selain itu, Bangga EVCS juga mengintegrasikan konsep smart charging, yang memungkinkan pengguna untuk melakukan monitoring konsumsi daya, kontrol jarak jauh melalui aplikasi, serta pengaturan strategi pengisian untuk meningkatkan efisiensi energi dan menjaga keandalan sistem.\n\nDalam proses pengembangannya, Bangga EVCS menerapkan pendekatan end-to-end, mulai dari studi literatur, simulasi sistem kelistrikan, desain hardware, hingga integrasi software dan pengujian langsung. Kolaborasi antara mahasiswa dan dosen menjadi kunci dalam memastikan bahwa setiap solusi yang dihasilkan tidak hanya inovatif, tetapi juga memiliki dasar ilmiah yang kuat dan potensi implementasi nyata.\n\nLebih dari sekadar proyek riset, Bangga EVCS juga berperan sebagai wadah pengembangan kompetensi lintas bidang, baik teknis maupun non-teknis. Dengan semangat kolaborasi dan inovasi, Bangga EVCS berkomitmen untuk berkontribusi dalam percepatan pengembangan ekosistem kendaraan listrik di Indonesia, khususnya melalui solusi charging yang andal, cerdas, dan berkelanjutan.",
+        "tags": [
+            "Manufaktur",
+            "Startup",
+            "Transaksi Booth"
+        ],
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/bangga_evcs.png",
+        "contact": "ibnuandikahidayat02@gmail.com",
+        "whatsapp": "+62 811-1020-416",
+        "web": "https://bangga-evcs.com/",
+        "instagram": "https://www.instagram.com/bangga.evcs/?utm_source=ig_web_button_share_sheet",
+        "facebook": "",
+        "twitter": "",
+        "transaksi": "Ya"
     },
     {
         "id": "c1",
@@ -780,7 +806,7 @@
             "Eksternal UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/bpom_surabaya.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/bpom_surabaya.png",
         "contact": "sertifikasisby@gmail.com ; irma.rahmawati@pom.go.id",
         "whatsapp": "085645397002",
         "web": "https://surabaya.pom.go.id/",
@@ -803,7 +829,7 @@
         "tags": [
             "Sponsorship / Mitra"
         ],
-        "logo": "assets/tenant-logos/jamkrindo.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/jamkrindo.png",
         "contact": "",
         "whatsapp": "",
         "web": "https://www.jamkrindo.co.id/",
@@ -813,27 +839,77 @@
         "transaksi": ""
     },
     {
+        "id": "e1",
+        "booth_no": 45,
+        "code": "E1",
+        "cluster": 3,
+        "area": "E",
+        "name": "Sahabat Spondan",
+        "instansi": "Sahabat Spondan",
+        "pic": "AMRETA LARAS PERTIWI",
+        "cat": "PGN",
+        "desc": "Produk olahan siap saji yang menemani setiap kegiatanmu menjadi lebih berwarna. Menghadirkan cita rasa otentik dengan harga terjangkau yang dikemas dan disajikan dengan rasa cinta. Setiap gigitan menciptakan kehangatan dalam setiap kegiatan bersama teman, keluarga dan orang tersayang kamu.",
+        "tags": [
+            "PGN",
+            "Startup",
+            "Transaksi Booth"
+        ],
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/sahabat_spondan.png",
+        "contact": "amretapertiwi3@gmail.com",
+        "whatsapp": "085730171516",
+        "web": "",
+        "instagram": "https://www.instagram.com/sahabatspondan_sby?igsh=MTU1bzBzZXl1cHEzcQ==",
+        "facebook": "",
+        "twitter": "",
+        "transaksi": "Ya"
+    },
+    {
+        "id": "e2",
+        "booth_no": 46,
+        "code": "E2",
+        "cluster": 3,
+        "area": "E",
+        "name": "D'toekoe Dimsum",
+        "instansi": "Pasinbis",
+        "pic": "Mirsha Putri Pratiwi",
+        "cat": "Food & Beverage",
+        "desc": "D'toekoe Dimsum merupakan UMKM kuliner asal Surabaya yang bergerak di bidang produksi dan pengolahan dimsum premium homemade dengan bahan baku berkualitas dan halal. D'toekoe Dimsum hadir untuk memberikan pengalaman menikmati dimsum lezat, higienis, dan terjangkau bagi semua kalangan, baik untuk konsumsi harian, frozen food, maupun kebutuhan acara khusus.",
+        "tags": [
+            "Food & Beverage",
+            "Startup",
+            "Transaksi Booth"
+        ],
+        "logo": "",
+        "contact": "dtoekoedimsum@gmail.com",
+        "whatsapp": "081217448923",
+        "web": "",
+        "instagram": "https://www.instagram.com/dtoekoe_69?stkn=N3h2NTNkbW9tYzYz",
+        "facebook": "",
+        "twitter": "",
+        "transaksi": "Ya"
+    },
+    {
         "id": "f1",
         "booth_no": 51,
         "code": "F1",
         "cluster": 4,
         "area": "F",
-        "name": "Bangga EVCS",
-        "instansi": "Bangga EVCS",
-        "pic": "Ibnu Andhika Hidayat",
-        "cat": "Manufaktur",
-        "desc": "Bangga EVCS merupakan sebuah inisiatif berbasis riset dari Universitas Airlangga yang berfokus pada pengembangan sistem charging kendaraan listrik (Electric Vehicle/EV). Inisiatif ini melibatkan kolaborasi antara mahasiswa dan dosen, sehingga mampu menggabungkan kekuatan inovasi, riset akademik, serta pengalaman praktis dalam menjawab kebutuhan infrastruktur pengisian daya di Indonesia yang terus berkembang.\n\nFokus utama Bangga EVCS terletak pada perancangan dan pengembangan teknologi charging yang adaptif, efisien, dan relevan dengan kondisi kelistrikan nasional. Sistem yang dikembangkan umumnya mengacu pada standar internasional, dengan kemampuan operasional pada konfigurasi 1 phase hingga 3 phase, serta rentang daya yang kompetitif untuk penggunaan residensial maupun komersial. Selain itu, Bangga EVCS juga mengintegrasikan konsep smart charging, yang memungkinkan pengguna untuk melakukan monitoring konsumsi daya, kontrol jarak jauh melalui aplikasi, serta pengaturan strategi pengisian untuk meningkatkan efisiensi energi dan menjaga keandalan sistem.\n\nDalam proses pengembangannya, Bangga EVCS menerapkan pendekatan end-to-end, mulai dari studi literatur, simulasi sistem kelistrikan, desain hardware, hingga integrasi software dan pengujian langsung. Kolaborasi antara mahasiswa dan dosen menjadi kunci dalam memastikan bahwa setiap solusi yang dihasilkan tidak hanya inovatif, tetapi juga memiliki dasar ilmiah yang kuat dan potensi implementasi nyata.\n\nLebih dari sekadar proyek riset, Bangga EVCS juga berperan sebagai wadah pengembangan kompetensi lintas bidang, baik teknis maupun non-teknis. Dengan semangat kolaborasi dan inovasi, Bangga EVCS berkomitmen untuk berkontribusi dalam percepatan pengembangan ekosistem kendaraan listrik di Indonesia, khususnya melalui solusi charging yang andal, cerdas, dan berkelanjutan.",
+        "name": "MULIA SAMUDRA MAJU ABADI",
+        "instansi": "Mulia samudra maju abadi",
+        "pic": "Muhammad Syarif Satriyo samudra",
+        "cat": "Agrikultur & Akuakultur",
+        "desc": "CV. Mulia Samudra Maju Abadi (MSMA) merupakan usaha yang bergerak di bidang perikanan dan akuakultur berkelanjutan, dengan fokus pada budidaya dan pengembangan komoditas ikan serta rumput laut Gracilaria. MSMA mengintegrasikan kegiatan pembenihan, budidaya, pengumpulan hasil, pengolahan, hingga pemasaran untuk menghasilkan produk perikanan berkualitas dan bernilai ekonomi. MSMA juga mengembangkan inovasi teknologi akuakultur, seperti IoT, pakan otomatis, monitoring kualitas air, serta konsep budidaya yang efisien dan ramah lingkungan, dengan tujuan membangun ekosistem perikanan modern, produktif, dan berkelanjutan.",
         "tags": [
-            "Manufaktur",
+            "Agrikultur & Akuakultur",
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/bangga_evcs.png",
-        "contact": "ibnuandikahidayat02@gmail.com",
-        "whatsapp": "+62 811-1020-416",
-        "web": "https://bangga-evcs.com/",
-        "instagram": "https://www.instagram.com/bangga.evcs/?utm_source=ig_web_button_share_sheet",
-        "facebook": "",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/MULIA%20SAMUDRA%20MAJU%20ABADI.jpg",
+        "contact": "msatriyo@magister.ciputra.ac.id",
+        "whatsapp": "081259545859",
+        "web": "https://Muliasamudra.com",
+        "instagram": "Muliasamudra",
+        "facebook": "Mulia Samudra",
         "twitter": "",
         "transaksi": "Ya"
     },
@@ -853,7 +929,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/kinara.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/kinara.png",
         "contact": "kreasiindustrinusantara@gmail.com",
         "whatsapp": "085136887424",
         "web": "https://www.kinaraindustries.com",
@@ -872,13 +948,13 @@
         "instansi": "Startup BPRIn",
         "pic": "Dimaz",
         "cat": "Edutech",
-        "desc": "Olimnesia adalah platform edutech yang menghadirkan ekosistem kompetisi dan pembelajaran bagi pelajar. Olimnesia membantu sekolah, lembaga pendidikan, dan penyelenggara lomba dalam mengelola kompetisi secara digital, mulai dari pendaftaran, pelaksanaan ujian/CBT, hingga sertifikat dan publikasi hasil.\nBagi pelajar, Olimnesia menjadi ruang untuk mengikuti berbagai kompetisi, mengembangkan kemampuan, dan mendapatkan pengalaman belajar yang lebih seru dan bermakna.",
+        "desc": "Olimnesia adalah platform edutech yang menghadirkan ekosistem kompetisi dan pembelajaran bagi pelajar. Olimnesia membantu sekolah, lembaga pendidikan, dan penyelenggara lomba dalam mengelola kompetisi secara digital, mulai dari pendaftaran, pelaksanaan ujian/CBT, hingga sertifikat dan publikasi hasil.\r\nBagi pelajar, Olimnesia menjadi ruang untuk mengikuti berbagai kompetisi, mengembangkan kemampuan, dan mendapatkan pengalaman belajar yang lebih seru dan bermakna.",
         "tags": [
             "Edutech",
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/olimnesia.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/olimnesia.png",
         "contact": "olimnesia@gmail.com",
         "whatsapp": "085102717040",
         "web": "https://Olimnesia.com",
@@ -897,13 +973,13 @@
         "instansi": "PT Jobhun Membangun Indonesia",
         "pic": "Ayu Shinta Devi",
         "cat": "Jasa",
-        "desc": "Tingkatkan Skill, Dapatkan Sertifikasi, Siap Bersaing di Dunia Kerja\n\nTemukan skill terbaikmu melalui pelatihan bersama expert berpengalaman dan buktikan dengan uji kompetensi bersertifikat resmi di Jobhun.",
+        "desc": "Tingkatkan Skill, Dapatkan Sertifikasi, Siap Bersaing di Dunia Kerja\r\n\r\nTemukan skill terbaikmu melalui pelatihan bersama expert berpengalaman dan buktikan dengan uji kompetensi bersertifikat resmi di Jobhun.",
         "tags": [
             "Jasa",
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/jobhun.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/jobhun.png",
         "contact": "info@jobhun.id",
         "whatsapp": "082336010250",
         "web": "https://www.jobhun.id",
@@ -922,13 +998,13 @@
         "instansi": "Serasa Djiwa",
         "pic": "Najway Azka Arrobbaniy",
         "cat": "Jasa",
-        "desc": "Serasa Djiwa dapat diposisikan sebagai penyedia layanan psikologi yang humanis, kolaboratif, dan komprehensif, dengan cakupan layanan dari anak hingga dewasa serta individu hingga organisasi. Filosofi Compassion, Collaboration, Change menjadi dasar bahwa layanan tidak hanya berfokus pada penyelesaian masalah, tetapi juga pada proses memahami, mendampingi, dan mendorong perubahan yang bermakna.\nUntuk kegiatan pameran layanan psikologi, Serasa Djiwa dapat hadir sebagai ruang yang interaktif dan edukatif, tempat pengunjung mengenal psikologi secara lebih dekat sekaligus memahami layanan yang sesuai dengan kebutuhannya. Booth dapat memperkenalkan beberapa area utama, seperti asesmen psikologi, konseling, konsultasi, coaching, mentoring, psikoedukasi, dan pelatihan, serta layanan khusus di bidang pendidikan, perkembangan anak, dan industri-organisasi. \nKonsep pameran tidak hanya bersifat promosi layanan, tetapi juga memberikan pengalaman psikologis yang ringan, relevan, dan aplikatif. Misalnya melalui mini psychological check-up, konsultasi singkat, permainan atau aktivitas reflektif, edukasi mengenai tumbuh kembang dan kesehatan mental, serta informasi mengenai pilihan layanan yang dapat diakses pengunjung. Pendekatan ini selaras dengan visi Serasa Djiwa untuk mendukung kesejahteraan, pengembangan diri, dan kualitas hidup melalui layanan yang berlandaskan kemanusiaan, empati, dan kolaborasi.\nDengan demikian, pameran Serasa Djiwa dapat menjadi ruang untuk “mengenal diri, memahami kebutuhan, dan menemukan langkah perubahan”, sekaligus memperkenalkan Serasa Djiwa sebagai partner psikologis yang hadir untuk berbagai tahap kehidupan.",
+        "desc": "Serasa Djiwa dapat diposisikan sebagai penyedia layanan psikologi yang humanis, kolaboratif, dan komprehensif, dengan cakupan layanan dari anak hingga dewasa serta individu hingga organisasi. Filosofi Compassion, Collaboration, Change menjadi dasar bahwa layanan tidak hanya berfokus pada penyelesaian masalah, tetapi juga pada proses memahami, mendampingi, dan mendorong perubahan yang bermakna.\r\nUntuk kegiatan pameran layanan psikologi, Serasa Djiwa dapat hadir sebagai ruang yang interaktif dan edukatif, tempat pengunjung mengenal psikologi secara lebih dekat sekaligus memahami layanan yang sesuai dengan kebutuhannya. Booth dapat memperkenalkan beberapa area utama, seperti asesmen psikologi, konseling, konsultasi, coaching, mentoring, psikoedukasi, dan pelatihan, serta layanan khusus di bidang pendidikan, perkembangan anak, dan industri-organisasi. \r\nKonsep pameran tidak hanya bersifat promosi layanan, tetapi juga memberikan pengalaman psikologis yang ringan, relevan, dan aplikatif. Misalnya melalui mini psychological check-up, konsultasi singkat, permainan atau aktivitas reflektif, edukasi mengenai tumbuh kembang dan kesehatan mental, serta informasi mengenai pilihan layanan yang dapat diakses pengunjung. Pendekatan ini selaras dengan visi Serasa Djiwa untuk mendukung kesejahteraan, pengembangan diri, dan kualitas hidup melalui layanan yang berlandaskan kemanusiaan, empati, dan kolaborasi.\r\nDengan demikian, pameran Serasa Djiwa dapat menjadi ruang untuk “mengenal diri, memahami kebutuhan, dan menemukan langkah perubahan”, sekaligus memperkenalkan Serasa Djiwa sebagai partner psikologis yang hadir untuk berbagai tahap kehidupan.",
         "tags": [
             "Jasa",
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "https://canva.link/8iln2gko7k79ndd",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/Logo Serasa Djiwa.png",
         "contact": "serasadjiwa21@gmail.com",
         "whatsapp": "+62 856-4514-5191",
         "web": "",
@@ -953,7 +1029,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/rexgo.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/rexgo.png",
         "contact": "rexgotech@gmail.com",
         "whatsapp": "081217260020",
         "web": "https://www.rexgotech.com",
@@ -1003,7 +1079,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/lokasi_nusantara.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/lokasi_nusantara.png",
         "contact": "auramahardini@gmail.com",
         "whatsapp": "081230498086",
         "web": "",
@@ -1028,7 +1104,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "https://drive.google.com/drive/folders/1yZMU_fzmo1Dl19g2l4AC0nR4UJ6IXMNc?usp=sharing",
+        "logo": "",
         "contact": "arifrahmania11@gmail.com",
         "whatsapp": "08563185856",
         "web": "",
@@ -1047,13 +1123,13 @@
         "instansi": "PT Inspirasi Keuangan Syariah",
         "pic": "Saif Ali Khan",
         "cat": "Jasa",
-        "desc": "Tempat Tumbuh merupakan platform pembelajaran keuangan yang membantu individu memahami konsep perencanaan dan pengelolaan keuangan, cara menyusun, beserta strategi implementasi dalam kehidupan sehari-hari secara lebih terarah dan terstruktur. Kami hadir bukan hanya sebagai platform edukasi, melainkan ekosistem pembelajaran yang berkomitmen membantu masyarakat Indonesia membangun perilaku finansial yang lebih sehat, disiplin, dan berkelanjutan. Berdiri sejak tahun 2025, Tempat Tumbuh telah menjalin\nkolaborasi strategis dengan beberapa mitra, mulai dari lembaga pendidikan, pelatihan, konsultasi, dan sertifikasi keuangan, lembaga pemberdayaan karir, hingga komunitas pengembangan diri. Kehadiran mitra strategis ini memperkuat langkah kami dalam membangun ekosistem pembelajaran keuangan yang inklusif dan berkelanjutan bagi masyarakat Indonesia.",
+        "desc": "Tempat Tumbuh merupakan platform pembelajaran keuangan yang membantu individu memahami konsep perencanaan dan pengelolaan keuangan, cara menyusun, beserta strategi implementasi dalam kehidupan sehari-hari secara lebih terarah dan terstruktur. Kami hadir bukan hanya sebagai platform edukasi, melainkan ekosistem pembelajaran yang berkomitmen membantu masyarakat Indonesia membangun perilaku finansial yang lebih sehat, disiplin, dan berkelanjutan. Berdiri sejak tahun 2025, Tempat Tumbuh telah menjalin\r\nkolaborasi strategis dengan beberapa mitra, mulai dari lembaga pendidikan, pelatihan, konsultasi, dan sertifikasi keuangan, lembaga pemberdayaan karir, hingga komunitas pengembangan diri. Kehadiran mitra strategis ini memperkuat langkah kami dalam membangun ekosistem pembelajaran keuangan yang inklusif dan berkelanjutan bagi masyarakat Indonesia.",
         "tags": [
             "Jasa",
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/tempat_tumbuh.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/tempat_tumbuh.png",
         "contact": "imondeskhan@gmail.com",
         "whatsapp": "089603446997",
         "web": "https://ptiksh.com/",
@@ -1078,7 +1154,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/fastrackedu.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/fastrackedu.png",
         "contact": "abdulzidan118@gmail.com",
         "whatsapp": "085748828183",
         "web": "https://fastrackedu.id/",
@@ -1103,7 +1179,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/vitalic.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/vitalic.png",
         "contact": "vitalichittrigger@gmail.com",
         "whatsapp": "081358502672",
         "web": "https://www.vitalichittrigger.com",
@@ -1128,7 +1204,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/konveto.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/konveto.png",
         "contact": "konvetosurabaya@gmail.com",
         "whatsapp": "08993672913",
         "web": "",
@@ -1153,7 +1229,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/heztek.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/heztek.png",
         "contact": "heztekcoding@gmail.com",
         "whatsapp": "089699264015",
         "web": "https://www.heztekcoding.com/",
@@ -1179,7 +1255,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/braja_elektrik.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/braja_elektrik.png",
         "contact": "brajaelektrikmotor@gmail.com",
         "whatsapp": "082133881104",
         "web": "https://www.brajaelektrikmotor.com",
@@ -1204,7 +1280,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "https://sriwijayakontraktor.com/",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/SRIWIJAYA%20KONTRAKTOR.png",
         "contact": "al.firdaus.work@gmail.com",
         "whatsapp": "082228520581",
         "web": "https://sriwijayakontraktor.com",
@@ -1229,7 +1305,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/appa_tech.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/appa_tech.png",
         "contact": "razanmahrani@gmail.com",
         "whatsapp": "085730394996",
         "web": "https://grahateknologimaju.com/en",
@@ -1248,13 +1324,13 @@
         "instansi": "Airlangga Startup and Innovation Incubator (ATAVI)",
         "pic": "Reyhan Agung Ramadhan",
         "cat": "Jasa",
-        "desc": "LIKUR Production is a Creative & Documentary Production House based in Surabaya, founded in 2022. Inspired by the Javanese philosophy “Linggih Kursi”, a symbol of leadership and independence. Likur embodies the spirit of young creators stepping into their own seat of responsibility: leading, collaborating, and shaping the future through storytelling.\n\nWe aspire to become Nusantara’s storyteller, bringing cultural heritage, local values, health, and eco-conscious into the modern era through timeless creative content.",
+        "desc": "LIKUR Production is a Creative & Documentary Production House based in Surabaya, founded in 2022. Inspired by the Javanese philosophy “Linggih Kursi”, a symbol of leadership and independence. Likur embodies the spirit of young creators stepping into their own seat of responsibility: leading, collaborating, and shaping the future through storytelling.\r\n\r\nWe aspire to become Nusantara’s storyteller, bringing cultural heritage, local values, health, and eco-conscious into the modern era through timeless creative content.",
         "tags": [
             "Jasa",
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/likur.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/likur.png",
         "contact": "likurproduction@gmail.com",
         "whatsapp": "085161328874",
         "web": "https://likur.id",
@@ -1269,21 +1345,20 @@
         "code": "G1",
         "cluster": 5,
         "area": "G",
-        "name": "Deorans",
-        "instansi": "Universitas Airlangga",
+        "name": "WEBS FEB",
+        "instansi": "Fakultas Ekonomi dan Bisnis Universitas Airlangga",
         "pic": "Raihan Syah Rafi'",
-        "cat": "Kuliner & Bisnis",
-        "desc": "Deorans adalah deodoran alami berbahan mineral yang efektif melawan bau badan tanpa menghambat keringat. Aman, praktis, dan ramah kulit, Deorans hadir sebagai pilihan sehat untuk aktivitas sehari-hari.",
+        "cat": "Startup",
+        "desc": "Booth WEBS FEB menampilkan tenant mahasiswa, di antaranya Deorans, Minum dan Mekar, Weubi Ubi Bakar Cilembu, Chewy Slime, Ghetto Ghetti, dan Théava.",
         "tags": [
-            "Kuliner & Bisnis",
-            "F&B",
-            "Transaksi Booth"
+            "Startup",
+            "Internal UNAIR"
         ],
-        "logo": "assets/tenant-logos/deorans.png",
-        "contact": "deoransspray@gmail.com",
-        "whatsapp": "082132529584",
-        "web": "https://heylink.me/deorans",
-        "instagram": "@deoransspray",
+        "logo": "",
+        "contact": "",
+        "whatsapp": "",
+        "web": "",
+        "instagram": "",
         "facebook": "",
         "twitter": "",
         "transaksi": "Ya"
@@ -1298,13 +1373,13 @@
         "instansi": "Tawdeo",
         "pic": "Dela R G",
         "cat": "Kesehatan & Farmasi",
-        "desc": "Tawdeo — Natural Care, Better for You & Earth\n\nTawdeo hadir sebagai brand personal care yang mengembangkan produk berbahan alami dengan mengutamakan manfaat, kenyamanan, dan kepedulian terhadap lingkungan. Dari perawatan tubuh hingga produk sehari-hari, Tawdeo ingin menghadirkan pilihan yang lebih bijak dan baik untuk diri sendiri maupun bumi.",
+        "desc": "Tawdeo — Natural Care, Better for You & Earth\r\n\r\nTawdeo hadir sebagai brand personal care yang mengembangkan produk berbahan alami dengan mengutamakan manfaat, kenyamanan, dan kepedulian terhadap lingkungan. Dari perawatan tubuh hingga produk sehari-hari, Tawdeo ingin menghadirkan pilihan yang lebih bijak dan baik untuk diri sendiri maupun bumi.",
         "tags": [
             "Kesehatan & Farmasi",
             "F&B",
             "Transaksi Booth"
         ],
-        "logo": "https://canva.link/3hu3b3qr4623vm5",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/Logo Tawdeo.png",
         "contact": "tawdeonatural@gmail.com",
         "whatsapp": "085179771295",
         "web": "",
@@ -1323,13 +1398,13 @@
         "instansi": "Partner SEHATin",
         "pic": "Ira Nurwahyu Kusuma",
         "cat": "Kesehatan & Farmasi",
-        "desc": "Partner SEHATin adalah platform kesehatan keluarga terpadu yang hadir untuk meningkatkan akses masyarakat terhadap informasi dan layanan kesehatan yang edukatif, interaktif, dan mudah dijangkau. Partner SEHATin mendampingi masyarakat dalam perjalanan kesehatan sejak masa remaja, persiapan pernikahan, kehamilan, hingga peran sebagai orang tua.\n\nMelalui layanan edukasi kesehatan, Partner SEHATin menyediakan informasi terpercaya mengenai kesehatan reproduksi, persiapan pranikah termasuk pre-marital check-up, kehamilan, serta penerapan pola hidup sehat bagi keluarga. Partner SEHATin juga menghadirkan ruang diskusi dan konsultasi yang memungkinkan pengguna bertanya dan memperoleh pendampingan terkait berbagai permasalahan kesehatan secara komunikatif dan mudah dipahami.\n\nUntuk memperluas akses, Partner SEHATin mengintegrasikan pengguna dengan berbagai layanan kesehatan dan produk pendukung melalui platform digital. Dengan pendekatan yang fleksibel, terjangkau, dan terintegrasi, Partner SEHATin berkomitmen menjadi mitra kesehatan keluarga yang mendampingi setiap tahap kehidupan, sekaligus mendorong masyarakat untuk lebih sadar, mandiri, dan proaktif dalam menjaga kesehatan.",
+        "desc": "Partner SEHATin adalah platform kesehatan keluarga terpadu yang hadir untuk meningkatkan akses masyarakat terhadap informasi dan layanan kesehatan yang edukatif, interaktif, dan mudah dijangkau. Partner SEHATin mendampingi masyarakat dalam perjalanan kesehatan sejak masa remaja, persiapan pernikahan, kehamilan, hingga peran sebagai orang tua.\r\n\r\nMelalui layanan edukasi kesehatan, Partner SEHATin menyediakan informasi terpercaya mengenai kesehatan reproduksi, persiapan pranikah termasuk pre-marital check-up, kehamilan, serta penerapan pola hidup sehat bagi keluarga. Partner SEHATin juga menghadirkan ruang diskusi dan konsultasi yang memungkinkan pengguna bertanya dan memperoleh pendampingan terkait berbagai permasalahan kesehatan secara komunikatif dan mudah dipahami.\r\n\r\nUntuk memperluas akses, Partner SEHATin mengintegrasikan pengguna dengan berbagai layanan kesehatan dan produk pendukung melalui platform digital. Dengan pendekatan yang fleksibel, terjangkau, dan terintegrasi, Partner SEHATin berkomitmen menjadi mitra kesehatan keluarga yang mendampingi setiap tahap kehidupan, sekaligus mendorong masyarakat untuk lebih sadar, mandiri, dan proaktif dalam menjaga kesehatan.",
         "tags": [
             "Kesehatan & Farmasi",
             "F&B",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/partner_sehatin.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/partner_sehatin.png",
         "contact": "ira.nurwahyu@gmail.com",
         "whatsapp": "081232938578",
         "web": "",
@@ -1348,13 +1423,13 @@
         "instansi": "Universitas Airlangga",
         "pic": "Eka Nur Lita",
         "cat": "Food & Beverage",
-        "desc": "Sweetfood merupakan bisnis yang bergerak dibidang FnB yang berdiri sejak tahun 2023. Kami hadir membawa solusi atas masalah anda terkait \"Dream Cake\" pada hari special customer. Kami menawarkan cake dengan beberapa varian rasa, ukuran, dan desain yang dapat di custome sesuai kebutuhan customer dengan deadline waktu yang singkat dan jaminan pengiriman tepat waktu.\nKami menggunakan bahan-bahan berkualitas dengan proses produksi homemade sehingga cake terjaga kualitas dan cita rasanya.\nSweetfood telah bekerjasama dengan beberapa brand dan mendapatkan kepercayaan dari para customer melalui ribuan review positif serta loyalitas pelanggan. \n\nTagline sweetfood \"Timely, Affordable, and Reliable to Make Your Dream Cake Come True\"",
+        "desc": "Sweetfood merupakan bisnis yang bergerak dibidang FnB yang berdiri sejak tahun 2023. Kami hadir membawa solusi atas masalah anda terkait \"Dream Cake\" pada hari special customer. Kami menawarkan cake dengan beberapa varian rasa, ukuran, dan desain yang dapat di custome sesuai kebutuhan customer dengan deadline waktu yang singkat dan jaminan pengiriman tepat waktu.\r\nKami menggunakan bahan-bahan berkualitas dengan proses produksi homemade sehingga cake terjaga kualitas dan cita rasanya.\r\nSweetfood telah bekerjasama dengan beberapa brand dan mendapatkan kepercayaan dari para customer melalui ribuan review positif serta loyalitas pelanggan. \r\n\r\nTagline sweetfood \"Timely, Affordable, and Reliable to Make Your Dream Cake Come True\"",
         "tags": [
             "Food & Beverage",
             "F&B",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/sweetfood.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/sweetfood.png",
         "contact": "ekanurlt25@gmail.com",
         "whatsapp": "082326116698",
         "web": "",
@@ -1379,7 +1454,7 @@
             "F&B",
             "Transaksi Booth"
         ],
-        "logo": "https://canva.link/rpy259ds74snjea",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/Logo Golden Gate Dimsum.png",
         "contact": "adindavidya01@gmail.com",
         "whatsapp": "082220809000",
         "web": "",
@@ -1404,7 +1479,7 @@
             "F&B",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/lammaqbanna.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/lammaqbanna.png",
         "contact": "lovellyemma48@gmail.com",
         "whatsapp": "081331114215",
         "web": "https://s.id/thehomemade899",
@@ -1429,7 +1504,7 @@
             "F&B",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/ayam_teh_nisa.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/ayam_teh_nisa.png",
         "contact": "nisasby777@gmail.com",
         "whatsapp": "081522979766",
         "web": "",
@@ -1454,7 +1529,7 @@
             "F&B",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/sahabat_spondan.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/sahabat_spondan.png",
         "contact": "amretapertiwi3@gmail.com",
         "whatsapp": "085730171516",
         "web": "",
@@ -1473,13 +1548,13 @@
         "instansi": "CV Gyarus Indonesia Group",
         "pic": "Firdayanti Zahro",
         "cat": "Fashion",
-        "desc": "Gyarus adalah brand lokal asal Surabaya yang bergerak di bidang fashion muslim, khususnya menghadirkan mukenah dengan desain yang nyaman, elegan, dan relevan dengan kebutuhan perempuan modern serta bisa custom  design. \n\nDalam perkembangannya, Gyarus tidak hanya melayani kebutuhan konsumen secara retail, tetapi juga telah dipercaya untuk berkolaborasi dengan berbagai instansi dalam penyediaan gift dan merchandise, menjadikan produk Gyarus sebagai pilihan untuk kebutuhan personal maupun corporate gifting.\n\nDengan mengutamakan kualitas produk, desain yang menarik dan available custom design, Gyarus terus mengembangkan diri sebagai brand fashion lokal yang mampu menghadirkan produk bernilai guna sekaligus berkesan.",
+        "desc": "Gyarus adalah brand lokal asal Surabaya yang bergerak di bidang fashion muslim, khususnya menghadirkan mukenah dengan desain yang nyaman, elegan, dan relevan dengan kebutuhan perempuan modern serta bisa custom  design. \r\n\r\nDalam perkembangannya, Gyarus tidak hanya melayani kebutuhan konsumen secara retail, tetapi juga telah dipercaya untuk berkolaborasi dengan berbagai instansi dalam penyediaan gift dan merchandise, menjadikan produk Gyarus sebagai pilihan untuk kebutuhan personal maupun corporate gifting.\r\n\r\nDengan mengutamakan kualitas produk, desain yang menarik dan available custom design, Gyarus terus mengembangkan diri sebagai brand fashion lokal yang mampu menghadirkan produk bernilai guna sekaligus berkesan.",
         "tags": [
             "Fashion",
             "Kreatif",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/gyarus.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/gyarus.png",
         "contact": "firdayantizahro27@gmail.com",
         "whatsapp": "0877-0451-9225",
         "web": "",
@@ -1504,7 +1579,7 @@
             "Kreatif",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/leastra.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/leastra.png",
         "contact": "adeliassari@gmail.com",
         "whatsapp": "081334331982",
         "web": "",
@@ -1580,7 +1655,7 @@
             "Kreatif",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/allbouquets.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/allbouquets.png",
         "contact": "allbouquets12@gmail.com",
         "whatsapp": "085749884741",
         "web": "",
@@ -1605,7 +1680,7 @@
             "Kreatif",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/etnapraya.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/etnapraya.png",
         "contact": "etnapraya@gmail.com",
         "whatsapp": "+62 823-3819-1372",
         "web": "https://etnapraya.com",
@@ -1655,7 +1730,7 @@
             "Kreatif",
             "Transaksi Booth"
         ],
-        "logo": "https://drive.google.com/drive/folders/12gH6jh1EaibV_DayJiJn8dzNg928eNcS",
+        "logo": "",
         "contact": "ainemeara@gmail.com",
         "whatsapp": "082337701988",
         "web": "",
@@ -1680,7 +1755,7 @@
             "Kreatif",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/anka_minilab.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/anka_minilab.png",
         "contact": "alifyayp@gmail.com",
         "whatsapp": "085755165911",
         "web": "",
@@ -1699,13 +1774,13 @@
         "instansi": "Universitas Airlangga",
         "pic": "Glorya Angela",
         "cat": "Craft",
-        "desc": "ByLaw.Nails adalah brand kecantikan lokal yang bergerak di bidang press-on nails dengan menghadirkan produk kuku siap pakai yang praktis, reusable, customizable, dan stylish. ByLaw.Nails hadir sebagai solusi bagi konsumen yang ingin memiliki tampilan kuku yang cantik dan fashionable tanpa harus menghabiskan banyak waktu dan biaya untuk melakukan perawatan kuku di salon.\n\nByLaw.Nails menawarkan berbagai pilihan desain mulai dari desain minimalis, elegan, cute, hingga karakter dan tren populer yang dapat disesuaikan dengan preferensi pelanggan. Selain pilihan desain yang tersedia, pelanggan juga dapat melakukan custom order untuk menciptakan press-on nails yang lebih personal dan sesuai dengan karakter maupun kebutuhan mereka.\n\nDengan mengutamakan kualitas produk dan pengalaman pelanggan, setiap press-on nails dibuat melalui proses produksi yang memperhatikan detail, kerapian, dan estetika. Produk juga dirancang agar dapat digunakan kembali dengan perawatan yang tepat, sehingga memberikan nilai lebih bagi konsumen sekaligus mendukung penggunaan produk yang lebih berkelanjutan.\n\nByLaw.Nails menargetkan pasar Gen Z dan konsumen muda, khususnya mereka yang memiliki gaya hidup aktif, mengikuti tren kecantikan, dan menginginkan produk beauty yang praktis serta affordable. Pemasaran dilakukan secara digital melalui berbagai platform seperti TikTok, Instagram, dan Shopee untuk menjangkau konsumen secara lebih luas.\nKe depannya, ByLaw.Nails berkomitmen untuk terus mengembangkan inovasi produk, meningkatkan kualitas pelayanan, memperluas jangkauan pasar, serta membangun ekosistem bisnis kecantikan yang kreatif dan relevan dengan perkembangan tren. Dengan menggabungkan kreativitas, kualitas, dan kemudahan, ByLaw.Nails ingin menjadi salah satu brand press-on nails lokal yang dipercaya dan menjadi pilihan utama konsumen.",
+        "desc": "ByLaw.Nails adalah brand kecantikan lokal yang bergerak di bidang press-on nails dengan menghadirkan produk kuku siap pakai yang praktis, reusable, customizable, dan stylish. ByLaw.Nails hadir sebagai solusi bagi konsumen yang ingin memiliki tampilan kuku yang cantik dan fashionable tanpa harus menghabiskan banyak waktu dan biaya untuk melakukan perawatan kuku di salon.\r\n\r\nByLaw.Nails menawarkan berbagai pilihan desain mulai dari desain minimalis, elegan, cute, hingga karakter dan tren populer yang dapat disesuaikan dengan preferensi pelanggan. Selain pilihan desain yang tersedia, pelanggan juga dapat melakukan custom order untuk menciptakan press-on nails yang lebih personal dan sesuai dengan karakter maupun kebutuhan mereka.\r\n\r\nDengan mengutamakan kualitas produk dan pengalaman pelanggan, setiap press-on nails dibuat melalui proses produksi yang memperhatikan detail, kerapian, dan estetika. Produk juga dirancang agar dapat digunakan kembali dengan perawatan yang tepat, sehingga memberikan nilai lebih bagi konsumen sekaligus mendukung penggunaan produk yang lebih berkelanjutan.\r\n\r\nByLaw.Nails menargetkan pasar Gen Z dan konsumen muda, khususnya mereka yang memiliki gaya hidup aktif, mengikuti tren kecantikan, dan menginginkan produk beauty yang praktis serta affordable. Pemasaran dilakukan secara digital melalui berbagai platform seperti TikTok, Instagram, dan Shopee untuk menjangkau konsumen secara lebih luas.\r\nKe depannya, ByLaw.Nails berkomitmen untuk terus mengembangkan inovasi produk, meningkatkan kualitas pelayanan, memperluas jangkauan pasar, serta membangun ekosistem bisnis kecantikan yang kreatif dan relevan dengan perkembangan tren. Dengan menggabungkan kreativitas, kualitas, dan kemudahan, ByLaw.Nails ingin menjadi salah satu brand press-on nails lokal yang dipercaya dan menjadi pilihan utama konsumen.",
         "tags": [
             "Craft",
             "Kreatif",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/bylaw_nails.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/bylaw_nails.png",
         "contact": "glorya.angela.marshanda-2023@feb.unair.ac.id",
         "whatsapp": "08115755656",
         "web": "",
@@ -1730,7 +1805,7 @@
             "Kreatif",
             "Transaksi Booth"
         ],
-        "logo": "https://canva.link/01bdnzrdocrhl0u",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/Logo Studio Inkubator MUA.png",
         "contact": "tresyagirls@gmail.com",
         "whatsapp": "085708342811",
         "web": "",
@@ -1749,13 +1824,13 @@
         "instansi": "universitas airlangga",
         "pic": "Fito",
         "cat": "Craft",
-        "desc": "Zaruna adalah brand yang bergerak di bidang gift, florist, dan custom souvenir yang menghadirkan berbagai produk untuk momen spesial seperti ulang tahun, wisuda, anniversary, hingga berbagai kebutuhan acara dan perusahaan.\n\nZaruna memiliki beberapa lini bisnis, yaitu Zaruna Florist untuk buket bunga dan karangan bunga, Zaruna Gift untuk produk custom dan souvenir, serta Zaruna Decoration untuk kebutuhan dekorasi acara.\n\nDengan mengutamakan kreativitas, personalisasi, harga yang terjangkau, dan pelayanan yang praktis, Zaruna membantu pelanggan menciptakan hadiah yang lebih personal dan berkesan. Pelanggan juga dapat melakukan custom desain sesuai kebutuhan tanpa harus terpaku pada produk yang sudah tersedia.\n\nZaruna berkomitmen untuk terus berinovasi dalam menghadirkan produk dan pengalaman yang relevan bagi generasi muda maupun kebutuhan bisnis, dengan semangat “We don’t just sell gifts, we deliver emotions.”",
+        "desc": "Zaruna adalah brand yang bergerak di bidang gift, florist, dan custom souvenir yang menghadirkan berbagai produk untuk momen spesial seperti ulang tahun, wisuda, anniversary, hingga berbagai kebutuhan acara dan perusahaan.\r\n\r\nZaruna memiliki beberapa lini bisnis, yaitu Zaruna Florist untuk buket bunga dan karangan bunga, Zaruna Gift untuk produk custom dan souvenir, serta Zaruna Decoration untuk kebutuhan dekorasi acara.\r\n\r\nDengan mengutamakan kreativitas, personalisasi, harga yang terjangkau, dan pelayanan yang praktis, Zaruna membantu pelanggan menciptakan hadiah yang lebih personal dan berkesan. Pelanggan juga dapat melakukan custom desain sesuai kebutuhan tanpa harus terpaku pada produk yang sudah tersedia.\r\n\r\nZaruna berkomitmen untuk terus berinovasi dalam menghadirkan produk dan pengalaman yang relevan bagi generasi muda maupun kebutuhan bisnis, dengan semangat “We don’t just sell gifts, we deliver emotions.”",
         "tags": [
             "Craft",
             "Kreatif",
             "Transaksi Booth"
         ],
-        "logo": "https://id.shp.ee/SHug2F2W",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/Zaruna%20Gift.jpg",
         "contact": "fito.fitroh1@gmail.com",
         "whatsapp": "089513370904",
         "web": "http://msha.ke/zarunagift",
@@ -1779,7 +1854,7 @@
             "Internal UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/p3ua.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/p3ua.png",
         "contact": "sarah.khairunnisa@staf.unair.ac.id",
         "whatsapp": "085607811921",
         "web": "https://omp.unair.ac.id",
@@ -1803,7 +1878,7 @@
             "Internal UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/stem_cell.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/stem_cell.png",
         "contact": "stemcell@itd.unair.ac.id",
         "whatsapp": "081325573848",
         "web": "https://www.stemcell.unair.ac.id",
@@ -1827,7 +1902,7 @@
             "Internal UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/rc_gerid.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/rc_gerid.png",
         "contact": "aisahanabilah@gmail.com",
         "whatsapp": "085854006650",
         "web": "https://rc-gerid.unair.ac.id",
@@ -1847,12 +1922,12 @@
         "instansi": "Universitas Airlangga",
         "pic": "Luckyta",
         "cat": "Internal UNAIR",
-        "desc": "PUI-PT Center of Excellence for Patient Safety and Quality (PUI-PT CoE-PSQ) merupakan pusat unggulan Universitas Airlangga yang berfokus pada pengembangan mutu pelayanan dan keselamatan pasien melalui pendidikan, penelitian, dan advokasi.\n\nDalam booth ini, PUI-PT CoE-PSQ memperkenalkan berbagai produk dan layanan unggulan yang mendukung edukasi serta peningkatan keselamatan pasien, antara lain buku keselamatan pasien Jilid 1–3, buku cerita pasien dalam 6 seri, serta layanan konsultasi di bidang mutu dan keselamatan pasien. Selain itu, tersedia berbagai merchandise PUI-PT CoE-PSQ dengan identitas dan desain khusus, seperti payung, notebook, mug, dan tote bag.\n\nBerbagai produk dan layanan tersebut merupakan bagian dari upaya PUI-PT CoE-PSQ dalam menyebarluaskan pengetahuan, meningkatkan kesadaran mengenai keselamatan pasien, serta mendukung penerapan mutu dan keselamatan pasien di berbagai lingkungan pelayanan kesehatan.",
+        "desc": "PUI-PT Center of Excellence for Patient Safety and Quality (PUI-PT CoE-PSQ) merupakan pusat unggulan Universitas Airlangga yang berfokus pada pengembangan mutu pelayanan dan keselamatan pasien melalui pendidikan, penelitian, dan advokasi.\r\n\r\nDalam booth ini, PUI-PT CoE-PSQ memperkenalkan berbagai produk dan layanan unggulan yang mendukung edukasi serta peningkatan keselamatan pasien, antara lain buku keselamatan pasien Jilid 1–3, buku cerita pasien dalam 6 seri, serta layanan konsultasi di bidang mutu dan keselamatan pasien. Selain itu, tersedia berbagai merchandise PUI-PT CoE-PSQ dengan identitas dan desain khusus, seperti payung, notebook, mug, dan tote bag.\r\n\r\nBerbagai produk dan layanan tersebut merupakan bagian dari upaya PUI-PT CoE-PSQ dalam menyebarluaskan pengetahuan, meningkatkan kesadaran mengenai keselamatan pasien, serta mendukung penerapan mutu dan keselamatan pasien di berbagai lingkungan pelayanan kesehatan.",
         "tags": [
             "Internal UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/patient_safety.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/patient_safety.png",
         "contact": "prkp@unair.ac.id",
         "whatsapp": "085732939252",
         "web": "https://patientsafety.unair.ac.id",
@@ -1877,7 +1952,7 @@
             "Internal UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/ailg.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/ailg.png",
         "contact": "ailg@unair.ac.id",
         "whatsapp": "085888991515",
         "web": "https://ailg.unair.ac.id",
@@ -1902,7 +1977,7 @@
             "Internal UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/sct_unair.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/sct_unair.png",
         "contact": "puipt-sct@ff.unair.ac.id",
         "whatsapp": "+62 812-1671-607",
         "web": "https://puiptsct.ff.unair.ac.id/",
@@ -1926,7 +2001,7 @@
             "Internal UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/dpa_group.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/dpa_group.png",
         "contact": "info@airlanggatravel.com / admin@dpacorp.id",
         "whatsapp": "+62 838-4636-3901",
         "web": "",
@@ -1950,7 +2025,7 @@
             "Internal UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/rsgm.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/rsgm.png",
         "contact": "adm@rsgm.unair.ac.id",
         "whatsapp": "081335158286",
         "web": "https://rsgm.unair.ac.id/",
@@ -1974,7 +2049,7 @@
             "Internal UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/rsh_unair.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/rsh_unair.png",
         "contact": "abihilalzikra.taim@gmail.com",
         "whatsapp": "082186484622",
         "web": "https://www.rsh.unair.ac.id",
@@ -1998,11 +2073,273 @@
             "Internal UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/rsua.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/Logo Portrait Biru.png",
         "contact": "riset.rsua2019@gmail.com",
         "whatsapp": "085728059595",
         "web": "https://rumahsakit.unair.ac.id/",
         "instagram": "rs.unair",
+        "facebook": "",
+        "twitter": "",
+        "transaksi": "Ya"
+    },
+    {
+        "id": "a13",
+        "booth_no": 13,
+        "code": "A13",
+        "cluster": 1,
+        "area": "A",
+        "name": "Fakultas Ilmu Sosial dan Ilmu Politik",
+        "instansi": "Fakultas Ilmu Sosial dan Ilmu Politik Universitas Airlangga",
+        "pic": "",
+        "cat": "Internal UNAIR",
+        "desc": "Fakultas Ilmu Sosial dan Ilmu Politik Universitas Airlangga memiliki tujuh departemen atau program studi, salah satunya Ilmu Komunikasi. Di bidang Ilmu Komunikasi, himpunan mahasiswa menaungi klub-klub yang mewadahi minat dan bakat mahasiswa sesuai kompetensi keilmuan. Melalui organisasi ini, mahasiswa diharapkan dapat mengasah bekal yang diperlukan di dunia kerja.",
+        "tags": [
+            "Internal UNAIR"
+        ],
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/fisip-unair.jpg",
+        "contact": "",
+        "whatsapp": "",
+        "web": "https://fisip.unair.ac.id",
+        "instagram": "@fisip_unair",
+        "facebook": "https://www.facebook.com/fisipunairofficial",
+        "twitter": "@FISIP_UA",
+        "transaksi": "Ya"
+    },
+    {
+        "id": "a14",
+        "booth_no": 14,
+        "code": "A14",
+        "cluster": 1,
+        "area": "A",
+        "name": "Fakultas Hukum UNAIR — ALC FH",
+        "instansi": "Fakultas Hukum Universitas Airlangga",
+        "pic": "",
+        "cat": "Internal UNAIR",
+        "desc": "Airlangga Center for Legal Drafting & Professional Development (ALC FH UNAIR) adalah unit pelaksana di bawah Fakultas Hukum Universitas Airlangga yang melaksanakan dan mengoordinasikan layanan perancangan hukum serta pendidikan hukum berkelanjutan.",
+        "tags": [
+            "Internal UNAIR",
+            "Pendidikan"
+        ],
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/alc-fh-unair.png",
+        "contact": "",
+        "whatsapp": "",
+        "web": "https://alc-fhunair.com/",
+        "instagram": "alcfhunair",
+        "facebook": "",
+        "twitter": "",
+        "transaksi": "Ya"
+    },
+    {
+        "id": "a15",
+        "booth_no": 15,
+        "code": "A15",
+        "cluster": 1,
+        "area": "A",
+        "name": "Fakultas Keperawatan UNAIR",
+        "instansi": "Fakultas Keperawatan Universitas Airlangga",
+        "pic": "",
+        "cat": "Internal UNAIR",
+        "desc": "Booth Fakultas Keperawatan UNAIR menghadirkan inovasi website pengabdian masyarakat yang mengintegrasikan kegiatan pengabdian dengan pencapaian SDGs. Booth juga melayani pemeriksaan kesehatan oleh mahasiswa keperawatan dengan pendampingan dosen; kegiatan pemeriksaan berlangsung dalam dua shift dengan empat mahasiswa per shift.",
+        "tags": [
+            "Internal UNAIR",
+            "Kesehatan"
+        ],
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/fakultas-keperawatan-unair.png",
+        "contact": "",
+        "whatsapp": "",
+        "web": "https://ners.unair.ac.id/",
+        "instagram": "https://www.instagram.com/fkp_unair/",
+        "facebook": "https://www.facebook.com/FKpUNAIROfficial/",
+        "twitter": "https://x.com/fkp_Unair",
+        "transaksi": "Ya"
+    },
+    {
+        "id": "d12",
+        "booth_no": 33,
+        "code": "D12",
+        "cluster": 2,
+        "area": "D",
+        "name": "DIKST Universitas Brawijaya",
+        "instansi": "Direktorat Inovasi dan Kawasan Sains & Teknologi, Universitas Brawijaya",
+        "pic": "",
+        "cat": "Riset & Inovasi",
+        "desc": "Direktorat Inovasi dan Kawasan Sains & Teknologi Universitas Brawijaya menaungi inovasi dosen sebagai peneliti dan startup mahasiswa.",
+        "tags": [
+            "Riset & Inovasi",
+            "Pendidikan"
+        ],
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/dikst-ub.png",
+        "contact": "",
+        "whatsapp": "",
+        "web": "https://dikst.ub.ac.id",
+        "instagram": "@dikst.ub",
+        "facebook": "",
+        "twitter": "",
+        "transaksi": "Ya"
+    },
+    {
+        "id": "d13",
+        "booth_no": 34,
+        "code": "D13",
+        "cluster": 2,
+        "area": "D",
+        "name": "Universitas Hang Tuah",
+        "instansi": "Universitas Hang Tuah",
+        "pic": "",
+        "cat": "Pendidikan",
+        "desc": "Universitas Hang Tuah — Kampus Unggul, Excellence in Maritime Education, Jala Cendekia Perkasa.",
+        "tags": [
+            "Pendidikan",
+            "Riset & Inovasi"
+        ],
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/universitas-hang-tuah.png",
+        "contact": "",
+        "whatsapp": "",
+        "web": "https://hangtuah.ac.id",
+        "instagram": "@universitas.hangtuah",
+        "facebook": "",
+        "twitter": "",
+        "transaksi": "Ya"
+    },
+    {
+        "id": "d14",
+        "booth_no": 35,
+        "code": "D14",
+        "cluster": 2,
+        "area": "D",
+        "name": "Inkubator Universitas Negeri Surabaya",
+        "instansi": "Universitas Negeri Surabaya",
+        "pic": "",
+        "cat": "Startup",
+        "desc": "",
+        "tags": [
+            "Startup",
+            "Inkubasi"
+        ],
+        "logo": "",
+        "contact": "",
+        "whatsapp": "",
+        "web": "",
+        "instagram": "",
+        "facebook": "",
+        "twitter": "",
+        "transaksi": ""
+    },
+    {
+        "id": "d16",
+        "booth_no": 37,
+        "code": "D16",
+        "cluster": 2,
+        "area": "D",
+        "name": "Markaswalet",
+        "instansi": "Markaswalet",
+        "pic": "",
+        "cat": "Agrikultur",
+        "desc": "Markaswalet adalah ekosistem bisnis walet yang menyediakan produk dan teknologi budidaya, sekaligus membeli dan menjual sarang walet. Markaswalet membantu petani meningkatkan produktivitas dan kualitas melalui edukasi, teknologi, serta akses pasar.",
+        "tags": [
+            "Agrikultur",
+            "Teknologi"
+        ],
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/markaswalet.png",
+        "contact": "",
+        "whatsapp": "",
+        "web": "https://markaswalet.com",
+        "instagram": "https://www.instagram.com/markaswaletdotcom/",
+        "facebook": "markaswalet",
+        "twitter": "",
+        "transaksi": "Ya"
+    },
+    {
+        "id": "f19",
+        "booth_no": 69,
+        "code": "F19",
+        "cluster": 4,
+        "area": "F",
+        "name": "Petime Animal Care",
+        "instansi": "Petime Indonesia",
+        "pic": "",
+        "cat": "Kesehatan",
+        "desc": "Petime Animal Care menyediakan layanan Pet Clinic, Pet Grooming, Pet Hotel, Pet Shop, dan Pet Sitter untuk hewan peliharaan.",
+        "tags": [
+            "Kesehatan",
+            "Layanan"
+        ],
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/petime-animal-care.png",
+        "contact": "",
+        "whatsapp": "",
+        "web": "https://petime.id",
+        "instagram": "petime.id",
+        "facebook": "petime.id",
+        "twitter": "",
+        "transaksi": "Ya"
+    },
+    {
+        "id": "f20",
+        "booth_no": 70,
+        "code": "F20",
+        "cluster": 4,
+        "area": "F",
+        "name": "Vascular Indonesia",
+        "instansi": "Vascular Indonesia",
+        "pic": "",
+        "cat": "Kesehatan",
+        "desc": "Vascular Indonesia berfokus pada peningkatan pengetahuan, kesadaran, dan edukasi mengenai kesehatan pembuluh darah. Melalui kolaborasi, edukasi, dan kegiatan ilmiah, Vascular Indonesia mendukung pencegahan, deteksi dini, serta penanganan penyakit vaskular untuk meningkatkan kualitas hidup masyarakat.",
+        "tags": [
+            "Kesehatan",
+            "Edukasi"
+        ],
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/vascular-indonesia.png",
+        "contact": "",
+        "whatsapp": "",
+        "web": "https://www.vascularindonesia.com",
+        "instagram": "@vascularindonesia",
+        "facebook": "vascularindonesia",
+        "twitter": "vascularindonesia",
+        "transaksi": "Ya"
+    },
+    {
+        "id": "f21",
+        "booth_no": 71,
+        "code": "F21",
+        "cluster": 4,
+        "area": "F",
+        "name": "PT Inovasi Bioproduk Indonesia (INOBI)",
+        "instansi": "PT Inovasi Bioproduk Indonesia",
+        "pic": "",
+        "cat": "Riset & Inovasi",
+        "desc": "Inovasi Bioproduk Indonesia (INOBI) menyediakan produk inovasi, perlengkapan laboratorium, diagnostik, serta kebutuhan riset dan pendidikan melalui platform terpadu untuk mendukung peneliti dan pendidik.",
+        "tags": [
+            "Riset & Inovasi",
+            "Teknologi"
+        ],
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/inobi.png",
+        "contact": "",
+        "whatsapp": "",
+        "web": "https://inobi.id",
+        "instagram": "inobi.id",
+        "facebook": "",
+        "twitter": "",
+        "transaksi": "Ya"
+    },
+    {
+        "id": "h15",
+        "booth_no": 95,
+        "code": "H15",
+        "cluster": 6,
+        "area": "H",
+        "name": "ERPEH CHROMA",
+        "instansi": "ERPEH CHROMA",
+        "pic": "",
+        "cat": "Craft & Fashion",
+        "desc": "ERPEH CHROMA adalah brand hijab yang menerjemahkan motif dan warna menjadi sebuah cerita. Setiap motif lahir dari gagasan dan komposisi visual dengan karakter tersendiri. Rangkaian chapter dan shade menghadirkan suasana serta makna yang berbeda. Bagi ERPEH CHROMA, hijab juga menjadi cara untuk mengekspresikan perasaan, gagasan, kenangan, maupun momen. When every motif has a story.",
+        "tags": [
+            "Craft & Fashion"
+        ],
+        "logo": "",
+        "contact": "",
+        "whatsapp": "",
+        "web": "",
+        "instagram": "",
         "facebook": "",
         "twitter": "",
         "transaksi": "Ya"
@@ -2309,7 +2646,10 @@
     B:{fill:'#14532d',stroke:'#22c55e',label:'Area B — Mitra'},
     C:{fill:'#78350f',stroke:'#f59e0b',label:'Area C — Eksternal'},
     D:{fill:'#4c1d95',stroke:'#a855f7',label:'Area D — Startup'},
-    E:{fill:'#0c4a6e',stroke:'#06b6d4',label:'Area E — Institusi'},
+    E:{fill:'#0c4a6e',stroke:'#06b6d4',label:'Area E — PGN & Makanan'},
+    F:{fill:'#7c2d12',stroke:'#f47962',label:'Area F — Usaha & Bisnis'},
+    G:{fill:'#365314',stroke:'#9fc943',label:'Area G — Komunitas & UMKM'},
+    H:{fill:'#831843',stroke:'#ec6cb5',label:'Area H — Kreatif & Inovasi'},
   };
   var denahActiveArea='all';
 
@@ -2343,13 +2683,13 @@
 
     // Kelompokkan tenant per area
     var tenants=DATA.tenants||[];
-    var byArea={A:[],B:[],C:[],D:[],E:[]};
+    var byArea={A:[],B:[],C:[],D:[],E:[],F:[],G:[],H:[]};
     tenants.forEach(function(t){
       if(byArea[t.area]!==undefined&&(denahActiveArea==='all'||t.area===denahActiveArea)) byArea[t.area].push(t);
     });
 
     var BW=58,BH=42,GAP=6,PAD=14;
-    var AREA_ORDER=['A','B','C','D','E'];
+    var AREA_ORDER=['A','B','C','D','E','F','G','H'];
     var areaLayouts={};
     var totalH=PAD;
     AREA_ORDER.forEach(function(area){

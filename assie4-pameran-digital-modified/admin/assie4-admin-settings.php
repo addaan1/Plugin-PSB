@@ -576,20 +576,20 @@ Untuk Menjamin Kualitas Layanan pengujiannya ULP-FFUA pada tahun 2005 mulai meng
             'code' => 'D4',
             'cluster' => 2,
             'area' => 'D',
-            'name' => 'PUI-PT Bisnis Berkelanjutan',
-            'instansi' => 'Universitas Airlangga',
-            'pic' => '',
-            'cat' => 'Riset & Pengembangan',
-            'desc' => 'Pusat Unggulan Ipteks Perguruan Tinggi Bisnis Berkelanjutan Universitas Airlangga.',
-            'tags' => ['Riset & Pengembangan', 'Startup'],
-            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/fast_unair.png',
-            'contact' => '',
-            'whatsapp' => '',
+            'name' => 'Inkubator Bisnis STP LPPM UPN "Veteran" Jawa Timur',
+            'instansi' => 'Inkubator Bisnis STP LPPM UPN "Veteran" Jawa Timur',
+            'pic' => 'Septyari',
+            'cat' => 'Eksternal UNAIR',
+            'desc' => 'Inkubator Bisnis STP LPPM UPN "Veteran" Jawa Timur memamerkan program inkubasi dan hilirisasi inovasi teknologi serta produk riset unggulan.',
+            'tags' => ['Eksternal UNAIR', 'Startup', 'Transaksi Booth'],
+            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/upn_veteran.png',
+            'contact' => 'inbistechnopark@upnjatim.ac.id',
+            'whatsapp' => '085655567262',
             'web' => '',
-            'instagram' => '',
+            'instagram' => 'https://www.instagram.com/stp_upnvjatim/',
             'facebook' => '',
             'twitter' => '',
-            'transaksi' => '',
+            'transaksi' => 'Ya',
         ],
         [
             'id' => 'd5',
@@ -644,17 +644,17 @@ Untuk Menjamin Kualitas Layanan pengujiannya ULP-FFUA pada tahun 2005 mulai meng
             'code' => 'D7',
             'cluster' => 2,
             'area' => 'D',
-            'name' => 'Sahabat Spondan',
-            'instansi' => 'Sahabat Spondan',
-            'pic' => 'AMRETA LARAS PERTIWI',
-            'cat' => 'PGN',
-            'desc' => 'Produk olahan siap saji yang menemani setiap kegiatanmu menjadi lebih berwarna. Menghadirkan cita rasa otentik dengan harga terjangkau yang dikemas dan disajikan dengan rasa cinta. Setiap gigitan menciptakan kehangatan dalam setiap kegiatan bersama teman, keluarga dan orang tersayang kamu.',
-            'tags' => ['PGN', 'Startup', 'Transaksi Booth'],
-            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/sahabat_spondan.png',
-            'contact' => 'amretapertiwi3@gmail.com',
-            'whatsapp' => '085730171516',
-            'web' => '',
-            'instagram' => 'https://www.instagram.com/sahabatspondan_sby?igsh=MTU1bzBzZXl1cHEzcQ==',
+            'name' => 'SyariHub',
+            'instansi' => 'SyariHub (Mengaji Online Privat)',
+            'pic' => 'Sasa',
+            'cat' => 'Jasa',
+            'desc' => 'SyariHub adalah layanan belajar mengaji Al-Quran secara online/daring dan privat (1 murid 1 ustadz/ah). SyariHub memiliki berbagai pilihan paket belajar mengaji yang ramah untuk segala usia mulai dari anak-anak, remaja, dewasa hingga lansia.',
+            'tags' => ['Jasa', 'Startup', 'Transaksi Booth'],
+            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/syarihub.png',
+            'contact' => 'syarihub@gmail.com',
+            'whatsapp' => '085704978982',
+            'web' => 'https://syarihub.id',
+            'instagram' => 'https://www.instagram.com/syarihub.id?',
             'facebook' => '',
             'twitter' => '',
             'transaksi' => 'Ya',
@@ -665,19 +665,18 @@ Untuk Menjamin Kualitas Layanan pengujiannya ULP-FFUA pada tahun 2005 mulai meng
             'code' => 'D8',
             'cluster' => 2,
             'area' => 'D',
-            'name' => 'MULIA SAMUDRA MAJU ABADI',
-            'instansi' => 'Mulia samudra maju abadi',
-            'pic' => 'Muhammad Syarif Satriyo samudra',
-            'cat' => 'Agrikultur & Akuakultur',
-            'desc' => 'CV. Mulia Samudra Maju Abadi (MSMA) merupakan usaha yang bergerak di bidang perikanan dan akuakultur berkelanjutan, dengan fokus pada budidaya dan pengembangan komoditas ikan serta rumput laut Gracilaria. MSMA mengintegrasikan kegiatan pembenihan, budidaya, pengumpulan hasil, pengolahan, hingga pemasaran untuk menghasilkan produk perikanan berkualitas dan bernilai ekonomi.
-MSMA juga mengembangkan inovasi teknologi akuakultur, seperti IoT, pakan otomatis, monitoring kualitas air, serta konsep budidaya yang efisien dan ramah lingkungan, dengan tujuan membangun ekosistem perikanan modern, produktif, dan berkelanjutan.',
-            'tags' => ['Agrikultur & Akuakultur', 'Startup', 'Transaksi Booth'],
-            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/' . rawurlencode('MULIA SAMUDRA MAJU ABADI.jpg'),
-            'contact' => 'msatriyo@magister.ciputra.ac.id',
-            'whatsapp' => '081259545859',
-            'web' => 'https://Muliasamudra.com',
-            'instagram' => 'Muliasamudra',
-            'facebook' => 'Mulia Samudra',
+            'name' => 'PE-NOVTRA',
+            'instansi' => 'POLITEKNIK ELEKTRONIKA NEGERI SURABAYA',
+            'pic' => 'MUHAMMAD AR RAYAN',
+            'cat' => 'Eksternal UNAIR',
+            'desc' => 'PE-NOVTRA adalah startup agritech binaan Politeknik Elektronika Negeri Surabaya yang mengembangkan HydroCover, sistem budidaya modular berbasis teknologi untuk membantu petani modern meningkatkan produktivitas dan efisiensi pertanian.',
+            'tags' => ['Eksternal UNAIR', 'Startup', 'Transaksi Booth'],
+            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/pe_novtra.png',
+            'contact' => 'penovtraid@gmail.com',
+            'whatsapp' => '081363157885',
+            'web' => '',
+            'instagram' => '@penovtra',
+            'facebook' => '',
             'twitter' => '',
             'transaksi' => 'Ya',
         ],
@@ -746,6 +745,27 @@ MSMA juga mengembangkan inovasi teknologi akuakultur, seperti IoT, pakan otomati
             'desk' => 'UIN Maliki Malang melalui Phytonomics Research Group mengembangkan inovasi bahan alam menjadi produk kesehatan dan kosmetik, seperti Hermarin, Osteprint, dan produk herbal unggulan lainnya.',
         ],
         [
+            'id' => 'd15',
+            'booth_no' => 36,
+            'code' => 'D15',
+            'cluster' => 2,
+            'area' => 'D',
+            'name' => 'Bangga EVCS',
+            'instansi' => 'Bangga EVCS',
+            'pic' => 'Ibnu Andhika Hidayat',
+            'cat' => 'Manufaktur',
+            'desc' => "Bangga EVCS merupakan sebuah inisiatif berbasis riset dari Universitas Airlangga yang berfokus pada pengembangan sistem charging kendaraan listrik (Electric Vehicle/EV). Inisiatif ini melibatkan kolaborasi antara mahasiswa dan dosen, sehingga mampu menggabungkan kekuatan inovasi, riset akademik, serta pengalaman praktis dalam menjawab kebutuhan infrastruktur pengisian daya di Indonesia yang terus berkembang.\n\nFokus utama Bangga EVCS terletak pada perancangan dan pengembangan teknologi charging yang adaptif, efisien, dan relevan dengan kondisi kelistrikan nasional. Sistem yang dikembangkan umumnya mengacu pada standar internasional, dengan kemampuan operasional pada konfigurasi 1 phase hingga 3 phase, serta rentang daya yang kompetitif untuk penggunaan residensial maupun komersial. Selain itu, Bangga EVCS juga mengintegrasikan konsep smart charging, yang memungkinkan pengguna untuk melakukan monitoring konsumsi daya, kontrol jarak jauh melalui aplikasi, serta pengaturan strategi pengisian untuk meningkatkan efisiensi energi dan menjaga keandalan sistem.\n\nDalam proses pengembangannya, Bangga EVCS menerapkan pendekatan end-to-end, mulai dari studi literatur, simulasi sistem kelistrikan, desain hardware, hingga integrasi software dan pengujian langsung. Kolaborasi antara mahasiswa dan dosen menjadi kunci dalam memastikan bahwa setiap solusi yang dihasilkan tidak hanya inovatif, tetapi juga memiliki dasar ilmiah yang kuat dan potensi implementasi nyata.\n\nLebih dari sekadar proyek riset, Bangga EVCS juga berperan sebagai wadah pengembangan kompetensi lintas bidang, baik teknis maupun non-teknis. Dengan semangat kolaborasi dan inovasi, Bangga EVCS berkomitmen untuk berkontribusi dalam percepatan pengembangan ekosistem kendaraan listrik di Indonesia, khususnya melalui solusi charging yang andal, cerdas, dan berkelanjutan.",
+            'tags' => ['Manufaktur', 'Startup', 'Transaksi Booth'],
+            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/bangga_evcs.png',
+            'contact' => 'ibnuandikahidayat02@gmail.com',
+            'whatsapp' => '+62 811-1020-416',
+            'web' => 'https://bangga-evcs.com/',
+            'instagram' => 'https://www.instagram.com/bangga.evcs/?utm_source=ig_web_button_share_sheet',
+            'facebook' => '',
+            'twitter' => '',
+            'transaksi' => 'Ya',
+        ],
+        [
             'id' => 'c1',
             'booth_no' => 38,
             'code' => 'C1',
@@ -788,29 +808,65 @@ MSMA juga mengembangkan inovasi teknologi akuakultur, seperti IoT, pakan otomati
             'transaksi' => '',
         ],
         [
+            'id' => 'e1',
+            'booth_no' => 45,
+            'code' => 'E1',
+            'cluster' => 3,
+            'area' => 'E',
+            'name' => 'Sahabat Spondan',
+            'instansi' => 'Sahabat Spondan',
+            'pic' => 'AMRETA LARAS PERTIWI',
+            'cat' => 'PGN',
+            'desc' => 'Produk olahan siap saji yang menemani setiap kegiatanmu menjadi lebih berwarna. Menghadirkan cita rasa otentik dengan harga terjangkau yang dikemas dan disajikan dengan rasa cinta. Setiap gigitan menciptakan kehangatan dalam setiap kegiatan bersama teman, keluarga dan orang tersayang kamu.',
+            'tags' => ['PGN', 'Startup', 'Transaksi Booth'],
+            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/sahabat_spondan.png',
+            'contact' => 'amretapertiwi3@gmail.com',
+            'whatsapp' => '085730171516',
+            'web' => '',
+            'instagram' => 'https://www.instagram.com/sahabatspondan_sby?igsh=MTU1bzBzZXl1cHEzcQ==',
+            'facebook' => '',
+            'twitter' => '',
+            'transaksi' => 'Ya',
+        ],
+        [
+            'id' => 'e2',
+            'booth_no' => 46,
+            'code' => 'E2',
+            'cluster' => 3,
+            'area' => 'E',
+            'name' => "D'toekoe Dimsum",
+            'instansi' => 'Pasinbis',
+            'pic' => 'Mirsha Putri Pratiwi',
+            'cat' => 'Food & Beverage',
+            'desc' => "D'toekoe Dimsum merupakan UMKM kuliner asal Surabaya yang bergerak di bidang produksi dan pengolahan dimsum premium homemade dengan bahan baku berkualitas dan halal. D'toekoe Dimsum hadir untuk memberikan pengalaman menikmati dimsum lezat, higienis, dan terjangkau bagi semua kalangan, baik untuk konsumsi harian, frozen food, maupun kebutuhan acara khusus.",
+            'tags' => ['Food & Beverage', 'Startup', 'Transaksi Booth'],
+            'logo' => '',
+            'contact' => 'dtoekoedimsum@gmail.com',
+            'whatsapp' => '081217448923',
+            'web' => '',
+            'instagram' => 'https://www.instagram.com/dtoekoe_69?stkn=N3h2NTNkbW9tYzYz',
+            'facebook' => '',
+            'twitter' => '',
+            'transaksi' => 'Ya',
+        ],
+        [
             'id' => 'f1',
             'booth_no' => 51,
             'code' => 'F1',
             'cluster' => 4,
             'area' => 'F',
-            'name' => 'Bangga EVCS',
-            'instansi' => 'Bangga EVCS',
-            'pic' => 'Ibnu Andhika Hidayat',
-            'cat' => 'Manufaktur',
-            'desc' => 'Bangga EVCS merupakan sebuah inisiatif berbasis riset dari Universitas Airlangga yang berfokus pada pengembangan sistem charging kendaraan listrik (Electric Vehicle/EV). Inisiatif ini melibatkan kolaborasi antara mahasiswa dan dosen, sehingga mampu menggabungkan kekuatan inovasi, riset akademik, serta pengalaman praktis dalam menjawab kebutuhan infrastruktur pengisian daya di Indonesia yang terus berkembang.
-
-Fokus utama Bangga EVCS terletak pada perancangan dan pengembangan teknologi charging yang adaptif, efisien, dan relevan dengan kondisi kelistrikan nasional. Sistem yang dikembangkan umumnya mengacu pada standar internasional, dengan kemampuan operasional pada konfigurasi 1 phase hingga 3 phase, serta rentang daya yang kompetitif untuk penggunaan residensial maupun komersial. Selain itu, Bangga EVCS juga mengintegrasikan konsep smart charging, yang memungkinkan pengguna untuk melakukan monitoring konsumsi daya, kontrol jarak jauh melalui aplikasi, serta pengaturan strategi pengisian untuk meningkatkan efisiensi energi dan menjaga keandalan sistem.
-
-Dalam proses pengembangannya, Bangga EVCS menerapkan pendekatan end-to-end, mulai dari studi literatur, simulasi sistem kelistrikan, desain hardware, hingga integrasi software dan pengujian langsung. Kolaborasi antara mahasiswa dan dosen menjadi kunci dalam memastikan bahwa setiap solusi yang dihasilkan tidak hanya inovatif, tetapi juga memiliki dasar ilmiah yang kuat dan potensi implementasi nyata.
-
-Lebih dari sekadar proyek riset, Bangga EVCS juga berperan sebagai wadah pengembangan kompetensi lintas bidang, baik teknis maupun non-teknis. Dengan semangat kolaborasi dan inovasi, Bangga EVCS berkomitmen untuk berkontribusi dalam percepatan pengembangan ekosistem kendaraan listrik di Indonesia, khususnya melalui solusi charging yang andal, cerdas, dan berkelanjutan.',
-            'tags' => ['Manufaktur', 'Startup', 'Transaksi Booth'],
-            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/bangga_evcs.png',
-            'contact' => 'ibnuandikahidayat02@gmail.com',
-            'whatsapp' => '+62 811-1020-416',
-            'web' => 'https://bangga-evcs.com/',
-            'instagram' => 'https://www.instagram.com/bangga.evcs/?utm_source=ig_web_button_share_sheet',
-            'facebook' => '',
+            'name' => 'MULIA SAMUDRA MAJU ABADI',
+            'instansi' => 'Mulia samudra maju abadi',
+            'pic' => 'Muhammad Syarif Satriyo samudra',
+            'cat' => 'Agrikultur & Akuakultur',
+            'desc' => 'CV. Mulia Samudra Maju Abadi (MSMA) merupakan usaha yang bergerak di bidang perikanan dan akuakultur berkelanjutan, dengan fokus pada budidaya dan pengembangan komoditas ikan serta rumput laut Gracilaria. MSMA mengintegrasikan kegiatan pembenihan, budidaya, pengumpulan hasil, pengolahan, hingga pemasaran untuk menghasilkan produk perikanan berkualitas dan bernilai ekonomi. MSMA juga mengembangkan inovasi teknologi akuakultur, seperti IoT, pakan otomatis, monitoring kualitas air, serta konsep budidaya yang efisien dan ramah lingkungan, dengan tujuan membangun ekosistem perikanan modern, produktif, dan berkelanjutan.',
+            'tags' => ['Agrikultur & Akuakultur', 'Startup', 'Transaksi Booth'],
+            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/' . rawurlencode('MULIA SAMUDRA MAJU ABADI.jpg'),
+            'contact' => 'msatriyo@magister.ciputra.ac.id',
+            'whatsapp' => '081259545859',
+            'web' => 'https://Muliasamudra.com',
+            'instagram' => 'Muliasamudra',
+            'facebook' => 'Mulia Samudra',
             'twitter' => '',
             'transaksi' => 'Ya',
         ],
@@ -1852,23 +1908,48 @@ Berbagai produk dan layanan tersebut merupakan bagian dari upaya PUI-PT CoE-PSQ 
 
 /** Apply the latest official booth map while keeping the existing tenant records. */
 function assie4_apply_updated_official_roster( $tenants ) {
-    $moves = [
-        'd8' => ['id'=>'f1', 'code'=>'F1'],
-        'f1' => ['id'=>'d15', 'code'=>'D15'],
-    ];
-
     foreach ( $tenants as &$tenant ) {
-        $old_id = sanitize_key( $tenant['id'] ?? '' );
-        if ( isset( $moves[$old_id] ) ) {
-            $target = $moves[$old_id];
-            $tenant['id'] = $target['id'];
-            $tenant['code'] = $target['code'];
-            $tenant['area'] = substr( $target['code'], 0, 1 );
-            $location = assie4_booth_location( $target['code'] );
-            if ( $location ) {
-                $tenant['booth_no'] = $location['booth_no'];
-                $tenant['cluster'] = $location['cluster'];
-            }
+        if ( sanitize_key( $tenant['id'] ?? '' ) === 'd4' ) {
+            $tenant['name'] = 'Inkubator Bisnis STP LPPM UPN "Veteran" Jawa Timur';
+            $tenant['instansi'] = 'Inkubator Bisnis STP LPPM UPN "Veteran" Jawa Timur';
+            $tenant['pic'] = 'Septyari';
+            $tenant['cat'] = 'Eksternal UNAIR';
+            $tenant['desc'] = 'Inkubator Bisnis STP LPPM UPN "Veteran" Jawa Timur memamerkan program inkubasi dan hilirisasi inovasi teknologi serta produk riset unggulan.';
+            $tenant['tags'] = ['Eksternal UNAIR', 'Startup', 'Transaksi Booth'];
+            $tenant['logo'] = ASSIE4_PAMERAN_URL . 'assets/tenant-logos/upn_veteran.png';
+            $tenant['contact'] = 'inbistechnopark@upnjatim.ac.id';
+            $tenant['whatsapp'] = '085655567262';
+            $tenant['instagram'] = 'https://www.instagram.com/stp_upnvjatim/';
+            $tenant['transaksi'] = 'Ya';
+        }
+
+        if ( sanitize_key( $tenant['id'] ?? '' ) === 'd7' ) {
+            $tenant['name'] = 'SyariHub';
+            $tenant['instansi'] = 'SyariHub (Mengaji Online Privat)';
+            $tenant['pic'] = 'Sasa';
+            $tenant['cat'] = 'Jasa';
+            $tenant['desc'] = 'SyariHub adalah layanan belajar mengaji Al-Quran secara online/daring dan privat (1 murid 1 ustadz/ah). SyariHub memiliki berbagai pilihan paket belajar mengaji yang ramah untuk segala usia mulai dari anak-anak, remaja, dewasa hingga lansia.';
+            $tenant['tags'] = ['Jasa', 'Startup', 'Transaksi Booth'];
+            $tenant['logo'] = ASSIE4_PAMERAN_URL . 'assets/tenant-logos/syarihub.png';
+            $tenant['contact'] = 'syarihub@gmail.com';
+            $tenant['whatsapp'] = '085704978982';
+            $tenant['web'] = 'https://syarihub.id';
+            $tenant['instagram'] = 'https://www.instagram.com/syarihub.id?';
+            $tenant['transaksi'] = 'Ya';
+        }
+
+        if ( sanitize_key( $tenant['id'] ?? '' ) === 'd8' ) {
+            $tenant['name'] = 'PE-NOVTRA';
+            $tenant['instansi'] = 'POLITEKNIK ELEKTRONIKA NEGERI SURABAYA';
+            $tenant['pic'] = 'MUHAMMAD AR RAYAN';
+            $tenant['cat'] = 'Eksternal UNAIR';
+            $tenant['desc'] = 'PE-NOVTRA adalah startup agritech binaan Politeknik Elektronika Negeri Surabaya yang mengembangkan HydroCover, sistem budidaya modular berbasis teknologi untuk membantu petani modern meningkatkan produktivitas dan efisiensi pertanian.';
+            $tenant['tags'] = ['Eksternal UNAIR', 'Startup', 'Transaksi Booth'];
+            $tenant['logo'] = ASSIE4_PAMERAN_URL . 'assets/tenant-logos/pe_novtra.png';
+            $tenant['contact'] = 'penovtraid@gmail.com';
+            $tenant['whatsapp'] = '081363157885';
+            $tenant['instagram'] = '@penovtra';
+            $tenant['transaksi'] = 'Ya';
         }
 
         if ( sanitize_key( $tenant['id'] ?? '' ) === 'd1' ) {
@@ -1920,11 +2001,18 @@ function assie4_apply_updated_official_roster( $tenants ) {
             'web'=>'https://ners.unair.ac.id/', 'instagram'=>'https://www.instagram.com/fkp_unair/', 'facebook'=>'https://www.facebook.com/FKpUNAIROfficial/', 'twitter'=>'https://x.com/fkp_Unair', 'transaksi'=>'Ya',
         ],
         [
-            'id'=>'d8', 'booth_no'=>29, 'code'=>'D8', 'cluster'=>2, 'area'=>'D',
-            'name'=>'D’toekoe Dimsum', 'instansi'=>'PASINBIS Universitas Airlangga',
-            'pic'=>'', 'cat'=>'Kuliner & F&B', 'desc'=>'D’toekoe Dimsum merupakan UMKM kuliner asal Surabaya yang memproduksi dimsum premium homemade dari bahan berkualitas, halal, dan tanpa bahan pengawet. Berdiri sejak 2020, D’toekoe menghadirkan produk siap saji dan frozen dalam beragam varian untuk pasar ritel, food service, katering, dan peluang ekspor, serta terbuka untuk kemitraan dan pengembangan distribusi.',
-            'tags'=>['Kuliner & F&B', 'UMKM'], 'logo'=>'', 'contact'=>'', 'whatsapp'=>'',
-            'web'=>'', 'instagram'=>'https://www.instagram.com/dtoekoe_69/', 'facebook'=>'', 'twitter'=>'', 'transaksi'=>'Ya',
+            'id'=>'e1', 'booth_no'=>45, 'code'=>'E1', 'cluster'=>3, 'area'=>'E',
+            'name'=>'Sahabat Spondan', 'instansi'=>'Sahabat Spondan',
+            'pic'=>'AMRETA LARAS PERTIWI', 'cat'=>'PGN', 'desc'=>'Produk olahan siap saji yang menemani setiap kegiatanmu menjadi lebih berwarna. Menghadirkan cita rasa otentik dengan harga terjangkau yang dikemas dan disajikan dengan rasa cinta. Setiap gigitan menciptakan kehangatan dalam setiap kegiatan bersama teman, keluarga dan orang tersayang kamu.',
+            'tags'=>['PGN', 'Startup', 'Transaksi Booth'], 'logo'=>$base . 'sahabat_spondan.png', 'contact'=>'amretapertiwi3@gmail.com', 'whatsapp'=>'085730171516',
+            'web'=>'', 'instagram'=>'https://www.instagram.com/sahabatspondan_sby?igsh=MTU1bzBzZXl1cHEzcQ==', 'facebook'=>'', 'twitter'=>'', 'transaksi'=>'Ya',
+        ],
+        [
+            'id'=>'e2', 'booth_no'=>46, 'code'=>'E2', 'cluster'=>3, 'area'=>'E',
+            'name'=>"D'toekoe Dimsum", 'instansi'=>'Pasinbis',
+            'pic'=>'Mirsha Putri Pratiwi', 'cat'=>'Food & Beverage', 'desc'=>"D'toekoe Dimsum merupakan UMKM kuliner asal Surabaya yang bergerak di bidang produksi dan pengolahan dimsum premium homemade dengan bahan baku berkualitas dan halal. D'toekoe Dimsum hadir untuk memberikan pengalaman menikmati dimsum lezat, higienis, dan terjangkau bagi semua kalangan, baik untuk konsumsi harian, frozen food, maupun kebutuhan acara khusus.",
+            'tags'=>['Food & Beverage', 'Startup', 'Transaksi Booth'], 'logo'=>'', 'contact'=>'dtoekoedimsum@gmail.com', 'whatsapp'=>'081217448923',
+            'web'=>'', 'instagram'=>'https://www.instagram.com/dtoekoe_69?stkn=N3h2NTNkbW9tYzYz', 'facebook'=>'', 'twitter'=>'', 'transaksi'=>'Ya',
         ],
         [
             'id'=>'d12', 'booth_no'=>33, 'code'=>'D12', 'cluster'=>2, 'area'=>'D',
@@ -1945,6 +2033,16 @@ function assie4_apply_updated_official_roster( $tenants ) {
             'name'=>'Inkubator Universitas Negeri Surabaya', 'instansi'=>'Universitas Negeri Surabaya',
             'pic'=>'', 'cat'=>'Startup', 'desc'=>'', 'tags'=>['Startup', 'Inkubasi'], 'logo'=>'', 'contact'=>'', 'whatsapp'=>'',
             'web'=>'', 'instagram'=>'', 'facebook'=>'', 'twitter'=>'', 'transaksi'=>'',
+        ],
+        [
+            'id'=>'d15', 'booth_no'=>36, 'code'=>'D15', 'cluster'=>2, 'area'=>'D',
+            'name'=>'Bangga EVCS', 'instansi'=>'Bangga EVCS',
+            'pic'=>'Ibnu Andhika Hidayat', 'cat'=>'Manufaktur',
+            'desc'=>"Bangga EVCS merupakan sebuah inisiatif berbasis riset dari Universitas Airlangga yang berfokus pada pengembangan sistem charging kendaraan listrik (Electric Vehicle/EV). Inisiatif ini melibatkan kolaborasi antara mahasiswa dan dosen, sehingga mampu menggabungkan kekuatan inovasi, riset akademik, serta pengalaman praktis dalam menjawab kebutuhan infrastruktur pengisian daya di Indonesia yang terus berkembang.\n\nFokus utama Bangga EVCS terletak pada perancangan dan pengembangan teknologi charging yang adaptif, efisien, dan relevan dengan kondisi kelistrikan nasional. Sistem yang dikembangkan umumnya mengacu pada standar internasional, dengan kemampuan operasional pada konfigurasi 1 phase hingga 3 phase, serta rentang daya yang kompetitif untuk penggunaan residensial maupun komersial. Selain itu, Bangga EVCS juga mengintegrasikan konsep smart charging, yang memungkinkan pengguna untuk melakukan monitoring konsumsi daya, kontrol jarak jauh melalui aplikasi, serta pengaturan strategi pengisian untuk meningkatkan efisiensi energi dan menjaga keandalan sistem.\n\nDalam proses pengembangannya, Bangga EVCS menerapkan pendekatan end-to-end, mulai dari studi literatur, simulasi sistem kelistrikan, desain hardware, hingga integrasi software dan pengujian langsung. Kolaborasi antara mahasiswa dan dosen menjadi kunci dalam memastikan bahwa setiap solusi yang dihasilkan tidak hanya inovatif, tetapi juga memiliki dasar ilmiah yang kuat dan potensi implementasi nyata.\n\nLebih dari sekadar proyek riset, Bangga EVCS juga berperan sebagai wadah pengembangan kompetensi lintas bidang, baik teknis maupun non-teknis. Dengan semangat kolaborasi dan inovasi, Bangga EVCS berkomitmen untuk berkontribusi dalam percepatan pengembangan ekosistem kendaraan listrik di Indonesia, khususnya melalui solusi charging yang andal, cerdas, dan berkelanjutan.",
+            'tags'=>['Manufaktur', 'Startup', 'Transaksi Booth'], 'logo'=>$base . 'bangga_evcs.png',
+            'contact'=>'ibnuandikahidayat02@gmail.com', 'whatsapp'=>'+62 811-1020-416',
+            'web'=>'https://bangga-evcs.com/', 'instagram'=>'https://www.instagram.com/bangga.evcs/?utm_source=ig_web_button_share_sheet',
+            'facebook'=>'', 'twitter'=>'', 'transaksi'=>'Ya',
         ],
         [
             'id'=>'d16', 'booth_no'=>37, 'code'=>'D16', 'cluster'=>2, 'area'=>'D',
@@ -2014,17 +2112,19 @@ function assie4_default_tenant_logos() {
         'a19' => 'Puspas HD.png',
         'a20' => 'Logo Pushal x LPH.png',
         'a21' => 'Logo pusba_kotak final.png',
-        'd4'  => 'fast_unair.png',
+        'd4'  => 'upn_veteran.png',
         'd1'  => 'airbilinest.png',
         'd12' => 'dikst-ub.png',
         'd13' => 'universitas-hang-tuah.png',
         'd15' => 'bangga_evcs.png',
         'd16' => 'markaswalet.png',
+        'e1'  => 'sahabat_spondan.png',
         'f1'  => 'MULIA SAMUDRA MAJU ABADI.jpg',
         'f19' => 'petime-animal-care.png',
         'f20' => 'vascular-indonesia.png',
         'f21' => 'inobi.png',
-        'd7'  => 'sahabat_spondan.png',
+        'd7'  => 'syarihub.png',
+        'd8'  => 'pe_novtra.png',
         'g3'  => 'partner_sehatin.png',
         'g8'  => 'sahabat_spondan.png',
         'd2'  => 'Logo CESGS.png',
@@ -2145,6 +2245,21 @@ function assie4_upgrade_official_roster( $tenants ) {
                 foreach ( ['name','instansi','desc','logo'] as $field ) $merged[$field] = $default[$field] ?? '';
             }
 
+            // UPN Veteran at D4
+            if ( $code === 'D4' && ( strpos( $old_name, 'berkelanjutan' ) !== false || strpos( $old_name, 'pui' ) !== false || $is_placeholder ) ) {
+                foreach ( ['name','instansi','pic','cat','desc','tags','logo','contact','whatsapp','web','instagram','facebook','twitter','transaksi'] as $field ) $merged[$field] = $default[$field] ?? '';
+            }
+
+            // SyariHub at D7
+            if ( $code === 'D7' && ( strpos( $old_name, 'spondan' ) !== false || $is_placeholder ) ) {
+                foreach ( ['name','instansi','pic','cat','desc','tags','logo','contact','whatsapp','web','instagram','facebook','twitter','transaksi'] as $field ) $merged[$field] = $default[$field] ?? '';
+            }
+
+            // PE-NOVTRA at D8
+            if ( $code === 'D8' && ( strpos( $old_name, 'dimsum' ) !== false || strpos( $old_name, 'toekoe' ) !== false || strpos( $old_name, 'mulia samudra' ) !== false || $is_placeholder ) ) {
+                foreach ( ['name','instansi','pic','cat','desc','tags','logo','contact','whatsapp','web','instagram','facebook','twitter','transaksi'] as $field ) $merged[$field] = $default[$field] ?? '';
+            }
+
             // The official plan assigns one shared booth to the WEBS FEB cohort.
             if ( $code === 'G1' && strpos( $old_name, 'deorans' ) !== false ) {
                 foreach ( ['name','instansi','cat','desc','tags','logo','contact','whatsapp','web','instagram','facebook','twitter'] as $field ) {
@@ -2189,24 +2304,24 @@ function assie4_get_tenants() {
         $raw = assie4_default_tenants();
         update_option( ASSIE4_OPT_TENANTS, $raw, false );
         update_option( 'assie4_directory_seed_state', 'v7', false );
-        update_option( 'assie4_official_booth_roster_version', '2026-10-03', false );
+        update_option( 'assie4_official_booth_roster_version', '2026-10-06', false );
         assie4_rebuild_js_data();
     }
     if ( ! is_array($raw) ) $raw = [];
 
-    if ( get_option( 'assie4_official_booth_roster_version' ) !== '2026-10-03' ) {
+    if ( get_option( 'assie4_official_booth_roster_version' ) !== '2026-10-06' ) {
         $updated_roster = assie4_upgrade_official_roster( $raw );
         update_option( ASSIE4_OPT_TENANTS, $updated_roster, false );
         if ( get_option( ASSIE4_OPT_TENANTS ) !== $updated_roster ) {
             return array_values( array_map( 'assie4_normalize_tenant', $raw ) );
         }
         $raw = $updated_roster;
-        update_option( 'assie4_official_booth_roster_version', '2026-10-03', false );
+        update_option( 'assie4_official_booth_roster_version', '2026-10-06', false );
         assie4_rebuild_js_data();
     }
 
     // Repair bundled booth logos once while preserving media-library uploads.
-    if ( get_option( 'assie4_local_tenant_logos_version' ) !== '6' ) {
+    if ( get_option( 'assie4_local_tenant_logos_version' ) !== '7' ) {
         $local_logos = assie4_default_tenant_logos();
         $site_host = wp_parse_url( home_url( '/' ), PHP_URL_HOST );
         $asset_path = wp_parse_url( ASSIE4_PAMERAN_URL . 'assets/tenant-logos/', PHP_URL_PATH );
@@ -2248,7 +2363,7 @@ function assie4_get_tenants() {
         unset( $tenant );
 
         if ( $logos_changed ) update_option( ASSIE4_OPT_TENANTS, $raw, false );
-        update_option( 'assie4_local_tenant_logos_version', '6', false );
+        update_option( 'assie4_local_tenant_logos_version', '7', false );
         if ( $logos_changed ) assie4_rebuild_js_data();
     }
 
