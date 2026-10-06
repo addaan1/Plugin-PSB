@@ -1,6 +1,6 @@
 ===================================================================
   ASSIE IV — PAMERAN DIGITAL
-  WordPress Plugin v2.14.2
+  WordPress Plugin v2.14.4
   PASINBIS Universitas Airlangga
 ===================================================================
 

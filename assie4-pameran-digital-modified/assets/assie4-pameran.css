@@ -1402,6 +1402,48 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
 .a4-modal-tenant .a4-btn-out { background:transparent; color:#e2eaf6; border:1px solid rgba(225,234,250,.28) }
 .a4-modal-tenant .a4-m-empty-head + .a4-mbox-body { padding-top:18px }
 
+/* Main Stage schedule: compact event list with date-aware live state. */
+.a4-mbox.a4-modal-stage {
+  max-width:720px; max-height:min(88vh,920px); overflow-y:auto; overscroll-behavior:contain;
+  border-color:rgba(225,234,250,.16); border-radius:16px; background:#101b2d;
+  box-shadow:0 28px 100px rgba(0,0,0,.58); scrollbar-color:#435671 transparent;
+}
+.a4-modal-stage .a4-mbox-head {
+  position:sticky; top:0; z-index:2; display:flex; align-items:center; min-height:96px;
+  padding:18px 28px; border-bottom:1px solid rgba(225,234,250,.12); background:#101b2d;
+}
+.a4-stage-head { display:flex; align-items:center; gap:16px; min-width:0; padding-right:48px }
+.a4-stage-icon { width:52px; height:52px; display:grid; place-items:center; flex:none; border:1px solid rgba(212,168,67,.3); border-radius:12px; background:rgba(212,168,67,.09); color:#e4b947 }
+.a4-stage-icon .a4-icon { width:25px; height:25px }
+.a4-stage-heading { min-width:0 }
+.a4-stage-kicker { color:#d4a843; font-size:9px; font-weight:800; letter-spacing:.17em; text-transform:uppercase }
+.a4-stage-title { margin:3px 0 2px; color:#f0f3fa; font:750 clamp(20px,3vw,25px)/1.2 'Plus Jakarta Sans',sans-serif; letter-spacing:-.04em }
+.a4-stage-location { display:flex; align-items:center; gap:6px; margin:0; color:#98a9c0; font-size:11px; line-height:1.5 }
+.a4-stage-location .a4-icon { width:13px; height:13px; flex:none; color:#d4a843 }
+.a4-stage-location span { color:#596b84 }
+.a4-modal-stage .a4-m-close { top:18px; right:18px; width:34px; height:34px; border:1px solid rgba(225,234,250,.08) }
+.a4-modal-stage .a4-mbox-body { padding:16px 28px 28px }
+.a4-stage-agenda-label { display:flex; align-items:center; gap:9px; margin:0 0 12px; color:#d4a843; font-size:10px; font-weight:800; letter-spacing:.14em; text-transform:uppercase }
+.a4-stage-agenda-label .a4-icon { width:15px; height:15px }
+.a4-stage-day + .a4-stage-day { margin-top:19px }
+.a4-stage-day-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin:0 0 8px; padding:0 1px }
+.a4-stage-day-head h3 { margin:0; color:#c4d0e0; font:700 12px/1.4 'Plus Jakarta Sans',sans-serif; letter-spacing:.015em }
+.a4-stage-today { display:inline-flex; align-items:center; gap:6px; padding:4px 8px; border:1px solid rgba(45,212,191,.22); border-radius:99px; background:rgba(45,212,191,.08); color:#58d6b9; font-size:9px; font-weight:750; letter-spacing:.06em; text-transform:uppercase }
+.a4-stage-today::before { width:5px; height:5px; border-radius:50%; background:currentColor; content:"" }
+.a4-stage-today[hidden], .a4-stage-live[hidden] { display:none }
+.a4-stage-event { display:grid; grid-template-columns:102px minmax(0,1fr) auto; align-items:center; gap:14px; min-height:68px; padding:11px 13px; border:1px solid rgba(225,234,250,.08); border-radius:9px; background:rgba(7,13,26,.54) }
+.a4-stage-event + .a4-stage-event { margin-top:6px }
+.a4-stage-event.is-current { border-color:rgba(212,168,67,.48); background:linear-gradient(100deg,rgba(212,168,67,.095),rgba(212,168,67,.025)) }
+.a4-stage-event-time { display:flex; align-items:baseline; gap:6px; color:#e0b94f; font-size:12px; font-weight:750; font-variant-numeric:tabular-nums; white-space:nowrap }
+.a4-stage-event-time span { color:#65758c; font-size:10px; font-weight:400 }
+.a4-stage-event-info { min-width:0 }
+.a4-stage-event .a4-ev-badge { display:inline-flex; width:max-content; margin:0 0 4px; padding:2px 6px; border-radius:3px; font-size:8px; line-height:1.35; letter-spacing:.08em }
+.a4-stage-event-name { margin:0; color:#edf1f8; font:650 13px/1.4 'Plus Jakarta Sans',sans-serif; letter-spacing:-.015em; overflow-wrap:anywhere }
+.a4-stage-event-location { display:flex; align-items:center; gap:5px; margin:3px 0 0; color:#899bb4; font-size:10px; line-height:1.4 }
+.a4-stage-event-location .a4-icon { width:12px; height:12px; flex:none; color:#c6a34c }
+.a4-stage-live { display:inline-flex; align-items:center; gap:6px; padding:5px 8px; border:1px solid rgba(45,212,130,.19); border-radius:4px; background:rgba(45,212,130,.08); color:#49d596; font-size:9px; font-weight:750; white-space:nowrap }
+.a4-stage-live i { width:6px; height:6px; border-radius:50%; background:currentColor; box-shadow:0 0 0 3px rgba(45,212,130,.12) }
+
 @media (max-width:768px) {
   .a4-nav-logo { width:132px; min-height:48px }
   .a4-map-svg-wrap { padding:8px; max-height:56vh }
@@ -1417,6 +1459,14 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
   .a4-tc-mark { width:70px; height:70px; border-radius:8px; }
   .a4-modal-tenant .a4-mbox-head { padding:26px 22px 0 }
   .a4-modal-tenant .a4-mbox-body { padding:23px 22px 26px }
+  .a4-modal-stage .a4-mbox-head { min-height:82px; padding:14px 18px }
+  .a4-modal-stage .a4-mbox-body { padding:14px 18px 22px }
+  .a4-modal-stage .a4-m-close { top:14px; right:14px }
+  .a4-stage-head { gap:12px; padding-right:38px }
+  .a4-stage-icon { width:44px; height:44px; border-radius:10px }
+  .a4-stage-event { grid-template-columns:84px minmax(0,1fr); gap:8px 11px; padding:10px }
+  .a4-stage-event-time { font-size:11px }
+  .a4-stage-live { grid-column:2; justify-self:start; margin-top:-3px }
 }
 @media (max-width:560px) {
   .a4-map-controls { align-items:center }
@@ -1426,6 +1476,22 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
   .a4-modal-tenant .a4-m-head-top { grid-template-columns:66px minmax(0,1fr); gap:12px; padding-right:32px }
   .a4-modal-tenant .a4-m-logo-well { width:66px; height:66px; padding:6px; border-radius:8px; }
   .a4-modal-tenant .a4-m-name { font-size:19px }
+  .a4-modal-stage { padding:8px !important }
+  .a4-mbox.a4-modal-stage { max-height:92vh; border-radius:13px }
+  .a4-modal-stage .a4-mbox-head { min-height:74px; padding:12px 14px }
+  .a4-modal-stage .a4-mbox-body { padding:12px 14px 18px }
+  .a4-modal-stage .a4-m-close { top:12px; right:12px; width:30px; height:30px }
+  .a4-stage-head { gap:10px; padding-right:32px }
+  .a4-stage-icon { width:38px; height:38px }
+  .a4-stage-icon .a4-icon { width:21px; height:21px }
+  .a4-stage-kicker { font-size:8px }
+  .a4-stage-title { font-size:19px }
+  .a4-stage-location { font-size:9px }
+  .a4-stage-event { grid-template-columns:74px minmax(0,1fr); gap:7px 9px; min-height:62px; padding:9px }
+  .a4-stage-event-time { gap:4px; font-size:10px }
+  .a4-stage-event-name { font-size:12px }
+  .a4-stage-event-location { font-size:9px }
+  .a4-stage-day + .a4-stage-day { margin-top:15px }
   .a4-modal-tenant .a4-m-facts > div,
   .a4-modal-tenant .a4-m-kr { grid-template-columns:124px minmax(0,1fr); gap:8px }
   .a4-modal-tenant .a4-m-kl { gap:7px; font-size:10px }
