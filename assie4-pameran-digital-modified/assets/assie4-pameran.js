@@ -18,23 +18,57 @@
     rundown: {
       days:   [{ label:'Jumat, 6 November 2026' },{ label:'Sabtu, 7 November 2026' },{ label:'Minggu, 8 November 2026' }],
       events: [
-        { day:0,time:'13.00',end:'15.30',name:'Airlangga Business Matching 2026 - ATAVI',type:'panel',loc:'Ruang Business Matching' },
-        { day:0,time:'15.30',end:'17.00',name:'Opening Ceremony + Launching Produk Inovasi',type:'keynote',loc:'Main Stage' },
-        { day:0,time:'17.00',end:'17.30',name:'Break',                              type:'break',     loc:'—' },
-        { day:0,time:'17.30',end:'19.30',name:'Roblox Competition',                 type:'workshop',  loc:'Hall' },
-        { day:0,time:'19.45',end:'20.45',name:'Acoustic Band Performance',          type:'networking',loc:'Main Stage' },
-        { day:0,time:'21.00',end:'21.30',name:'Closing Day 1',                      type:'award',     loc:'Main Stage' },
-        { day:1,time:'10.00',end:'10.30',name:'Opening',                            type:'keynote',   loc:'Main Stage' },
-        { day:1,time:'10.30',end:'13.40',name:'Workshop Beregu Startup ATAVI',      type:'workshop',  loc:'Hall' },
-        { day:1,time:'13.50',end:'18.00',name:'Mozilla Legend E-Sport Competition', type:'workshop',  loc:'Hall' },
-        { day:1,time:'19.40',end:'20.40',name:'Acoustic Band Perform',              type:'networking',loc:'Main Stage' },
-        { day:1,time:'20.40',end:'21.10',name:'Closing Day 2',                      type:'award',     loc:'Main Stage' },
-        { day:2,time:'10.00',end:'10.05',name:'Opening',                            type:'keynote',   loc:'Main Stage' },
-        { day:2,time:'10.05',end:'12.35',name:'ASSIE El Got Talent',                type:'networking',loc:'Main Stage' },
-        { day:2,time:'13.05',end:'15.05',name:'Talkshow Science Behind Glowing Skin',type:'panel',    loc:'Main Stage' },
-        { day:2,time:'15.35',end:'16.35',name:'El Got Talent',                      type:'networking',loc:'Main Stage' },
-        { day:2,time:'16.35',end:'18.55',name:'Acoustic Band Perform',              type:'networking',loc:'Main Stage' },
-        { day:2,time:'18.55',end:'20.00',name:'Closing Ceremony',                   type:'award',     loc:'Main Stage' },
+        { day:0,time:'13.00',end:'13.05',name:'Indonesia Raya',type:'keynote',loc:'Main Stage' },
+        { day:0,time:'13.05',end:'13.10',name:'Hymne Airlangga',type:'keynote',loc:'Main Stage' },
+        { day:0,time:'13.10',end:'13.12',name:'Bumper Opening Acara',type:'keynote',loc:'Main Stage' },
+        { day:0,time:'13.12',end:'13.17',name:'Opening MC',type:'keynote',loc:'Main Stage' },
+        { day:0,time:'13.17',end:'13.20',name:'Pembacaan Doa',type:'keynote',loc:'Main Stage' },
+        { day:0,time:'13.20',end:'13.30',name:'Tari Pembuka Gandrung — UKM Tari UNAIR',type:'networking',loc:'Main Stage' },
+        { day:0,time:'13.30',end:'13.40',name:'Sambutan Ketua PASINBIS',type:'keynote',loc:'Main Stage' },
+        { day:0,time:'13.40',end:'13.50',name:'Sambutan Rektor UNAIR',type:'keynote',loc:'Main Stage' },
+        { day:0,time:'13.50',end:'14.00',name:'Sambutan Dirjen Ristekdikti dan Keynote Speech',type:'keynote',loc:'Main Stage' },
+        { day:0,time:'14.00',end:'14.10',name:'Sambutan Kepala BPOM dan Keynote Speech',type:'keynote',loc:'Main Stage' },
+        { day:0,time:'14.10',end:'14.20',name:'Opening Ceremony',type:'keynote',loc:'Main Stage' },
+        { day:0,time:'14.20',end:'14.50',name:'Launching Produk Inovasi',type:'panel',loc:'Main Stage' },
+        { day:0,time:'14.50',end:'15.20',name:'Industry Matching 2026 — Pembukaan dan Mekanisme',type:'panel',loc:'Main Stage' },
+        { day:0,time:'15.20',end:'17.20',name:'Lomba Mobile Legends',type:'workshop',loc:'Main Stage' },
+        { day:0,time:'17.20',end:'17.35',name:'Break',type:'break',loc:'—' },
+        { day:0,time:'17.35',end:'18.35',name:'Band Akustik',type:'networking',loc:'Main Stage' },
+        { day:0,time:'18.35',end:'22.10',name:'Closing Day 1',type:'award',loc:'Main Stage' },
+        { day:1,time:'10.00',end:'10.05',name:'Bumper Opening Acara',type:'keynote',loc:'Main Stage' },
+        { day:1,time:'10.00',end:'12.00',name:'FGD Forum Inkubator Bisnis Jawa Timur',type:'panel',loc:'Ruang Business Matching' },
+        { day:1,time:'10.05',end:'10.10',name:'Opening MC',type:'keynote',loc:'Main Stage' },
+        { day:1,time:'10.10',end:'12.40',name:'Talkshow PUI-PT SCT — Dari Riset ke Kosmetik',type:'panel',loc:'Main Stage' },
+        { day:1,time:'11.00',end:'15.00',name:'Beauty Class by Studio Inkubator MUA',type:'workshop',loc:'Stage 2' },
+        { day:1,time:'12.00',end:'12.05',name:'Penutupan FGD Forum Inkubator Bisnis Jawa Timur',type:'panel',loc:'Ruang Business Matching' },
+        { day:1,time:'12.05',end:'13.00',name:'Break',type:'break',loc:'Ruang Business Matching' },
+        { day:1,time:'12.40',end:'13.00',name:'Break',type:'break',loc:'Main Stage' },
+        { day:1,time:'13.00',end:'13.30',name:'Business Matching 2026 — Pembukaan dan Mekanisme',type:'panel',loc:'Main Stage' },
+        { day:1,time:'13.30',end:'15.00',name:'Business Matching 2026',type:'panel',loc:'Ruang Business Matching' },
+        { day:1,time:'13.30',end:'18.30',name:'Lomba ASSIE Got Talent',type:'workshop',loc:'Main Stage' },
+        { day:1,time:'15.00',end:'15.20',name:'Break',type:'break',loc:'Stage 2' },
+        { day:1,time:'15.20',end:'18.00',name:'Kegiatan BEM UNAIR',type:'networking',loc:'Stage 2' },
+        { day:1,time:'18.00',end:'18.20',name:'Break',type:'break',loc:'Stage 2' },
+        { day:1,time:'18.20',end:'22.00',name:'Kegiatan BEM UNAIR',type:'networking',loc:'Stage 2' },
+        { day:1,time:'18.30',end:'18.35',name:'Break',type:'break',loc:'Main Stage' },
+        { day:1,time:'18.35',end:'19.35',name:'Band Akustik',type:'networking',loc:'Main Stage' },
+        { day:1,time:'19.35',end:'20.05',name:'Closing Day 2',type:'award',loc:'Main Stage' },
+        { day:2,time:'10.00',end:'10.05',name:'Opening MC',type:'keynote',loc:'Main Stage' },
+        { day:2,time:'10.00',end:'10.05',name:'Opening MC',type:'keynote',loc:'Stage 2' },
+        { day:2,time:'10.05',end:'12.00',name:'Kegiatan BEM UNAIR',type:'networking',loc:'Stage 2' },
+        { day:2,time:'10.05',end:'12.35',name:'Lomba Line Dance Competition',type:'workshop',loc:'Main Stage' },
+        { day:2,time:'12.00',end:'12.20',name:'Break',type:'break',loc:'Stage 2' },
+        { day:2,time:'12.20',end:'17.00',name:'Ayo Bermain Coding',type:'workshop',loc:'Stage 2' },
+        { day:2,time:'12.35',end:'13.05',name:'Break',type:'break',loc:'Main Stage' },
+        { day:2,time:'13.05',end:'15.05',name:'Talkshow BPOM — UMKM Aman, UMKM Naik Kelas',type:'panel',loc:'Main Stage' },
+        { day:2,time:'15.05',end:'17.05',name:'ASSIE IV Got Talent — Final',type:'workshop',loc:'Main Stage' },
+        { day:2,time:'17.05',end:'17.35',name:'Break',type:'break',loc:'Main Stage' },
+        { day:2,time:'17.35',end:'18.35',name:'Band Akustik',type:'networking',loc:'Main Stage' },
+        { day:2,time:'18.35',end:'18.40',name:'MC Opening Closing Session',type:'keynote',loc:'Main Stage' },
+        { day:2,time:'18.40',end:'18.45',name:'Laporan Panitia',type:'keynote',loc:'Main Stage' },
+        { day:2,time:'18.45',end:'18.55',name:'Sambutan Ketua PASINBIS',type:'keynote',loc:'Main Stage' },
+        { day:2,time:'18.55',end:'19.55',name:'Pengumuman Pemenang',type:'award',loc:'Main Stage' },
+        { day:2,time:'19.55',end:'20.00',name:'Closing Ceremony',type:'award',loc:'Main Stage' },
       ]
     },
     denah:   [],
@@ -2206,21 +2240,34 @@
   }
   window.a4SwitchDay=function(i){activeDay=i;renderRundown();};
   var typeMap={keynote:{cls:'a4-eb-keynote',lbl:'Keynote'},panel:{cls:'a4-eb-panel',lbl:'Panel'},workshop:{cls:'a4-eb-workshop',lbl:'Workshop'},break:{cls:'a4-eb-break',lbl:'Break'},networking:{cls:'a4-eb-networking',lbl:'Hiburan'},award:{cls:'a4-eb-award',lbl:'Penutupan'}};
+  var rundownMonthIndex={januari:0,februari:1,maret:2,april:3,mei:4,juni:5,juli:6,agustus:7,september:8,oktober:9,november:10,desember:11,jan:0,feb:1,mar:2,apr:3,jun:5,jul:6,agu:7,sep:8,okt:9,nov:10,des:11};
+  function getRundownDate(label){
+    var match=String(label||'').match(/(\d{1,2})\s+([a-z]+)\s+(\d{4})/i);
+    if(!match||!Object.prototype.hasOwnProperty.call(rundownMonthIndex,match[2].toLowerCase()))return null;
+    var day=parseInt(match[1],10),month=rundownMonthIndex[match[2].toLowerCase()],year=parseInt(match[3],10);
+    var date=new Date(year,month,day);
+    return date.getFullYear()===year&&date.getMonth()===month&&date.getDate()===day?date:null;
+  }
+  function sameCalendarDay(first,second){
+    return !!first&&!!second&&first.getFullYear()===second.getFullYear()&&first.getMonth()===second.getMonth()&&first.getDate()===second.getDate();
+  }
+  function rundownDateKey(date){
+    if(!date)return '';
+    return date.getFullYear()+'-'+String(date.getMonth()+1).padStart(2,'0')+'-'+String(date.getDate()).padStart(2,'0');
+  }
+  function rundownMinutes(value){
+    var parts=String(value||'0').split(/[.:]/),hours=parseInt(parts[0],10),minutes=parseInt(parts[1]||'0',10);
+    return Number.isFinite(hours)&&Number.isFinite(minutes)?hours*60+minutes:0;
+  }
   function renderTimeline(){
     var tl=document.getElementById('a4Timeline'); if(!tl) return;
     var now=new Date(), nowMin=now.getHours()*60+now.getMinutes();
     var evs=DATA.rundown.events.filter(function(e){return e.day===activeDay;});
-    var monthIndex={januari:0,februari:1,maret:2,april:3,mei:4,juni:5,juli:6,agustus:7,september:8,oktober:9,november:10,desember:11,jan:0,feb:1,mar:2,apr:3,jun:5,jul:6,agu:7,sep:8,okt:9,nov:10,des:11};
     var selectedLabel=(DATA.rundown.days[activeDay]||{}).label||'';
-    var dateMatch=selectedLabel.match(/(\d{1,2})\s+([a-z]+)\s+(\d{4})/i);
-    var dateIsToday=false;
-    if(dateMatch&&Object.prototype.hasOwnProperty.call(monthIndex,dateMatch[2].toLowerCase())){
-      dateIsToday=now.getFullYear()===parseInt(dateMatch[3],10)&&now.getMonth()===monthIndex[dateMatch[2].toLowerCase()]&&now.getDate()===parseInt(dateMatch[1],10);
-    }
+    var dateIsToday=sameCalendarDay(getRundownDate(selectedLabel),now);
     tl.innerHTML=evs.map(function(e){
       var tm=typeMap[e.type]||typeMap.break;
-      function toMinutes(value){var parts=String(value||'0').split(/[.:]/);return parseInt(parts[0],10)*60+parseInt(parts[1]||0,10);}
-      var isnow=dateIsToday&&nowMin>=toMinutes(e.time)&&nowMin<toMinutes(e.end||'23.59');
+      var isnow=dateIsToday&&nowMin>=rundownMinutes(e.time)&&nowMin<rundownMinutes(e.end||'23.59');
       return '<article class="a4-tli'+(isnow?' now':'')+'">'+
         '<div class="a4-tl-time"><span>'+escH(e.time)+'</span>'+(e.end?'<span class="a4-tl-time-separator">—</span><span>'+escH(e.end)+'</span>':'')+'</div>'+
         '<div class="a4-tl-content"><div class="a4-tl-main"><span class="a4-tl-category">'+escH(tm.lbl)+(isnow?' · Sedang berlangsung':'')+'</span><h3 class="a4-tl-name">'+escH(e.name)+'</h3></div>'+
@@ -2439,37 +2486,55 @@
   }
 
   /* ── Stage Modal — jadwal acara ── */
+  var stageClockTimer=null;
+  function updateStageClock(){
+    var now=new Date(),nowMin=now.getHours()*60+now.getMinutes(),todayKey=rundownDateKey(now);
+    document.querySelectorAll('.a4-stage-day').forEach(function(day){
+      var isToday=!!todayKey&&day.getAttribute('data-date')===todayKey;
+      var todayBadge=day.querySelector('.a4-stage-today');
+      if(todayBadge)todayBadge.hidden=!isToday;
+      day.querySelectorAll('.a4-stage-event').forEach(function(event){
+        var start=parseInt(event.getAttribute('data-start-minute'),10),end=parseInt(event.getAttribute('data-end-minute'),10);
+        var isCurrent=isToday&&Number.isFinite(start)&&Number.isFinite(end)&&nowMin>=start&&nowMin<end;
+        event.classList.toggle('is-current',isCurrent);
+        var live=event.querySelector('.a4-stage-live');
+        if(live)live.hidden=!isCurrent;
+      });
+    });
+  }
   window.a4OpenStage=function(){
     var head=document.getElementById('a4ModalHead'),body=document.getElementById('a4ModalBody');
     if(!head||!body) return;
-    head.innerHTML='<button class="a4-m-close" onclick="a4CloseModal()">&#x2715;</button>'+
-      '<div class="a4-m-num" style="color:#ef4444">'+uiIcon('mic')+'</div>'+
-      '<div class="a4-m-name">Main Stage</div>'+
-      '<div class="a4-m-area">Grand City Atrium</div>';
-    var now=new Date(),nowMin=now.getHours()*60+now.getMinutes();
+    head.innerHTML='<button class="a4-m-close" aria-label="Tutup jadwal acara" onclick="a4CloseModal()">&#x2715;</button>'+
+      '<div class="a4-stage-head"><span class="a4-stage-icon">'+uiIcon('mic')+'</span><div class="a4-stage-heading">'+
+      '<span class="a4-stage-kicker">PROGRAM PANGGUNG</span><h2 class="a4-stage-title">Main Stage</h2><p class="a4-stage-location">'+uiIcon('pin')+' Grand City Atrium <span>·</span> Di samping Area C</p></div></div>';
+    var now=new Date();
     var events=DATA.rundown&&DATA.rundown.events?DATA.rundown.events:[];
     var dayMap={};
     events.forEach(function(e){if(!dayMap[e.day])dayMap[e.day]=[];dayMap[e.day].push(e);});
     var days=DATA.rundown&&DATA.rundown.days?DATA.rundown.days:[];
-    var html='<div class="a4-m-section-label">'+uiIcon('calendar')+' Jadwal Acara</div>';
+    var html='<div class="a4-stage-agenda-label">'+uiIcon('calendar')+' <span>Jadwal acara</span></div><div class="a4-stage-agenda">';
     Object.keys(dayMap).sort().forEach(function(d){
       var dayLbl=(days[d]&&days[d].label)?days[d].label:'Hari '+(parseInt(d)+1);
-      html+='<div style="font-size:11px;font-weight:700;color:var(--a4-gold);margin:12px 0 6px;text-transform:uppercase;letter-spacing:1px">'+escH(dayLbl)+'</div>';
+      var dayDate=getRundownDate(dayLbl);
+      html+='<section class="a4-stage-day" data-date="'+rundownDateKey(dayDate)+'"><div class="a4-stage-day-head"><h3>'+escH(dayLbl)+'</h3><span class="a4-stage-today" hidden>Hari ini</span></div>';
       dayMap[d].forEach(function(e){
         var tm=typeMap[e.type]||typeMap.break;
-        var eMin=parseInt((e.time||'0').split('.')[0])*60+parseInt((e.time||'0').split('.')[1]||0);
-        var endMin=e.end?parseInt(e.end.split('.')[0])*60+parseInt(e.end.split('.')[1]||0):eMin+60;
-        var isnow=(nowMin>=eMin&&nowMin<endMin);
-        html+='<div class="a4-tl-card'+(isnow?' now':'')+'" style="margin-bottom:8px;padding:10px 14px">';
-        html+='<div class="a4-tl-time"><span class="a4-ev-badge '+tm.cls+'">'+tm.lbl+'</span>'+escH(e.time)+(e.end?' – '+escH(e.end):'')+(isnow?' <span style="color:#22c55e;font-weight:700">&#9679; BERLANGSUNG</span>':'')+'</div>';
-        html+='<div class="a4-tl-name">'+escH(e.name)+'</div>';
-        if(e.loc&&e.loc!=='—') html+='<div class="a4-tl-meta">'+uiIcon('pin')+' '+escH(e.loc)+'</div>';
-        html+='</div>';
+        var startMin=rundownMinutes(e.time),endMin=e.end?rundownMinutes(e.end):startMin+60;
+        html+='<article class="a4-stage-event" data-start-minute="'+startMin+'" data-end-minute="'+endMin+'"><div class="a4-stage-event-time"><time>'+escH(e.time)+'</time><span aria-hidden="true">–</span><time>'+escH(e.end||'')+'</time></div>'+
+          '<div class="a4-stage-event-info"><span class="a4-ev-badge '+tm.cls+'">'+escH(tm.lbl)+'</span><h4 class="a4-stage-event-name">'+escH(e.name)+'</h4>'+
+          (e.loc&&e.loc!=='—'?'<p class="a4-stage-event-location">'+uiIcon('pin')+' '+escH(e.loc)+'</p>':'')+'</div>'+
+          '<span class="a4-stage-live" hidden><i></i>Berlangsung</span></article>';
       });
+      html+='</section>';
     });
+    html+='</div>';
     body.innerHTML=html;
+    updateStageClock();
+    if(stageClockTimer)clearInterval(stageClockTimer);
+    stageClockTimer=setInterval(updateStageClock,15000);
     var modal=document.getElementById('a4Modal');
-    if(modal){modal.classList.add('on');document.body.style.overflow='hidden';}
+    if(modal){modal.querySelector('.a4-mbox').classList.remove('a4-modal-tenant');modal.querySelector('.a4-mbox').classList.add('a4-modal-stage');modal.classList.add('on');document.body.style.overflow='hidden';}
   };
 
   /* ── Booth PASINBIS — modal info dari admin (sinkron) ── */
@@ -2752,7 +2817,7 @@
     var modal=document.getElementById('a4Modal');if(modal){modal.querySelector('.a4-mbox').classList.add('a4-modal-tenant');modal.classList.add('on');document.body.style.overflow='hidden';modal.querySelector('.a4-m-close').focus();}
   };
 
-  window.a4CloseModal=function(){var m=document.getElementById('a4Modal');if(m){m.classList.remove('on');m.querySelector('.a4-mbox').classList.remove('a4-modal-tenant');document.body.style.overflow='';}};
+  window.a4CloseModal=function(){var m=document.getElementById('a4Modal');if(m){m.classList.remove('on');m.querySelector('.a4-mbox').classList.remove('a4-modal-tenant','a4-modal-stage');document.body.style.overflow='';}if(stageClockTimer){clearInterval(stageClockTimer);stageClockTimer=null;}};
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.getElementById('a4Modal')?.classList.contains('on'))window.a4CloseModal();});
 
   /* ── DENAH VENUE ASLI + HOTSPOT BOOTH ────────────────────
@@ -2867,7 +2932,14 @@
       var color=tenantAreaColors[booth.area]||'#d4a843';
       return '<g class="a4-map-booth'+(dim?' is-dim':'')+(String(booth.n)===denahSelectedBooth?' is-selected':'')+'" style="--a4-cluster:'+color+'" data-booth="'+booth.n+'" data-area="'+booth.area+'" data-code="'+booth.code+'" role="button" tabindex="'+(dim?'-1':'0')+'" aria-hidden="'+dim+'" aria-label="'+escH(title)+'" onmouseenter="a4MapTip(event,'+booth.n+')" onmouseleave="a4HideTip()"><title>'+escH(title)+'</title><rect x="'+booth.x+'" y="'+booth.y+'" width="'+booth.w+'" height="'+booth.h+'" rx="2"'+(booth.angle?' transform="rotate('+booth.angle+' '+booth.cx+' '+booth.cy+')"':'')+'></rect><text x="'+booth.cx+'" y="'+(booth.cy+3)+'" text-anchor="middle" pointer-events="none">'+escH(booth.code.substring(1))+'</text></g>';
     }).join('');
-    html+='<g class="a4-map-stage-hotspot" data-fn="stage" role="button" tabindex="0" aria-label="Main Stage, buka jadwal acara"><title>Main Stage — buka jadwal acara</title><rect x="1496" y="185" width="95" height="147" rx="32"></rect><text x="1543" y="266" text-anchor="middle" pointer-events="none">MAIN</text><text x="1543" y="281" text-anchor="middle" pointer-events="none">STAGE</text></g>';
+    // Main Stage follows the physical blue platform beside Area C, not East Stage.
+    // Keep venue/booth coordinates unchanged; SVG labels stay sharp at every zoom.
+    html+='<g class="a4-map-stage-hotspot" data-fn="stage" role="button" tabindex="0" aria-label="Main Stage, area bawah tengah di samping Area C. Buka jadwal acara"><title>Main Stage — di samping Area C · klik untuk jadwal acara</title>'+
+      '<rect class="a4-stage-outline" x="738" y="647" width="94" height="129" rx="8"></rect>'+
+      '<rect class="a4-stage-label" x="744" y="682" width="82" height="58" rx="5"></rect>'+
+      '<text class="a4-stage-title" x="785" y="705" text-anchor="middle" pointer-events="none">MAIN</text>'+
+      '<text class="a4-stage-title" x="785" y="724" text-anchor="middle" pointer-events="none">STAGE</text>'+
+      '</g>';
     svg.innerHTML=html;renderMobileBoothList();renderMapLegend();
     var wrap=document.getElementById('a4MapWrap');
     if(wrap&&!wrap._a4denahEvents){
@@ -2878,6 +2950,12 @@
     }
   }
   var mapScale=1;
+  window.a4LocateStage=function(){
+    var stage=document.querySelector('.a4-map-stage-hotspot');
+    if(!stage)return;
+    scrollMapToHotspot(stage);
+    stage.focus({preventScroll:true});
+  };
   window.a4ZoomMap=function(f){var stage=document.getElementById('a4MapStage');if(!stage)return;mapScale=Math.min(2.5,Math.max(.75,mapScale*f));stage.style.transform='scale('+mapScale+')';};
   window.a4ResetZoom=function(){var stage=document.getElementById('a4MapStage');if(stage){mapScale=1;stage.style.transform='';}};
 
