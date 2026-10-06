@@ -2443,9 +2443,9 @@
     var head=document.getElementById('a4ModalHead'),body=document.getElementById('a4ModalBody');
     if(!head||!body) return;
     head.innerHTML='<button class="a4-m-close" onclick="a4CloseModal()">&#x2715;</button>'+
-      '<div class="a4-m-num" style="color:#ef4444">'+uiIcon('mic')+'</div>'+
+      '<div class="a4-m-num" style="color:var(--a4-gold)">'+uiIcon('mic')+'</div>'+
       '<div class="a4-m-name">Main Stage</div>'+
-      '<div class="a4-m-area">Grand City Atrium</div>';
+      '<div class="a4-m-area">Grand City Atrium · Area bawah tengah, di samping Area C</div>';
     var now=new Date(),nowMin=now.getHours()*60+now.getMinutes();
     var events=DATA.rundown&&DATA.rundown.events?DATA.rundown.events:[];
     var dayMap={};
@@ -2867,7 +2867,14 @@
       var color=tenantAreaColors[booth.area]||'#d4a843';
       return '<g class="a4-map-booth'+(dim?' is-dim':'')+(String(booth.n)===denahSelectedBooth?' is-selected':'')+'" style="--a4-cluster:'+color+'" data-booth="'+booth.n+'" data-area="'+booth.area+'" data-code="'+booth.code+'" role="button" tabindex="'+(dim?'-1':'0')+'" aria-hidden="'+dim+'" aria-label="'+escH(title)+'" onmouseenter="a4MapTip(event,'+booth.n+')" onmouseleave="a4HideTip()"><title>'+escH(title)+'</title><rect x="'+booth.x+'" y="'+booth.y+'" width="'+booth.w+'" height="'+booth.h+'" rx="2"'+(booth.angle?' transform="rotate('+booth.angle+' '+booth.cx+' '+booth.cy+')"':'')+'></rect><text x="'+booth.cx+'" y="'+(booth.cy+3)+'" text-anchor="middle" pointer-events="none">'+escH(booth.code.substring(1))+'</text></g>';
     }).join('');
-    html+='<g class="a4-map-stage-hotspot" data-fn="stage" role="button" tabindex="0" aria-label="Main Stage, buka jadwal acara"><title>Main Stage — buka jadwal acara</title><rect x="1496" y="185" width="95" height="147" rx="32"></rect><text x="1543" y="266" text-anchor="middle" pointer-events="none">MAIN</text><text x="1543" y="281" text-anchor="middle" pointer-events="none">STAGE</text></g>';
+    // Main Stage follows the physical blue platform beside Area C, not East Stage.
+    // Keep venue/booth coordinates unchanged; SVG labels stay sharp at every zoom.
+    html+='<g class="a4-map-stage-hotspot" data-fn="stage" role="button" tabindex="0" aria-label="Main Stage, area bawah tengah di samping Area C. Buka jadwal acara"><title>Main Stage — di samping Area C · klik untuk jadwal acara</title>'+
+      '<rect class="a4-stage-outline" x="738" y="647" width="94" height="129" rx="8"></rect>'+
+      '<rect class="a4-stage-label" x="744" y="682" width="82" height="58" rx="5"></rect>'+
+      '<text class="a4-stage-title" x="785" y="705" text-anchor="middle" pointer-events="none">MAIN</text>'+
+      '<text class="a4-stage-title" x="785" y="724" text-anchor="middle" pointer-events="none">STAGE</text>'+
+      '</g>';
     svg.innerHTML=html;renderMobileBoothList();renderMapLegend();
     var wrap=document.getElementById('a4MapWrap');
     if(wrap&&!wrap._a4denahEvents){
@@ -2878,6 +2885,12 @@
     }
   }
   var mapScale=1;
+  window.a4LocateStage=function(){
+    var stage=document.querySelector('.a4-map-stage-hotspot');
+    if(!stage)return;
+    scrollMapToHotspot(stage);
+    stage.focus({preventScroll:true});
+  };
   window.a4ZoomMap=function(f){var stage=document.getElementById('a4MapStage');if(!stage)return;mapScale=Math.min(2.5,Math.max(.75,mapScale*f));stage.style.transform='scale('+mapScale+')';};
   window.a4ResetZoom=function(){var stage=document.getElementById('a4MapStage');if(stage){mapScale=1;stage.style.transform='';}};
 

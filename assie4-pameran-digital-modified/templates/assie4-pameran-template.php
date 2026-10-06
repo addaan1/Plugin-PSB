@@ -93,15 +93,17 @@ $a4_brand_logo_url = !empty($a4_info_data['logo']) ? $a4_info_data['logo'] : (AS
           <button class="a4-mz-btn" type="button" aria-label="Perbesar denah" title="Perbesar denah" onclick="a4ZoomMap(1.25)">+</button>
           <button class="a4-mz-btn" type="button" aria-label="Perkecil denah" title="Perkecil denah" onclick="a4ZoomMap(0.8)">−</button>
           <button class="a4-mz-btn" type="button" aria-label="Atur ulang pembesaran" title="Atur ulang pembesaran" onclick="a4ResetZoom()">⊙</button>
+          <button class="a4-map-stage-link" type="button" onclick="a4LocateStage()" title="Temukan Main Stage pada denah"><?php echo $a4_ui_icon('pin'); ?> Main Stage</button>
         </div>
         <div class="a4-map-legend" id="a4MapLegend" aria-live="polite"></div>
       </div>
       <div class="a4-map-svg-wrap" id="a4MapWrap" aria-label="Denah booth pameran interaktif">
         <div class="a4-map-stage" id="a4MapStage">
-          <img id="a4FloorMapImage" src="" alt="Denah venue ASSIE IV di Grand City Atrium">
+          <img id="a4FloorMapImage" src="" alt="Denah venue IM ASSIE IV 2026 di Grand City Atrium; Main Stage berada di bawah tengah, di samping Area C">
           <svg id="a4FloorMap" viewBox="0 0 1820 1024" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="Hotspot booth dan Main Stage"></svg>
         </div>
       </div>
+      <p class="a4-map-note"><strong>Main Stage</strong> berada di bawah tengah, di samping Area C dan menghadap area tempat duduk. Klik penanda emas untuk melihat jadwal acara.</p>
       <div class="a4-mobile-booth-list" id="a4MobileBoothList" aria-live="polite"></div>
     </div>
     <button type="button" class="a4-denah-pasinbis" onclick="a4BoothClickPasinbis()"><?php echo $a4_ui_icon('building'); ?> PASINBIS UNAIR <span>• Info penyelenggara</span></button>

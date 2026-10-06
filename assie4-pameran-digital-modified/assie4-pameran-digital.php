@@ -3,7 +3,7 @@
  * Plugin Name: ASSIE IV - Pameran Digital
  * Plugin URI: https://pasinbis.unair.ac.id
  * Description: Pameran digital IM ASSIE IV 2026. Shortcode [assie4_pameran] dan [assie4_berita].
- * Version: 2.14.1
+ * Version: 2.14.2
  * Author: PASINBIS Universitas Airlangga
  * Author URI: https://pasinbis.unair.ac.id
  * License: GPL-2.0-or-later
@@ -34,7 +34,7 @@ add_action( 'admin_enqueue_scripts', function( $hook ) {
 /* ══════════════════════════════════════════════════════
    DEFINE CONSTANTS
    ══════════════════════════════════════════════════════ */
-define( 'ASSIE4_PAMERAN_VER',  '2.14.1' );
+define( 'ASSIE4_PAMERAN_VER',  '2.14.2' );
 define( 'ASSIE4_PAMERAN_DIR',  plugin_dir_path( __FILE__ ) );
 define( 'ASSIE4_PAMERAN_URL',  plugin_dir_url( __FILE__ ) );
 define( 'ASSIE4_PAMERAN_SLUG', 'pameran-assie4' );
