@@ -133,7 +133,7 @@ function assie4_pameran_enqueue() {
         'info'    => get_option( 'assie4_pameran_info',    assie4_default_info() ),
         'slides'  => $slides,
         'ticker'  => get_option( 'assie4_pameran_ticker',  assie4_default_ticker() ),
-        'rundown' => get_option( 'assie4_pameran_rundown', assie4_default_rundown() ),
+        'rundown' => assie4_get_rundown(),
         'tenants' => $tenants,
         'denah'   => get_option( 'assie4_pameran_denah', [] ),
         'denahBaseImage'    => esc_url_raw( get_option( 'assie4_pameran_denah_base_image', '' ) ),
