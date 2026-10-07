@@ -2126,7 +2126,7 @@ function assie4_apply_updated_official_roster( $tenants ) {
         }
     }
 
-    return $tenants;
+    return assie4_reconcile_official_roster( $tenants );
 }
 function assie4_default_tenant_logos() {
     $base = ASSIE4_PAMERAN_URL . 'assets/tenant-logos/';
@@ -2225,125 +2225,305 @@ function assie4_default_tenant_logos() {
     return $logos;
 }
 function assie4_default_rundown() {
+    // Public schedule follows the three 2026 day sheets, not the outdated 2025 recap tab.
     return [
         'days'   => [['label'=>'Jumat, 6 November 2026'],['label'=>'Sabtu, 7 November 2026'],['label'=>'Minggu, 8 November 2026']],
         'events' => [
-            ['day'=>0,'time'=>'13.00','end'=>'15.30','name'=>'Airlangga Business Matching 2026 - ATAVI','type'=>'panel','loc'=>'Ruang Business Matching'],
-            ['day'=>0,'time'=>'15.30','end'=>'17.00','name'=>'Opening Ceremony + Launching Produk Inovasi','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>0,'time'=>'17.00','end'=>'17.30','name'=>'Break',                              'type'=>'break',    'loc'=>'—'],
-            ['day'=>0,'time'=>'17.30','end'=>'19.30','name'=>'Roblox Competition',                 'type'=>'workshop', 'loc'=>'Hall'],
-            ['day'=>0,'time'=>'19.45','end'=>'20.45','name'=>'Acoustic Band Performance',          'type'=>'networking','loc'=>'Main Stage'],
-            ['day'=>0,'time'=>'21.00','end'=>'21.30','name'=>'Closing Day 1',                      'type'=>'award',    'loc'=>'Main Stage'],
-            ['day'=>1,'time'=>'10.00','end'=>'10.30','name'=>'Opening',                            'type'=>'keynote',  'loc'=>'Main Stage'],
-            ['day'=>1,'time'=>'10.30','end'=>'13.40','name'=>'Workshop Beregu Startup ATAVI',      'type'=>'workshop', 'loc'=>'Hall'],
-            ['day'=>1,'time'=>'13.50','end'=>'18.00','name'=>'Mozilla Legend E-Sport Competition', 'type'=>'workshop', 'loc'=>'Hall'],
-            ['day'=>1,'time'=>'19.40','end'=>'20.40','name'=>'Acoustic Band Perform',              'type'=>'networking','loc'=>'Main Stage'],
-            ['day'=>1,'time'=>'20.40','end'=>'21.10','name'=>'Closing Day 2',                      'type'=>'award',    'loc'=>'Main Stage'],
-            ['day'=>2,'time'=>'10.00','end'=>'10.05','name'=>'Opening',                            'type'=>'keynote',  'loc'=>'Main Stage'],
-            ['day'=>2,'time'=>'10.05','end'=>'12.35','name'=>'ASSIE El Got Talent',                'type'=>'networking','loc'=>'Main Stage'],
-            ['day'=>2,'time'=>'13.05','end'=>'15.05','name'=>'Talkshow Science Behind Glowing Skin','type'=>'panel',  'loc'=>'Main Stage'],
-            ['day'=>2,'time'=>'15.35','end'=>'16.35','name'=>'El Got Talent',                      'type'=>'networking','loc'=>'Main Stage'],
-            ['day'=>2,'time'=>'16.35','end'=>'18.55','name'=>'Acoustic Band Perform',              'type'=>'networking','loc'=>'Main Stage'],
-            ['day'=>2,'time'=>'18.55','end'=>'20.00','name'=>'Closing Ceremony',                   'type'=>'award',    'loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'13.00','end'=>'13.05','name'=>'Indonesia Raya','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'13.05','end'=>'13.10','name'=>'Hymne Airlangga','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'13.10','end'=>'13.12','name'=>'Bumper Opening Acara','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'13.12','end'=>'13.17','name'=>'Opening MC','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'13.17','end'=>'13.20','name'=>'Pembacaan Doa','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'13.20','end'=>'13.30','name'=>'Tari Pembuka Gandrung — UKM Tari UNAIR','type'=>'networking','loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'13.30','end'=>'13.40','name'=>'Sambutan Ketua PASINBIS','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'13.40','end'=>'13.50','name'=>'Sambutan Rektor UNAIR','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'13.50','end'=>'14.00','name'=>'Sambutan Dirjen Ristekdikti dan Keynote Speech','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'14.00','end'=>'14.10','name'=>'Sambutan Kepala BPOM dan Keynote Speech','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'14.10','end'=>'14.20','name'=>'Opening Ceremony','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'14.20','end'=>'14.50','name'=>'Launching Produk Inovasi','type'=>'panel','loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'14.50','end'=>'15.20','name'=>'Industry Matching 2026 — Pembukaan dan Mekanisme','type'=>'panel','loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'15.20','end'=>'17.20','name'=>'Lomba Mobile Legends','type'=>'workshop','loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'17.20','end'=>'17.35','name'=>'Break','type'=>'break','loc'=>'—'],
+            ['day'=>0,'time'=>'17.35','end'=>'18.35','name'=>'Band Akustik','type'=>'networking','loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'18.35','end'=>'22.10','name'=>'Closing Day 1','type'=>'award','loc'=>'Main Stage'],
+
+            ['day'=>1,'time'=>'10.00','end'=>'10.05','name'=>'Bumper Opening Acara','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>1,'time'=>'10.00','end'=>'12.00','name'=>'FGD Forum Inkubator Bisnis Jawa Timur','type'=>'panel','loc'=>'Ruang Business Matching'],
+            ['day'=>1,'time'=>'10.05','end'=>'10.10','name'=>'Opening MC','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>1,'time'=>'10.10','end'=>'12.40','name'=>'Talkshow PUI-PT SCT — Dari Riset ke Kosmetik','type'=>'panel','loc'=>'Main Stage'],
+            ['day'=>1,'time'=>'11.00','end'=>'15.00','name'=>'Beauty Class by Studio Inkubator MUA','type'=>'workshop','loc'=>'Stage 2'],
+            ['day'=>1,'time'=>'12.00','end'=>'12.05','name'=>'Penutupan FGD Forum Inkubator Bisnis Jawa Timur','type'=>'panel','loc'=>'Ruang Business Matching'],
+            ['day'=>1,'time'=>'12.05','end'=>'13.00','name'=>'Break','type'=>'break','loc'=>'Ruang Business Matching'],
+            ['day'=>1,'time'=>'12.40','end'=>'13.00','name'=>'Break','type'=>'break','loc'=>'Main Stage'],
+            ['day'=>1,'time'=>'13.00','end'=>'13.30','name'=>'Business Matching 2026 — Pembukaan dan Mekanisme','type'=>'panel','loc'=>'Main Stage'],
+            ['day'=>1,'time'=>'13.30','end'=>'15.00','name'=>'Business Matching 2026','type'=>'panel','loc'=>'Ruang Business Matching'],
+            ['day'=>1,'time'=>'13.30','end'=>'18.30','name'=>'Lomba ASSIE Got Talent','type'=>'workshop','loc'=>'Main Stage'],
+            ['day'=>1,'time'=>'15.00','end'=>'15.20','name'=>'Break','type'=>'break','loc'=>'Stage 2'],
+            ['day'=>1,'time'=>'15.20','end'=>'18.00','name'=>'Kegiatan BEM UNAIR','type'=>'networking','loc'=>'Stage 2'],
+            ['day'=>1,'time'=>'18.00','end'=>'18.20','name'=>'Break','type'=>'break','loc'=>'Stage 2'],
+            ['day'=>1,'time'=>'18.20','end'=>'22.00','name'=>'Kegiatan BEM UNAIR','type'=>'networking','loc'=>'Stage 2'],
+            ['day'=>1,'time'=>'18.30','end'=>'18.35','name'=>'Break','type'=>'break','loc'=>'Main Stage'],
+            ['day'=>1,'time'=>'18.35','end'=>'19.35','name'=>'Band Akustik','type'=>'networking','loc'=>'Main Stage'],
+            ['day'=>1,'time'=>'19.35','end'=>'20.05','name'=>'Closing Day 2','type'=>'award','loc'=>'Main Stage'],
+
+            ['day'=>2,'time'=>'10.00','end'=>'10.05','name'=>'Opening MC','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'10.00','end'=>'10.05','name'=>'Opening MC','type'=>'keynote','loc'=>'Stage 2'],
+            ['day'=>2,'time'=>'10.05','end'=>'12.00','name'=>'Kegiatan BEM UNAIR','type'=>'networking','loc'=>'Stage 2'],
+            ['day'=>2,'time'=>'10.05','end'=>'12.35','name'=>'Lomba Line Dance Competition','type'=>'workshop','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'12.00','end'=>'12.20','name'=>'Break','type'=>'break','loc'=>'Stage 2'],
+            ['day'=>2,'time'=>'12.20','end'=>'17.00','name'=>'Ayo Bermain Coding','type'=>'workshop','loc'=>'Stage 2'],
+            ['day'=>2,'time'=>'12.35','end'=>'13.05','name'=>'Break','type'=>'break','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'13.05','end'=>'15.05','name'=>'Talkshow BPOM — UMKM Aman, UMKM Naik Kelas','type'=>'panel','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'15.05','end'=>'17.05','name'=>'ASSIE IV Got Talent — Final','type'=>'workshop','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'17.05','end'=>'17.35','name'=>'Break','type'=>'break','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'17.35','end'=>'18.35','name'=>'Band Akustik','type'=>'networking','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'18.35','end'=>'18.40','name'=>'MC Opening Closing Session','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'18.40','end'=>'18.45','name'=>'Laporan Panitia','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'18.45','end'=>'18.55','name'=>'Sambutan Ketua PASINBIS','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'18.55','end'=>'19.55','name'=>'Pengumuman Pemenang','type'=>'award','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'19.55','end'=>'20.00','name'=>'Closing Ceremony','type'=>'award','loc'=>'Main Stage'],
         ],
     ];
 }
 
-/* ═══ HELPERS ═══════════════════════════════════════════ */
-function assie4_upgrade_official_roster( $tenants ) {
-    $defaults = assie4_default_tenants();
-    $by_code = [];
-    foreach ( $defaults as $default ) {
-        $by_code[strtoupper( $default['code'] ?? '' )] = $default;
+// Snapshot of named assignments in "Kepengisian Booth ASSIE 2026.xlsx" / "Ploting Booth".
+function assie4_official_booth_assignments() {
+    return [
+        'A1'=>'Fakultas Kedokteran','A2'=>'Fakultas Kedokteran Gigi','A3'=>'Fakultas Farmasi','A4'=>'Fakultas Kedokteran Hewan',
+        'A5'=>'Fakultas Sains dan Tekonologi','A6'=>'Fakultas Teknologi Maju dan Multidisiplin','A7'=>'Fakultas Vokasi',
+        'A8'=>'Fakultas perikanan dan kelautan','A9'=>'Fakultas Ekonomi dan Bisnis','A10'=>'Fakultas Kesehatan Masyarakat',
+        'A11'=>'Fakultas Ilmu Budaya','A12'=>'FIKKIA','A13'=>'Fakultas Ilmu Sosial dan Politik','A14'=>'Fakultas Hukum',
+        'A15'=>'Fakultas Keperawatan','A16'=>'Lembaga Penyakit Tropis','A17'=>'Airlangga Enterprise',
+        'A18'=>'Pusat Asrama Mahasiswa (dormitory center)','A19'=>'Pusat Pengelolaan Dana Sosial','A20'=>'Pusat Halal','A21'=>'Pusat Bahasa dan Multibudaya',
+        'B1'=>'Pusat Penerbitan dan Percetakan (Airlangga University Press (P3UA))','B2'=>'Pusat Penelitian dan Pengembangan Stem Cell',
+        'B3'=>'PUI RC-Gerid','B4'=>'PUI RC Patient Safety and Quality','B5'=>'Airlangga Institute for Learning and Growth (AILG)',
+        'B6'=>'PUI-PT Kesehatan Kulit dan Teknologi Kosmetik (SCT)','B7'=>'PT DPA Group : Airlangga Global Travel (AGT)',
+        'B8'=>'RSGM','B9'=>'RSH','B10'=>'RSUA','C1'=>'BPOM Surabaya','C4'=>'Jamkrindo (Sponsorship)',
+        'D1'=>'PT. Medika Karya Airlangga (airbilinest airbilisun)','D2'=>'CESGS Universitas Airlangga',
+        'D3'=>'Unit Layanan Pengujian Farmasi','D4'=>'Inkubator Universitas Veteran Pembangunan Nasional','D5'=>'Madu Onggu',
+        'D6'=>'Inkubator Trunojoyo Madura','D7'=>'SyariHub','D8'=>'Politeknik Elektronika Negeri Surabaya',
+        'D9'=>'Inkubator Universitas Ciputra - UC Ventures','D10'=>'Inkubator Politeknik Perkapalan Negeri Surabaya',
+        'D11'=>'UIN Maulana Malik Ibrahim Malang','D12'=>'DIKST Universitas Brawijaya','D13'=>'Universitas Hang Tuah',
+        'D14'=>'Inkubator Universitas Negeri Surabaya','D15'=>'Bangga EV Charging Station','D16'=>'Markaswalet',
+        'E1'=>'Sahabat Spondan','E2'=>"D'toekoe Dimsum",'E3'=>'Kopi setengah serious',
+        'F1'=>'Mulia Samudra','F2'=>'Kinara Industries','F3'=>'Olimnesia','F4'=>'Jobhun','F5'=>'Serasa Djiwa',
+        'F6'=>'Rexgo','F7'=>'Umroh Private','F8'=>'Lokasi Nusantara','F9'=>'Japonindo Yotsuba','F10'=>'Tempat tumbuh',
+        'F11'=>'Fastrackedu','F12'=>'Vitalic Hit Trigger Drum','F13'=>'Konveto Clothing Green (Clogreen)',
+        'F14'=>'Heztek Coding','F15'=>'Braja Elektrik Motor','F16'=>'Sriwijaya Kontraktor','F17'=>'APPA',
+        'F18'=>'Likur Production','F19'=>'Petime Indonesia','F20'=>'Vascular Indonesia','F21'=>'PT Inovasi Bioproduk Indonesia (INOBI)',
+        'G1'=>'WEBS FEB','G2'=>'Tawdeo','G3'=>'Partner SEHATin','G4'=>'SWEETFOOD','G5'=>'GOLDEN GATE DIMSUM X BUCOCIS',
+        'G6'=>'LAMMAQ BANNA','G7'=>'Ayam Ungkep Teh Nisa','G8'=>'Sahabat Spondan',
+        'H1'=>'Gyarus','H2'=>'LEASTRA','H3'=>'Tjakrawala Batik & Crafts','H4'=>'Botega.id','H5'=>'allbouquets',
+        'H6'=>'Etnapraya Leather handbags','H7'=>'Quoteversity','H10'=>'Ainemeara','H11'=>'ANKA MiniLab',
+        'H12'=>'Bylaw.Nails','H13'=>'Studi Inkubator MUA','H14'=>'Zaruna gift','H15'=>'ERPEH CHROMA',
+    ];
+}
+
+function assie4_roster_text_key( $value ) {
+    $value = strtolower( remove_accents( (string) $value ) );
+    $value = preg_replace( '/\b(universitas|airlangga|unair|fakultas|pui|pt|cv|dan|di|the|of|for|unit|pusat|lembaga|inkubator|ilmu|negeri|surabaya)\b/u', ' ', $value );
+    return preg_replace( '/[^a-z0-9]/', '', $value );
+}
+
+function assie4_roster_entry_matches( $tenant, $code, $official_name, $same_code = true ) {
+    // Keep brand names where the plot uses an umbrella institution or shortened name.
+    $aliases = [
+        'A5'=>['fastbooth','fstunair'],'A6'=>['ftmmunair'],'A8'=>['fpkunair'],'A10'=>['publichealthunair'],'A11'=>['fibunair'],
+        'A12'=>['fikkiaunair'],'A16'=>['lembagapenyakittropis'],'D1'=>['airlanggabilirubinsun','airlanggabilirubinnesting'],
+        'D3'=>['ulp','ulpffua'],'D5'=>['ongguhoney'],'D9'=>['flordequeenscalpandhairbotanicals'],'D10'=>['inbisppns'],'D15'=>['banggaevcs'],
+        'E1'=>['sahabatspondan'],'E3'=>['kopisetengahserious'],'F1'=>['muliasamudramajuabadi'],'G1'=>['deorans','minumdanmekar','weubiubibakarcilembu','chewyslime','ghettoghetti','rasenspace','theava'],
+        'G8'=>['sahabatspondan'],'B1'=>['p3ua','airlanggauniversitypress'],'B6'=>['sct'],'F15'=>['brajaelektrik'],'F17'=>['appatech'],
+        'B2'=>['stemcell'],'B10'=>['rsua','rumahsakituniversitasairlangga'],'C1'=>['balaibesarpom','bpomsurabaya'],'H4'=>['botegaindonesia'],
+    ];
+    $official_key = assie4_roster_text_key( $official_name );
+    $candidate_values = [ $tenant['name'] ?? '', $tenant['instansi'] ?? '' ];
+    foreach ( $candidate_values as $value ) {
+        $candidate_key = assie4_roster_text_key( $value );
+        if ( $candidate_key === '' ) continue;
+        $shorter = min( strlen( $candidate_key ), strlen( $official_key ) );
+        if ( $candidate_key === $official_key ) return true;
+        if ( $same_code ) {
+            if ( $shorter >= 4 && ( strpos( $candidate_key, $official_key ) !== false || strpos( $official_key, $candidate_key ) !== false ) ) return true;
+            similar_text( $candidate_key, $official_key, $similarity );
+            if ( $similarity >= 70 ) return true;
+        }
+        foreach ( $aliases[$code] ?? [] as $alias ) {
+            $alias_key = assie4_roster_text_key( $alias );
+            $raw_key = strtolower( remove_accents( (string) $value ) );
+            $raw_key = preg_replace( '/[^a-z0-9]/', '', $raw_key );
+            if ( ( $alias_key !== '' && ( strpos( $candidate_key, $alias_key ) !== false || strpos( $alias_key, $candidate_key ) !== false ) ) || strpos( $raw_key, $alias ) !== false ) return true;
+        }
+    }
+    return false;
+}
+
+function assie4_reconcile_official_roster( $tenants, $fallback = [] ) {
+    $assignments = assie4_official_booth_assignments();
+    $source = array_values( array_filter( array_map( 'assie4_brand_values', (array) $tenants ), 'is_array' ) );
+    $fallback_by_code = [];
+    foreach ( (array) $fallback as $tenant ) {
+        $code = strtoupper( trim( (string) ( $tenant['code'] ?? '' ) ) );
+        if ( $code !== '' ) $fallback_by_code[$code] = (array) $tenant;
     }
 
+    $logo_defaults = function_exists( 'assie4_default_tenant_logos' ) ? assie4_default_tenant_logos() : [];
+    $used = [];
+    $shared = [];
     $updated = [];
-    $seen_ids = [];
-    foreach ( (array) $tenants as $tenant ) {
-        $tenant = (array) $tenant;
-        $old_id = sanitize_key( $tenant['id'] ?? '' );
-        $old_name = strtolower( trim( (string) ( $tenant['name'] ?? '' ) ) );
-        $code = strtoupper( trim( (string) ( $tenant['code'] ?? $old_id ) ) );
-
-        // These two tenants exchanged positions in the updated booth plan.
-        if ( $old_id === 'd8' && strpos( $old_name, 'mulia samudra' ) !== false ) $code = 'F1';
-        if ( $old_id === 'f1' && strpos( $old_name, 'bangga' ) !== false ) $code = 'D15';
-
-        if ( isset( $by_code[$code] ) ) {
-            $default = $by_code[$code];
-            $merged = array_merge( $default, $tenant );
-            $is_placeholder = preg_match( '/^(tenant belum terdaftar|belum terdaftar|booth kosong)$/i', $old_name );
-
-            if ( $is_placeholder ) {
-                foreach ( ['name','instansi','cat','desc','tags','logo','transaksi'] as $field ) {
-                    $merged[$field] = $default[$field] ?? '';
+    foreach ( $assignments as $code => $official_name ) {
+        $candidate = null;
+        $candidate_index = null;
+        $reuse_key = in_array( $code, ['E1','G8'], true ) ? 'sahabat-spondan' : '';
+        if ( $reuse_key !== '' && isset( $shared[$reuse_key] ) ) {
+            foreach ( $source as $index => $item ) {
+                if ( isset( $used[$index] ) || strtoupper( trim( (string) ( $item['code'] ?? $item['id'] ?? '' ) ) ) !== $code ) continue;
+                if ( assie4_roster_entry_matches( $item, $code, $official_name, true ) ) {
+                    $candidate = $item;
+                    $candidate_index = $index;
+                    break;
                 }
             }
-
-            // AirBiliNest and AirBiliSun are a single exhibitor at D1.
-            if ( $code === 'D1' && ( strpos( $old_name, 'airbili' ) !== false || strpos( $old_name, 'bilirubin' ) !== false || $is_placeholder ) ) {
-                foreach ( ['name','instansi','desc','logo'] as $field ) $merged[$field] = $default[$field] ?? '';
-            }
-
-            // UPN Veteran at D4
-            if ( $code === 'D4' && ( strpos( $old_name, 'berkelanjutan' ) !== false || strpos( $old_name, 'pui' ) !== false || $is_placeholder ) ) {
-                foreach ( ['name','instansi','pic','cat','desc','tags','logo','contact','whatsapp','web','instagram','facebook','twitter','transaksi'] as $field ) $merged[$field] = $default[$field] ?? '';
-            }
-
-            // SyariHub at D7
-            if ( $code === 'D7' && ( strpos( $old_name, 'spondan' ) !== false || $is_placeholder ) ) {
-                foreach ( ['name','instansi','pic','cat','desc','tags','logo','contact','whatsapp','web','instagram','facebook','twitter','transaksi'] as $field ) $merged[$field] = $default[$field] ?? '';
-            }
-
-            // PE-NOVTRA at D8
-            if ( $code === 'D8' && ( strpos( $old_name, 'dimsum' ) !== false || strpos( $old_name, 'toekoe' ) !== false || strpos( $old_name, 'mulia samudra' ) !== false || $is_placeholder ) ) {
-                foreach ( ['name','instansi','pic','cat','desc','tags','logo','contact','whatsapp','web','instagram','facebook','twitter','transaksi'] as $field ) $merged[$field] = $default[$field] ?? '';
-            }
-
-            // The official plan assigns one shared booth to the WEBS FEB cohort.
-            if ( $code === 'G1' && strpos( $old_name, 'deorans' ) !== false ) {
-                foreach ( ['name','instansi','cat','desc','tags','logo','contact','whatsapp','web','instagram','facebook','twitter'] as $field ) {
-                    $merged[$field] = $default[$field] ?? '';
+            if ( $candidate === null ) $candidate = $shared[$reuse_key];
+        } else {
+            foreach ( [true, false] as $same_code_only ) {
+                foreach ( $source as $index => $item ) {
+                    if ( isset( $used[$index] ) || ( $same_code_only && strtoupper( trim( (string) ( $item['code'] ?? $item['id'] ?? '' ) ) ) !== $code ) ) continue;
+                    if ( assie4_roster_entry_matches( $item, $code, $official_name, $same_code_only ) ) {
+                        $candidate = $item;
+                        $candidate_index = $index;
+                        break 2;
+                    }
                 }
             }
-
-            $location = assie4_booth_location( $code );
-            $merged['id'] = strtolower( $code );
-            $merged['code'] = $code;
-            if ( $location ) {
-                $merged['booth_no'] = $location['booth_no'];
-                $merged['area'] = $location['area'];
-                $merged['cluster'] = $location['cluster'];
-            }
-            $tenant = $merged;
         }
 
-        $id = sanitize_key( $tenant['id'] ?? '' );
-        if ( $id === '' || isset( $seen_ids[$id] ) ) continue;
-        $seen_ids[$id] = true;
+        if ( $candidate === null && isset( $fallback_by_code[$code] ) ) $candidate = $fallback_by_code[$code];
+        if ( $candidate === null ) {
+            $candidate = [
+                'name' => $official_name,
+                'instansi' => $official_name,
+                'cat' => '', 'desc' => '', 'tags' => [], 'logo' => '', 'contact' => '', 'whatsapp' => '',
+                'web' => '', 'instagram' => '', 'facebook' => '', 'twitter' => '', 'transaksi' => '',
+            ];
+        }
+        if ( $candidate_index !== null ) $used[$candidate_index] = true;
+        if ( $reuse_key !== '' ) $shared[$reuse_key] = $candidate;
+
+        $tenant = (array) $candidate;
+        $location = assie4_booth_location( $code );
+        $tenant['id'] = strtolower( $code );
+        $tenant['code'] = $code;
+        $tenant['name'] = sanitize_text_field( trim( (string) ( $tenant['name'] ?? '' ) ) ) ?: $official_name;
+        $tenant['instansi'] = sanitize_text_field( trim( (string) ( $tenant['instansi'] ?? '' ) ) ) ?: $official_name;
+        if ( $location ) {
+            $tenant['booth_no'] = $location['booth_no'];
+            $tenant['area'] = $location['area'];
+            $tenant['cluster'] = $location['cluster'];
+        }
+        if ( empty( $tenant['logo'] ) && ! empty( $logo_defaults[strtolower( $code )] ) ) $tenant['logo'] = $logo_defaults[strtolower( $code )];
         $updated[] = $tenant;
     }
 
-    // Add only assigned booths missing from the saved directory; keep custom records.
-    foreach ( $defaults as $default ) {
-        $id = sanitize_key( $default['id'] ?? '' );
-        if ( $id !== '' && ! isset( $seen_ids[$id] ) ) {
-            $seen_ids[$id] = true;
-            $updated[] = $default;
+    usort( $updated, function( $a, $b ) {
+        $a_no = intval( $a['booth_no'] ?? 0 ) ?: 999;
+        $b_no = intval( $b['booth_no'] ?? 0 ) ?: 999;
+        return $a_no <=> $b_no;
+    } );
+    return $updated;
+}
+
+function assie4_get_rundown() {
+    $version = '2026-10-06';
+    $saved = get_option( ASSIE4_OPT_RUNDOWN, null );
+    if ( get_option( 'assie4_official_rundown_version' ) !== $version ) {
+        $saved = assie4_default_rundown();
+        update_option( ASSIE4_OPT_RUNDOWN, $saved, false );
+        if ( get_option( ASSIE4_OPT_RUNDOWN ) === $saved ) {
+            update_option( 'assie4_official_rundown_version', $version, false );
+            assie4_rebuild_js_data();
         }
     }
+    return is_array( $saved ) ? $saved : assie4_default_rundown();
+}
 
-    return $updated;
+/* ═══ HELPERS ═══════════════════════════════════════════ */
+function assie4_upgrade_official_roster( $tenants ) {
+    return assie4_reconcile_official_roster( $tenants, assie4_default_tenants() );
+}
+
+/** Add one clearly labeled test listing in the least-populated booth area. */
+function assie4_seed_demo_tenant( $tenants ) {
+    $version = '1';
+    if ( get_option( 'assie4_demo_tenant_seed_version' ) === $version ) return $tenants;
+
+    $tenants = array_values( (array) $tenants );
+    $occupied = [];
+    foreach ( $tenants as $tenant ) {
+        $tenant = (array) $tenant;
+        if ( sanitize_key( $tenant['id'] ?? '' ) === 'demo-tenant' ) {
+            update_option( 'assie4_demo_tenant_seed_version', $version, false );
+            return $tenants;
+        }
+        $code = strtoupper( trim( (string) ( $tenant['code'] ?? '' ) ) );
+        if ( $code !== '' ) $occupied[$code] = true;
+    }
+
+    // Area C is sparsely assigned in the official plot. Keep the test listing
+    // there, falling back only to other unassigned spaces if its remaining
+    // booth slots were claimed in this site's saved tenant data.
+    $available_codes = ['C7', 'C6', 'C5', 'C3', 'C2', 'H9', 'H8', 'E6', 'E5', 'E4'];
+    $official_codes = assie4_official_booth_assignments();
+    $code = '';
+    foreach ( $available_codes as $candidate ) {
+        if ( isset( $occupied[$candidate] ) || isset( $official_codes[$candidate] ) ) continue;
+        $code = $candidate;
+        break;
+    }
+    if ( $code === '' ) return $tenants;
+
+    $location = assie4_booth_location( $code );
+    if ( ! $location ) return $tenants;
+    $tenants[] = [
+        'id' => 'demo-tenant',
+        'booth_no' => $location['booth_no'],
+        'code' => $code,
+        'cluster' => $location['cluster'],
+        'area' => $location['area'],
+        'name' => 'TENANT DUMMY — UJI COBA',
+        'instansi' => 'Data simulasi, bukan peserta resmi',
+        'pic' => '',
+        'cat' => 'Dummy / Uji Coba',
+        'tipe_usaha' => '',
+        'desc' => 'Tenant dummy ini hanya digunakan untuk menguji tampilan dan alur website. Bukan tenant peserta resmi.',
+        'tags' => [],
+        'logo' => '',
+        'contact' => '',
+        'whatsapp' => '',
+        'web' => '',
+        'instagram' => '',
+        'facebook' => '',
+        'twitter' => '',
+        'transaksi' => 'Tidak',
+    ];
+    usort( $tenants, static function( $a, $b ) {
+        return (int) ( $a['booth_no'] ?? 999 ) <=> (int) ( $b['booth_no'] ?? 999 );
+    } );
+
+    update_option( ASSIE4_OPT_TENANTS, $tenants, false );
+    if ( get_option( ASSIE4_OPT_TENANTS ) === $tenants ) {
+        update_option( 'assie4_demo_tenant_seed_version', $version, false );
+        assie4_rebuild_js_data();
+    }
+    return $tenants;
 }
 
 function assie4_get_tenants() {
     $raw = get_option( ASSIE4_OPT_TENANTS, null );
-    // Seed only a missing option. Never replace saved tenants on a version change,
-    // a particular booth ID, or an intentionally empty directory.
+    // Seed only a missing option. On roster-version changes, reconcile saved records
+    // against the current official plot instead of retaining stale booth assignments.
     if ( $raw === null ) {
         $raw = assie4_default_tenants();
         update_option( ASSIE4_OPT_TENANTS, $raw, false );
-        update_option( 'assie4_directory_seed_state', 'v7', false );
         update_option( 'assie4_official_booth_roster_version', '2026-10-07', false );
         assie4_rebuild_js_data();
     }
@@ -2359,6 +2539,8 @@ function assie4_get_tenants() {
         update_option( 'assie4_official_booth_roster_version', '2026-10-07', false );
         assie4_rebuild_js_data();
     }
+
+    $raw = assie4_seed_demo_tenant( $raw );
 
     // Repair bundled booth logos once while preserving media-library uploads.
     if ( get_option( 'assie4_local_tenant_logos_version' ) !== '8' ) {
@@ -2502,7 +2684,7 @@ function assie4_admin_enqueue_scripts( $hook ) {
 /* ═══ 1. DASHBOARD ══════════════════════════════════════ */
 function assie4_admin_dashboard() {
     $tenants    = assie4_get_tenants();
-    $rd         = get_option( ASSIE4_OPT_RUNDOWN, assie4_default_rundown() );
+    $rd         = assie4_get_rundown();
     $p          = get_page_by_path( ASSIE4_PAMERAN_SLUG );
     $url        = $p ? get_permalink($p) : home_url('/'.ASSIE4_PAMERAN_SLUG.'/');
     $presensi_p = get_page_by_path( 'presensi-booth-assie4' );
@@ -2941,6 +3123,7 @@ function assie4_admin_ticker() {
 function assie4_admin_rundown() {
     $post = assie4_brand_values( wp_unslash( $_POST ) );
     if ( ! current_user_can('manage_options') ) return;
+    assie4_get_rundown();
     if ( isset($post['_n']) && wp_verify_nonce($post['_n'],'a4_rundown') ) {
         $days = array_map( fn($l) => ['label'=>assie4_day_label($l)], ($post['dl']??[]) );
         $evs  = [];
@@ -2953,7 +3136,7 @@ function assie4_admin_rundown() {
         assie4_rebuild_js_data();
         a4_notice('✅ Rundown disimpan!');
     }
-    $rd   = get_option( ASSIE4_OPT_RUNDOWN, assie4_default_rundown() );
+    $rd   = assie4_get_rundown();
     $days = $rd['days']   ?? [];
     $evs  = $rd['events'] ?? [];
     $types = ['keynote'=>'Keynote','panel'=>'Panel','workshop'=>'Workshop','networking'=>'Hiburan','break'=>'Break','award'=>'Penutupan'];
@@ -3652,7 +3835,7 @@ add_action('wp_ajax_assie4_export', function() {
         'info'        => get_option(ASSIE4_OPT_INFO,    assie4_default_info()),
         'slides'      => get_option(ASSIE4_OPT_SLIDES,  assie4_default_slides()),
         'ticker'      => get_option(ASSIE4_OPT_TICKER,  assie4_default_ticker()),
-        'rundown'     => get_option(ASSIE4_OPT_RUNDOWN, assie4_default_rundown()),
+        'rundown'     => assie4_get_rundown(),
         'tenants'     => assie4_get_tenants(),
         'denah'       => get_option('assie4_pameran_denah',[]),
         'pasinbis'    => [
