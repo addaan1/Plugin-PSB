@@ -850,6 +850,36 @@ Untuk Menjamin Kualitas Layanan pengujiannya ULP-FFUA pada tahun 2005 mulai meng
             'transaksi' => 'Ya',
         ],
         [
+            'id' => 'e3',
+            'booth_no' => 47,
+            'code' => 'E3',
+            'cluster' => 3,
+            'area' => 'E',
+            'name' => 'Espresso by Kopi Setengah Serious',
+            'instansi' => 'Espresso by Kopi Setengah Serious',
+            'pic' => 'Eka',
+            'cat' => 'Kuliner & F&B',
+            'tipe_usaha' => 'UD (Usaha Dagang)',
+            'status_booth' => 'aktif',
+            'hari_operasi' => ['1', '2', '3'],
+            'produk_unggulan' => 'Espresso',
+            'desc' => '"Kopi Setengah Serious adalah produsen espresso literan dari Surabaya, yang menjadi solusi simpel dan mudah untuk membuat kopi enak ala kafe tanpa harus investasi alat. 
+‎
+‎Praktis tinggal tuang dan campur dengan air atau susu, produk kami telah terjual ribuan liter di e-commerce dan digunakan oleh pemilik kafe, umkm, kedai makanan maupun kopi keliling yang sedang merintis usaha dan ingin membuat menu kopi susu yang cepat namun tetap nikmat karena 1 Liter Espresso bisa untuk membuat 25-30 gelas kopi kekinian.
+‎ 
+‎Kami berbagi ide resep dan konsultasi resep kopi kekinian di Instagram & Tiktok @kopisetengahserious."',
+            'tags' => ['Kuliner & F&B', 'Startup', 'Transaksi Booth'],
+            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/Logo.jpg',
+            'contact' => 'kopisetengahserious@gmail.com',
+            'whatsapp' => '087722617299',
+            'web' => 'https://linktr.ee/kopisetengahserious',
+            'instagram' => 'instagram.com/kopisetengahserious',
+            'facebook' => 'http://facebook.com/kopisetengahserious',
+            'twitter' => '',
+            'tiktok' => '@kopisetengahserious.',
+            'transaksi' => 'Ya',
+        ],
+        [
             'id' => 'f1',
             'booth_no' => 51,
             'code' => 'F1',
@@ -1956,7 +1986,7 @@ function assie4_apply_updated_official_roster( $tenants ) {
             $tenant['name'] = 'AirBiliNest & AirBiliSun';
             $tenant['instansi'] = 'PT Medika Karya Airlangga';
             $tenant['desc'] = 'AirBiliNest Smart Phototherapy System dikembangkan untuk penanganan hiperbilirubinemia neonatal melalui kolaborasi riset dan industri. PT Medika Karya Airlangga berperan dalam riset dan pengembangan, PT Astra Komponen Indonesia sebagai mitra manufaktur, serta PT IDS Medical Systems Indonesia sebagai distributor. AirBiliSun adalah inovasi fototerapi dengan cahaya matahari terfilter yang dirancang aman bagi bayi kuning dan mendukung pemerataan akses fototerapi, terutama di wilayah 3T Indonesia.';
-            $tenant['logo'] = ASSIE4_PAMERAN_URL . 'assets/tenant-logos/airbilinest.png';
+            $tenant['logo'] = ASSIE4_PAMERAN_URL . 'assets/tenant-logos/' . rawurlencode('Smart-Phototherapy-System-AirBiliNest-Application_1.png');
         }
 
         if ( sanitize_key( $tenant['id'] ?? '' ) === 'g1' ) {
@@ -1965,7 +1995,7 @@ function assie4_apply_updated_official_roster( $tenants ) {
             $tenant['cat'] = 'Startup';
             $tenant['desc'] = 'Booth WEBS FEB menampilkan tenant mahasiswa, di antaranya Deorans, Minum dan Mekar, Weubi Ubi Bakar Cilembu, Chewy Slime, Ghetto Ghetti, dan Théava.';
             $tenant['tags'] = ['Startup', 'Internal UNAIR'];
-            $tenant['logo'] = '';
+            $tenant['logo'] = ASSIE4_PAMERAN_URL . 'assets/tenant-logos/IMG-20260801-WA0047.jpg';
             $tenant['contact'] = '';
             $tenant['whatsapp'] = '';
             $tenant['web'] = '';
@@ -2013,6 +2043,14 @@ function assie4_apply_updated_official_roster( $tenants ) {
             'pic'=>'Mirsha Putri Pratiwi', 'cat'=>'Food & Beverage', 'desc'=>"D'toekoe Dimsum merupakan UMKM kuliner asal Surabaya yang bergerak di bidang produksi dan pengolahan dimsum premium homemade dengan bahan baku berkualitas dan halal. D'toekoe Dimsum hadir untuk memberikan pengalaman menikmati dimsum lezat, higienis, dan terjangkau bagi semua kalangan, baik untuk konsumsi harian, frozen food, maupun kebutuhan acara khusus.",
             'tags'=>['Food & Beverage', 'Startup', 'Transaksi Booth'], 'logo'=>'', 'contact'=>'dtoekoedimsum@gmail.com', 'whatsapp'=>'081217448923',
             'web'=>'', 'instagram'=>'https://www.instagram.com/dtoekoe_69?stkn=N3h2NTNkbW9tYzYz', 'facebook'=>'', 'twitter'=>'', 'transaksi'=>'Ya',
+        ],
+        [
+            'id'=>'e3', 'booth_no'=>47, 'code'=>'E3', 'cluster'=>3, 'area'=>'E',
+            'name'=>'Espresso by Kopi Setengah Serious', 'instansi'=>'Espresso by Kopi Setengah Serious',
+            'pic'=>'Eka', 'cat'=>'Kuliner & F&B', 'tipe_usaha'=>'UD (Usaha Dagang)', 'status_booth'=>'aktif', 'hari_operasi'=>['1','2','3'], 'produk_unggulan'=>'Espresso',
+            'desc'=>'"Kopi Setengah Serious adalah produsen espresso literan dari Surabaya, yang menjadi solusi simpel dan mudah untuk membuat kopi enak ala kafe tanpa harus investasi alat. \n\nPraktis tinggal tuang dan campur dengan air atau susu, produk kami telah terjual ribuan liter di e-commerce dan digunakan oleh pemilik kafe, umkm, kedai makanan maupun kopi keliling yang sedang merintis usaha dan ingin membuat menu kopi susu yang cepat namun tetap nikmat karena 1 Liter Espresso bisa untuk membuat 25-30 gelas kopi kekinian.\n\nKami berbagi ide resep dan konsultasi resep kopi kekinian di Instagram & Tiktok @kopisetengahserious."',
+            'tags'=>['Kuliner & F&B', 'Startup', 'Transaksi Booth'], 'logo'=>$base . 'Logo.jpg', 'contact'=>'kopisetengahserious@gmail.com', 'whatsapp'=>'087722617299',
+            'web'=>'https://linktr.ee/kopisetengahserious', 'instagram'=>'instagram.com/kopisetengahserious', 'facebook'=>'http://facebook.com/kopisetengahserious', 'twitter'=>'', 'tiktok'=>'@kopisetengahserious.', 'transaksi'=>'Ya',
         ],
         [
             'id'=>'d12', 'booth_no'=>33, 'code'=>'D12', 'cluster'=>2, 'area'=>'D',
@@ -2113,18 +2151,20 @@ function assie4_default_tenant_logos() {
         'a20' => 'Logo Pushal x LPH.png',
         'a21' => 'Logo pusba_kotak final.png',
         'd4'  => 'upn_veteran.png',
-        'd1'  => 'airbilinest.png',
+        'd1'  => 'Smart-Phototherapy-System-AirBiliNest-Application_1.png',
         'd12' => 'dikst-ub.png',
         'd13' => 'universitas-hang-tuah.png',
         'd15' => 'bangga_evcs.png',
         'd16' => 'markaswalet.png',
         'e1'  => 'sahabat_spondan.png',
+        'e3'  => 'Logo.jpg',
         'f1'  => 'MULIA SAMUDRA MAJU ABADI.jpg',
         'f19' => 'petime-animal-care.png',
         'f20' => 'vascular-indonesia.png',
         'f21' => 'inobi.png',
         'd7'  => 'syarihub.png',
         'd8'  => 'pe_novtra.png',
+        'g1'  => 'IMG-20260801-WA0047.jpg',
         'g3'  => 'partner_sehatin.png',
         'g8'  => 'sahabat_spondan.png',
         'd2'  => 'Logo CESGS.png',
@@ -2304,24 +2344,24 @@ function assie4_get_tenants() {
         $raw = assie4_default_tenants();
         update_option( ASSIE4_OPT_TENANTS, $raw, false );
         update_option( 'assie4_directory_seed_state', 'v7', false );
-        update_option( 'assie4_official_booth_roster_version', '2026-10-06', false );
+        update_option( 'assie4_official_booth_roster_version', '2026-10-07', false );
         assie4_rebuild_js_data();
     }
     if ( ! is_array($raw) ) $raw = [];
 
-    if ( get_option( 'assie4_official_booth_roster_version' ) !== '2026-10-06' ) {
+    if ( get_option( 'assie4_official_booth_roster_version' ) !== '2026-10-07' ) {
         $updated_roster = assie4_upgrade_official_roster( $raw );
         update_option( ASSIE4_OPT_TENANTS, $updated_roster, false );
         if ( get_option( ASSIE4_OPT_TENANTS ) !== $updated_roster ) {
             return array_values( array_map( 'assie4_normalize_tenant', $raw ) );
         }
         $raw = $updated_roster;
-        update_option( 'assie4_official_booth_roster_version', '2026-10-06', false );
+        update_option( 'assie4_official_booth_roster_version', '2026-10-07', false );
         assie4_rebuild_js_data();
     }
 
     // Repair bundled booth logos once while preserving media-library uploads.
-    if ( get_option( 'assie4_local_tenant_logos_version' ) !== '7' ) {
+    if ( get_option( 'assie4_local_tenant_logos_version' ) !== '8' ) {
         $local_logos = assie4_default_tenant_logos();
         $site_host = wp_parse_url( home_url( '/' ), PHP_URL_HOST );
         $asset_path = wp_parse_url( ASSIE4_PAMERAN_URL . 'assets/tenant-logos/', PHP_URL_PATH );
@@ -2363,7 +2403,7 @@ function assie4_get_tenants() {
         unset( $tenant );
 
         if ( $logos_changed ) update_option( ASSIE4_OPT_TENANTS, $raw, false );
-        update_option( 'assie4_local_tenant_logos_version', '7', false );
+        update_option( 'assie4_local_tenant_logos_version', '8', false );
         if ( $logos_changed ) assie4_rebuild_js_data();
     }
 

@@ -504,7 +504,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/airbilinest.png",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/Smart-Phototherapy-System-AirBiliNest-Application_1.png",
         "contact": "hasbi.assidiq1990@gmail.com",
         "whatsapp": "+62 851-1755-2990",
         "web": "https://airbilisun.com",
@@ -886,6 +886,40 @@
         "instagram": "https://www.instagram.com/dtoekoe_69?stkn=N3h2NTNkbW9tYzYz",
         "facebook": "",
         "twitter": "",
+        "transaksi": "Ya"
+    },
+    {
+        "id": "e3",
+        "booth_no": 47,
+        "code": "E3",
+        "cluster": 3,
+        "area": "E",
+        "name": "Espresso by Kopi Setengah Serious",
+        "instansi": "Espresso by Kopi Setengah Serious",
+        "pic": "Eka",
+        "cat": "Kuliner & F&B",
+        "tipe_usaha": "UD (Usaha Dagang)",
+        "status_booth": "aktif",
+        "hari_operasi": [
+            "1",
+            "2",
+            "3"
+        ],
+        "produk_unggulan": "Espresso",
+        "desc": "\"Kopi Setengah Serious adalah produsen espresso literan dari Surabaya, yang menjadi solusi simpel dan mudah untuk membuat kopi enak ala kafe tanpa harus investasi alat. \r\n‎\r\n‎Praktis tinggal tuang dan campur dengan air atau susu, produk kami telah terjual ribuan liter di e-commerce dan digunakan oleh pemilik kafe, umkm, kedai makanan maupun kopi keliling yang sedang merintis usaha dan ingin membuat menu kopi susu yang cepat namun tetap nikmat karena 1 Liter Espresso bisa untuk membuat 25-30 gelas kopi kekinian.\r\n‎ \r\n‎Kami berbagi ide resep dan konsultasi resep kopi kekinian di Instagram & Tiktok @kopisetengahserious.\"",
+        "tags": [
+            "Kuliner & F&B",
+            "Startup",
+            "Transaksi Booth"
+        ],
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/Logo.jpg",
+        "contact": "kopisetengahserious@gmail.com",
+        "whatsapp": "087722617299",
+        "web": "https://linktr.ee/kopisetengahserious",
+        "instagram": "instagram.com/kopisetengahserious",
+        "facebook": "http://facebook.com/kopisetengahserious",
+        "twitter": "",
+        "tiktok": "@kopisetengahserious.",
         "transaksi": "Ya"
     },
     {
@@ -1354,7 +1388,7 @@
             "Startup",
             "Internal UNAIR"
         ],
-        "logo": "",
+        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/IMG-20260801-WA0047.jpg",
         "contact": "",
         "whatsapp": "",
         "web": "",
