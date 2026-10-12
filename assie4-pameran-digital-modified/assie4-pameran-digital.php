@@ -568,3 +568,16 @@ function assie4_ajax_stats() {
     }
     wp_send_json(['today'=>$today,'total'=>$total,'top'=>$top]);
 }
+
+add_action('wp_ajax_assie4_reset_presensi_count', 'assie4_reset_presensi_count');
+function assie4_reset_presensi_count() {
+    if ( ! current_user_can( 'manage_options' ) ) {
+        wp_send_json_error( 'Unauthorized', 403 );
+    }
+    global $wpdb;
+    $table = $wpdb->prefix . 'assie4_presensi';
+    $before = (int) $wpdb->get_var("SELECT COUNT(*) FROM {$table}");
+    $wpdb->query("TRUNCATE TABLE {$table}");
+    $after = (int) $wpdb->get_var("SELECT COUNT(*) FROM {$table}");
+    wp_send_json_success(['before'=>$before, 'after'=>$after]);
+}

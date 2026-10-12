@@ -93,16 +93,6 @@ function assie4_default_slides() {
             'link'     => '#rundown',
             'bg'       => ASSIE4_PAMERAN_URL . 'assets/kegiatan-assie-2.jpg',
         ],
-        [
-            'title'    => 'Industry Matching',
-            'subtitle' => 'IM ASSIE IV 2026',
-            'desc'     => '',
-            'cta'      => '',
-            'link'     => '#denah',
-            'bg'       => ASSIE4_PAMERAN_URL . 'assets/kegiatan-assie-5.jpg',
-            'logo'     => ASSIE4_PAMERAN_URL . 'assets/logo-assie4.png',
-            'is_logo'  => true,
-        ],
     ];
 }
 function assie4_default_ticker() {
@@ -2225,66 +2215,46 @@ function assie4_default_tenant_logos() {
     return $logos;
 }
 function assie4_default_rundown() {
-    // Public schedule follows the three 2026 day sheets, not the outdated 2025 recap tab.
     return [
         'days'   => [['label'=>'Jumat, 6 November 2026'],['label'=>'Sabtu, 7 November 2026'],['label'=>'Minggu, 8 November 2026']],
         'events' => [
-            ['day'=>0,'time'=>'13.00','end'=>'13.05','name'=>'Indonesia Raya','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>0,'time'=>'13.05','end'=>'13.10','name'=>'Hymne Airlangga','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>0,'time'=>'13.10','end'=>'13.12','name'=>'Bumper Opening Acara','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>0,'time'=>'13.12','end'=>'13.17','name'=>'Opening MC','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>0,'time'=>'13.17','end'=>'13.20','name'=>'Pembacaan Doa','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>0,'time'=>'13.20','end'=>'13.30','name'=>'Tari Pembuka Gandrung — UKM Tari UNAIR','type'=>'networking','loc'=>'Main Stage'],
-            ['day'=>0,'time'=>'13.30','end'=>'13.40','name'=>'Sambutan Ketua PASINBIS','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>0,'time'=>'13.40','end'=>'13.50','name'=>'Sambutan Rektor UNAIR','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>0,'time'=>'13.50','end'=>'14.00','name'=>'Sambutan Dirjen Ristekdikti dan Keynote Speech','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>0,'time'=>'14.00','end'=>'14.10','name'=>'Sambutan Kepala BPOM dan Keynote Speech','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>0,'time'=>'14.10','end'=>'14.20','name'=>'Opening Ceremony','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>0,'time'=>'14.20','end'=>'14.50','name'=>'Launching Produk Inovasi','type'=>'panel','loc'=>'Main Stage'],
-            ['day'=>0,'time'=>'14.50','end'=>'15.20','name'=>'Industry Matching 2026 — Pembukaan dan Mekanisme','type'=>'panel','loc'=>'Main Stage'],
-            ['day'=>0,'time'=>'15.20','end'=>'17.20','name'=>'Lomba Mobile Legends','type'=>'workshop','loc'=>'Main Stage'],
-            ['day'=>0,'time'=>'17.20','end'=>'17.35','name'=>'Break','type'=>'break','loc'=>'—'],
+            ['day'=>0,'time'=>'12.00','end'=>'13.00','name'=>'Preparation','type'=>'break','loc'=>'Atrium Grand City'],
+            ['day'=>0,'time'=>'13.00','end'=>'14.20','name'=>'Opening Ceremony','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'14.20','end'=>'14.50','name'=>'Launching Produk Inovasi','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'14.50','end'=>'15.20','name'=>'Industry Matching','type'=>'workshop','loc'=>'Ruang Industri Matching'],
+            ['day'=>0,'time'=>'15.20','end'=>'17.20','name'=>'Lomba Mobile Legend','type'=>'networking','loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'16.00','end'=>'18.00','name'=>'Olimnesia Demo Games','type'=>'workshop','loc'=>'Stage 2'],
+            ['day'=>0,'time'=>'17.20','end'=>'17.35','name'=>'Break','type'=>'break','loc'=>'-'],
             ['day'=>0,'time'=>'17.35','end'=>'18.35','name'=>'Band Akustik','type'=>'networking','loc'=>'Main Stage'],
-            ['day'=>0,'time'=>'18.35','end'=>'22.10','name'=>'Closing Day 1','type'=>'award','loc'=>'Main Stage'],
-
-            ['day'=>1,'time'=>'10.00','end'=>'10.05','name'=>'Bumper Opening Acara','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>1,'time'=>'10.00','end'=>'12.00','name'=>'FGD Forum Inkubator Bisnis Jawa Timur','type'=>'panel','loc'=>'Ruang Business Matching'],
-            ['day'=>1,'time'=>'10.05','end'=>'10.10','name'=>'Opening MC','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>1,'time'=>'10.10','end'=>'12.40','name'=>'Talkshow PUI-PT SCT — Dari Riset ke Kosmetik','type'=>'panel','loc'=>'Main Stage'],
-            ['day'=>1,'time'=>'11.00','end'=>'15.00','name'=>'Beauty Class by Studio Inkubator MUA','type'=>'workshop','loc'=>'Stage 2'],
-            ['day'=>1,'time'=>'12.00','end'=>'12.05','name'=>'Penutupan FGD Forum Inkubator Bisnis Jawa Timur','type'=>'panel','loc'=>'Ruang Business Matching'],
-            ['day'=>1,'time'=>'12.05','end'=>'13.00','name'=>'Break','type'=>'break','loc'=>'Ruang Business Matching'],
-            ['day'=>1,'time'=>'12.40','end'=>'13.00','name'=>'Break','type'=>'break','loc'=>'Main Stage'],
-            ['day'=>1,'time'=>'13.00','end'=>'13.30','name'=>'Business Matching 2026 — Pembukaan dan Mekanisme','type'=>'panel','loc'=>'Main Stage'],
-            ['day'=>1,'time'=>'13.30','end'=>'15.00','name'=>'Business Matching 2026','type'=>'panel','loc'=>'Ruang Business Matching'],
-            ['day'=>1,'time'=>'13.30','end'=>'18.30','name'=>'Lomba ASSIE Got Talent','type'=>'workshop','loc'=>'Main Stage'],
-            ['day'=>1,'time'=>'15.00','end'=>'15.20','name'=>'Break','type'=>'break','loc'=>'Stage 2'],
-            ['day'=>1,'time'=>'15.20','end'=>'18.00','name'=>'Kegiatan BEM UNAIR','type'=>'networking','loc'=>'Stage 2'],
-            ['day'=>1,'time'=>'18.00','end'=>'18.20','name'=>'Break','type'=>'break','loc'=>'Stage 2'],
-            ['day'=>1,'time'=>'18.20','end'=>'22.00','name'=>'Kegiatan BEM UNAIR','type'=>'networking','loc'=>'Stage 2'],
+            ['day'=>1,'time'=>'09.00','end'=>'10.00','name'=>'Preparation','type'=>'break','loc'=>'Atrium Grand City'],
+            ['day'=>1,'time'=>'10.00','end'=>'10.10','name'=>'Opening','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>1,'time'=>'10.00','end'=>'12.00','name'=>'FGD Forum Inkubator Bisnis Jatim','type'=>'panel','loc'=>'Ruang FGD'],
+            ['day'=>1,'time'=>'10.10','end'=>'12.40','name'=>'Talkshow PUI-PT SCT : Dari Riset, jadi Kosmetik : Kenali Produk Kosmetik Inovatif hasil penelitian Universitas Airlangga Bersama PUI-PT Skin and Cosmetic Technology','type'=>'workshop','loc'=>'Main Stage'],
+            ['day'=>1,'time'=>'11.00','end'=>'15.00','name'=>'Beauty Class by Studio Inkubator MUA','type'=>'keynote','loc'=>'Stage 2'],
+            ['day'=>1,'time'=>'12.40','end'=>'13.00','name'=>'Break','type'=>'break','loc'=>'Atrium Grand City'],
+            ['day'=>1,'time'=>'13.00','end'=>'13.30','name'=>'Opening Business Matching','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>1,'time'=>'13.30','end'=>'15.00','name'=>'Business Matching','type'=>'keynote','loc'=>'Ruang Business Matching'],
+            ['day'=>1,'time'=>'13.30','end'=>'18.30','name'=>'Lomba ASSIE GOTTALENT','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>1,'time'=>'15.20','end'=>'22.00','name'=>'BEM Universitas Airlangga','type'=>'keynote','loc'=>'Stage 2'],
             ['day'=>1,'time'=>'18.30','end'=>'18.35','name'=>'Break','type'=>'break','loc'=>'Main Stage'],
-            ['day'=>1,'time'=>'18.35','end'=>'19.35','name'=>'Band Akustik','type'=>'networking','loc'=>'Main Stage'],
-            ['day'=>1,'time'=>'19.35','end'=>'20.05','name'=>'Closing Day 2','type'=>'award','loc'=>'Main Stage'],
-
-            ['day'=>2,'time'=>'10.00','end'=>'10.05','name'=>'Opening MC','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>2,'time'=>'10.00','end'=>'10.05','name'=>'Opening MC','type'=>'keynote','loc'=>'Stage 2'],
-            ['day'=>2,'time'=>'10.05','end'=>'12.00','name'=>'Kegiatan BEM UNAIR','type'=>'networking','loc'=>'Stage 2'],
-            ['day'=>2,'time'=>'10.05','end'=>'12.35','name'=>'Lomba Line Dance Competition','type'=>'workshop','loc'=>'Main Stage'],
-            ['day'=>2,'time'=>'12.00','end'=>'12.20','name'=>'Break','type'=>'break','loc'=>'Stage 2'],
-            ['day'=>2,'time'=>'12.20','end'=>'17.00','name'=>'Ayo Bermain Coding','type'=>'workshop','loc'=>'Stage 2'],
-            ['day'=>2,'time'=>'12.35','end'=>'13.05','name'=>'Break','type'=>'break','loc'=>'Main Stage'],
-            ['day'=>2,'time'=>'13.05','end'=>'15.05','name'=>'Talkshow BPOM — UMKM Aman, UMKM Naik Kelas','type'=>'panel','loc'=>'Main Stage'],
-            ['day'=>2,'time'=>'15.05','end'=>'17.05','name'=>'ASSIE IV Got Talent — Final','type'=>'workshop','loc'=>'Main Stage'],
+            ['day'=>1,'time'=>'18.35','end'=>'19.35','name'=>'Band Akustik','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>1,'time'=>'19.35','end'=>'20.05','name'=>'Closing','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'09.00','end'=>'10.00','name'=>'Preparation','type'=>'break','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'10.00','end'=>'10.05','name'=>'Opening','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'10.00','end'=>'10.05','name'=>'Opening','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'10.05','end'=>'12.35','name'=>'Lomba Line Dance Competition','type'=>'networking','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'12.20','end'=>'17.00','name'=>'ayo bermain coding','type'=>'workshop','loc'=>'Stage 2'],
+            ['day'=>2,'time'=>'12.35','end'=>'13.05','name'=>'Break','type'=>'networking','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'13.05','end'=>'15.05','name'=>'"Talkshow BPOM "UMKM Aman, UMKM Naik Kelas : Kenali perizinan, keamanan pangan , dan standar mutu produk agar usahamu makin dipercaya dan siap bersaing""','type'=>'workshop','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'15.05','end'=>'17.05','name'=>'Lomba ASSIE IV Got Talent - Final','type'=>'workshop','loc'=>'Main Stage'],
             ['day'=>2,'time'=>'17.05','end'=>'17.35','name'=>'Break','type'=>'break','loc'=>'Main Stage'],
             ['day'=>2,'time'=>'17.35','end'=>'18.35','name'=>'Band Akustik','type'=>'networking','loc'=>'Main Stage'],
-            ['day'=>2,'time'=>'18.35','end'=>'18.40','name'=>'MC Opening Closing Session','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>2,'time'=>'18.40','end'=>'18.45','name'=>'Laporan Panitia','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>2,'time'=>'18.45','end'=>'18.55','name'=>'Sambutan Ketua PASINBIS','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>2,'time'=>'18.55','end'=>'19.55','name'=>'Pengumuman Pemenang','type'=>'award','loc'=>'Main Stage'],
-            ['day'=>2,'time'=>'19.55','end'=>'20.00','name'=>'Closing Ceremony','type'=>'award','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'18.35','end'=>'19.55','name'=>'Rangkaian Closing dan Pengumuman Juara','type'=>'award','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'22.00','end'=>'Selesai','name'=>'Peserta Meninggalkan Booth Pameran','type'=>'keynote','loc'=>'Atrium Grand City'],
         ],
     ];
 }
+
 
 // Snapshot of named assignments in "Kepengisian Booth ASSIE 2026.xlsx" / "Ploting Booth".
 function assie4_official_booth_assignments() {
@@ -2433,7 +2403,7 @@ function assie4_reconcile_official_roster( $tenants, $fallback = [] ) {
 }
 
 function assie4_get_rundown() {
-    $version = '2026-10-06';
+    $version = '2026-10-12-rundown-3gambar';
     $saved = get_option( ASSIE4_OPT_RUNDOWN, null );
     if ( get_option( 'assie4_official_rundown_version' ) !== $version ) {
         $saved = assie4_default_rundown();
