@@ -487,20 +487,22 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
 .a4-map-loc-btn::before { width:6px; height:6px; border-radius:50%; background:var(--a4-location-color); content:"" }
 .a4-map-loc-btn:hover, .a4-map-loc-btn:focus-visible { border-color:color-mix(in srgb,var(--a4-location-color) 60%,transparent); background:color-mix(in srgb,var(--a4-location-color) 9%,transparent); color:#f2f5fa; outline:none }
 .a4-map-location-hotspot { cursor:pointer; outline:none; --a4-location-color:#d4a843 }
-.a4-location-stage2 { --a4-location-color:#57c8e7 }
-.a4-location-business { --a4-location-color:#52c89a }
-.a4-map-location-hotspot .a4-location-outline { fill:var(--a4-location-color); fill-opacity:.08; stroke:var(--a4-location-color); stroke-width:3; vector-effect:non-scaling-stroke; transition:fill-opacity .18s ease,stroke-opacity .18s ease,filter .18s ease }
+.a4-location-stage2 { --a4-location-color:#38bdf8 }
+.a4-location-business { --a4-location-color:#34d399 }
+.a4-location-pasinbis { --a4-location-color:#d4a843 }
+.a4-map-location-hotspot .a4-location-outline { fill:var(--a4-location-color); fill-opacity:.12; stroke:var(--a4-location-color); stroke-width:2.5; vector-effect:non-scaling-stroke; transition:fill-opacity .18s ease,stroke .18s ease,stroke-width .18s ease,filter .18s ease }
 .a4-location-business .a4-location-outline { stroke-linejoin:round; stroke-linecap:round }
-.a4-location-pasinbis .a4-location-outline { stroke-dasharray:7 4 }
-.a4-map-location-hotspot .a4-location-label { fill:#101b2e; fill-opacity:.96; stroke:var(--a4-location-color); stroke-width:1.5; vector-effect:non-scaling-stroke }
-.a4-map-location-hotspot .a4-location-title { fill:#f1f5fb; font:750 16px 'Plus Jakarta Sans',sans-serif; letter-spacing:.035em }
-.a4-location-business .a4-location-title { font-size:12px; letter-spacing:.01em }
-.a4-location-pasinbis .a4-location-title { font-size:13px; letter-spacing:.01em }
-.a4-map-location-hotspot .a4-location-subtitle { fill:var(--a4-location-color); font:750 8px 'Plus Jakarta Sans',sans-serif; letter-spacing:.12em }
-.a4-map-location-hotspot:hover .a4-location-outline, .a4-map-location-hotspot:focus-visible .a4-location-outline { fill-opacity:.18; stroke-width:4 }
-.a4-map-location-hotspot:hover .a4-location-label, .a4-map-location-hotspot:focus-visible .a4-location-label { fill:#17243a; stroke-width:2 }
+.a4-map-location-hotspot .a4-location-label { fill:#0c1524; fill-opacity:1; stroke:var(--a4-location-color); stroke-width:1.5; filter:drop-shadow(0 4px 10px rgba(0,0,0,.55)); vector-effect:non-scaling-stroke; transition:fill .18s ease,stroke-width .18s ease,filter .18s ease }
+.a4-map-location-hotspot .a4-location-title { fill:#f8fafc; font:800 13px 'Plus Jakarta Sans',sans-serif; letter-spacing:.04em }
+.a4-location-stage2 .a4-location-title { font-size:13.5px; letter-spacing:.07em }
+.a4-location-business .a4-location-title { font-size:10.5px; letter-spacing:.04em }
+.a4-location-pasinbis .a4-location-title { fill:#f4d37d; font-size:9.5px; letter-spacing:.08em }
+.a4-map-location-hotspot .a4-location-subtitle { fill:var(--a4-location-color); font:800 7px 'Plus Jakarta Sans',sans-serif; letter-spacing:.14em; text-transform:uppercase }
+.a4-location-business .a4-location-subtitle { font-size:7px; letter-spacing:.11em }
+.a4-map-location-hotspot:hover .a4-location-outline, .a4-map-location-hotspot:focus-visible .a4-location-outline { fill-opacity:.24; stroke-width:3.5; filter:drop-shadow(0 0 10px var(--a4-location-color)) }
+.a4-map-location-hotspot:hover .a4-location-label, .a4-map-location-hotspot:focus-visible .a4-location-label { fill:#132137; stroke-width:2; filter:drop-shadow(0 4px 12px rgba(0,0,0,.6)) drop-shadow(0 0 7px var(--a4-location-color)) }
 .a4-map-location-hotspot.is-located .a4-location-outline { animation:a4LocationPulse .9s ease-in-out 2 }
-@keyframes a4LocationPulse { 50% { fill-opacity:.23; filter:drop-shadow(0 0 6px var(--a4-location-color)) } }
+@keyframes a4LocationPulse { 0%, 100% { fill-opacity:.12; filter:none } 50% { fill-opacity:.30; filter:drop-shadow(0 0 14px var(--a4-location-color)) } }
 .a4-map-note { margin:0; padding:12px 18px; border-top:1px solid var(--a4-border); color:var(--a4-muted2); font-size:12px; line-height:1.7 }
 .a4-map-note strong { color:var(--a4-gold); font-weight:600 }
 .a4-mobile-booth-list { display:none }

@@ -3236,9 +3236,9 @@
   fXs.forEach(function(x,i){addCodeBooth('F'+(i+1),x,181,39,30);addCodeBooth('F'+(22-i),x,151,39,30);});
   var hXs=[1400,1449,1499,1548,1600,1650,1700,1748];
   hXs.forEach(function(x,i){addCodeBooth('H'+(i+1),x,181,39,30);addCodeBooth('H'+(16-i),x,151,39,30);});
-  /* E: enam booth di lengkung kiri. G: delapan di lengkung tengah. */
+  /* E: enam booth di lengkung kiri. G: delapan di lengkung tengah rotunda. */
   [[1,358,357,-43],[2,380,323,-29],[3,396,289,-12],[4,399,255,0],[5,394,220,17],[6,380,185,32]].forEach(function(p){addCodeBooth('E'+p[0],p[1],p[2],31,32,p[3]);});
-  [[1,1111,277,-43],[2,1150,287,-28],[3,1187,291,-10],[4,1224,285,10],[5,1260,268,28],[6,1290,234,43],[7,1305,196,65],[8,1307,155,0]].forEach(function(p){addCodeBooth('G'+p[0],p[1],p[2],31,31,p[3]);});
+  [[1,1107,285,32],[2,1141,300,17],[3,1177,305,1],[4,1214,301,-14],[5,1248,288,-29],[6,1296,243,-57],[7,1312,210,-72],[8,1320,132,0,34,31]].forEach(function(p){addCodeBooth('G'+p[0],p[1],p[2],p[4]||31,p[5]||31,p[3]);});
   /* D: dua kelompok meja diagonal. C: tujuh booth di kiri panggung. */
   [[9,355,444],[8,385,432],[10,382,475],[7,415,465],[11,414,512],[6,445,498],[12,447,548],[5,477,533],
    [13,509,605],[4,530,597],[14,542,637],[3,563,627],[15,574,670],[2,595,657],[16,606,707],[1,627,689]].forEach(function(p){addCodeBooth('D'+p[0],p[1],p[2],32,34,-40);});
@@ -3335,26 +3335,26 @@
       '<text class="a4-stage-title" x="785" y="705" text-anchor="middle" pointer-events="none">MAIN</text>'+
       '<text class="a4-stage-title" x="785" y="724" text-anchor="middle" pointer-events="none">STAGE</text>'+
       '</g>';
-    // Stage 2 — panggung di sisi kanan; label menutup tulisan bawaan pada denah.
-    html+='<g class="a4-map-location-hotspot a4-location-stage2" data-fn="schedule" data-location="Stage 2" data-location-id="stage-2" role="button" tabindex="0" aria-label="Stage 2 di sisi kanan denah. Buka jadwal Stage 2"><title>Stage 2 · sisi kanan denah · klik untuk jadwal</title>'+
-      '<ellipse class="a4-location-outline" cx="1554" cy="282" rx="77" ry="111"></ellipse>'+
-      '<rect class="a4-location-label" x="1490" y="256" width="128" height="54" rx="8"></rect>'+
-      '<text class="a4-location-title" x="1554" y="280" text-anchor="middle" pointer-events="none">STAGE 2</text>'+
-      '<text class="a4-location-subtitle" x="1554" y="297" text-anchor="middle" pointer-events="none">JADWAL PANGGUNG</text>'+
+    // Stage 2 — East STAGE pada denah (sisi kanan). Mengikuti kurva panggung D-stage rotunda asli.
+    html+='<g class="a4-map-location-hotspot a4-location-stage2" data-fn="schedule" data-location="Stage 2" data-location-id="stage-2" role="button" tabindex="0" aria-label="Stage 2 di sisi kanan denah. Buka jadwal Stage 2"><title>Stage 2 · East Stage (sisi kanan denah) · klik untuk jadwal</title>'+
+      '<path class="a4-location-outline" d="M 1588 175 A 110 83 0 0 0 1588 341 Z"></path>'+
+      '<rect class="a4-location-label" x="1494" y="250" width="96" height="56" rx="6"></rect>'+
+      '<text class="a4-location-title" x="1542" y="274" text-anchor="middle" pointer-events="none">STAGE 2</text>'+
+      '<text class="a4-location-subtitle" x="1542" y="291" text-anchor="middle" pointer-events="none">JADWAL PANGGUNG</text>'+
       '</g>';
-    // Ruang Business Matching — kontur mengikuti ruang kosong di kiri bawah denah.
+    // Ruang Business Matching — kontur presisi mengikuti dinding arsitektural ruangan di kiri bawah.
     html+='<g class="a4-map-location-hotspot a4-location-business" data-fn="schedule" data-location="Ruang Business Matching" data-location-id="business-matching" role="button" tabindex="0" aria-label="Ruang Business Matching di sisi kiri bawah denah. Buka jadwal"><title>Ruang Business Matching · sisi kiri bawah denah · klik untuk jadwal</title>'+
-      '<path class="a4-location-outline" d="M 304 718 L 348 654 Q 374 615 405 588 Q 416 578 429 590 L 471 623 Q 480 631 469 642 L 438 668 L 405 690 L 377 727 L 343 756 L 307 739 Z"></path>'+
-      '<rect class="a4-location-label" x="316" y="633" width="216" height="48" rx="8"></rect>'+
-      '<text class="a4-location-title" x="424" y="653" text-anchor="middle" pointer-events="none">RUANG BUSINESS MATCHING</text>'+
-      '<text class="a4-location-subtitle" x="424" y="670" text-anchor="middle" pointer-events="none">BUKA JADWAL</text>'+
+      '<polygon class="a4-location-outline" points="294,691 468,563 518,630 422,703 410,690 385,715 395,725 368,745"></polygon>'+
+      '<rect class="a4-location-label" x="327" y="618" width="156" height="50" rx="6"></rect>'+
+      '<text class="a4-location-title" x="405" y="640" text-anchor="middle" pointer-events="none">BUSINESS MATCHING</text>'+
+      '<text class="a4-location-subtitle" x="405" y="655" text-anchor="middle" pointer-events="none">RUANG KONSULTASI &amp; JADWAL</text>'+
       '</g>';
-    // Booth PASINBIS — bidang di kanan Main Stage, sebelum deret booth bawah.
+    // Booth PASINBIS — platform booth presisi di antara area tempat duduk dan Booth A.
     html+='<g class="a4-map-location-hotspot a4-location-pasinbis" data-fn="pasinbis" data-location-id="pasinbis" role="button" tabindex="0" aria-label="Booth PASINBIS. Buka profil penyelenggara"><title>Booth PASINBIS · klik untuk profil penyelenggara</title>'+
-      '<rect class="a4-location-outline" x="918" y="650" width="103" height="153" rx="9"></rect>'+
-      '<rect class="a4-location-label" x="925" y="698" width="89" height="56" rx="7"></rect>'+
-      '<text class="a4-location-subtitle" x="969" y="718" text-anchor="middle" pointer-events="none">BOOTH</text>'+
-      '<text class="a4-location-title" x="969" y="739" text-anchor="middle" pointer-events="none">PASINBIS</text>'+
+      '<rect class="a4-location-outline" x="946" y="646" width="70" height="122" rx="7"></rect>'+
+      '<rect class="a4-location-label" x="947" y="682" width="68" height="48" rx="6"></rect>'+
+      '<text class="a4-location-subtitle" x="981" y="702" text-anchor="middle" pointer-events="none">BOOTH</text>'+
+      '<text class="a4-location-title" x="981" y="719" text-anchor="middle" pointer-events="none">PASINBIS</text>'+
       '</g>';
     svg.innerHTML=html;renderMobileBoothList();renderMapLegend();
     var wrap=document.getElementById('a4MapWrap');

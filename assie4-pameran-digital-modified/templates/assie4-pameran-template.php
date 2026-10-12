@@ -99,8 +99,8 @@ $a4_brand_logo_url = !empty($a4_info_data['logo']) ? $a4_info_data['logo'] : (AS
       </div>
       <nav class="a4-map-locations" aria-label="Temukan lokasi di denah">
         <span class="a4-map-locations-label">LOKASI</span>
-        <button type="button" class="a4-map-loc-btn" style="--a4-location-color:#57c8e7" onclick="a4LocateMapLocation('stage-2')">Stage 2</button>
-        <button type="button" class="a4-map-loc-btn" style="--a4-location-color:#52c89a" onclick="a4LocateMapLocation('business-matching')">Ruang Business Matching</button>
+        <button type="button" class="a4-map-loc-btn" style="--a4-location-color:#38bdf8" onclick="a4LocateMapLocation('stage-2')">Stage 2</button>
+        <button type="button" class="a4-map-loc-btn" style="--a4-location-color:#34d399" onclick="a4LocateMapLocation('business-matching')">Ruang Business Matching</button>
         <button type="button" class="a4-map-loc-btn" style="--a4-location-color:#d4a843" onclick="a4LocateMapLocation('pasinbis')">Booth PASINBIS</button>
       </nav>
       <div class="a4-map-svg-wrap" id="a4MapWrap" aria-label="Denah booth pameran interaktif">
