@@ -2890,7 +2890,7 @@
       var eventLocation=String(event.loc||'').toLowerCase();
       if(locationKey==='main stage') return eventLocation.indexOf('main stage')!==-1;
       if(locationKey==='stage 2') return eventLocation.indexOf('stage 2')!==-1;
-      if(locationKey.indexOf('business matching')!==-1) return eventLocation.indexOf('business matching')!==-1;
+      if(locationKey.indexOf('business matching')!==-1) return eventLocation.indexOf('business matching')!==-1 || eventLocation.indexOf('industri matching')!==-1 || eventLocation.indexOf('industry matching')!==-1;
       return eventLocation===locationKey;
     });
     var now=new Date();
