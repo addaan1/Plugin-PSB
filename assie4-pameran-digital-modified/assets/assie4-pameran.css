@@ -481,6 +481,26 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
 .a4-map-stage-link { display:inline-flex; align-items:center; gap:8px; padding:10px 13px; border:1px solid #d4a84366; border-radius:7px; background:#d4a8430c; color:var(--a4-gold); font:600 13px 'Plus Jakarta Sans',sans-serif; cursor:pointer; white-space:nowrap }
 .a4-map-stage-link svg { width:17px; height:17px }
 .a4-map-stage-link:hover, .a4-map-stage-link:focus-visible { background:#d4a84320; border-color:var(--a4-gold) }
+.a4-map-locations { display:flex; align-items:center; gap:7px; min-width:0; padding:9px 18px; overflow-x:auto; border-bottom:1px solid var(--a4-border); scrollbar-width:thin; scrollbar-color:#34445d transparent }
+.a4-map-locations-label { flex:none; margin-right:4px; color:var(--a4-muted2); font-size:9px; font-weight:800; letter-spacing:.15em }
+.a4-map-loc-btn { display:inline-flex; align-items:center; gap:7px; flex:none; min-height:32px; padding:6px 10px; border:1px solid rgba(225,234,250,.12); border-radius:5px; background:transparent; color:#c1cde0; font:600 11px 'Plus Jakarta Sans',sans-serif; cursor:pointer; transition:color .16s ease,border-color .16s ease,background .16s ease }
+.a4-map-loc-btn::before { width:6px; height:6px; border-radius:50%; background:var(--a4-location-color); content:"" }
+.a4-map-loc-btn:hover, .a4-map-loc-btn:focus-visible { border-color:color-mix(in srgb,var(--a4-location-color) 60%,transparent); background:color-mix(in srgb,var(--a4-location-color) 9%,transparent); color:#f2f5fa; outline:none }
+.a4-map-location-hotspot { cursor:pointer; outline:none; --a4-location-color:#d4a843 }
+.a4-location-stage2 { --a4-location-color:#57c8e7 }
+.a4-location-business { --a4-location-color:#52c89a }
+.a4-map-location-hotspot .a4-location-outline { fill:var(--a4-location-color); fill-opacity:.08; stroke:var(--a4-location-color); stroke-width:3; vector-effect:non-scaling-stroke; transition:fill-opacity .18s ease,stroke-opacity .18s ease,filter .18s ease }
+.a4-location-business .a4-location-outline { stroke-linejoin:round; stroke-linecap:round }
+.a4-location-pasinbis .a4-location-outline { stroke-dasharray:7 4 }
+.a4-map-location-hotspot .a4-location-label { fill:#101b2e; fill-opacity:.96; stroke:var(--a4-location-color); stroke-width:1.5; vector-effect:non-scaling-stroke }
+.a4-map-location-hotspot .a4-location-title { fill:#f1f5fb; font:750 16px 'Plus Jakarta Sans',sans-serif; letter-spacing:.035em }
+.a4-location-business .a4-location-title { font-size:12px; letter-spacing:.01em }
+.a4-location-pasinbis .a4-location-title { font-size:13px; letter-spacing:.01em }
+.a4-map-location-hotspot .a4-location-subtitle { fill:var(--a4-location-color); font:750 8px 'Plus Jakarta Sans',sans-serif; letter-spacing:.12em }
+.a4-map-location-hotspot:hover .a4-location-outline, .a4-map-location-hotspot:focus-visible .a4-location-outline { fill-opacity:.18; stroke-width:4 }
+.a4-map-location-hotspot:hover .a4-location-label, .a4-map-location-hotspot:focus-visible .a4-location-label { fill:#17243a; stroke-width:2 }
+.a4-map-location-hotspot.is-located .a4-location-outline { animation:a4LocationPulse .9s ease-in-out 2 }
+@keyframes a4LocationPulse { 50% { fill-opacity:.23; filter:drop-shadow(0 0 6px var(--a4-location-color)) } }
 .a4-map-note { margin:0; padding:12px 18px; border-top:1px solid var(--a4-border); color:var(--a4-muted2); font-size:12px; line-height:1.7 }
 .a4-map-note strong { color:var(--a4-gold); font-weight:600 }
 .a4-mobile-booth-list { display:none }
@@ -690,7 +710,7 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
 .a4-mobile-cluster summary small { margin-left:auto; color:var(--a4-muted2); font-weight:500 }
 .a4-mobile-cluster .a4-mobile-booth-grid { padding:8px 0 12px }
 
-@media (prefers-reduced-motion:reduce) { .a4-map-stage,.a4-map-booth rect,.a4-map-stage-hotspot rect { transition:none } }
+@media (prefers-reduced-motion:reduce) { .a4-map-stage,.a4-map-booth rect,.a4-map-stage-hotspot rect { transition:none } .a4-map-location-hotspot.is-located .a4-location-outline { animation:none } }
 
 /* ════════════════════════════════════════════════════════
    DENAH FILTER TOMBOL AREA
@@ -1421,6 +1441,7 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
 .a4-stage-location { display:flex; align-items:center; gap:6px; margin:0; color:#98a9c0; font-size:11px; line-height:1.5 }
 .a4-stage-location .a4-icon { width:13px; height:13px; flex:none; color:#d4a843 }
 .a4-stage-location span { color:#596b84 }
+.a4-stage-empty { margin:0; padding:28px 0; border-top:1px solid rgba(225,234,250,.12); color:#a9b7ca; font-size:13px; line-height:1.6 }
 .a4-modal-stage .a4-m-close { top:18px; right:18px; width:34px; height:34px; border:1px solid rgba(225,234,250,.08) }
 .a4-modal-stage .a4-mbox-body { padding:16px 28px 28px }
 .a4-stage-agenda-label { display:flex; align-items:center; gap:9px; margin:0 0 12px; color:#d4a843; font-size:10px; font-weight:800; letter-spacing:.14em; text-transform:uppercase }
@@ -1445,6 +1466,8 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
 .a4-stage-live i { width:6px; height:6px; border-radius:50%; background:currentColor; box-shadow:0 0 0 3px rgba(45,212,130,.12) }
 
 @media (max-width:768px) {
+  .a4-map-locations { padding:8px 12px; -webkit-overflow-scrolling:touch }
+  .a4-map-loc-btn { min-height:36px; padding:7px 9px; font-size:10px }
   .a4-nav-logo { width:132px; min-height:48px }
   .a4-map-svg-wrap { padding:8px; max-height:56vh }
   .a4-mobile-booth-list { background:#101b2e; padding:16px }

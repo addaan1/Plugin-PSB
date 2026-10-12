@@ -2876,14 +2876,34 @@
       });
     });
   }
-  window.a4OpenStage=function(){
+  window.a4OpenStage=function(locationName){
     var head=document.getElementById('a4ModalHead'),body=document.getElementById('a4ModalBody');
     if(!head||!body) return;
     head.innerHTML='<button class="a4-m-close" aria-label="Tutup jadwal acara" onclick="a4CloseModal()">&#x2715;</button>'+
       '<div class="a4-stage-head"><span class="a4-stage-icon">'+uiIcon('mic')+'</span><div class="a4-stage-heading">'+
       '<span class="a4-stage-kicker">PROGRAM PANGGUNG</span><h2 class="a4-stage-title">Main Stage</h2><p class="a4-stage-location">'+uiIcon('pin')+' Grand City Atrium <span>·</span> Di samping Area C</p></div></div>';
+    var selectedLocation=locationName||'Main Stage';
+    var locationCopy={
+      'Main Stage':{kicker:'JADWAL PANGGUNG',place:'Grand City Atrium · Area bawah tengah, di samping Area C'},
+      'Stage 2':{kicker:'JADWAL PANGGUNG',place:'Grand City Atrium · Sisi kanan denah'},
+      'Ruang Business Matching':{kicker:'JADWAL RUANG',place:'Grand City Atrium · Sisi kiri bawah denah'}
+    };
+    var locationInfo=locationCopy[selectedLocation]||locationCopy['Main Stage'];
+    head.querySelector('.a4-stage-kicker').textContent=locationInfo.kicker;
+    head.querySelector('.a4-stage-title').textContent=selectedLocation;
+    head.querySelector('.a4-stage-location').innerHTML=uiIcon('pin')+' '+escH(locationInfo.place);
+    var icon=head.querySelector('.a4-stage-icon');
+    if(icon&&selectedLocation==='Ruang Business Matching') icon.innerHTML=uiIcon('building');
+    var allEvents=DATA.rundown&&DATA.rundown.events?DATA.rundown.events:[];
+    var locationKey=selectedLocation.toLowerCase();
+    var events=allEvents.filter(function(event){
+      var eventLocation=String(event.loc||'').toLowerCase();
+      if(locationKey==='main stage') return eventLocation.indexOf('main stage')!==-1;
+      if(locationKey==='stage 2') return eventLocation.indexOf('stage 2')!==-1;
+      if(locationKey.indexOf('business matching')!==-1) return eventLocation.indexOf('business matching')!==-1;
+      return eventLocation===locationKey;
+    });
     var now=new Date();
-    var events=DATA.rundown&&DATA.rundown.events?DATA.rundown.events:[];
     var dayMap={};
     events.forEach(function(e){if(!dayMap[e.day])dayMap[e.day]=[];dayMap[e.day].push(e);});
     var days=DATA.rundown&&DATA.rundown.days?DATA.rundown.days:[];
@@ -2903,6 +2923,7 @@
       html+='</section>';
     });
     html+='</div>';
+    if(!Object.keys(dayMap).length) html='<p class="a4-stage-empty">Jadwal untuk lokasi ini belum tersedia.</p>';
     body.innerHTML=html;
     updateStageClock();
     if(stageClockTimer)clearInterval(stageClockTimer);
@@ -3314,22 +3335,50 @@
       '<text class="a4-stage-title" x="785" y="705" text-anchor="middle" pointer-events="none">MAIN</text>'+
       '<text class="a4-stage-title" x="785" y="724" text-anchor="middle" pointer-events="none">STAGE</text>'+
       '</g>';
+    // Stage 2 — panggung di sisi kanan; label menutup tulisan bawaan pada denah.
+    html+='<g class="a4-map-location-hotspot a4-location-stage2" data-fn="schedule" data-location="Stage 2" data-location-id="stage-2" role="button" tabindex="0" aria-label="Stage 2 di sisi kanan denah. Buka jadwal Stage 2"><title>Stage 2 · sisi kanan denah · klik untuk jadwal</title>'+
+      '<ellipse class="a4-location-outline" cx="1554" cy="282" rx="77" ry="111"></ellipse>'+
+      '<rect class="a4-location-label" x="1490" y="256" width="128" height="54" rx="8"></rect>'+
+      '<text class="a4-location-title" x="1554" y="280" text-anchor="middle" pointer-events="none">STAGE 2</text>'+
+      '<text class="a4-location-subtitle" x="1554" y="297" text-anchor="middle" pointer-events="none">JADWAL PANGGUNG</text>'+
+      '</g>';
+    // Ruang Business Matching — kontur mengikuti ruang kosong di kiri bawah denah.
+    html+='<g class="a4-map-location-hotspot a4-location-business" data-fn="schedule" data-location="Ruang Business Matching" data-location-id="business-matching" role="button" tabindex="0" aria-label="Ruang Business Matching di sisi kiri bawah denah. Buka jadwal"><title>Ruang Business Matching · sisi kiri bawah denah · klik untuk jadwal</title>'+
+      '<path class="a4-location-outline" d="M 304 718 L 348 654 Q 374 615 405 588 Q 416 578 429 590 L 471 623 Q 480 631 469 642 L 438 668 L 405 690 L 377 727 L 343 756 L 307 739 Z"></path>'+
+      '<rect class="a4-location-label" x="316" y="633" width="216" height="48" rx="8"></rect>'+
+      '<text class="a4-location-title" x="424" y="653" text-anchor="middle" pointer-events="none">RUANG BUSINESS MATCHING</text>'+
+      '<text class="a4-location-subtitle" x="424" y="670" text-anchor="middle" pointer-events="none">BUKA JADWAL</text>'+
+      '</g>';
+    // Booth PASINBIS — bidang di kanan Main Stage, sebelum deret booth bawah.
+    html+='<g class="a4-map-location-hotspot a4-location-pasinbis" data-fn="pasinbis" data-location-id="pasinbis" role="button" tabindex="0" aria-label="Booth PASINBIS. Buka profil penyelenggara"><title>Booth PASINBIS · klik untuk profil penyelenggara</title>'+
+      '<rect class="a4-location-outline" x="918" y="650" width="103" height="153" rx="9"></rect>'+
+      '<rect class="a4-location-label" x="925" y="698" width="89" height="56" rx="7"></rect>'+
+      '<text class="a4-location-subtitle" x="969" y="718" text-anchor="middle" pointer-events="none">BOOTH</text>'+
+      '<text class="a4-location-title" x="969" y="739" text-anchor="middle" pointer-events="none">PASINBIS</text>'+
+      '</g>';
     svg.innerHTML=html;renderMobileBoothList();renderMapLegend();
     var wrap=document.getElementById('a4MapWrap');
     if(wrap&&!wrap._a4denahEvents){
       wrap._a4denahEvents=true;
-      function activate(target){if(target.getAttribute('data-fn')==='stage'){window.a4OpenStage();return;}var booth=target.getAttribute('data-booth');if(booth){setSelectedBooth(booth);window.a4OpenBooth(booth);}}
-      wrap.addEventListener('click',function(e){var target=e.target.closest?e.target.closest('.a4-map-booth,.a4-map-stage-hotspot'):null;if(target&&wrap.contains(target)) activate(target);});
-      wrap.addEventListener('keydown',function(e){if(e.key!=='Enter'&&e.key!==' ') return;var target=e.target.closest?e.target.closest('.a4-map-booth,.a4-map-stage-hotspot'):null;if(target&&wrap.contains(target)){e.preventDefault();activate(target);}});
+      function activate(target){var action=target.getAttribute('data-fn');if(action==='stage'){window.a4OpenStage('Main Stage');return;}if(action==='schedule'){window.a4OpenStage(target.getAttribute('data-location'));return;}if(action==='pasinbis'){window.a4BoothClickPasinbis();return;}var booth=target.getAttribute('data-booth');if(booth){setSelectedBooth(booth);window.a4OpenBooth(booth);}}
+      var hotspotSelector='.a4-map-booth,.a4-map-stage-hotspot,.a4-map-location-hotspot';
+      wrap.addEventListener('click',function(e){var target=e.target.closest?e.target.closest(hotspotSelector):null;if(target&&wrap.contains(target)) activate(target);});
+      wrap.addEventListener('keydown',function(e){if(e.key!=='Enter'&&e.key!==' ') return;var target=e.target.closest?e.target.closest(hotspotSelector):null;if(target&&wrap.contains(target)){e.preventDefault();activate(target);}});
     }
   }
   var mapScale=1;
-  window.a4LocateStage=function(){
-    var stage=document.querySelector('.a4-map-stage-hotspot');
-    if(!stage)return;
-    scrollMapToHotspot(stage);
-    stage.focus({preventScroll:true});
+  var mapLocateTimer=null;
+  window.a4LocateMapLocation=function(id){
+    var marker=id==='main-stage'?document.querySelector('.a4-map-stage-hotspot'):document.querySelector('.a4-map-location-hotspot[data-location-id="'+id+'"]');
+    if(!marker)return;
+    scrollMapToHotspot(marker);
+    marker.focus({preventScroll:true});
+    marker.classList.remove('is-located');
+    window.requestAnimationFrame(function(){marker.classList.add('is-located');});
+    if(mapLocateTimer)window.clearTimeout(mapLocateTimer);
+    mapLocateTimer=window.setTimeout(function(){marker.classList.remove('is-located');},1900);
   };
+  window.a4LocateStage=function(){window.a4LocateMapLocation('main-stage');};
   window.a4ZoomMap=function(f){var stage=document.getElementById('a4MapStage');if(!stage)return;mapScale=Math.min(2.5,Math.max(.75,mapScale*f));stage.style.transform='scale('+mapScale+')';};
   window.a4ResetZoom=function(){var stage=document.getElementById('a4MapStage');if(stage){mapScale=1;stage.style.transform='';}};
 
