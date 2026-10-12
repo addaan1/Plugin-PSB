@@ -93,16 +93,6 @@ function assie4_default_slides() {
             'link'     => '#rundown',
             'bg'       => ASSIE4_PAMERAN_URL . 'assets/kegiatan-assie-2.jpg',
         ],
-        [
-            'title'    => 'Industry Matching',
-            'subtitle' => 'IM ASSIE IV 2026',
-            'desc'     => '',
-            'cta'      => '',
-            'link'     => '#denah',
-            'bg'       => ASSIE4_PAMERAN_URL . 'assets/kegiatan-assie-5.jpg',
-            'logo'     => ASSIE4_PAMERAN_URL . 'assets/logo-assie4.png',
-            'is_logo'  => true,
-        ],
     ];
 }
 function assie4_default_ticker() {
@@ -2225,22 +2215,12 @@ function assie4_default_tenant_logos() {
     return $logos;
 }
 function assie4_default_rundown() {
-    // Public schedule follows the three 2026 day sheets, not the outdated 2025 recap tab.
     return [
         'days'   => [['label'=>'Jumat, 6 November 2026'],['label'=>'Sabtu, 7 November 2026'],['label'=>'Minggu, 8 November 2026']],
         'events' => [
-            ['day'=>0,'time'=>'13.00','end'=>'13.05','name'=>'Indonesia Raya','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>0,'time'=>'13.05','end'=>'13.10','name'=>'Hymne Airlangga','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>0,'time'=>'13.10','end'=>'13.12','name'=>'Bumper Opening Acara','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>0,'time'=>'13.12','end'=>'13.17','name'=>'Opening MC','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>0,'time'=>'13.17','end'=>'13.20','name'=>'Pembacaan Doa','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>0,'time'=>'13.20','end'=>'13.30','name'=>'Tari Pembuka Gandrung — UKM Tari UNAIR','type'=>'networking','loc'=>'Main Stage'],
-            ['day'=>0,'time'=>'13.30','end'=>'13.40','name'=>'Sambutan Ketua PASINBIS','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>0,'time'=>'13.40','end'=>'13.50','name'=>'Sambutan Rektor UNAIR','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>0,'time'=>'13.50','end'=>'14.00','name'=>'Sambutan Dirjen Ristekdikti dan Keynote Speech','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>0,'time'=>'14.00','end'=>'14.10','name'=>'Sambutan Kepala BPOM dan Keynote Speech','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>0,'time'=>'14.10','end'=>'14.20','name'=>'Opening Ceremony','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>0,'time'=>'14.20','end'=>'14.50','name'=>'Launching Produk Inovasi','type'=>'panel','loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'12.00','end'=>'13.00','name'=>'Preparation','type'=>'break','loc'=>'Atrium Grand City'],
+            ['day'=>0,'time'=>'13.00','end'=>'14.20','name'=>'Opening Ceremony','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'14.20','end'=>'14.50','name'=>'Launching Produk Inovasi','type'=>'keynote','loc'=>'Main Stage'],
             ['day'=>0,'time'=>'14.50','end'=>'15.20','name'=>'Industry Matching 2026 — Pembukaan dan Mekanisme','type'=>'panel','loc'=>'Main Stage'],
             ['day'=>0,'time'=>'15.20','end'=>'17.20','name'=>'Lomba Mobile Legends','type'=>'workshop','loc'=>'Main Stage'],
             ['day'=>0,'time'=>'17.20','end'=>'17.35','name'=>'Break','type'=>'break','loc'=>'—'],
@@ -2285,6 +2265,7 @@ function assie4_default_rundown() {
         ],
     ];
 }
+
 
 // Snapshot of named assignments in "Kepengisian Booth ASSIE 2026.xlsx" / "Ploting Booth".
 function assie4_official_booth_assignments() {
@@ -2433,7 +2414,7 @@ function assie4_reconcile_official_roster( $tenants, $fallback = [] ) {
 }
 
 function assie4_get_rundown() {
-    $version = '2026-10-06';
+    $version = '2026-10-12-gambar2';
     $saved = get_option( ASSIE4_OPT_RUNDOWN, null );
     if ( get_option( 'assie4_official_rundown_version' ) !== $version ) {
         $saved = assie4_default_rundown();

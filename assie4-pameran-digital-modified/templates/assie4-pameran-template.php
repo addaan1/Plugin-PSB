@@ -99,7 +99,7 @@ $a4_brand_logo_url = !empty($a4_info_data['logo']) ? $a4_info_data['logo'] : (AS
       </div>
       <div class="a4-map-svg-wrap" id="a4MapWrap" aria-label="Denah booth pameran interaktif">
         <div class="a4-map-stage" id="a4MapStage">
-          <img id="a4FloorMapImage" src="" alt="Denah venue IM ASSIE IV 2026 di Grand City Atrium; Main Stage berada di bawah tengah, di samping Area C">
+          <img id="a4FloorMapImage" src="" alt="Denah venue ASSIE IV di Grand City Atrium">
           <svg id="a4FloorMap" viewBox="0 0 1820 1024" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="Hotspot booth dan Main Stage"></svg>
         </div>
       </div>
