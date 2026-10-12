@@ -18,57 +18,39 @@
     rundown: {
       days:   [{ label:'Jumat, 6 November 2026' },{ label:'Sabtu, 7 November 2026' },{ label:'Minggu, 8 November 2026' }],
       events: [
-        { day:0,time:'13.00',end:'13.05',name:'Indonesia Raya',type:'keynote',loc:'Main Stage' },
-        { day:0,time:'13.05',end:'13.10',name:'Hymne Airlangga',type:'keynote',loc:'Main Stage' },
-        { day:0,time:'13.10',end:'13.12',name:'Bumper Opening Acara',type:'keynote',loc:'Main Stage' },
-        { day:0,time:'13.12',end:'13.17',name:'Opening MC',type:'keynote',loc:'Main Stage' },
-        { day:0,time:'13.17',end:'13.20',name:'Pembacaan Doa',type:'keynote',loc:'Main Stage' },
-        { day:0,time:'13.20',end:'13.30',name:'Tari Pembuka Gandrung — UKM Tari UNAIR',type:'networking',loc:'Main Stage' },
-        { day:0,time:'13.30',end:'13.40',name:'Sambutan Ketua PASINBIS',type:'keynote',loc:'Main Stage' },
-        { day:0,time:'13.40',end:'13.50',name:'Sambutan Rektor UNAIR',type:'keynote',loc:'Main Stage' },
-        { day:0,time:'13.50',end:'14.00',name:'Sambutan Dirjen Ristekdikti dan Keynote Speech',type:'keynote',loc:'Main Stage' },
-        { day:0,time:'14.00',end:'14.10',name:'Sambutan Kepala BPOM dan Keynote Speech',type:'keynote',loc:'Main Stage' },
-        { day:0,time:'14.10',end:'14.20',name:'Opening Ceremony',type:'keynote',loc:'Main Stage' },
-        { day:0,time:'14.20',end:'14.50',name:'Launching Produk Inovasi',type:'panel',loc:'Main Stage' },
-        { day:0,time:'14.50',end:'15.20',name:'Industry Matching 2026 — Pembukaan dan Mekanisme',type:'panel',loc:'Main Stage' },
-        { day:0,time:'15.20',end:'17.20',name:'Lomba Mobile Legends',type:'workshop',loc:'Main Stage' },
-        { day:0,time:'17.20',end:'17.35',name:'Break',type:'break',loc:'—' },
+        { day:0,time:'12.00',end:'13.00',name:'Preparation',type:'break',loc:'Atrium Grand City' },
+        { day:0,time:'13.00',end:'14.20',name:'Opening Ceremony',type:'keynote',loc:'Main Stage' },
+        { day:0,time:'14.20',end:'14.50',name:'Launching Produk Inovasi',type:'keynote',loc:'Main Stage' },
+        { day:0,time:'14.50',end:'15.20',name:'Industry Matching',type:'workshop',loc:'Ruang Industri Matching' },
+        { day:0,time:'15.20',end:'17.20',name:'Lomba Mobile Legend',type:'networking',loc:'Main Stage' },
+        { day:0,time:'16.00',end:'18.00',name:'Olimnesia Demo Games',type:'workshop',loc:'Stage 2' },
+        { day:0,time:'17.20',end:'17.35',name:'Break',type:'break',loc:'-' },
         { day:0,time:'17.35',end:'18.35',name:'Band Akustik',type:'networking',loc:'Main Stage' },
-        { day:0,time:'18.35',end:'22.10',name:'Closing Day 1',type:'award',loc:'Main Stage' },
-        { day:1,time:'10.00',end:'10.05',name:'Bumper Opening Acara',type:'keynote',loc:'Main Stage' },
-        { day:1,time:'10.00',end:'12.00',name:'FGD Forum Inkubator Bisnis Jawa Timur',type:'panel',loc:'Ruang Business Matching' },
-        { day:1,time:'10.05',end:'10.10',name:'Opening MC',type:'keynote',loc:'Main Stage' },
-        { day:1,time:'10.10',end:'12.40',name:'Talkshow PUI-PT SCT — Dari Riset ke Kosmetik',type:'panel',loc:'Main Stage' },
-        { day:1,time:'11.00',end:'15.00',name:'Beauty Class by Studio Inkubator MUA',type:'workshop',loc:'Stage 2' },
-        { day:1,time:'12.00',end:'12.05',name:'Penutupan FGD Forum Inkubator Bisnis Jawa Timur',type:'panel',loc:'Ruang Business Matching' },
-        { day:1,time:'12.05',end:'13.00',name:'Break',type:'break',loc:'Ruang Business Matching' },
-        { day:1,time:'12.40',end:'13.00',name:'Break',type:'break',loc:'Main Stage' },
-        { day:1,time:'13.00',end:'13.30',name:'Business Matching 2026 — Pembukaan dan Mekanisme',type:'panel',loc:'Main Stage' },
-        { day:1,time:'13.30',end:'15.00',name:'Business Matching 2026',type:'panel',loc:'Ruang Business Matching' },
-        { day:1,time:'13.30',end:'18.30',name:'Lomba ASSIE Got Talent',type:'workshop',loc:'Main Stage' },
-        { day:1,time:'15.00',end:'15.20',name:'Break',type:'break',loc:'Stage 2' },
-        { day:1,time:'15.20',end:'18.00',name:'Kegiatan BEM UNAIR',type:'networking',loc:'Stage 2' },
-        { day:1,time:'18.00',end:'18.20',name:'Break',type:'break',loc:'Stage 2' },
-        { day:1,time:'18.20',end:'22.00',name:'Kegiatan BEM UNAIR',type:'networking',loc:'Stage 2' },
+        { day:1,time:'09.00',end:'10.00',name:'Preparation',type:'break',loc:'Atrium Grand City' },
+        { day:1,time:'10.00',end:'10.10',name:'Opening',type:'keynote',loc:'Main Stage' },
+        { day:1,time:'10.00',end:'12.00',name:'FGD Forum Inkubator Bisnis Jatim',type:'panel',loc:'Ruang FGD' },
+        { day:1,time:'10.10',end:'12.40',name:'Talkshow PUI-PT SCT : Dari Riset, jadi Kosmetik : Kenali Produk Kosmetik Inovatif hasil penelitian Universitas Airlangga Bersama PUI-PT Skin and Cosmetic Technology',type:'workshop',loc:'Main Stage' },
+        { day:1,time:'11.00',end:'15.00',name:'Beauty Class by Studio Inkubator MUA',type:'keynote',loc:'Stage 2' },
+        { day:1,time:'12.40',end:'13.00',name:'Break',type:'break',loc:'Atrium Grand City' },
+        { day:1,time:'13.00',end:'13.30',name:'Opening Business Matching',type:'keynote',loc:'Main Stage' },
+        { day:1,time:'13.30',end:'15.00',name:'Business Matching',type:'keynote',loc:'Ruang Business Matching' },
+        { day:1,time:'13.30',end:'18.30',name:'Lomba ASSIE GOTTALENT',type:'keynote',loc:'Main Stage' },
+        { day:1,time:'15.20',end:'22.00',name:'BEM Universitas Airlangga',type:'keynote',loc:'Stage 2' },
         { day:1,time:'18.30',end:'18.35',name:'Break',type:'break',loc:'Main Stage' },
-        { day:1,time:'18.35',end:'19.35',name:'Band Akustik',type:'networking',loc:'Main Stage' },
-        { day:1,time:'19.35',end:'20.05',name:'Closing Day 2',type:'award',loc:'Main Stage' },
-        { day:2,time:'10.00',end:'10.05',name:'Opening MC',type:'keynote',loc:'Main Stage' },
-        { day:2,time:'10.00',end:'10.05',name:'Opening MC',type:'keynote',loc:'Stage 2' },
-        { day:2,time:'10.05',end:'12.00',name:'Kegiatan BEM UNAIR',type:'networking',loc:'Stage 2' },
-        { day:2,time:'10.05',end:'12.35',name:'Lomba Line Dance Competition',type:'workshop',loc:'Main Stage' },
-        { day:2,time:'12.00',end:'12.20',name:'Break',type:'break',loc:'Stage 2' },
-        { day:2,time:'12.20',end:'17.00',name:'Ayo Bermain Coding',type:'workshop',loc:'Stage 2' },
-        { day:2,time:'12.35',end:'13.05',name:'Break',type:'break',loc:'Main Stage' },
-        { day:2,time:'13.05',end:'15.05',name:'Talkshow BPOM — UMKM Aman, UMKM Naik Kelas',type:'panel',loc:'Main Stage' },
-        { day:2,time:'15.05',end:'17.05',name:'ASSIE IV Got Talent — Final',type:'workshop',loc:'Main Stage' },
+        { day:1,time:'18.35',end:'19.35',name:'Band Akustik',type:'keynote',loc:'Main Stage' },
+        { day:1,time:'19.35',end:'20.05',name:'Closing',type:'keynote',loc:'Main Stage' },
+        { day:2,time:'09.00',end:'10.00',name:'Preparation',type:'break',loc:'Main Stage' },
+        { day:2,time:'10.00',end:'10.05',name:'Opening',type:'keynote',loc:'Main Stage' },
+        { day:2,time:'10.00',end:'10.05',name:'Opening',type:'keynote',loc:'Main Stage' },
+        { day:2,time:'10.05',end:'12.35',name:'Lomba Line Dance Competition',type:'networking',loc:'Main Stage' },
+        { day:2,time:'12.20',end:'17.00',name:'ayo bermain coding',type:'workshop',loc:'Stage 2' },
+        { day:2,time:'12.35',end:'13.05',name:'Break',type:'networking',loc:'Main Stage' },
+        { day:2,time:'13.05',end:'15.05',name:'"Talkshow BPOM "UMKM Aman, UMKM Naik Kelas : Kenali perizinan, keamanan pangan , dan standar mutu produk agar usahamu makin dipercaya dan siap bersaing""',type:'workshop',loc:'Main Stage' },
+        { day:2,time:'15.05',end:'17.05',name:'Lomba ASSIE IV Got Talent - Final',type:'workshop',loc:'Main Stage' },
         { day:2,time:'17.05',end:'17.35',name:'Break',type:'break',loc:'Main Stage' },
         { day:2,time:'17.35',end:'18.35',name:'Band Akustik',type:'networking',loc:'Main Stage' },
-        { day:2,time:'18.35',end:'18.40',name:'MC Opening Closing Session',type:'keynote',loc:'Main Stage' },
-        { day:2,time:'18.40',end:'18.45',name:'Laporan Panitia',type:'keynote',loc:'Main Stage' },
-        { day:2,time:'18.45',end:'18.55',name:'Sambutan Ketua PASINBIS',type:'keynote',loc:'Main Stage' },
-        { day:2,time:'18.55',end:'19.55',name:'Pengumuman Pemenang',type:'award',loc:'Main Stage' },
-        { day:2,time:'19.55',end:'20.00',name:'Closing Ceremony',type:'award',loc:'Main Stage' },
+        { day:2,time:'18.35',end:'19.55',name:'Rangkaian Closing dan Pengumuman Juara',type:'award',loc:'Main Stage' },
+        { day:2,time:'22.00',end:'Selesai',name:'Peserta Meninggalkan Booth Pameran',type:'keynote',loc:'Atrium Grand City' },
       ]
     },
     denah:   [],
@@ -89,7 +71,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/fk_unair.png",
+        "logo": "assets/tenant-logos/fk_unair.png",
         "contact": "ritishom@fk.unair.ac.id & humas@fk.unair.ac.id",
         "whatsapp": "08121644432 & 085961510996",
         "web": "https://fk.unair.ac.id/",
@@ -114,7 +96,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/fkg.png",
+        "logo": "assets/tenant-logos/fkg.png",
         "contact": "andari.sarasati@fkg.unair.ac.id",
         "whatsapp": "81333343938.0",
         "web": "https://unair.ac.id/fakultas-kedokteran-gigi/",
@@ -139,7 +121,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/farmasi_unair.png",
+        "logo": "assets/tenant-logos/farmasi_unair.png",
         "contact": "yusuf.alif@ff.unair.ac.id",
         "whatsapp": "089605257473",
         "web": "https://ff.unair.ac.id",
@@ -164,7 +146,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/fkh_unair.png",
+        "logo": "assets/tenant-logos/fkh_unair.png",
         "contact": "dhandy.koesoemo.wardhana@fkh.unair.ac.id",
         "whatsapp": "081553121891",
         "web": "https://fkh.unair.ac.id/",
@@ -189,7 +171,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/fast_unair.png",
+        "logo": "assets/tenant-logos/fast_unair.png",
         "contact": "m.fariz.fadillah.m@fst.unair.ac.id",
         "whatsapp": "081330733130",
         "web": "https://fst.unair.ac.id/",
@@ -214,7 +196,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/LOGONEW_FTMM_forLightBG-Colour.png",
+        "logo": "assets/tenant-logos/LOGONEW_FTMM_forLightBG-Colour.png",
         "contact": "vinanci@staf.unair.ac.id",
         "whatsapp": "0822-3216-6441",
         "web": "https://ftmm.unair.ac.id/",
@@ -239,7 +221,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/vokasi_unair.png",
+        "logo": "assets/tenant-logos/vokasi_unair.png",
         "contact": "hanifa.nurrosyidah@vokasi.unair.ac.id",
         "whatsapp": "085190648711",
         "web": "",
@@ -264,7 +246,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/fpk_unair.png",
+        "logo": "assets/tenant-logos/fpk_unair.png",
         "contact": "daruti-dinda-n@fpk.unair.ac.id",
         "whatsapp": "+62 822-3172-4191",
         "web": "https://fpk.unair.ac.id",
@@ -288,7 +270,7 @@
             "Internal UNAIR",
             "UNAIR"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/feb_unair.png",
+        "logo": "assets/tenant-logos/feb_unair.png",
         "contact": "",
         "whatsapp": "",
         "web": "https://feb.unair.ac.id/",
@@ -313,7 +295,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/fkm.jpg",
+        "logo": "assets/tenant-logos/fkm.jpg",
         "contact": "riznanotarianti@fkm.unair.ac.id",
         "whatsapp": "081904251396",
         "web": "",
@@ -338,7 +320,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/fib.jpg",
+        "logo": "assets/tenant-logos/fib.jpg",
         "contact": "nuri.hermawan@fib.unair.ac.id",
         "whatsapp": "085736753801",
         "web": "https://fib.unair.ac.id/fib-main/",
@@ -363,7 +345,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/fikkia_unair.png",
+        "logo": "assets/tenant-logos/fikkia_unair.png",
         "contact": "bintang.gumilang@staf.unair.ac.id",
         "whatsapp": "08980614045",
         "web": "https://fikkia.unair.ac.id",
@@ -388,7 +370,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/lpt_unair.png",
+        "logo": "assets/tenant-logos/lpt_unair.png",
         "contact": "laura.navika@fkm.unair.ac.id",
         "whatsapp": "085649152890",
         "web": "https://itd.unair.ac.id/wp/",
@@ -413,7 +395,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/airlangga_enterprise.png",
+        "logo": "assets/tenant-logos/airlangga_enterprise.png",
         "contact": "rio.yuniar2406@gmail.com",
         "whatsapp": "+6282257814415",
         "web": "https://airlanggaenterprise.unair.ac.id",
@@ -438,7 +420,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/dormitory_center.png",
+        "logo": "assets/tenant-logos/dormitory_center.png",
         "contact": "ariaheru@staf.unair.ac.id",
         "whatsapp": "08819301869",
         "web": "https://asrama.unair.ac.id",
@@ -463,7 +445,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/puspas_unair.png",
+        "logo": "assets/tenant-logos/puspas_unair.png",
         "contact": "info@puspas.unair.ac.id",
         "whatsapp": "081327976923",
         "web": "https://puspas.unair.ac.id",
@@ -488,7 +470,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/Logo Pushal x LPH.png",
+        "logo": "assets/tenant-logos/Logo Pushal x LPH.png",
         "contact": "info@halal.unair.ac.id",
         "whatsapp": "089697458211",
         "web": "https://halal.unair.ac.id/",
@@ -513,7 +495,7 @@
             "UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/Logo pusba_kotak final.png",
+        "logo": "assets/tenant-logos/Logo pusba_kotak final.png",
         "contact": "iyunwitari@staf.unair.ac.id",
         "whatsapp": "+62 812-1691-5819",
         "web": "https://pusatbahasa.unair.ac.id/",
@@ -538,7 +520,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/Smart-Phototherapy-System-AirBiliNest-Application_1.png",
+        "logo": "assets/tenant-logos/Smart-Phototherapy-System-AirBiliNest-Application_1.png",
         "contact": "hasbi.assidiq1990@gmail.com",
         "whatsapp": "+62 851-1755-2990",
         "web": "https://airbilisun.com",
@@ -564,7 +546,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/Logo CESGS.png",
+        "logo": "assets/tenant-logos/Logo CESGS.png",
         "contact": "esgi.dataset@gmail.com",
         "whatsapp": "085171700942",
         "web": "https://cesgs.unair.ac.id/",
@@ -589,7 +571,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/farmasi_unair.png",
+        "logo": "assets/tenant-logos/farmasi_unair.png",
         "contact": "ulpffunair@gmail.com",
         "whatsapp": "082234079377",
         "web": "https://ff.unair.ac.id/pgs/418/contact",
@@ -614,7 +596,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/upn_veteran.png",
+        "logo": "assets/tenant-logos/upn_veteran.png",
         "contact": "inbistechnopark@upnjatim.ac.id",
         "whatsapp": "085655567262",
         "web": "",
@@ -639,7 +621,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/onggu_honey.png",
+        "logo": "assets/tenant-logos/onggu_honey.png",
         "contact": "rumahmataharipagi@gmail.com",
         "whatsapp": "+62 813-5772-9664",
         "web": "https://sites.google.com/view/onggu-honey/beranda",
@@ -665,7 +647,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/kopi_serious.png",
+        "logo": "assets/tenant-logos/kopi_serious.png",
         "contact": "kopisetengahserious@gmail.com",
         "whatsapp": "087722617299",
         "web": "https://linktr.ee/kopisetengahserious",
@@ -690,7 +672,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/syarihub.png",
+        "logo": "assets/tenant-logos/syarihub.png",
         "contact": "syarihub@gmail.com",
         "whatsapp": "085704978982",
         "web": "https://syarihub.id",
@@ -715,7 +697,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/pe_novtra.png",
+        "logo": "assets/tenant-logos/pe_novtra.png",
         "contact": "penovtraid@gmail.com",
         "whatsapp": "081363157885",
         "web": "",
@@ -740,7 +722,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/flordequeen.png",
+        "logo": "assets/tenant-logos/flordequeen.png",
         "contact": "flordequeen@gmail.com",
         "whatsapp": "0817290298",
         "web": "https://flordequeen.com",
@@ -765,7 +747,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/inbis_ppns.jpg",
+        "logo": "assets/tenant-logos/inbis_ppns.jpg",
         "contact": "yesica@ppns.ac.id",
         "whatsapp": "082332357444",
         "web": "",
@@ -790,7 +772,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/uin_malang.png",
+        "logo": "assets/tenant-logos/uin_malang.png",
         "contact": "noviamaulina@gmail.com",
         "whatsapp": "081296050993",
         "web": "https://fkik.uin-malang.ac.id/",
@@ -816,7 +798,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/bangga_evcs.png",
+        "logo": "assets/tenant-logos/bangga_evcs.png",
         "contact": "ibnuandikahidayat02@gmail.com",
         "whatsapp": "+62 811-1020-416",
         "web": "https://bangga-evcs.com/",
@@ -840,7 +822,7 @@
             "Eksternal UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/bpom_surabaya.png",
+        "logo": "assets/tenant-logos/bpom_surabaya.png",
         "contact": "sertifikasisby@gmail.com ; irma.rahmawati@pom.go.id",
         "whatsapp": "085645397002",
         "web": "https://surabaya.pom.go.id/",
@@ -863,7 +845,7 @@
         "tags": [
             "Sponsorship / Mitra"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/jamkrindo.png",
+        "logo": "assets/tenant-logos/jamkrindo.png",
         "contact": "",
         "whatsapp": "",
         "web": "https://www.jamkrindo.co.id/",
@@ -888,7 +870,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/sahabat_spondan.png",
+        "logo": "assets/tenant-logos/sahabat_spondan.png",
         "contact": "amretapertiwi3@gmail.com",
         "whatsapp": "085730171516",
         "web": "",
@@ -946,7 +928,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/Logo.jpg",
+        "logo": "assets/tenant-logos/Logo.jpg",
         "contact": "kopisetengahserious@gmail.com",
         "whatsapp": "087722617299",
         "web": "https://linktr.ee/kopisetengahserious",
@@ -972,7 +954,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/MULIA%20SAMUDRA%20MAJU%20ABADI.jpg",
+        "logo": "assets/tenant-logos/MULIA%20SAMUDRA%20MAJU%20ABADI.jpg",
         "contact": "msatriyo@magister.ciputra.ac.id",
         "whatsapp": "081259545859",
         "web": "https://Muliasamudra.com",
@@ -997,7 +979,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/kinara.png",
+        "logo": "assets/tenant-logos/kinara.png",
         "contact": "kreasiindustrinusantara@gmail.com",
         "whatsapp": "085136887424",
         "web": "https://www.kinaraindustries.com",
@@ -1022,7 +1004,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/olimnesia.png",
+        "logo": "assets/tenant-logos/olimnesia.png",
         "contact": "olimnesia@gmail.com",
         "whatsapp": "085102717040",
         "web": "https://Olimnesia.com",
@@ -1047,7 +1029,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/jobhun.png",
+        "logo": "assets/tenant-logos/jobhun.png",
         "contact": "info@jobhun.id",
         "whatsapp": "082336010250",
         "web": "https://www.jobhun.id",
@@ -1072,7 +1054,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/Logo Serasa Djiwa.png",
+        "logo": "assets/tenant-logos/Logo Serasa Djiwa.png",
         "contact": "serasadjiwa21@gmail.com",
         "whatsapp": "+62 856-4514-5191",
         "web": "",
@@ -1097,7 +1079,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/rexgo.png",
+        "logo": "assets/tenant-logos/rexgo.png",
         "contact": "rexgotech@gmail.com",
         "whatsapp": "081217260020",
         "web": "https://www.rexgotech.com",
@@ -1147,7 +1129,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/lokasi_nusantara.png",
+        "logo": "assets/tenant-logos/lokasi_nusantara.png",
         "contact": "auramahardini@gmail.com",
         "whatsapp": "081230498086",
         "web": "",
@@ -1197,7 +1179,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/tempat_tumbuh.png",
+        "logo": "assets/tenant-logos/tempat_tumbuh.png",
         "contact": "imondeskhan@gmail.com",
         "whatsapp": "089603446997",
         "web": "https://ptiksh.com/",
@@ -1222,7 +1204,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/fastrackedu.png",
+        "logo": "assets/tenant-logos/fastrackedu.png",
         "contact": "abdulzidan118@gmail.com",
         "whatsapp": "085748828183",
         "web": "https://fastrackedu.id/",
@@ -1247,7 +1229,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/vitalic.png",
+        "logo": "assets/tenant-logos/vitalic.png",
         "contact": "vitalichittrigger@gmail.com",
         "whatsapp": "081358502672",
         "web": "https://www.vitalichittrigger.com",
@@ -1272,7 +1254,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/konveto.png",
+        "logo": "assets/tenant-logos/konveto.png",
         "contact": "konvetosurabaya@gmail.com",
         "whatsapp": "08993672913",
         "web": "",
@@ -1297,7 +1279,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/heztek.png",
+        "logo": "assets/tenant-logos/heztek.png",
         "contact": "heztekcoding@gmail.com",
         "whatsapp": "089699264015",
         "web": "https://www.heztekcoding.com/",
@@ -1323,7 +1305,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/braja_elektrik.png",
+        "logo": "assets/tenant-logos/braja_elektrik.png",
         "contact": "brajaelektrikmotor@gmail.com",
         "whatsapp": "082133881104",
         "web": "https://www.brajaelektrikmotor.com",
@@ -1348,7 +1330,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/SRIWIJAYA%20KONTRAKTOR.png",
+        "logo": "assets/tenant-logos/SRIWIJAYA%20KONTRAKTOR.png",
         "contact": "al.firdaus.work@gmail.com",
         "whatsapp": "082228520581",
         "web": "https://sriwijayakontraktor.com",
@@ -1373,7 +1355,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/appa_tech.png",
+        "logo": "assets/tenant-logos/appa_tech.png",
         "contact": "razanmahrani@gmail.com",
         "whatsapp": "085730394996",
         "web": "https://grahateknologimaju.com/en",
@@ -1398,7 +1380,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/likur.png",
+        "logo": "assets/tenant-logos/likur.png",
         "contact": "likurproduction@gmail.com",
         "whatsapp": "085161328874",
         "web": "https://likur.id",
@@ -1422,7 +1404,7 @@
             "Startup",
             "Internal UNAIR"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/IMG-20260801-WA0047.jpg",
+        "logo": "assets/tenant-logos/IMG-20260801-WA0047.jpg",
         "contact": "",
         "whatsapp": "",
         "web": "",
@@ -1447,7 +1429,7 @@
             "F&B",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/Logo Tawdeo.png",
+        "logo": "assets/tenant-logos/Logo Tawdeo.png",
         "contact": "tawdeonatural@gmail.com",
         "whatsapp": "085179771295",
         "web": "",
@@ -1472,7 +1454,7 @@
             "F&B",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/partner_sehatin.png",
+        "logo": "assets/tenant-logos/partner_sehatin.png",
         "contact": "ira.nurwahyu@gmail.com",
         "whatsapp": "081232938578",
         "web": "",
@@ -1497,7 +1479,7 @@
             "F&B",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/sweetfood.png",
+        "logo": "assets/tenant-logos/sweetfood.png",
         "contact": "ekanurlt25@gmail.com",
         "whatsapp": "082326116698",
         "web": "",
@@ -1522,7 +1504,7 @@
             "F&B",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/Logo Golden Gate Dimsum.png",
+        "logo": "assets/tenant-logos/Logo Golden Gate Dimsum.png",
         "contact": "adindavidya01@gmail.com",
         "whatsapp": "082220809000",
         "web": "",
@@ -1547,7 +1529,7 @@
             "F&B",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/lammaqbanna.png",
+        "logo": "assets/tenant-logos/lammaqbanna.png",
         "contact": "lovellyemma48@gmail.com",
         "whatsapp": "081331114215",
         "web": "https://s.id/thehomemade899",
@@ -1572,7 +1554,7 @@
             "F&B",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/ayam_teh_nisa.png",
+        "logo": "assets/tenant-logos/ayam_teh_nisa.png",
         "contact": "nisasby777@gmail.com",
         "whatsapp": "081522979766",
         "web": "",
@@ -1597,7 +1579,7 @@
             "F&B",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/sahabat_spondan.png",
+        "logo": "assets/tenant-logos/sahabat_spondan.png",
         "contact": "amretapertiwi3@gmail.com",
         "whatsapp": "085730171516",
         "web": "",
@@ -1622,7 +1604,7 @@
             "Kreatif",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/gyarus.png",
+        "logo": "assets/tenant-logos/gyarus.png",
         "contact": "firdayantizahro27@gmail.com",
         "whatsapp": "0877-0451-9225",
         "web": "",
@@ -1647,7 +1629,7 @@
             "Kreatif",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/leastra.png",
+        "logo": "assets/tenant-logos/leastra.png",
         "contact": "adeliassari@gmail.com",
         "whatsapp": "081334331982",
         "web": "",
@@ -1723,7 +1705,7 @@
             "Kreatif",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/allbouquets.png",
+        "logo": "assets/tenant-logos/allbouquets.png",
         "contact": "allbouquets12@gmail.com",
         "whatsapp": "085749884741",
         "web": "",
@@ -1748,7 +1730,7 @@
             "Kreatif",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/etnapraya.png",
+        "logo": "assets/tenant-logos/etnapraya.png",
         "contact": "etnapraya@gmail.com",
         "whatsapp": "+62 823-3819-1372",
         "web": "https://etnapraya.com",
@@ -1823,7 +1805,7 @@
             "Kreatif",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/anka_minilab.png",
+        "logo": "assets/tenant-logos/anka_minilab.png",
         "contact": "alifyayp@gmail.com",
         "whatsapp": "085755165911",
         "web": "",
@@ -1848,7 +1830,7 @@
             "Kreatif",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/bylaw_nails.png",
+        "logo": "assets/tenant-logos/bylaw_nails.png",
         "contact": "glorya.angela.marshanda-2023@feb.unair.ac.id",
         "whatsapp": "08115755656",
         "web": "",
@@ -1873,7 +1855,7 @@
             "Kreatif",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/Logo Studio Inkubator MUA.png",
+        "logo": "assets/tenant-logos/Logo Studio Inkubator MUA.png",
         "contact": "tresyagirls@gmail.com",
         "whatsapp": "085708342811",
         "web": "",
@@ -1898,7 +1880,7 @@
             "Kreatif",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/Zaruna%20Gift.jpg",
+        "logo": "assets/tenant-logos/Zaruna%20Gift.jpg",
         "contact": "fito.fitroh1@gmail.com",
         "whatsapp": "089513370904",
         "web": "http://msha.ke/zarunagift",
@@ -1922,7 +1904,7 @@
             "Internal UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/p3ua.png",
+        "logo": "assets/tenant-logos/p3ua.png",
         "contact": "sarah.khairunnisa@staf.unair.ac.id",
         "whatsapp": "085607811921",
         "web": "https://omp.unair.ac.id",
@@ -1946,7 +1928,7 @@
             "Internal UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/stem_cell.png",
+        "logo": "assets/tenant-logos/stem_cell.png",
         "contact": "stemcell@itd.unair.ac.id",
         "whatsapp": "081325573848",
         "web": "https://www.stemcell.unair.ac.id",
@@ -1970,7 +1952,7 @@
             "Internal UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/rc_gerid.png",
+        "logo": "assets/tenant-logos/rc_gerid.png",
         "contact": "aisahanabilah@gmail.com",
         "whatsapp": "085854006650",
         "web": "https://rc-gerid.unair.ac.id",
@@ -1995,7 +1977,7 @@
             "Internal UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/patient_safety.png",
+        "logo": "assets/tenant-logos/patient_safety.png",
         "contact": "prkp@unair.ac.id",
         "whatsapp": "085732939252",
         "web": "https://patientsafety.unair.ac.id",
@@ -2020,7 +2002,7 @@
             "Internal UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/ailg.png",
+        "logo": "assets/tenant-logos/ailg.png",
         "contact": "ailg@unair.ac.id",
         "whatsapp": "085888991515",
         "web": "https://ailg.unair.ac.id",
@@ -2045,7 +2027,7 @@
             "Internal UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/sct_unair.png",
+        "logo": "assets/tenant-logos/sct_unair.png",
         "contact": "puipt-sct@ff.unair.ac.id",
         "whatsapp": "+62 812-1671-607",
         "web": "https://puiptsct.ff.unair.ac.id/",
@@ -2069,7 +2051,7 @@
             "Internal UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/dpa_group.png",
+        "logo": "assets/tenant-logos/dpa_group.png",
         "contact": "info@airlanggatravel.com / admin@dpacorp.id",
         "whatsapp": "+62 838-4636-3901",
         "web": "",
@@ -2093,7 +2075,7 @@
             "Internal UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/rsgm.png",
+        "logo": "assets/tenant-logos/rsgm.png",
         "contact": "adm@rsgm.unair.ac.id",
         "whatsapp": "081335158286",
         "web": "https://rsgm.unair.ac.id/",
@@ -2117,7 +2099,7 @@
             "Internal UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/rsh_unair.png",
+        "logo": "assets/tenant-logos/rsh_unair.png",
         "contact": "abihilalzikra.taim@gmail.com",
         "whatsapp": "082186484622",
         "web": "https://www.rsh.unair.ac.id",
@@ -2141,7 +2123,7 @@
             "Internal UNAIR",
             "Transaksi Booth"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/Logo Portrait Biru.png",
+        "logo": "assets/tenant-logos/Logo Portrait Biru.png",
         "contact": "riset.rsua2019@gmail.com",
         "whatsapp": "085728059595",
         "web": "https://rumahsakit.unair.ac.id/",
@@ -2164,7 +2146,7 @@
         "tags": [
             "Internal UNAIR"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/fisip-unair.jpg",
+        "logo": "assets/tenant-logos/fisip-unair.jpg",
         "contact": "",
         "whatsapp": "",
         "web": "https://fisip.unair.ac.id",
@@ -2188,7 +2170,7 @@
             "Internal UNAIR",
             "Pendidikan"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/alc-fh-unair.png",
+        "logo": "assets/tenant-logos/alc-fh-unair.png",
         "contact": "",
         "whatsapp": "",
         "web": "https://alc-fhunair.com/",
@@ -2212,7 +2194,7 @@
             "Internal UNAIR",
             "Kesehatan"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/fakultas-keperawatan-unair.png",
+        "logo": "assets/tenant-logos/fakultas-keperawatan-unair.png",
         "contact": "",
         "whatsapp": "",
         "web": "https://ners.unair.ac.id/",
@@ -2236,7 +2218,7 @@
             "Riset & Inovasi",
             "Pendidikan"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/dikst-ub.png",
+        "logo": "assets/tenant-logos/dikst-ub.png",
         "contact": "",
         "whatsapp": "",
         "web": "https://dikst.ub.ac.id",
@@ -2260,7 +2242,7 @@
             "Pendidikan",
             "Riset & Inovasi"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/universitas-hang-tuah.png",
+        "logo": "assets/tenant-logos/universitas-hang-tuah.png",
         "contact": "",
         "whatsapp": "",
         "web": "https://hangtuah.ac.id",
@@ -2308,7 +2290,7 @@
             "Agrikultur",
             "Teknologi"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/markaswalet.png",
+        "logo": "assets/tenant-logos/markaswalet.png",
         "contact": "",
         "whatsapp": "",
         "web": "https://markaswalet.com",
@@ -2332,7 +2314,7 @@
             "Kesehatan",
             "Layanan"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/petime-animal-care.png",
+        "logo": "assets/tenant-logos/petime-animal-care.png",
         "contact": "",
         "whatsapp": "",
         "web": "https://petime.id",
@@ -2356,7 +2338,7 @@
             "Kesehatan",
             "Edukasi"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/vascular-indonesia.png",
+        "logo": "assets/tenant-logos/vascular-indonesia.png",
         "contact": "",
         "whatsapp": "",
         "web": "https://www.vascularindonesia.com",
@@ -2380,7 +2362,7 @@
             "Riset & Inovasi",
             "Teknologi"
         ],
-        "logo": "http://localhost/wp-content/plugins/assie4-pameran-digital/assets/tenant-logos/inobi.png",
+        "logo": "assets/tenant-logos/inobi.png",
         "contact": "",
         "whatsapp": "",
         "web": "https://inobi.id",
@@ -2439,7 +2421,7 @@
         cat:       t.cat || '',
         desc:      t.desc || '',
         tags:      Array.isArray(t.tags) ? t.tags : (t.tags || '').split(',').map(function(s){return s.trim();}).filter(Boolean),
-        logo:      t.logo || '',
+        logo:      resolveLogo(t.logo || ''),
         contact:   t.contact || '',
         whatsapp:  t.whatsapp || '',
         web:       t.web || '',
@@ -2463,6 +2445,13 @@
 
   /* ── HELPERS ── */
   function escH(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function resolveLogo(url){
+    if(!url) return '';
+    if(/^(https?:|\/\/|data:)/i.test(url)) return url;
+    var pUrl = (window.ASSIE4_CFG && window.ASSIE4_CFG.pluginUrl) ? window.ASSIE4_CFG.pluginUrl : '';
+    if(pUrl && !/\/$/.test(pUrl)) pUrl += '/';
+    return pUrl + url.replace(/^\/+/, '');
+  }
 
   /* ══════════════════════════════════════════════════════
      CLOCK
@@ -2627,6 +2616,7 @@
     return date.getFullYear()+'-'+String(date.getMonth()+1).padStart(2,'0')+'-'+String(date.getDate()).padStart(2,'0');
   }
   function rundownMinutes(value){
+    if(typeof value==='string'&&!/^\d/.test(value.trim()))return 24*60;
     var parts=String(value||'0').split(/[.:]/),hours=parseInt(parts[0],10),minutes=parseInt(parts[1]||'0',10);
     return Number.isFinite(hours)&&Number.isFinite(minutes)?hours*60+minutes:0;
   }
@@ -2876,14 +2866,34 @@
       });
     });
   }
-  window.a4OpenStage=function(){
+  window.a4OpenStage=function(locationName){
     var head=document.getElementById('a4ModalHead'),body=document.getElementById('a4ModalBody');
     if(!head||!body) return;
     head.innerHTML='<button class="a4-m-close" aria-label="Tutup jadwal acara" onclick="a4CloseModal()">&#x2715;</button>'+
       '<div class="a4-stage-head"><span class="a4-stage-icon">'+uiIcon('mic')+'</span><div class="a4-stage-heading">'+
       '<span class="a4-stage-kicker">PROGRAM PANGGUNG</span><h2 class="a4-stage-title">Main Stage</h2><p class="a4-stage-location">'+uiIcon('pin')+' Grand City Atrium <span>·</span> Di samping Area C</p></div></div>';
+    var selectedLocation=locationName||'Main Stage';
+    var locationCopy={
+      'Main Stage':{kicker:'JADWAL PANGGUNG',place:'Grand City Atrium · Area bawah tengah, di samping Area C'},
+      'Stage 2':{kicker:'JADWAL PANGGUNG',place:'Grand City Atrium · Sisi kanan denah'},
+      'Ruang Business Matching':{kicker:'JADWAL RUANG',place:'Grand City Atrium · Sisi kiri bawah denah'}
+    };
+    var locationInfo=locationCopy[selectedLocation]||locationCopy['Main Stage'];
+    head.querySelector('.a4-stage-kicker').textContent=locationInfo.kicker;
+    head.querySelector('.a4-stage-title').textContent=selectedLocation;
+    head.querySelector('.a4-stage-location').innerHTML=uiIcon('pin')+' '+escH(locationInfo.place);
+    var icon=head.querySelector('.a4-stage-icon');
+    if(icon&&selectedLocation==='Ruang Business Matching') icon.innerHTML=uiIcon('building');
+    var allEvents=DATA.rundown&&DATA.rundown.events?DATA.rundown.events:[];
+    var locationKey=selectedLocation.toLowerCase();
+    var events=allEvents.filter(function(event){
+      var eventLocation=String(event.loc||'').toLowerCase();
+      if(locationKey==='main stage') return eventLocation.indexOf('main stage')!==-1;
+      if(locationKey==='stage 2') return eventLocation.indexOf('stage 2')!==-1;
+      if(locationKey.indexOf('business matching')!==-1) return eventLocation.indexOf('business matching')!==-1 || eventLocation.indexOf('industri matching')!==-1 || eventLocation.indexOf('industry matching')!==-1;
+      return eventLocation===locationKey;
+    });
     var now=new Date();
-    var events=DATA.rundown&&DATA.rundown.events?DATA.rundown.events:[];
     var dayMap={};
     events.forEach(function(e){if(!dayMap[e.day])dayMap[e.day]=[];dayMap[e.day].push(e);});
     var days=DATA.rundown&&DATA.rundown.days?DATA.rundown.days:[];
@@ -2903,6 +2913,7 @@
       html+='</section>';
     });
     html+='</div>';
+    if(!Object.keys(dayMap).length) html='<p class="a4-stage-empty">Jadwal untuk lokasi ini belum tersedia.</p>';
     body.innerHTML=html;
     updateStageClock();
     if(stageClockTimer)clearInterval(stageClockTimer);
@@ -3082,7 +3093,7 @@
       cat:t.cat||'',
       desc:t.desc||'',
       tags:Array.isArray(t.tags)?t.tags:[],
-      logo:t.logo||'',
+      logo:resolveLogo(t.logo||''),
       contact:t.contact||'',
       whatsapp:t.whatsapp||'',
       web:t.web||'',
@@ -3215,12 +3226,12 @@
   fXs.forEach(function(x,i){addCodeBooth('F'+(i+1),x,181,39,30);addCodeBooth('F'+(22-i),x,151,39,30);});
   var hXs=[1400,1449,1499,1548,1600,1650,1700,1748];
   hXs.forEach(function(x,i){addCodeBooth('H'+(i+1),x,181,39,30);addCodeBooth('H'+(16-i),x,151,39,30);});
-  /* E: enam booth di lengkung kiri. G: delapan di lengkung tengah. */
-  [[1,358,357,-43],[2,380,323,-29],[3,396,289,-12],[4,399,255,0],[5,394,220,17],[6,380,185,32]].forEach(function(p){addCodeBooth('E'+p[0],p[1],p[2],31,32,p[3]);});
-  [[1,1111,277,-43],[2,1150,287,-28],[3,1187,291,-10],[4,1224,285,10],[5,1260,268,28],[6,1290,234,43],[7,1305,196,65],[8,1307,155,0]].forEach(function(p){addCodeBooth('G'+p[0],p[1],p[2],31,31,p[3]);});
+  /* E: enam booth di lengkung kiri rotunda barat. G: delapan di lengkung tengah rotunda. */
+  [[1,354,359,46],[2,376,331,31],[3,391,297,16],[4,396,261,1],[5,392,225,-14],[6,379,190,-29]].forEach(function(p){addCodeBooth('E'+p[0],p[1],p[2],31,32,p[3]);});
+  [[1,1107,285,32],[2,1141,300,17],[3,1177,305,1],[4,1214,301,-14],[5,1248,288,-29],[6,1296,243,-57],[7,1312,210,-72],[8,1320,132,0,34,31]].forEach(function(p){addCodeBooth('G'+p[0],p[1],p[2],p[4]||31,p[5]||31,p[3]);});
   /* D: dua kelompok meja diagonal. C: tujuh booth di kiri panggung. */
-  [[9,355,444],[8,385,432],[10,382,475],[7,415,465],[11,414,512],[6,445,498],[12,447,548],[5,477,533],
-   [13,509,605],[4,530,597],[14,542,637],[3,563,627],[15,574,670],[2,595,657],[16,606,707],[1,627,689]].forEach(function(p){addCodeBooth('D'+p[0],p[1],p[2],32,34,-40);});
+  [[9,354,459],[8,383,435],[10,385,496],[7,414,472],[11,416,532],[6,445,508],[12,446,569],[5,476,545],
+   [13,497,630],[4,527,606],[14,528,667],[3,558,642],[15,559,703],[2,588,679],[16,589,740],[1,619,715]].forEach(function(p){addCodeBooth('D'+p[0],p[1],p[2],33,37,-40);});
   [[7,696,696],[1,725,696],[6,696,741],[2,725,741],[5,696,785],[3,725,785],[4,711,825]].forEach(function(p){addCodeBooth('C'+p[0],p[1],p[2],30,36);});
   /* B: lima pasang booth vertikal di tengah kanan. */
   [[10,1097,388],[9,1127,388],[7,1097,462],[8,1127,462],[6,1097,511],[5,1127,511],
@@ -3314,22 +3325,50 @@
       '<text class="a4-stage-title" x="785" y="705" text-anchor="middle" pointer-events="none">MAIN</text>'+
       '<text class="a4-stage-title" x="785" y="724" text-anchor="middle" pointer-events="none">STAGE</text>'+
       '</g>';
+    // Stage 2 — East STAGE pada denah (sisi kanan). Mengikuti kurva panggung D-stage rotunda asli.
+    html+='<g class="a4-map-location-hotspot a4-location-stage2" data-fn="schedule" data-location="Stage 2" data-location-id="stage-2" role="button" tabindex="0" aria-label="Stage 2 di sisi kanan denah. Buka jadwal Stage 2"><title>Stage 2 · East Stage (sisi kanan denah) · klik untuk jadwal</title>'+
+      '<path class="a4-location-outline" d="M 1588 175 A 110 83 0 0 0 1588 341 Z"></path>'+
+      '<rect class="a4-location-label" x="1494" y="250" width="96" height="56" rx="6"></rect>'+
+      '<text class="a4-location-title" x="1542" y="274" text-anchor="middle" pointer-events="none">STAGE 2</text>'+
+      '<text class="a4-location-subtitle" x="1542" y="291" text-anchor="middle" pointer-events="none">JADWAL PANGGUNG</text>'+
+      '</g>';
+    // Ruang Business Matching — kontur presisi mengikuti dinding arsitektural ruangan di kiri bawah.
+    html+='<g class="a4-map-location-hotspot a4-location-business" data-fn="schedule" data-location="Ruang Business Matching" data-location-id="business-matching" role="button" tabindex="0" aria-label="Ruang Business Matching di sisi kiri bawah denah. Buka jadwal"><title>Ruang Business Matching · sisi kiri bawah denah · klik untuk jadwal</title>'+
+      '<polygon class="a4-location-outline" points="294,691 468,563 518,630 422,703 410,690 385,715 395,725 368,745"></polygon>'+
+      '<rect class="a4-location-label" x="327" y="618" width="156" height="50" rx="6"></rect>'+
+      '<text class="a4-location-title" x="405" y="640" text-anchor="middle" pointer-events="none">BUSINESS MATCHING</text>'+
+      '<text class="a4-location-subtitle" x="405" y="655" text-anchor="middle" pointer-events="none">RUANG KONSULTASI &amp; JADWAL</text>'+
+      '</g>';
+    // Booth PASINBIS — platform booth presisi di antara area tempat duduk dan Booth A.
+    html+='<g class="a4-map-location-hotspot a4-location-pasinbis" data-fn="pasinbis" data-location-id="pasinbis" role="button" tabindex="0" aria-label="Booth PASINBIS. Buka profil penyelenggara"><title>Booth PASINBIS · klik untuk profil penyelenggara</title>'+
+      '<rect class="a4-location-outline" x="946" y="646" width="70" height="122" rx="7"></rect>'+
+      '<rect class="a4-location-label" x="947" y="682" width="68" height="48" rx="6"></rect>'+
+      '<text class="a4-location-subtitle" x="981" y="702" text-anchor="middle" pointer-events="none">BOOTH</text>'+
+      '<text class="a4-location-title" x="981" y="719" text-anchor="middle" pointer-events="none">PASINBIS</text>'+
+      '</g>';
     svg.innerHTML=html;renderMobileBoothList();renderMapLegend();
     var wrap=document.getElementById('a4MapWrap');
     if(wrap&&!wrap._a4denahEvents){
       wrap._a4denahEvents=true;
-      function activate(target){if(target.getAttribute('data-fn')==='stage'){window.a4OpenStage();return;}var booth=target.getAttribute('data-booth');if(booth){setSelectedBooth(booth);window.a4OpenBooth(booth);}}
-      wrap.addEventListener('click',function(e){var target=e.target.closest?e.target.closest('.a4-map-booth,.a4-map-stage-hotspot'):null;if(target&&wrap.contains(target)) activate(target);});
-      wrap.addEventListener('keydown',function(e){if(e.key!=='Enter'&&e.key!==' ') return;var target=e.target.closest?e.target.closest('.a4-map-booth,.a4-map-stage-hotspot'):null;if(target&&wrap.contains(target)){e.preventDefault();activate(target);}});
+      function activate(target){var action=target.getAttribute('data-fn');if(action==='stage'){window.a4OpenStage('Main Stage');return;}if(action==='schedule'){window.a4OpenStage(target.getAttribute('data-location'));return;}if(action==='pasinbis'){window.a4BoothClickPasinbis();return;}var booth=target.getAttribute('data-booth');if(booth){setSelectedBooth(booth);window.a4OpenBooth(booth);}}
+      var hotspotSelector='.a4-map-booth,.a4-map-stage-hotspot,.a4-map-location-hotspot';
+      wrap.addEventListener('click',function(e){var target=e.target.closest?e.target.closest(hotspotSelector):null;if(target&&wrap.contains(target)) activate(target);});
+      wrap.addEventListener('keydown',function(e){if(e.key!=='Enter'&&e.key!==' ') return;var target=e.target.closest?e.target.closest(hotspotSelector):null;if(target&&wrap.contains(target)){e.preventDefault();activate(target);}});
     }
   }
   var mapScale=1;
-  window.a4LocateStage=function(){
-    var stage=document.querySelector('.a4-map-stage-hotspot');
-    if(!stage)return;
-    scrollMapToHotspot(stage);
-    stage.focus({preventScroll:true});
+  var mapLocateTimer=null;
+  window.a4LocateMapLocation=function(id){
+    var marker=id==='main-stage'?document.querySelector('.a4-map-stage-hotspot'):document.querySelector('.a4-map-location-hotspot[data-location-id="'+id+'"]');
+    if(!marker)return;
+    scrollMapToHotspot(marker);
+    marker.focus({preventScroll:true});
+    marker.classList.remove('is-located');
+    window.requestAnimationFrame(function(){marker.classList.add('is-located');});
+    if(mapLocateTimer)window.clearTimeout(mapLocateTimer);
+    mapLocateTimer=window.setTimeout(function(){marker.classList.remove('is-located');},1900);
   };
+  window.a4LocateStage=function(){window.a4LocateMapLocation('main-stage');};
   window.a4ZoomMap=function(f){var stage=document.getElementById('a4MapStage');if(!stage)return;mapScale=Math.min(2.5,Math.max(.75,mapScale*f));stage.style.transform='scale('+mapScale+')';};
   window.a4ResetZoom=function(){var stage=document.getElementById('a4MapStage');if(stage){mapScale=1;stage.style.transform='';}};
 
