@@ -1532,8 +1532,8 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
 /* ═══ FLOATING BACKGROUND MUSIC PLAYER ═══════════════════ */
 .a4-audio-player {
   position: fixed;
-  right: 26px;
-  bottom: 26px;
+  right: 28px;
+  bottom: 28px;
   z-index: 990;
   display: flex;
   flex-direction: column;
@@ -1545,10 +1545,10 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
 
 .a4-audio-btn {
   position: relative;
-  width: 54px;
-  height: 54px;
+  width: 62px;
+  height: 62px;
   border-radius: 50%;
-  border: 1.6px solid rgba(212, 168, 67, 0.65);
+  border: 1.8px solid rgba(212, 168, 67, 0.7);
   background: radial-gradient(circle at 35% 30%, #1e293b, #0f172a 75%, #080d1a);
   color: #f7d070;
   display: flex;
@@ -1557,14 +1557,15 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
   cursor: pointer;
   padding: 0;
   outline: none;
-  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.6), 0 0 16px -2px rgba(212, 168, 67, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+  box-shadow: 0 10px 28px -4px rgba(0, 0, 0, 0.65), 0 0 18px -2px rgba(212, 168, 67, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.3);
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  touch-action: manipulation;
 }
 
 .a4-audio-btn:hover {
   transform: translateY(-2px) scale(1.06);
-  border-color: rgba(247, 208, 112, 0.9);
-  box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.7), 0 0 24px rgba(212, 168, 67, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.4);
+  border-color: rgba(247, 208, 112, 0.95);
+  box-shadow: 0 14px 32px -4px rgba(0, 0, 0, 0.75), 0 0 28px rgba(212, 168, 67, 0.55), inset 0 1px 2px rgba(255, 255, 255, 0.45);
 }
 
 .a4-audio-btn:active {
@@ -1576,7 +1577,7 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
   position: absolute;
   inset: -6px;
   border-radius: 50%;
-  border: 2px solid rgba(212, 168, 67, 0.5);
+  border: 2px solid rgba(212, 168, 67, 0.55);
   opacity: 0;
   pointer-events: none;
 }
@@ -1586,9 +1587,9 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
 }
 
 @keyframes a4AudioRipple {
-  0% { transform: scale(0.9); opacity: 0.8; }
+  0% { transform: scale(0.9); opacity: 0.85; }
   60% { transform: scale(1.4); opacity: 0.2; }
-  100% { transform: scale(1.7); opacity: 0; }
+  100% { transform: scale(1.75); opacity: 0; }
 }
 
 .a4-audio-btn.is-playing {
@@ -1598,23 +1599,23 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
 }
 
 .a4-audio-btn.is-muted {
-  border-color: rgba(148, 163, 184, 0.35);
+  border-color: rgba(148, 163, 184, 0.4);
   color: #94a3b8;
   background: radial-gradient(circle at 35% 30%, #1a2234, #0b1120 75%, #050811);
-  box-shadow: 0 6px 18px -4px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.12);
 }
 
 /* Icon Switching: Mode 1 (Playing) vs Mode 2 (Muted with Red Slash) */
 .a4-audio-svg {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   transition: transform 0.25s ease, opacity 0.2s ease;
   pointer-events: none;
 }
 
 .a4-audio-btn.is-playing .a4-svg-play {
   display: block;
-  filter: drop-shadow(0 0 6px rgba(212, 168, 67, 0.6));
+  filter: drop-shadow(0 0 7px rgba(212, 168, 67, 0.65));
 }
 
 .a4-audio-btn.is-playing .a4-svg-mute {
@@ -1631,17 +1632,17 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
 
 /* Red slash glow for high visibility */
 .a4-audio-btn.is-muted .a4-svg-mute line {
-  filter: drop-shadow(0 0 3px rgba(239, 68, 68, 0.8));
+  filter: drop-shadow(0 0 3px rgba(239, 68, 68, 0.85));
 }
 
 /* Equalizer Visualizer Bars */
 .a4-audio-eq {
   position: absolute;
-  bottom: 8px;
+  bottom: 9px;
   display: flex;
   align-items: flex-end;
-  gap: 2.5px;
-  height: 10px;
+  gap: 3px;
+  height: 12px;
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.2s ease;
@@ -1652,29 +1653,29 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
 }
 
 .a4-eq-bar {
-  width: 2.5px;
+  width: 3px;
   border-radius: 1px;
   background: #f7d070;
 }
 
 .a4-audio-btn.is-playing .a4-eq-1 {
-  height: 6px;
+  height: 7px;
   animation: a4EqJump 0.85s ease-in-out infinite alternate;
 }
 
 .a4-audio-btn.is-playing .a4-eq-2 {
-  height: 9px;
+  height: 11px;
   animation: a4EqJump 0.65s ease-in-out 0.2s infinite alternate;
 }
 
 .a4-audio-btn.is-playing .a4-eq-3 {
-  height: 5px;
+  height: 6px;
   animation: a4EqJump 0.75s ease-in-out 0.4s infinite alternate;
 }
 
 @keyframes a4EqJump {
   0% { height: 3px; }
-  50% { height: 9px; }
+  50% { height: 11px; }
   100% { height: 4px; }
 }
 
@@ -1683,24 +1684,40 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
   position: absolute;
   bottom: calc(100% + 14px);
   right: 0;
-  width: 270px;
-  background: rgba(13, 20, 36, 0.94);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(212, 168, 67, 0.35);
-  border-radius: 16px;
-  padding: 14px;
-  box-shadow: 0 18px 40px -8px rgba(0, 0, 0, 0.7), 0 0 20px -4px rgba(212, 168, 67, 0.15);
-  transform: translateY(10px) scale(0.94);
+  width: 310px;
+  max-width: calc(100vw - 32px);
+  background: rgba(13, 20, 36, 0.96);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1.2px solid rgba(212, 168, 67, 0.4);
+  border-radius: 18px;
+  padding: 16px 18px;
+  box-shadow: 0 20px 45px -8px rgba(0, 0, 0, 0.75), 0 0 24px -4px rgba(212, 168, 67, 0.2);
+  transform: translateY(10px) scale(0.95);
   opacity: 0;
   pointer-events: none;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   color: #fff;
+  user-select: auto;
+  -webkit-user-select: auto;
 }
 
-/* Open states: hover or toggle */
+/* Invisible bridge so cursor never drops hover when traveling between button and card */
+.a4-audio-card::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: -10px;
+  right: -10px;
+  height: 24px;
+  background: transparent;
+  pointer-events: auto;
+}
+
+/* Open states: hover on container, or persistent .is-open class */
 .a4-audio-player:hover .a4-audio-card,
-.a4-audio-card.is-open {
+.a4-audio-card.is-open,
+.a4-audio-player.is-active .a4-audio-card {
   transform: translateY(0) scale(1);
   opacity: 1;
   pointer-events: auto;
@@ -1714,44 +1731,54 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
 }
 
 .a4-audio-badge {
-  font-size: 10px;
-  font-weight: 700;
+  font-size: 10.5px;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  padding: 2px 7px;
-  border-radius: 4px;
+  padding: 3px 8px;
+  border-radius: 5px;
   background: rgba(212, 168, 67, 0.2);
   color: #f7d070;
-  border: 1px solid rgba(212, 168, 67, 0.35);
+  border: 1px solid rgba(212, 168, 67, 0.38);
 }
 
 .a4-audio-card-close {
-  background: none;
-  border: none;
-  color: #64748b;
-  font-size: 18px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+  color: #94a3b8;
+  font-size: 19px;
   cursor: pointer;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   line-height: 1;
-  padding: 0 4px;
-  transition: color 0.15s ease;
+  padding: 0;
+  transition: all 0.15s ease;
 }
 
 .a4-audio-card-close:hover {
-  color: #fff;
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #f87171;
+  transform: scale(1.08);
 }
 
 .a4-audio-track-title {
-  font-size: 13.5px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 800;
   color: #f8fafc;
   line-height: 1.35;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  letter-spacing: -0.2px;
 }
 
 .a4-audio-track-status {
-  font-size: 11px;
+  font-size: 12px;
   color: #94a3b8;
   margin-top: 2px;
 }
@@ -1759,12 +1786,13 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
 .a4-audio-btn.is-playing ~ .a4-audio-card .a4-audio-track-status,
 .a4-audio-card.is-playing-status .a4-audio-track-status {
   color: #34d399;
+  font-weight: 600;
 }
 
 .a4-audio-controls-row {
-  margin-top: 12px;
-  padding-top: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .a4-audio-vol-wrap {
@@ -1773,38 +1801,149 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
   gap: 10px;
 }
 
-.a4-audio-vol-icon {
+.a4-audio-vol-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(212, 168, 67, 0.35);
+  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #d4a843;
+  cursor: pointer;
+  padding: 0;
   flex: none;
+  transition: all 0.2s ease;
 }
 
-.a4-audio-vol-wrap input[type="range"] {
+.a4-audio-vol-btn:hover {
+  background: rgba(212, 168, 67, 0.2);
+  color: #ffd770;
+  border-color: #ffd770;
+  transform: scale(1.06);
+}
+
+.a4-audio-vol-icon {
+  flex: none;
+  pointer-events: none;
+}
+
+.a4-audio-slider-container {
+  position: relative;
   flex: 1;
-  height: 4px;
-  border-radius: 2px;
-  background: rgba(255, 255, 255, 0.2);
-  accent-color: #d4a843;
+  display: flex;
+  align-items: center;
+  height: 34px; /* Generous hit target */
+}
+
+/* Custom Luxury Range Slider */
+.a4-audio-vol-wrap input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(to right, #ffd770 0%, #d4a843 var(--vol-pct, 35%), rgba(255, 255, 255, 0.2) var(--vol-pct, 35%), rgba(255, 255, 255, 0.2) 100%);
   outline: none;
   cursor: pointer;
+  margin: 0;
+  padding: 0;
+  touch-action: none;
+  border: none;
 }
 
+/* Range Thumb WebKit */
+.a4-audio-vol-wrap input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffd770, #d4a843 80%);
+  border: 2.5px solid #0b1120;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6), 0 0 8px rgba(212, 168, 67, 0.6);
+  cursor: grab;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.a4-audio-vol-wrap input[type="range"]::-webkit-slider-thumb:hover,
+.a4-audio-vol-wrap input[type="range"]:active::-webkit-slider-thumb {
+  transform: scale(1.18);
+  box-shadow: 0 3px 12px rgba(212, 168, 67, 0.9), 0 0 10px #ffd770;
+  cursor: grabbing;
+}
+
+/* Range Thumb Firefox */
+.a4-audio-vol-wrap input[type="range"]::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffd770, #d4a843 80%);
+  border: 2.5px solid #0b1120;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6), 0 0 8px rgba(212, 168, 67, 0.6);
+  cursor: grab;
+  transition: transform 0.15s ease;
+}
+
+.a4-audio-vol-wrap input[type="range"]::-moz-range-thumb:hover,
+.a4-audio-vol-wrap input[type="range"]:active::-moz-range-thumb {
+  transform: scale(1.18);
+  cursor: grabbing;
+}
+
+.a4-audio-vol-wrap input[type="range"]::-moz-range-track {
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+}
+
+/* Volume Percentage Readout */
+.a4-audio-vol-pct {
+  font-size: 13px;
+  font-weight: 800;
+  color: #ffd770;
+  min-width: 38px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.2px;
+}
+
+/* Mobile Handphone Optimization */
 @media (max-width: 560px) {
   .a4-audio-player {
     right: 18px;
-    bottom: 18px;
+    bottom: 20px;
   }
   .a4-audio-btn {
-    width: 48px;
-    height: 48px;
+    width: 56px;
+    height: 56px;
   }
   .a4-audio-svg {
-    width: 21px;
-    height: 21px;
+    width: 25px;
+    height: 25px;
   }
   .a4-audio-card {
-    width: 240px;
-    right: -4px;
+    width: calc(100vw - 36px);
+    max-width: 320px;
+    right: 0;
+    bottom: calc(100% + 12px);
+    padding: 16px;
+    border-radius: 16px;
+  }
+  .a4-audio-vol-wrap input[type="range"]::-webkit-slider-thumb {
+    width: 24px;
+    height: 24px;
+  }
+  .a4-audio-vol-wrap input[type="range"]::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+  }
+  .a4-audio-slider-container {
+    height: 40px; /* Even bigger hit area on mobile touch */
   }
 }
+
 
 

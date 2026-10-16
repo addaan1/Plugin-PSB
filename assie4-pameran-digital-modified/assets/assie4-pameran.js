@@ -3445,6 +3445,8 @@
     var trackTitleEl = document.getElementById('a4AudioTrackTitle');
     var statusTextEl = document.getElementById('a4AudioStatusText');
     var volSlider = document.getElementById('a4AudioVolumeSlider');
+    var volPctEl = document.getElementById('a4AudioVolPct');
+    var volMiniBtn = document.getElementById('a4AudioVolMiniBtn');
 
     if (!playerEl || !audioEl || !toggleBtn) return;
 
@@ -3464,15 +3466,38 @@
     audioEl.volume = targetVol;
     audioEl.loop = (audioCfg.loop !== 0 && audioCfg.loop !== '0' && audioCfg.loop !== false);
 
-    if (volSlider) {
-      volSlider.value = targetVol;
-    }
-
     if (trackTitleEl && audioCfg.title) {
       trackTitleEl.textContent = audioCfg.title;
     }
 
     var fadeInterval = null;
+    var cardTimer = null;
+
+    function applyVolume(vol, updateSlider) {
+      vol = Math.max(0.0, Math.min(1.0, parseFloat(vol)));
+      if (isNaN(vol)) vol = 0.35;
+      targetVol = vol;
+
+      if (updateSlider && volSlider) {
+        volSlider.value = vol;
+      }
+      if (volSlider) {
+        volSlider.style.setProperty('--vol-pct', Math.round(vol * 100) + '%');
+      }
+      if (volPctEl) {
+        volPctEl.textContent = Math.round(vol * 100) + '%';
+      }
+
+      if (fadeInterval) {
+        clearInterval(fadeInterval);
+        fadeInterval = null;
+      }
+
+      audioEl.volume = vol;
+    }
+
+    // Initialize slider value & visual readout
+    applyVolume(targetVol, true);
 
     function setVisualPlaying(isPlaying) {
       if (isPlaying) {
@@ -3546,6 +3571,17 @@
       });
     }
 
+    function showCardBriefly() {
+      if (!cardEl) return;
+      cardEl.classList.add('is-open');
+      if (cardTimer) clearTimeout(cardTimer);
+      cardTimer = setTimeout(function(){
+        if (!playerEl.matches(':hover') && !playerEl.classList.contains('is-active')) {
+          cardEl.classList.remove('is-open');
+        }
+      }, 5500);
+    }
+
     var gestureAttached = false;
     function onFirstGesture() {
       var state = '';
@@ -3571,6 +3607,7 @@
       window.removeEventListener('touchstart', onFirstGesture);
     }
 
+    // Main circular button toggle
     toggleBtn.addEventListener('click', function(e){
       e.preventDefault();
       e.stopPropagation();
@@ -3580,26 +3617,85 @@
       } else {
         stopMusic();
       }
+      showCardBriefly();
     });
 
+    // Volume Slider Drag & Touch
     if (volSlider) {
-      volSlider.addEventListener('input', function(e){
+      function handleVolumeInput(e) {
         var val = parseFloat(e.target.value);
         if (!isNaN(val)) {
-          targetVol = Math.max(0.05, Math.min(1.0, val));
-          if (!audioEl.paused && !toggleBtn.classList.contains('is-muted')) {
-            audioEl.volume = targetVol;
+          applyVolume(val, false);
+          if (audioEl.paused && toggleBtn.classList.contains('is-muted')) {
+            playMusic();
           }
         }
+      }
+
+      volSlider.addEventListener('input', handleVolumeInput);
+      volSlider.addEventListener('change', handleVolumeInput);
+
+      volSlider.addEventListener('pointerdown', function(e){
+        e.stopPropagation();
+        playerEl.classList.add('is-active');
+        if (cardTimer) clearTimeout(cardTimer);
+      });
+
+      volSlider.addEventListener('touchstart', function(e){
+        e.stopPropagation();
+        playerEl.classList.add('is-active');
+        if (cardTimer) clearTimeout(cardTimer);
+      }, { passive: true });
+
+      window.addEventListener('pointerup', function(){
+        playerEl.classList.remove('is-active');
+      });
+      window.addEventListener('touchend', function(){
+        playerEl.classList.remove('is-active');
+      });
+    }
+
+    // Mini Mute/Unmute button in card
+    if (volMiniBtn) {
+      volMiniBtn.addEventListener('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        if (audioEl.paused || audioEl.volume === 0 || toggleBtn.classList.contains('is-muted')) {
+          if (targetVol <= 0.05) targetVol = 0.35;
+          applyVolume(targetVol, true);
+          playMusic();
+        } else {
+          stopMusic();
+        }
+      });
+    }
+
+    // Card interactions
+    if (cardEl) {
+      cardEl.addEventListener('click', function(e){
+        e.stopPropagation();
+      });
+      cardEl.addEventListener('mouseenter', function(){
+        if (cardTimer) clearTimeout(cardTimer);
       });
     }
 
     if (cardCloseBtn && cardEl) {
       cardCloseBtn.addEventListener('click', function(e){
+        e.preventDefault();
         e.stopPropagation();
         cardEl.classList.remove('is-open');
+        playerEl.classList.remove('is-active');
       });
     }
+
+    // Dismiss card when clicking outside
+    document.addEventListener('click', function(e){
+      if (playerEl && !playerEl.contains(e.target)) {
+        if (cardEl) cardEl.classList.remove('is-open');
+        playerEl.classList.remove('is-active');
+      }
+    });
 
     var savedState = '';
     try { savedState = sessionStorage.getItem('a4_music_state'); } catch(e){}
