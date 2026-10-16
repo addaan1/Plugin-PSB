@@ -260,9 +260,18 @@ $a4_brand_logo_url = !empty($a4_info_data['logo']) ? $a4_info_data['logo'] : (AS
   <p class="a4-footer-sub">Airlangga Startup Summit &amp; Innovation Expo · Grand City Atrium, Surabaya</p>
 </footer>
 
+<?php
+$a4_audio_cfg = function_exists('assie4_get_audio') ? assie4_get_audio() : [];
+$a4_audio_enabled = !empty($a4_audio_cfg['enabled']);
+$a4_audio_url = !empty($a4_audio_cfg['url']) ? $a4_audio_cfg['url'] : (ASSIE4_PAMERAN_URL . 'assets/audio/assie-opening-anthem.mp3');
+$a4_audio_title = !empty($a4_audio_cfg['title']) ? $a4_audio_cfg['title'] : 'ASSIE Opening Anthem';
+$a4_audio_vol = isset($a4_audio_cfg['volume']) ? floatval($a4_audio_cfg['volume']) : 0.35;
+$a4_audio_autoplay = !empty($a4_audio_cfg['autoplay']);
+$a4_audio_loop = !empty($a4_audio_cfg['loop']);
+?>
 <!-- FLOATING BACKGROUND MUSIC PLAYER -->
-<aside id="a4AudioPlayer" class="a4-audio-player" aria-label="Pemutar Musik Latar Pameran">
-  <audio id="a4BgAudio" preload="auto"></audio>
+<aside id="a4AudioPlayer" class="a4-audio-player" aria-label="Pemutar Musik Latar Pameran" style="<?php echo !$a4_audio_enabled ? 'display:none;' : ''; ?>">
+  <audio id="a4BgAudio" preload="auto" playsinline webkit-playsinline <?php echo $a4_audio_loop ? 'loop' : ''; ?> <?php echo $a4_audio_autoplay ? 'autoplay' : ''; ?> src="<?php echo esc_url($a4_audio_url); ?>"></audio>
   <div class="a4-audio-card" id="a4AudioCard" aria-hidden="true">
     <div class="a4-audio-card-inner">
       <div class="a4-audio-card-head">
@@ -270,8 +279,8 @@ $a4_brand_logo_url = !empty($a4_info_data['logo']) ? $a4_info_data['logo'] : (AS
         <button type="button" class="a4-audio-card-close" id="a4AudioCardClose" onclick="if(window.a4CloseAudioCard)window.a4CloseAudioCard(event)" aria-label="Tutup info musik" title="Tutup">&times;</button>
       </div>
       <div class="a4-audio-track-info">
-        <div class="a4-audio-track-title" id="a4AudioTrackTitle">ASSIE Opening Anthem</div>
-        <div class="a4-audio-track-status" id="a4AudioStatusText">Musik Latar Pameran</div>
+        <div class="a4-audio-track-title" id="a4AudioTrackTitle"><?php echo esc_html($a4_audio_title); ?></div>
+        <div class="a4-audio-track-status" id="a4AudioStatusText">Memutar Musik Latar</div>
       </div>
       <div class="a4-audio-controls-row">
         <div class="a4-audio-vol-wrap">
@@ -283,14 +292,14 @@ $a4_brand_logo_url = !empty($a4_info_data['logo']) ? $a4_info_data['logo'] : (AS
             </svg>
           </button>
           <div class="a4-audio-slider-container">
-            <input type="range" id="a4AudioVolumeSlider" min="0" max="1" step="0.01" value="0.35" aria-label="Pengatur Volume Musik">
+            <input type="range" id="a4AudioVolumeSlider" min="0" max="1" step="0.01" value="<?php echo esc_attr($a4_audio_vol); ?>" aria-label="Pengatur Volume Musik">
           </div>
-          <span class="a4-audio-vol-pct" id="a4AudioVolPct">35%</span>
+          <span class="a4-audio-vol-pct" id="a4AudioVolPct"><?php echo round($a4_audio_vol * 100); ?>%</span>
         </div>
       </div>
     </div>
   </div>
-  <button type="button" id="a4AudioToggleBtn" class="a4-audio-btn is-muted" aria-label="Putar Musik Latar" title="Putar Musik Latar ASSIE">
+  <button type="button" id="a4AudioToggleBtn" class="a4-audio-btn <?php echo $a4_audio_autoplay ? 'is-playing' : 'is-muted'; ?>" aria-label="Putar Musik Latar" title="Putar Musik Latar ASSIE">
     <span class="a4-audio-halo" aria-hidden="true"></span>
     <span class="a4-audio-ripple" aria-hidden="true"></span>
     <!-- Equalizer bars (active when playing) -->
