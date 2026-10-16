@@ -3453,11 +3453,14 @@
     var audioCfg = (window.ASSIE4_CFG && window.ASSIE4_CFG.audio) || {};
     if (audioCfg.enabled === 0 || audioCfg.enabled === '0' || audioCfg.enabled === false) {
       playerEl.style.display = 'none';
+      try { audioEl.pause(); } catch(e){}
       return;
     }
 
     var audioUrl = audioCfg.url || ((window.ASSIE4_CFG && window.ASSIE4_CFG.pluginUrl ? window.ASSIE4_CFG.pluginUrl : '') + 'assets/audio/assie-opening-anthem.mp3');
-    audioEl.src = audioUrl;
+    if (!audioEl.src || audioEl.src === '' || audioEl.src === window.location.href) {
+      audioEl.src = audioUrl;
+    }
 
     var targetVol = (audioCfg.volume !== undefined && audioCfg.volume !== null) ? parseFloat(audioCfg.volume) : 0.35;
     if (isNaN(targetVol) || targetVol < 0.05) targetVol = 0.35;
@@ -3470,7 +3473,6 @@
       trackTitleEl.textContent = audioCfg.title;
     }
 
-    var fadeInterval = null;
     var cardTimer = null;
 
     function applyVolume(vol, updateSlider) {
@@ -3488,15 +3490,10 @@
         volPctEl.textContent = Math.round(vol * 100) + '%';
       }
 
-      if (fadeInterval) {
-        clearInterval(fadeInterval);
-        fadeInterval = null;
-      }
-
       audioEl.volume = vol;
     }
 
-    // Initialize slider value & visual readout
+    // Initialize volume slider & readout immediately
     applyVolume(targetVol, true);
 
     function setVisualPlaying(isPlaying) {
@@ -3517,58 +3514,29 @@
       }
     }
 
-    function smoothFadeIn(callback) {
-      if (fadeInterval) clearInterval(fadeInterval);
-      audioEl.volume = 0;
-      var step = Math.max(0.02, targetVol / 12);
-      fadeInterval = setInterval(function(){
-        if (audioEl.volume + step >= targetVol) {
-          audioEl.volume = targetVol;
-          clearInterval(fadeInterval);
-          fadeInterval = null;
-          if (callback) callback();
-        } else {
-          audioEl.volume = Math.min(targetVol, audioEl.volume + step);
-        }
-      }, 35);
-    }
-
-    function smoothFadeOut(callback) {
-      if (fadeInterval) clearInterval(fadeInterval);
-      var current = audioEl.volume;
-      var step = Math.max(0.02, current / 10);
-      fadeInterval = setInterval(function(){
-        if (audioEl.volume - step <= 0.01) {
-          audioEl.volume = 0;
-          audioEl.pause();
-          clearInterval(fadeInterval);
-          fadeInterval = null;
-          if (callback) callback();
-        } else {
-          audioEl.volume = Math.max(0, audioEl.volume - step);
-        }
-      }, 30);
-    }
+    var isExplicitlyMuted = false;
 
     function playMusic() {
+      isExplicitlyMuted = false;
+      audioEl.volume = targetVol;
       var playPromise = audioEl.play();
       if (playPromise !== undefined) {
         playPromise.then(function(){
-          smoothFadeIn();
           setVisualPlaying(true);
-          try { sessionStorage.setItem('a4_music_state', 'playing'); } catch(e){}
+          removeGestureListeners();
         }).catch(function(err){
-          setVisualPlaying(false);
-          setupUserGestureListener();
+          // Autoplay was blocked by browser security policy without prior user interaction.
+          // Keep visual playing state and attach capture listeners so the very first gesture (click/scroll/touch) immediately plays it!
+          setupGestureListeners();
         });
       }
     }
 
     function stopMusic() {
-      try { sessionStorage.setItem('a4_music_state', 'muted'); } catch(e){}
-      smoothFadeOut(function(){
-        setVisualPlaying(false);
-      });
+      isExplicitlyMuted = true;
+      removeGestureListeners();
+      audioEl.pause();
+      setVisualPlaying(false);
     }
 
     function showCardBriefly() {
@@ -3598,29 +3566,31 @@
       }
     };
 
-    var gestureAttached = false;
-    function onFirstGesture() {
-      var state = '';
-      try { state = sessionStorage.getItem('a4_music_state'); } catch(e){}
-      if (state !== 'muted') {
+    var gestureActive = false;
+    var gestureEvents = ['pointerdown', 'touchstart', 'mousedown', 'keydown', 'wheel', 'scroll', 'click'];
+
+    function onFirstInteraction() {
+      if (!isExplicitlyMuted) {
         playMusic();
       }
-      removeUserGestureListener();
+      removeGestureListeners();
     }
 
-    function setupUserGestureListener() {
-      if (gestureAttached) return;
-      gestureAttached = true;
-      window.addEventListener('click', onFirstGesture, { once: true, passive: true });
-      window.addEventListener('keydown', onFirstGesture, { once: true, passive: true });
-      window.addEventListener('touchstart', onFirstGesture, { once: true, passive: true });
+    function setupGestureListeners() {
+      if (gestureActive || isExplicitlyMuted) return;
+      gestureActive = true;
+      gestureEvents.forEach(function(evt){
+        window.addEventListener(evt, onFirstInteraction, { once: true, capture: true, passive: true });
+        document.addEventListener(evt, onFirstInteraction, { once: true, capture: true, passive: true });
+      });
     }
 
-    function removeUserGestureListener() {
-      gestureAttached = false;
-      window.removeEventListener('click', onFirstGesture);
-      window.removeEventListener('keydown', onFirstGesture);
-      window.removeEventListener('touchstart', onFirstGesture);
+    function removeGestureListeners() {
+      gestureActive = false;
+      gestureEvents.forEach(function(evt){
+        window.removeEventListener(evt, onFirstInteraction, { capture: true });
+        document.removeEventListener(evt, onFirstInteraction, { capture: true });
+      });
     }
 
     // Main circular button toggle
@@ -3628,7 +3598,7 @@
       e.preventDefault();
       e.stopPropagation();
       if (cardEl) cardEl.classList.remove('is-closed');
-      removeUserGestureListener();
+      removeGestureListeners();
       if (audioEl.paused || audioEl.volume === 0 || toggleBtn.classList.contains('is-muted')) {
         playMusic();
       } else {
@@ -3724,18 +3694,24 @@
       }
     });
 
-    var savedState = '';
-    try { savedState = sessionStorage.getItem('a4_music_state'); } catch(e){}
+    // IMMEDIATE AUTOPLAY ON PAGE ENTER
+    var shouldAutoplay = (audioCfg.autoplay !== 0 && audioCfg.autoplay !== '0' && audioCfg.autoplay !== false);
+    if (shouldAutoplay) {
+      setVisualPlaying(true);
+      playMusic();
 
-    if (savedState === 'muted') {
-      setVisualPlaying(false);
+      // If audio is still buffering, play as soon as it can
+      audioEl.addEventListener('canplay', function onCanPlay(){
+        audioEl.removeEventListener('canplay', onCanPlay);
+        if (!isExplicitlyMuted && audioEl.paused) {
+          playMusic();
+        }
+      });
+
+      // Prepare gesture listeners immediately in capture phase
+      setupGestureListeners();
     } else {
-      var shouldAutoplay = (audioCfg.autoplay !== 0 && audioCfg.autoplay !== '0' && audioCfg.autoplay !== false);
-      if (shouldAutoplay) {
-        playMusic();
-      } else {
-        setVisualPlaying(false);
-      }
+      setVisualPlaying(false);
     }
   }
 
