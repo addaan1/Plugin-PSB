@@ -153,6 +153,7 @@ function assie4_pameran_enqueue() {
             'ig'   => get_option('assie4_pasinbis_ig',   '@pasinbis.unair'),
             'web'  => get_option('assie4_pasinbis_web',  'https://tokoua.unair.ac.id'),
         ],
+        'audio'       => assie4_get_audio(),
     ], JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT );
 
     if ( $db && $cfg && json_last_error() === JSON_ERROR_NONE ) {
