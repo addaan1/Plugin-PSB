@@ -267,7 +267,7 @@ $a4_brand_logo_url = !empty($a4_info_data['logo']) ? $a4_info_data['logo'] : (AS
     <div class="a4-audio-card-inner">
       <div class="a4-audio-card-head">
         <span class="a4-audio-badge">BGM Pameran</span>
-        <button type="button" class="a4-audio-card-close" id="a4AudioCardClose" aria-label="Tutup info musik" title="Tutup">&times;</button>
+        <button type="button" class="a4-audio-card-close" id="a4AudioCardClose" onclick="if(window.a4CloseAudioCard)window.a4CloseAudioCard(event)" aria-label="Tutup info musik" title="Tutup">&times;</button>
       </div>
       <div class="a4-audio-track-info">
         <div class="a4-audio-track-title" id="a4AudioTrackTitle">ASSIE Opening Anthem</div>

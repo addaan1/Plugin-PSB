@@ -1715,12 +1715,19 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
 }
 
 /* Open states: hover on container, or persistent .is-open class */
-.a4-audio-player:hover .a4-audio-card,
-.a4-audio-card.is-open,
-.a4-audio-player.is-active .a4-audio-card {
+.a4-audio-player:hover .a4-audio-card:not(.is-closed),
+.a4-audio-card.is-open:not(.is-closed),
+.a4-audio-player.is-active .a4-audio-card:not(.is-closed) {
   transform: translateY(0) scale(1);
   opacity: 1;
   pointer-events: auto;
+}
+
+/* Explicitly closed state (e.g. user clicked the 'X' close button) */
+.a4-audio-card.is-closed {
+  transform: translateY(10px) scale(0.95) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 .a4-audio-card-head {

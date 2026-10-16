@@ -3573,6 +3573,7 @@
 
     function showCardBriefly() {
       if (!cardEl) return;
+      cardEl.classList.remove('is-closed');
       cardEl.classList.add('is-open');
       if (cardTimer) clearTimeout(cardTimer);
       cardTimer = setTimeout(function(){
@@ -3581,6 +3582,21 @@
         }
       }, 5500);
     }
+
+    window.a4CloseAudioCard = function(e){
+      if (e) {
+        if (e.preventDefault) e.preventDefault();
+        if (e.stopPropagation) e.stopPropagation();
+      }
+      if (cardTimer) clearTimeout(cardTimer);
+      if (cardEl) {
+        cardEl.classList.remove('is-open');
+        cardEl.classList.add('is-closed');
+      }
+      if (playerEl) {
+        playerEl.classList.remove('is-active');
+      }
+    };
 
     var gestureAttached = false;
     function onFirstGesture() {
@@ -3611,6 +3627,7 @@
     toggleBtn.addEventListener('click', function(e){
       e.preventDefault();
       e.stopPropagation();
+      if (cardEl) cardEl.classList.remove('is-closed');
       removeUserGestureListener();
       if (audioEl.paused || audioEl.volume === 0 || toggleBtn.classList.contains('is-muted')) {
         playMusic();
@@ -3618,6 +3635,10 @@
         stopMusic();
       }
       showCardBriefly();
+    });
+
+    toggleBtn.addEventListener('mouseenter', function(){
+      if (cardEl) cardEl.classList.remove('is-closed');
     });
 
     // Volume Slider Drag & Touch
@@ -3680,19 +3701,25 @@
       });
     }
 
-    if (cardCloseBtn && cardEl) {
-      cardCloseBtn.addEventListener('click', function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        cardEl.classList.remove('is-open');
-        playerEl.classList.remove('is-active');
-      });
+    if (cardCloseBtn) {
+      cardCloseBtn.addEventListener('click', window.a4CloseAudioCard);
+      cardCloseBtn.addEventListener('pointerup', window.a4CloseAudioCard);
+      cardCloseBtn.addEventListener('touchend', window.a4CloseAudioCard);
     }
+
+    playerEl.addEventListener('mouseleave', function(){
+      if (cardEl) {
+        cardEl.classList.remove('is-closed');
+      }
+    });
 
     // Dismiss card when clicking outside
     document.addEventListener('click', function(e){
       if (playerEl && !playerEl.contains(e.target)) {
-        if (cardEl) cardEl.classList.remove('is-open');
+        if (cardEl) {
+          cardEl.classList.remove('is-open');
+          cardEl.classList.remove('is-closed');
+        }
         playerEl.classList.remove('is-active');
       }
     });
