@@ -259,3 +259,53 @@ $a4_brand_logo_url = !empty($a4_info_data['logo']) ? $a4_info_data['logo'] : (AS
   <p>© 2026 <strong>PASINBIS Universitas Airlangga</strong> · IM ASSIE IV 2026</p>
   <p class="a4-footer-sub">Airlangga Startup Summit &amp; Innovation Expo · Grand City Atrium, Surabaya</p>
 </footer>
+
+<!-- FLOATING BACKGROUND MUSIC PLAYER -->
+<aside id="a4AudioPlayer" class="a4-audio-player" aria-label="Pemutar Musik Latar Pameran">
+  <audio id="a4BgAudio" preload="auto"></audio>
+  <div class="a4-audio-card" id="a4AudioCard" aria-hidden="true">
+    <div class="a4-audio-card-inner">
+      <div class="a4-audio-card-head">
+        <span class="a4-audio-badge">BGM Pameran</span>
+        <button type="button" class="a4-audio-card-close" id="a4AudioCardClose" aria-label="Tutup info musik">&times;</button>
+      </div>
+      <div class="a4-audio-track-info">
+        <div class="a4-audio-track-title" id="a4AudioTrackTitle">ASSIE Opening Anthem</div>
+        <div class="a4-audio-track-status" id="a4AudioStatusText">Musik Latar Pameran</div>
+      </div>
+      <div class="a4-audio-controls-row">
+        <div class="a4-audio-vol-wrap">
+          <svg class="a4-audio-vol-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+          <input type="range" id="a4AudioVolumeSlider" min="0" max="1" step="0.05" value="0.35" aria-label="Pengatur Volume">
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="button" id="a4AudioToggleBtn" class="a4-audio-btn is-muted" aria-label="Putar Musik Latar" title="Putar Musik Latar ASSIE">
+    <span class="a4-audio-halo" aria-hidden="true"></span>
+    <span class="a4-audio-ripple" aria-hidden="true"></span>
+    <!-- Equalizer bars (active when playing) -->
+    <span class="a4-audio-eq" aria-hidden="true">
+      <span class="a4-eq-bar a4-eq-1"></span>
+      <span class="a4-eq-bar a4-eq-2"></span>
+      <span class="a4-eq-bar a4-eq-3"></span>
+    </span>
+    <!-- Normal Mode Icon: Playing (Music note) -->
+    <svg class="a4-audio-svg a4-svg-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M9 18V5l12-2v13"></path>
+      <circle cx="6" cy="18" r="3" fill="currentColor"></circle>
+      <circle cx="18" cy="16" r="3" fill="currentColor"></circle>
+    </svg>
+    <!-- Muted / Stopped Mode Icon: Music note with distinct diagonal red slash -->
+    <svg class="a4-audio-svg a4-svg-mute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M9 18V5l12-2v13" opacity="0.35"></path>
+      <circle cx="6" cy="18" r="3" fill="currentColor" opacity="0.35"></circle>
+      <circle cx="18" cy="16" r="3" fill="currentColor" opacity="0.35"></circle>
+      <line x1="3" y1="3" x2="21" y2="21" stroke="#ef4444" stroke-width="2.6" stroke-linecap="round"></line>
+    </svg>
+  </button>
+</aside>
+

@@ -1529,3 +1529,282 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
 .a4-tc-mark img[src*="braja"],
 .a4-m-logo-img[src*="braja"] { filter:brightness(0); }
 
+/* ═══ FLOATING BACKGROUND MUSIC PLAYER ═══════════════════ */
+.a4-audio-player {
+  position: fixed;
+  right: 26px;
+  bottom: 26px;
+  z-index: 990;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  user-select: none;
+  -webkit-user-select: none;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+.a4-audio-btn {
+  position: relative;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 1.6px solid rgba(212, 168, 67, 0.65);
+  background: radial-gradient(circle at 35% 30%, #1e293b, #0f172a 75%, #080d1a);
+  color: #f7d070;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.6), 0 0 16px -2px rgba(212, 168, 67, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.a4-audio-btn:hover {
+  transform: translateY(-2px) scale(1.06);
+  border-color: rgba(247, 208, 112, 0.9);
+  box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.7), 0 0 24px rgba(212, 168, 67, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.4);
+}
+
+.a4-audio-btn:active {
+  transform: scale(0.95);
+}
+
+/* Pulsing ripple halo when playing */
+.a4-audio-ripple {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid rgba(212, 168, 67, 0.5);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.a4-audio-btn.is-playing .a4-audio-ripple {
+  animation: a4AudioRipple 2.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+}
+
+@keyframes a4AudioRipple {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  60% { transform: scale(1.4); opacity: 0.2; }
+  100% { transform: scale(1.7); opacity: 0; }
+}
+
+.a4-audio-btn.is-playing {
+  border-color: #d4a843;
+  color: #ffd770;
+  background: radial-gradient(circle at 35% 30%, #1e293b, #0c1527 75%, #050a14);
+}
+
+.a4-audio-btn.is-muted {
+  border-color: rgba(148, 163, 184, 0.35);
+  color: #94a3b8;
+  background: radial-gradient(circle at 35% 30%, #1a2234, #0b1120 75%, #050811);
+  box-shadow: 0 6px 18px -4px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Icon Switching: Mode 1 (Playing) vs Mode 2 (Muted with Red Slash) */
+.a4-audio-svg {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.a4-audio-btn.is-playing .a4-svg-play {
+  display: block;
+  filter: drop-shadow(0 0 6px rgba(212, 168, 67, 0.6));
+}
+
+.a4-audio-btn.is-playing .a4-svg-mute {
+  display: none;
+}
+
+.a4-audio-btn.is-muted .a4-svg-play {
+  display: none;
+}
+
+.a4-audio-btn.is-muted .a4-svg-mute {
+  display: block;
+}
+
+/* Red slash glow for high visibility */
+.a4-audio-btn.is-muted .a4-svg-mute line {
+  filter: drop-shadow(0 0 3px rgba(239, 68, 68, 0.8));
+}
+
+/* Equalizer Visualizer Bars */
+.a4-audio-eq {
+  position: absolute;
+  bottom: 8px;
+  display: flex;
+  align-items: flex-end;
+  gap: 2.5px;
+  height: 10px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.a4-audio-btn.is-playing .a4-audio-eq {
+  opacity: 1;
+}
+
+.a4-eq-bar {
+  width: 2.5px;
+  border-radius: 1px;
+  background: #f7d070;
+}
+
+.a4-audio-btn.is-playing .a4-eq-1 {
+  height: 6px;
+  animation: a4EqJump 0.85s ease-in-out infinite alternate;
+}
+
+.a4-audio-btn.is-playing .a4-eq-2 {
+  height: 9px;
+  animation: a4EqJump 0.65s ease-in-out 0.2s infinite alternate;
+}
+
+.a4-audio-btn.is-playing .a4-eq-3 {
+  height: 5px;
+  animation: a4EqJump 0.75s ease-in-out 0.4s infinite alternate;
+}
+
+@keyframes a4EqJump {
+  0% { height: 3px; }
+  50% { height: 9px; }
+  100% { height: 4px; }
+}
+
+/* Floating Audio Info Card / Popover */
+.a4-audio-card {
+  position: absolute;
+  bottom: calc(100% + 14px);
+  right: 0;
+  width: 270px;
+  background: rgba(13, 20, 36, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(212, 168, 67, 0.35);
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: 0 18px 40px -8px rgba(0, 0, 0, 0.7), 0 0 20px -4px rgba(212, 168, 67, 0.15);
+  transform: translateY(10px) scale(0.94);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  color: #fff;
+}
+
+/* Open states: hover or toggle */
+.a4-audio-player:hover .a4-audio-card,
+.a4-audio-card.is-open {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.a4-audio-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.a4-audio-badge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(212, 168, 67, 0.2);
+  color: #f7d070;
+  border: 1px solid rgba(212, 168, 67, 0.35);
+}
+
+.a4-audio-card-close {
+  background: none;
+  border: none;
+  color: #64748b;
+  font-size: 18px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 4px;
+  transition: color 0.15s ease;
+}
+
+.a4-audio-card-close:hover {
+  color: #fff;
+}
+
+.a4-audio-track-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #f8fafc;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.a4-audio-track-status {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
+.a4-audio-btn.is-playing ~ .a4-audio-card .a4-audio-track-status,
+.a4-audio-card.is-playing-status .a4-audio-track-status {
+  color: #34d399;
+}
+
+.a4-audio-controls-row {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.a4-audio-vol-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.a4-audio-vol-icon {
+  color: #d4a843;
+  flex: none;
+}
+
+.a4-audio-vol-wrap input[type="range"] {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.2);
+  accent-color: #d4a843;
+  outline: none;
+  cursor: pointer;
+}
+
+@media (max-width: 560px) {
+  .a4-audio-player {
+    right: 18px;
+    bottom: 18px;
+  }
+  .a4-audio-btn {
+    width: 48px;
+    height: 48px;
+  }
+  .a4-audio-svg {
+    width: 21px;
+    height: 21px;
+  }
+  .a4-audio-card {
+    width: 240px;
+    right: -4px;
+  }
+}
+
+

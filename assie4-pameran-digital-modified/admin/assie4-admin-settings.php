@@ -11,6 +11,26 @@ define( 'ASSIE4_OPT_SLIDES',  'assie4_pameran_slides'  );
 define( 'ASSIE4_OPT_TICKER',  'assie4_pameran_ticker'  );
 define( 'ASSIE4_OPT_RUNDOWN', 'assie4_pameran_rundown' );
 define( 'ASSIE4_OPT_TENANTS', 'assie4_pameran_tenants' );
+define( 'ASSIE4_OPT_AUDIO',   'assie4_pameran_audio'   );
+
+function assie4_default_audio() {
+    return [
+        'enabled'  => 1,
+        'url'      => ASSIE4_PAMERAN_URL . 'assets/audio/assie-opening-anthem.mp3',
+        'title'    => 'ASSIE Opening Anthem',
+        'volume'   => 0.35,
+        'autoplay' => 1,
+        'loop'     => 1,
+    ];
+}
+
+function assie4_get_audio() {
+    $opt = get_option( ASSIE4_OPT_AUDIO, null );
+    if ( ! is_array( $opt ) ) {
+        return assie4_default_audio();
+    }
+    return wp_parse_args( $opt, assie4_default_audio() );
+}
 
 require_once __DIR__ . '/assie4-tenant-editor.php';
 
@@ -2629,6 +2649,7 @@ function assie4_register_admin_menus() {
     add_submenu_page('assie4-pameran','Kelola Tenant', 'Kelola Tenant', 'manage_options','assie4-tenants',  'assie4_admin_tenants');
     add_submenu_page('assie4-pameran','Denah & Galeri','Denah & Galeri','manage_options','assie4-denah',    'assie4_admin_denah');
     add_submenu_page('assie4-pameran','Booth PASINBIS','Booth PASINBIS','manage_options','assie4-pasinbis', 'assie4_admin_pasinbis');
+    add_submenu_page('assie4-pameran','Musik & Audio', 'Musik & Audio', 'manage_options','assie4-audio',    'assie4_admin_audio');
     add_submenu_page('assie4-pameran','Export/Reset',  'Export/Reset',  'manage_options','assie4-export',   'assie4_admin_export');
     add_submenu_page('assie4-pameran','Berita Eksternal','Berita Eksternal','manage_options','assie4-berita-ext','assie4_admin_berita_ext');
 }
@@ -2646,7 +2667,7 @@ function assie4_admin_enqueue_scripts( $hook ) {
     if ( $page === 'assie4-tenants' ) {
         wp_enqueue_script( 'assie4-tenant-admin', ASSIE4_PAMERAN_URL . 'assets/assie4-tenant-admin.js', [], ASSIE4_PAMERAN_VER, true );
     }
-    if ( $page === 'assie4-denah' || strpos( $hook, 'denah' ) !== false ) {
+    if ( $page === 'assie4-denah' || $page === 'assie4-audio' || strpos( $hook, 'denah' ) !== false || strpos( $hook, 'audio' ) !== false ) {
         wp_enqueue_media();
     }
 }
@@ -2833,6 +2854,14 @@ function assie4_admin_dashboard() {
             'tag'   => 'Booth Khusus',
             'color' => 'cyan',
             'svg'   => '<path d="M3 21h18"/><path d="M9 8h1"/><path d="M9 12h1"/><path d="M9 16h1"/><path d="M14 8h1"/><path d="M14 12h1"/><path d="M14 16h1"/><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/>',
+        ],
+        [
+            'slug'  => 'assie4-audio',
+            'title' => 'Musik & Audio Latar',
+            'desc'  => 'Pengaturan audio pameran (ASSIE Opening Anthem), volume default, pemutaran otomatis, dan tombol floating.',
+            'tag'   => 'Audio Latar',
+            'color' => 'purple',
+            'svg'   => '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
         ],
         [
             'slug'  => 'assie4-berita-ext',
@@ -3732,6 +3761,200 @@ function assie4_admin_pasinbis() {
         <p class="u-text-sm" style="color:#92400e">Booth PASINBIS tampil dengan warna emas (border #d4a843) dan label nama yang diisi di atas. Sub-label menggunakan deskripsi singkat (28 karakter pertama). Klik → buka URL di tab baru.</p>
     </div>
     </div>
+    <?php
+}
+
+/* ═══ 8B. MUSIK & AUDIO LATAR ═══════════════════════════ */
+function assie4_admin_audio() {
+    if ( ! current_user_can('manage_options') ) return;
+    $post = assie4_brand_values( wp_unslash( $_POST ) );
+    if ( isset($post['_np']) && wp_verify_nonce($post['_np'], 'a4_audio') ) {
+        $audio_data = [
+            'enabled'  => ! empty( $post['audio_enabled'] ) ? 1 : 0,
+            'url'      => ! empty( $post['audio_url'] ) ? esc_url_raw( trim( $post['audio_url'] ) ) : ( ASSIE4_PAMERAN_URL . 'assets/audio/assie-opening-anthem.mp3' ),
+            'title'    => ! empty( $post['audio_title'] ) ? sanitize_text_field( $post['audio_title'] ) : 'ASSIE Opening Anthem',
+            'volume'   => isset( $post['audio_volume'] ) ? max( 0.05, min( 1.0, floatval( $post['audio_volume'] ) ) ) : 0.35,
+            'autoplay' => ! empty( $post['audio_autoplay'] ) ? 1 : 0,
+            'loop'     => ! empty( $post['audio_loop'] ) ? 1 : 0,
+        ];
+        update_option( ASSIE4_OPT_AUDIO, $audio_data );
+        assie4_rebuild_js_data();
+        a4_notice( '✅ Pengaturan Musik & Audio Latar berhasil disimpan!' );
+    }
+
+    $audio = assie4_get_audio();
+    $default_url = ASSIE4_PAMERAN_URL . 'assets/audio/assie-opening-anthem.mp3';
+
+    a4_header( 'Musik & Audio Latar', 'Audio Pameran' );
+    ?>
+    <div class="a4-card">
+        <div class="a4-card-head" style="display:flex;align-items:center;justify-content:space-between">
+            <div style="display:flex;align-items:center;gap:10px">
+                <span class="a4-dash-head-icon" style="background:#f3e8ff;color:#7e22ce;width:32px;height:32px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                </span>
+                <span>Konfigurasi Musik Latar Digital Pameran</span>
+            </div>
+            <span class="a4-badge <?php echo $audio['enabled'] ? 'a4-badge-emerald' : 'a4-badge-rose'; ?>">
+                <?php echo $audio['enabled'] ? '● Musik Aktif' : '○ Musik Nonaktif'; ?>
+            </span>
+        </div>
+        <p style="font-size:13.5px;color:#64748b;margin-bottom:20px;line-height:1.6">
+            Lagu latar (BGM) diputar di beranda pameran virtual dengan tombol kontrol bulat di pojok kanan bawah. Pengunjung dapat menyalakan/mematikan audio kapan saja. Pengaturan volume default direkomendasikan berada di kisaran <strong>25% – 40%</strong> agar suara nyaman dan tidak terlalu kencang.
+        </p>
+
+        <form method="post">
+            <?php wp_nonce_field( 'a4_audio', '_np' ); ?>
+
+            <div class="a4-field u-mb-md" style="background:#f8fafc;padding:14px 16px;border-radius:10px;border:1px solid #e2e8f0">
+                <label style="font-weight:700;display:flex;align-items:center;gap:10px;cursor:pointer;margin:0">
+                    <input type="checkbox" name="audio_enabled" value="1" <?php checked( $audio['enabled'], 1 ); ?> style="width:18px;height:18px;accent-color:#d4a843">
+                    <span>Aktifkan Musik Latar &amp; Tombol Floating Musik di Halaman Pameran</span>
+                </label>
+                <div style="font-size:12px;color:#64748b;margin-top:4px;margin-left:28px">
+                    Jika dicentang, tombol logo musik terapung akan muncul di pojok kanan bawah halaman pameran.
+                </div>
+            </div>
+
+            <div class="a4-row">
+                <div class="a4-field">
+                    <label>Judul Trek Audio</label>
+                    <input type="text" name="audio_title" value="<?php echo esc_attr( $audio['title'] ); ?>" placeholder="ASSIE Opening Anthem">
+                    <span style="font-size:11.5px;color:#94a3b8">Nama lagu yang tampil pada tooltip tombol pemutar musik.</span>
+                </div>
+                <div class="a4-field">
+                    <label>Volume Bawaan (Default Volume: <span id="a4VolVal" style="font-weight:800;color:#0f1c35"><?php echo round( $audio['volume'] * 100 ); ?>%</span>)</label>
+                    <div style="display:flex;align-items:center;gap:12px;margin-top:4px">
+                        <input type="range" id="a4AudioVolRange" name="audio_volume" min="0.05" max="1.0" step="0.05" value="<?php echo esc_attr( $audio['volume'] ); ?>" style="flex:1;accent-color:#d4a843" oninput="document.getElementById('a4VolVal').innerText=Math.round(this.value*100)+'%';if(window.a4PreviewAudio)window.a4PreviewAudio.volume=this.value;">
+                        <span style="font-size:11.5px;padding:3px 8px;background:#fef3c7;color:#92400e;border-radius:6px;font-weight:700;white-space:nowrap">Pas: 30% - 40%</span>
+                    </div>
+                    <span style="font-size:11.5px;color:#94a3b8">Volume saat pertama kali dimainkan (tidak terlalu kencang/pelan).</span>
+                </div>
+            </div>
+
+            <div class="a4-field u-mb-md">
+                <label>URL File Audio (.mp3 / .mpeg / .wav)</label>
+                <div style="display:flex;gap:8px">
+                    <input type="text" id="a4AudioUrlInput" name="audio_url" value="<?php echo esc_attr( $audio['url'] ); ?>" placeholder="https://..." style="flex:1">
+                    <button type="button" class="a4-btn-secondary" id="a4UploadAudioBtn" style="white-space:nowrap">📁 Pilih Media</button>
+                    <button type="button" class="a4-btn-ghost" onclick="document.getElementById('a4AudioUrlInput').value='<?php echo esc_js($default_url); ?>';if(window.a4PreviewAudio){window.a4PreviewAudio.src='<?php echo esc_js($default_url); ?>';}" style="white-space:nowrap">↺ Bawaan</button>
+                </div>
+                <span style="font-size:11.5px;color:#94a3b8">Gunakan URL file bawaan plugin atau unggah file audio Anda sendiri melalui Media Library WordPress.</span>
+            </div>
+
+            <div class="a4-row u-mb-lg">
+                <div class="a4-field" style="background:#f8fafc;padding:12px 14px;border-radius:8px;border:1px solid #e2e8f0">
+                    <label style="font-weight:600;display:flex;align-items:center;gap:10px;cursor:pointer;margin:0">
+                        <input type="checkbox" name="audio_autoplay" value="1" <?php checked( $audio['autoplay'], 1 ); ?> style="accent-color:#d4a843">
+                        <span>Putar Otomatis saat Pengunjung Membuka Halaman (Autoplay)</span>
+                    </label>
+                    <div style="font-size:11.5px;color:#64748b;margin-top:4px;margin-left:24px">
+                        Jika browser memblokir audio otomatis tanpa interaksi, musik akan otomatis mulai dimainkan saat pengunjung melakukan klik atau scroll pertama.
+                    </div>
+                </div>
+
+                <div class="a4-field" style="background:#f8fafc;padding:12px 14px;border-radius:8px;border:1px solid #e2e8f0">
+                    <label style="font-weight:600;display:flex;align-items:center;gap:10px;cursor:pointer;margin:0">
+                        <input type="checkbox" name="audio_loop" value="1" <?php checked( $audio['loop'], 1 ); ?> style="accent-color:#d4a843">
+                        <span>Putar Berulang Terus Menerus (Looping)</span>
+                    </label>
+                    <div style="font-size:11.5px;color:#64748b;margin-top:4px;margin-left:24px">
+                        Lagu akan langsung diulang dari awal setelah durasi selesai sehingga pameran selalu memiliki musik latar.
+                    </div>
+                </div>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:12px">
+                <button type="submit" class="a4-btn-primary">💾 Simpan Pengaturan Audio</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Live Preview Card -->
+    <div class="a4-card">
+        <div class="a4-card-head">
+            <div style="display:flex;align-items:center;gap:10px">
+                <span class="a4-dash-head-icon" style="background:#ecfdf5;color:#059669;width:32px;height:32px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+                </span>
+                <span>Tes Pratinjau Pemutar Musik (Live Admin Audio Test)</span>
+            </div>
+        </div>
+        <p style="font-size:13px;color:#64748b;margin-bottom:14px">
+            Uji dengar file lagu dan tingkat kenyamanan volume saat ini secara langsung di bawah ini:
+        </p>
+        <div style="background:#0f172a;padding:20px;border-radius:12px;display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;align-items:center;justify-content:space-between;color:#fff">
+                <div style="display:flex;align-items:center;gap:10px">
+                    <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#d4a843,#b88a28);display:flex;align-items:center;justify-content:center;color:#0f172a;font-weight:800">
+                        ♫
+                    </div>
+                    <div>
+                        <div style="font-weight:700;font-size:14px;color:#f8fafc"><?php echo esc_html( $audio['title'] ); ?></div>
+                        <div style="font-size:11.5px;color:#94a3b8" id="a4AudioSourceLabel"><?php echo esc_html( basename( $audio['url'] ) ); ?></div>
+                    </div>
+                </div>
+            </div>
+            <audio id="a4AdminAudioPreview" controls style="width:100%;border-radius:8px;outline:none" preload="none">
+                <source src="<?php echo esc_url( $audio['url'] ); ?>" type="audio/mpeg">
+                Browser Anda tidak mendukung elemen audio.
+            </audio>
+        </div>
+    </div>
+
+    <!-- Info Box: Desain Tombol Floating di Halaman Pameran -->
+    <div class="a4-card" style="background:#fffbeb;border-color:#fde68a">
+        <div class="a4-card-head" style="border-color:#f59e0b;color:#92400e">
+            Desain &amp; Cara Kerja Tombol Floating Musik (Pojok Kanan Bawah)
+        </div>
+        <div style="font-size:13px;color:#78350f;line-height:1.6">
+            <p style="margin:0 0 8px 0"><strong>Tampilan Tombol Logo Musik:</strong></p>
+            <ul style="margin:0 0 10px 20px;list-style:disc">
+                <li><strong>Mode Musik Nyala (Aktif):</strong> Tombol lingkaran emas-gelap premium dengan efek gelombang riak halus (ripple pulse) dan ikon not musik bercahaya emas.</li>
+                <li><strong>Mode Musik Mati (Muted):</strong> Ikon not musik dilengkapi <strong>garis merah miring diagonal</strong> yang kontras dan jelas, menandakan audio sedang dimatikan. Klik kembali tombol ini untuk menghidupkan musik seketika.</li>
+                <li><strong>Status Disimpan (Session Storage):</strong> Preferensi pengunjung (apakah mematikan atau menyalakan lagu) disimpan di sesi browser agar tetap konsisten saat berpindah halaman.</li>
+            </ul>
+        </div>
+    </div>
+    </div>
+
+    <script>
+    (function(){
+        // Audio tester
+        var audio = document.getElementById('a4AdminAudioPreview');
+        var volRange = document.getElementById('a4AudioVolRange');
+        if(audio && volRange) {
+            audio.volume = parseFloat(volRange.value) || 0.35;
+            window.a4PreviewAudio = audio;
+        }
+
+        // Media uploader
+        var uploadBtn = document.getElementById('a4UploadAudioBtn');
+        var urlInput = document.getElementById('a4AudioUrlInput');
+        if (uploadBtn && typeof wp !== 'undefined' && wp.media) {
+            uploadBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                var frame = wp.media({
+                    title: 'Pilih atau Unggah Musik Latar Pameran',
+                    button: { text: 'Gunakan Audio Ini' },
+                    library: { type: 'audio' },
+                    multiple: false
+                });
+                frame.on('select', function() {
+                    var attachment = frame.state().get('selection').first().toJSON();
+                    if (attachment && attachment.url) {
+                        urlInput.value = attachment.url;
+                        if (audio) {
+                            audio.src = attachment.url;
+                            document.getElementById('a4AudioSourceLabel').innerText = attachment.filename || attachment.title || 'custom-audio.mp3';
+                        }
+                    }
+                });
+                frame.open();
+            });
+        }
+    })();
+    </script>
     <?php
 }
 

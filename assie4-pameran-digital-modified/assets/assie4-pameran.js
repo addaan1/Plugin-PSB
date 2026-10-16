@@ -3434,6 +3434,189 @@
   }
 
   /* ══════════════════════════════════════════════════════
+     BACKGROUND MUSIC PLAYER
+     ═══════════════════════════════════════════════════════ */
+  function initAudioPlayer(){
+    var playerEl = document.getElementById('a4AudioPlayer');
+    var audioEl = document.getElementById('a4BgAudio');
+    var toggleBtn = document.getElementById('a4AudioToggleBtn');
+    var cardEl = document.getElementById('a4AudioCard');
+    var cardCloseBtn = document.getElementById('a4AudioCardClose');
+    var trackTitleEl = document.getElementById('a4AudioTrackTitle');
+    var statusTextEl = document.getElementById('a4AudioStatusText');
+    var volSlider = document.getElementById('a4AudioVolumeSlider');
+
+    if (!playerEl || !audioEl || !toggleBtn) return;
+
+    var audioCfg = (window.ASSIE4_CFG && window.ASSIE4_CFG.audio) || {};
+    if (audioCfg.enabled === 0 || audioCfg.enabled === '0' || audioCfg.enabled === false) {
+      playerEl.style.display = 'none';
+      return;
+    }
+
+    var audioUrl = audioCfg.url || ((window.ASSIE4_CFG && window.ASSIE4_CFG.pluginUrl ? window.ASSIE4_CFG.pluginUrl : '') + 'assets/audio/assie-opening-anthem.mp3');
+    audioEl.src = audioUrl;
+
+    var targetVol = (audioCfg.volume !== undefined && audioCfg.volume !== null) ? parseFloat(audioCfg.volume) : 0.35;
+    if (isNaN(targetVol) || targetVol < 0.05) targetVol = 0.35;
+    if (targetVol > 1.0) targetVol = 1.0;
+
+    audioEl.volume = targetVol;
+    audioEl.loop = (audioCfg.loop !== 0 && audioCfg.loop !== '0' && audioCfg.loop !== false);
+
+    if (volSlider) {
+      volSlider.value = targetVol;
+    }
+
+    if (trackTitleEl && audioCfg.title) {
+      trackTitleEl.textContent = audioCfg.title;
+    }
+
+    var fadeInterval = null;
+
+    function setVisualPlaying(isPlaying) {
+      if (isPlaying) {
+        toggleBtn.classList.remove('is-muted');
+        toggleBtn.classList.add('is-playing');
+        toggleBtn.setAttribute('title', 'Matikan Musik Latar (' + (audioCfg.title || 'ASSIE Anthem') + ')');
+        toggleBtn.setAttribute('aria-label', 'Matikan Musik Latar');
+        if (statusTextEl) statusTextEl.textContent = 'Memutar Musik Latar';
+        if (cardEl) cardEl.classList.add('is-playing-status');
+      } else {
+        toggleBtn.classList.remove('is-playing');
+        toggleBtn.classList.add('is-muted');
+        toggleBtn.setAttribute('title', 'Putar Musik Latar (' + (audioCfg.title || 'ASSIE Anthem') + ')');
+        toggleBtn.setAttribute('aria-label', 'Putar Musik Latar');
+        if (statusTextEl) statusTextEl.textContent = 'Musik Dimatikan';
+        if (cardEl) cardEl.classList.remove('is-playing-status');
+      }
+    }
+
+    function smoothFadeIn(callback) {
+      if (fadeInterval) clearInterval(fadeInterval);
+      audioEl.volume = 0;
+      var step = Math.max(0.02, targetVol / 12);
+      fadeInterval = setInterval(function(){
+        if (audioEl.volume + step >= targetVol) {
+          audioEl.volume = targetVol;
+          clearInterval(fadeInterval);
+          fadeInterval = null;
+          if (callback) callback();
+        } else {
+          audioEl.volume = Math.min(targetVol, audioEl.volume + step);
+        }
+      }, 35);
+    }
+
+    function smoothFadeOut(callback) {
+      if (fadeInterval) clearInterval(fadeInterval);
+      var current = audioEl.volume;
+      var step = Math.max(0.02, current / 10);
+      fadeInterval = setInterval(function(){
+        if (audioEl.volume - step <= 0.01) {
+          audioEl.volume = 0;
+          audioEl.pause();
+          clearInterval(fadeInterval);
+          fadeInterval = null;
+          if (callback) callback();
+        } else {
+          audioEl.volume = Math.max(0, audioEl.volume - step);
+        }
+      }, 30);
+    }
+
+    function playMusic() {
+      var playPromise = audioEl.play();
+      if (playPromise !== undefined) {
+        playPromise.then(function(){
+          smoothFadeIn();
+          setVisualPlaying(true);
+          try { sessionStorage.setItem('a4_music_state', 'playing'); } catch(e){}
+        }).catch(function(err){
+          setVisualPlaying(false);
+          setupUserGestureListener();
+        });
+      }
+    }
+
+    function stopMusic() {
+      try { sessionStorage.setItem('a4_music_state', 'muted'); } catch(e){}
+      smoothFadeOut(function(){
+        setVisualPlaying(false);
+      });
+    }
+
+    var gestureAttached = false;
+    function onFirstGesture() {
+      var state = '';
+      try { state = sessionStorage.getItem('a4_music_state'); } catch(e){}
+      if (state !== 'muted') {
+        playMusic();
+      }
+      removeUserGestureListener();
+    }
+
+    function setupUserGestureListener() {
+      if (gestureAttached) return;
+      gestureAttached = true;
+      window.addEventListener('click', onFirstGesture, { once: true, passive: true });
+      window.addEventListener('keydown', onFirstGesture, { once: true, passive: true });
+      window.addEventListener('touchstart', onFirstGesture, { once: true, passive: true });
+    }
+
+    function removeUserGestureListener() {
+      gestureAttached = false;
+      window.removeEventListener('click', onFirstGesture);
+      window.removeEventListener('keydown', onFirstGesture);
+      window.removeEventListener('touchstart', onFirstGesture);
+    }
+
+    toggleBtn.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      removeUserGestureListener();
+      if (audioEl.paused || audioEl.volume === 0 || toggleBtn.classList.contains('is-muted')) {
+        playMusic();
+      } else {
+        stopMusic();
+      }
+    });
+
+    if (volSlider) {
+      volSlider.addEventListener('input', function(e){
+        var val = parseFloat(e.target.value);
+        if (!isNaN(val)) {
+          targetVol = Math.max(0.05, Math.min(1.0, val));
+          if (!audioEl.paused && !toggleBtn.classList.contains('is-muted')) {
+            audioEl.volume = targetVol;
+          }
+        }
+      });
+    }
+
+    if (cardCloseBtn && cardEl) {
+      cardCloseBtn.addEventListener('click', function(e){
+        e.stopPropagation();
+        cardEl.classList.remove('is-open');
+      });
+    }
+
+    var savedState = '';
+    try { savedState = sessionStorage.getItem('a4_music_state'); } catch(e){}
+
+    if (savedState === 'muted') {
+      setVisualPlaying(false);
+    } else {
+      var shouldAutoplay = (audioCfg.autoplay !== 0 && audioCfg.autoplay !== '0' && audioCfg.autoplay !== false);
+      if (shouldAutoplay) {
+        playMusic();
+      } else {
+        setVisualPlaying(false);
+      }
+    }
+  }
+
+  /* ══════════════════════════════════════════════════════
      INIT
      ═══════════════════════════════════════════════════════ */
   function initMotion(){
@@ -3462,6 +3645,7 @@
     loadBerita();
     refreshStats();
     initMotion();
+    initAudioPlayer();
   }
 
   if(document.readyState==='loading'){
