@@ -2,7 +2,7 @@
 /**
  * Plugin Name: ASSIE IV — Presensi Booth
  * Description: Sistem presensi digital pengunjung booth pameran IM ASSIE IV 2026. Menyimpan data ke database WordPress dan menampilkan halaman presensi full-page.
- * Version:     1.1.1
+ * Version:     1.2.0
  * Author:      IM ASSIE IV 2026
  * Text Domain: assie4-presensi
  */
@@ -12,7 +12,7 @@ if (!defined('ABSPATH'))
 
 define('ASSIE4_DIR', plugin_dir_path(__FILE__));
 define('ASSIE4_URL', plugin_dir_url(__FILE__));
-define('ASSIE4_VERSION', '1.1.1');
+define('ASSIE4_VERSION', '1.2.0');
 define('ASSIE4_TABLE', 'assie4_presensi');
 
 // ═══════════════════════════════════════════════════
@@ -561,6 +561,188 @@ function assie4_handle_export_csv()
   exit;
 }
 
+// ─── HANDLER: HAPUS 1 DATA PRESENSI (SINGLE DELETE) ───
+add_action('admin_post_assie4_delete_entry', 'assie4_handle_delete_entry');
+function assie4_handle_delete_entry()
+{
+  if (!current_user_can('manage_options')) {
+    wp_die('Anda tidak memiliki izin untuk menghapus data presensi.', '', ['response' => 403]);
+  }
+  $id = isset($_REQUEST['id']) ? absint($_REQUEST['id']) : 0;
+  if (!$id) {
+    wp_safe_redirect(add_query_arg(['page' => 'assie4-presensi', 'msg' => 'error_invalid_id'], admin_url('admin.php')));
+    exit;
+  }
+  check_admin_referer('assie4_delete_entry_' . $id);
+
+  global $wpdb;
+  $table = $wpdb->prefix . ASSIE4_TABLE;
+  $deleted = $wpdb->delete($table, ['id' => $id], ['%d']);
+
+  $redirect_url = wp_get_referer() ?: admin_url('admin.php?page=assie4-presensi');
+  $redirect_url = remove_query_arg(['msg', '_wpnonce', 'action', 'id'], $redirect_url);
+  $redirect_url = add_query_arg('msg', $deleted !== false ? 'deleted_single' : 'error_not_found', $redirect_url);
+  wp_safe_redirect($redirect_url);
+  exit;
+}
+
+// ─── HANDLER: HAPUS MASSAL DATA PRESENSI (BULK DELETE) ───
+add_action('admin_post_assie4_bulk_delete', 'assie4_handle_bulk_delete');
+function assie4_handle_bulk_delete()
+{
+  if (!current_user_can('manage_options')) {
+    wp_die('Anda tidak memiliki izin untuk menghapus data presensi.', '', ['response' => 403]);
+  }
+  check_admin_referer('assie4_bulk_delete');
+
+  $action_type = sanitize_key($_POST['bulk_action_type'] ?? '');
+  $redirect_url = wp_get_referer() ?: admin_url('admin.php?page=assie4-presensi');
+  $redirect_url = remove_query_arg(['msg', '_wpnonce', 'action'], $redirect_url);
+
+  if ($action_type !== 'delete') {
+    wp_safe_redirect($redirect_url);
+    exit;
+  }
+
+  $ids = isset($_POST['entry_ids']) && is_array($_POST['entry_ids']) ? array_map('absint', $_POST['entry_ids']) : [];
+  $ids = array_values(array_filter($ids));
+
+  if (empty($ids)) {
+    wp_safe_redirect(add_query_arg('msg', 'error_no_selection', $redirect_url));
+    exit;
+  }
+
+  global $wpdb;
+  $table = $wpdb->prefix . ASSIE4_TABLE;
+  $placeholders = implode(',', array_fill(0, count($ids), '%d'));
+  $sql = $wpdb->prepare("DELETE FROM {$table} WHERE id IN ($placeholders)", ...$ids);
+  $count = $wpdb->query($sql);
+
+  $redirect_url = add_query_arg(['msg' => 'deleted_bulk', 'count' => (int) $count], $redirect_url);
+  wp_safe_redirect($redirect_url);
+  exit;
+}
+
+// ─── HANDLER: HAPUS DATA BERDASARKAN TANGGAL UJI COBA ───
+add_action('admin_post_assie4_delete_by_date', 'assie4_handle_delete_by_date');
+function assie4_handle_delete_by_date()
+{
+  if (!current_user_can('manage_options')) {
+    wp_die('Anda tidak memiliki izin untuk menghapus data presensi.', '', ['response' => 403]);
+  }
+  check_admin_referer('assie4_delete_date');
+
+  $target_date = sanitize_text_field(wp_unslash($_POST['target_date'] ?? ''));
+  if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $target_date)) {
+    wp_safe_redirect(add_query_arg(['page' => 'assie4-presensi', 'msg' => 'error_invalid_date'], admin_url('admin.php')));
+    exit;
+  }
+
+  global $wpdb;
+  $table = $wpdb->prefix . ASSIE4_TABLE;
+  $count = $wpdb->query($wpdb->prepare("DELETE FROM {$table} WHERE DATE(waktu) = %s", $target_date));
+
+  $redirect_url = admin_url('admin.php?page=assie4-presensi');
+  $redirect_url = add_query_arg(['msg' => 'deleted_date', 'count' => (int) $count, 'target_date' => $target_date], $redirect_url);
+  wp_safe_redirect($redirect_url);
+  exit;
+}
+
+// ─── HANDLER: RESET / KOSONGKAN SELURUH DATABASE PRESENSI (TRUNCATE) ───
+add_action('admin_post_assie4_reset_database', 'assie4_handle_reset_database');
+function assie4_handle_reset_database()
+{
+  if (!current_user_can('manage_options')) {
+    wp_die('Anda tidak memiliki izin untuk mengosongkan database presensi.', '', ['response' => 403]);
+  }
+  check_admin_referer('assie4_reset_database');
+
+  $confirm = trim(sanitize_text_field(wp_unslash($_POST['confirm_keyword'] ?? '')));
+  if (strtoupper($confirm) !== 'RESET') {
+    wp_safe_redirect(add_query_arg(['page' => 'assie4-presensi', 'msg' => 'error_keyword'], admin_url('admin.php')));
+    exit;
+  }
+
+  global $wpdb;
+  $table = $wpdb->prefix . ASSIE4_TABLE;
+  $before = (int) $wpdb->get_var("SELECT COUNT(*) FROM {$table}");
+  $wpdb->query("TRUNCATE TABLE {$table}");
+
+  $redirect_url = admin_url('admin.php?page=assie4-presensi');
+  $redirect_url = add_query_arg(['msg' => 'reset_success', 'count' => $before], $redirect_url);
+  wp_safe_redirect($redirect_url);
+  exit;
+}
+
+// ─── AJAX HANDLER: HAPUS 1 BARIS (AJAX) ───
+add_action('wp_ajax_assie4_delete_entry_ajax', 'assie4_ajax_delete_entry');
+function assie4_ajax_delete_entry()
+{
+  if (!current_user_can('manage_options')) {
+    wp_send_json_error(['message' => 'Unauthorized'], 403);
+  }
+  check_ajax_referer('assie4_admin_ajax', 'nonce');
+  $id = isset($_POST['id']) ? absint($_POST['id']) : 0;
+  if (!$id) {
+    wp_send_json_error(['message' => 'ID tidak valid']);
+  }
+  global $wpdb;
+  $table = $wpdb->prefix . ASSIE4_TABLE;
+  $deleted = $wpdb->delete($table, ['id' => $id], ['%d']);
+  if ($deleted !== false) {
+    wp_send_json_success(['id' => $id]);
+  } else {
+    wp_send_json_error(['message' => 'Gagal menghapus dari database']);
+  }
+}
+
+// ─── AJAX HANDLER: RESET COUNT (JIKA BELUM DIDAFTARKAN PLUGIN LAIN) ───
+if (!function_exists('assie4_reset_presensi_count')) {
+  add_action('wp_ajax_assie4_reset_presensi_count', 'assie4_reset_presensi_count');
+  function assie4_reset_presensi_count()
+  {
+    if (!current_user_can('manage_options')) {
+      wp_send_json_error('Unauthorized', 403);
+    }
+    global $wpdb;
+    $table = $wpdb->prefix . ASSIE4_TABLE;
+    $before = (int) $wpdb->get_var("SELECT COUNT(*) FROM {$table}");
+    $wpdb->query("TRUNCATE TABLE {$table}");
+    $after = (int) $wpdb->get_var("SELECT COUNT(*) FROM {$table}");
+    wp_send_json_success(['before' => $before, 'after' => $after]);
+  }
+}
+
+// ─── RENDER NOTIFIKASI ADMIN ───
+function assie4_render_admin_notices()
+{
+  $msg = sanitize_key($_GET['msg'] ?? '');
+  if (!$msg)
+    return;
+
+  if ($msg === 'deleted_single') {
+    echo '<div class="notice notice-success is-dismissible" style="border-left-color:#22c55e;"><p><strong>Berhasil:</strong> 1 data presensi pengunjung telah berhasil dihapus dari database.</p></div>';
+  } elseif ($msg === 'deleted_bulk') {
+    $count = (int) ($_GET['count'] ?? 0);
+    echo '<div class="notice notice-success is-dismissible" style="border-left-color:#22c55e;"><p><strong>Berhasil:</strong> Sebanyak <strong>' . esc_html($count) . '</strong> data presensi yang dipilih berhasil dihapus.</p></div>';
+  } elseif ($msg === 'deleted_date') {
+    $count = (int) ($_GET['count'] ?? 0);
+    $date = sanitize_text_field($_GET['target_date'] ?? '');
+    echo '<div class="notice notice-success is-dismissible" style="border-left-color:#22c55e;"><p><strong>Berhasil:</strong> Sebanyak <strong>' . esc_html($count) . '</strong> data presensi pada tanggal <code>' . esc_html($date) . '</code> telah dibersihkan.</p></div>';
+  } elseif ($msg === 'reset_success') {
+    $count = (int) ($_GET['count'] ?? 0);
+    echo '<div class="notice notice-success is-dismissible" style="border-left-color:#22c55e;"><p><strong>Database Berhasil Dikosongkan:</strong> Seluruh database presensi telah di-reset (total <strong>' . esc_html($count) . '</strong> baris data dihapus). Nomor urut ID telah kembali ke awal.</p></div>';
+  } elseif ($msg === 'error_keyword') {
+    echo '<div class="notice notice-error is-dismissible" style="border-left-color:#ef4444;"><p><strong>Gagal Mereset:</strong> Konfirmasi kata kunci salah. Anda wajib mengetik kata <code>RESET</code> (huruf kapital) untuk mengosongkan database.</p></div>';
+  } elseif ($msg === 'error_no_selection') {
+    echo '<div class="notice notice-warning is-dismissible" style="border-left-color:#f59e0b;"><p><strong>Peringatan:</strong> Tidak ada baris data presensi yang dicentang untuk dihapus.</p></div>';
+  } elseif ($msg === 'error_invalid_id' || $msg === 'error_not_found') {
+    echo '<div class="notice notice-error is-dismissible" style="border-left-color:#ef4444;"><p><strong>Error:</strong> Data presensi tidak ditemukan atau ID tidak valid.</p></div>';
+  } elseif ($msg === 'error_invalid_date') {
+    echo '<div class="notice notice-error is-dismissible" style="border-left-color:#ef4444;"><p><strong>Error:</strong> Format tanggal tidak valid.</p></div>';
+  }
+}
+
 function assie4_admin_page()
 {
   global $wpdb;
@@ -636,11 +818,6 @@ function assie4_admin_page()
       "SELECT booth, COUNT(*) AS total FROM {$table} GROUP BY booth",
       ARRAY_A
     );
-    $recent = $wpdb->get_results(
-      "SELECT booth, nama, instansi, telp, DATE_FORMAT(waktu,'%d/%m/%Y %H:%i') AS waktu_fmt
-             FROM {$table} ORDER BY waktu DESC LIMIT 50",
-      ARRAY_A
-    );
   } else {
     $day_start = DateTimeImmutable::createFromFormat('!Y-m-d', $range, wp_timezone());
     $period_start = $range . ' 00:00:00';
@@ -663,13 +840,70 @@ function assie4_admin_page()
       $period_start,
       $period_end
     ), ARRAY_A);
-    $recent = $wpdb->get_results($wpdb->prepare(
-      "SELECT booth, nama, instansi, telp, DATE_FORMAT(waktu,'%d/%m/%Y %H:%i') AS waktu_fmt
-             FROM {$table} WHERE waktu >= %s AND waktu < %s ORDER BY waktu DESC LIMIT 50",
-      $period_start,
-      $period_end
-    ), ARRAY_A);
   }
+
+  // ─── QUERY DATA PRESENSI UNTUK TABEL PENGELOLAAN (SEARCH, FILTER, PAGINATION, DELETE) ───
+  $search_query = sanitize_text_field(wp_unslash($_GET['s'] ?? ''));
+  $filter_booth = isset($_GET['filter_booth']) && $_GET['filter_booth'] !== '' ? (int) $_GET['filter_booth'] : 0;
+  $paged = max(1, (int) ($_GET['paged'] ?? 1));
+  $per_page = 50;
+
+  $tbl_conditions = ["1=1"];
+  $tbl_params = [];
+
+  if ($range !== 'all') {
+    $tbl_conditions[] = "waktu >= %s AND waktu < %s";
+    $tbl_params[] = $period_start;
+    $tbl_params[] = $period_end;
+  }
+  if (!empty($search_query)) {
+    $like = '%' . $wpdb->esc_like($search_query) . '%';
+    $tbl_conditions[] = "(nama LIKE %s OR instansi LIKE %s OR telp LIKE %s)";
+    $tbl_params[] = $like;
+    $tbl_params[] = $like;
+    $tbl_params[] = $like;
+  }
+  if ($filter_booth > 0) {
+    $tbl_conditions[] = "booth = %d";
+    $tbl_params[] = $filter_booth;
+  }
+
+  $tbl_sql_where = implode(' AND ', $tbl_conditions);
+
+  if (!empty($tbl_params)) {
+    $total_table_entries = (int) $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM {$table} WHERE {$tbl_sql_where}", ...$tbl_params));
+  } else {
+    $total_table_entries = (int) $wpdb->get_var("SELECT COUNT(*) FROM {$table} WHERE {$tbl_sql_where}");
+  }
+
+  $total_pages = max(1, (int) ceil($total_table_entries / $per_page));
+  if ($paged > $total_pages) {
+    $paged = $total_pages;
+  }
+  $offset = ($paged - 1) * $per_page;
+
+  if (!empty($tbl_params)) {
+    $query_entries_sql = $wpdb->prepare(
+      "SELECT id, booth, nama, instansi, telp, DATE_FORMAT(waktu,'%d/%m/%Y %H:%i') AS waktu_fmt, waktu 
+       FROM {$table} 
+       WHERE {$tbl_sql_where} 
+       ORDER BY waktu DESC 
+       LIMIT %d OFFSET %d",
+      ...array_merge($tbl_params, [$per_page, $offset])
+    );
+  } else {
+    $query_entries_sql = $wpdb->prepare(
+      "SELECT id, booth, nama, instansi, telp, DATE_FORMAT(waktu,'%d/%m/%Y %H:%i') AS waktu_fmt, waktu 
+       FROM {$table} 
+       WHERE {$tbl_sql_where} 
+       ORDER BY waktu DESC 
+       LIMIT %d OFFSET %d",
+      $per_page,
+      $offset
+    );
+  }
+
+  $recent = $wpdb->get_results($query_entries_sql, ARRAY_A) ?: [];
 
   $daily_rows = $wpdb->get_results(
     "SELECT DATE(waktu) AS event_date, COUNT(*) AS total
@@ -801,10 +1035,18 @@ function assie4_admin_page()
 
   $page = get_page_by_path('presensi-booth-assie4');
   $page_url = $page ? get_permalink($page) : '';
-  $export_url = wp_nonce_url(
-    add_query_arg(['action' => 'assie4_export_csv'], admin_url('admin-post.php')),
-    'assie4_export_csv'
-  );
+  $export_args = ['action' => 'assie4_export_csv'];
+  if ($range !== 'all') {
+    $export_args['range'] = $range;
+  }
+  if (!empty($search_query)) {
+    $export_args['s'] = $search_query;
+  }
+  if ($filter_booth > 0) {
+    $export_args['filter_booth'] = $filter_booth;
+  }
+  $export_url = wp_nonce_url(add_query_arg($export_args, admin_url('admin-post.php')), 'assie4_export_csv');
+  $export_all_url = wp_nonce_url(add_query_arg(['action' => 'assie4_export_csv', 'range' => 'all'], admin_url('admin-post.php')), 'assie4_export_csv');
   ?>
   <style>
     .wrap>.notice,
@@ -1953,9 +2195,169 @@ function assie4_admin_page()
         justify-content: center
       }
     }
+
+    /* ═══ STYLES UNTUK PENGELOLAAN, FILTER, DELETE & RESET ═══ */
+    #assie4-dashboard .a4-danger-panel {
+      border: 1px solid #fecaca;
+      background: #fff;
+      border-left: 5px solid #dc2626;
+      margin-top: 24px;
+    }
+    .a4-danger-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      margin-top: 16px;
+    }
+    .a4-danger-card {
+      border: 1px solid #fee2e2;
+      background: #fef2f2;
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .a4-danger-card h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+      color: #991b1b;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+    }
+    .a4-danger-card p {
+      margin: 0 0 16px;
+      font-size: 12.5px;
+      color: #7f1d1d;
+      line-height: 1.5;
+    }
+    .a4-btn-danger {
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: #dc2626 !important;
+      border-color: #b91c1c !important;
+      color: #fff !important;
+      font-weight: 700 !important;
+      padding: 0 16px !important;
+      min-height: 38px !important;
+      border-radius: 8px !important;
+      cursor: pointer;
+      transition: all .15s ease;
+    }
+    .a4-btn-danger:hover {
+      background: #b91c1c !important;
+      border-color: #991b1b !important;
+      transform: translateY(-1px);
+    }
+    .a4-btn-danger[disabled] {
+      opacity: .5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .a4-btn-backup {
+      display: inline-flex !important;
+      align-items: center;
+      gap: 6px;
+      background: #0284c7 !important;
+      border-color: #0369a1 !important;
+      color: #fff !important;
+      font-weight: 700 !important;
+      padding: 0 14px !important;
+      min-height: 36px !important;
+      border-radius: 8px !important;
+    }
+    .a4-btn-backup:hover {
+      background: #0369a1 !important;
+      color: #fff !important;
+    }
+    .a4-btn-row-del {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 9px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #dc2626;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 6px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .a4-btn-row-del:hover {
+      background: #dc2626;
+      color: #fff;
+      border-color: #dc2626;
+    }
+    .a4-filter-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 15px;
+      padding: 12px 14px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+    }
+    .a4-filter-inputs {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .a4-filter-inputs input[type="text"],
+    .a4-filter-inputs select {
+      height: 34px;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+      font-size: 12px;
+    }
+    .a4-bulk-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .a4-pagination {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 14px;
+      font-size: 12px;
+      color: #64748b;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .a4-page-links {
+      display: flex;
+      gap: 4px;
+    }
+    .a4-page-links a,
+    .a4-page-links span {
+      padding: 4px 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      text-decoration: none;
+      color: #334155;
+      background: #fff;
+      font-size: 12px;
+    }
+    .a4-page-links span.current {
+      background: #1e40af;
+      color: #fff;
+      border-color: #1e40af;
+      font-weight: 700;
+    }
   </style>
   <div class="wrap">
     <h1 class="wp-heading-inline" style="display:none"></h1>
+    <?php assie4_render_admin_notices(); ?>
     <div id="assie4-dashboard">
       <div class="a4-dash-head">
         <div>
@@ -1967,6 +2369,7 @@ function assie4_admin_page()
           <?php if ($page_url): ?><a href="<?php echo esc_url($page_url); ?>" target="_blank" rel="noopener"
               class="button">Buka halaman presensi</a><?php endif; ?>
           <a href="<?php echo esc_url($export_url); ?>" class="button button-primary">Export data CSV</a>
+          <a href="#a4-danger-zone" class="button" style="background:#dc2626;color:#fff;border-color:#b91c1c;font-weight:700;"><span class="dashicons dashicons-trash" style="font-size:16px;width:16px;height:16px;vertical-align:text-top;margin-right:2px;"></span> Kelola / Reset Data</a>
         </div>
       </div>
 
@@ -2311,56 +2714,273 @@ function assie4_admin_page()
         </div>
       </section>
 
-      <section class="a4-panel">
+      <!-- ═══════════════════════════════════════════════════ -->
+      <!--  DAFTAR DATA PRESENSI PENGUNJUNG                    -->
+      <!-- ═══════════════════════════════════════════════════ -->
+      <section class="a4-panel" id="a4-presensi-list">
         <div class="a4-section-head">
           <div>
-            <h2>Presensi terbaru</h2>
-            <p>50 data terakhir untuk <?php echo esc_html(strtolower($period_label)); ?>.</p>
+            <h2>Data Presensi Pengunjung</h2>
+            <p>
+              <?php if (!empty($search_query) || $filter_booth > 0 || $range !== 'all'): ?>
+                Ditemukan <strong><?php echo esc_html(number_format_i18n($total_table_entries)); ?></strong> data presensi yang cocok dengan filter pencarian.
+              <?php else: ?>
+                Menampilkan total <strong><?php echo esc_html(number_format_i18n($total_table_entries)); ?></strong> data presensi pengunjung booth.
+              <?php endif; ?>
+            </p>
+          </div>
+          <div>
+            <a href="<?php echo esc_url($export_url); ?>" class="button button-primary">
+              <span class="dashicons dashicons-media-spreadsheet" style="vertical-align:middle;margin-top:-2px"></span>
+              Export Data CSV <?php echo ($range !== 'all' || !empty($search_query) || $filter_booth > 0) ? '(Sesuai Filter)' : ''; ?>
+            </a>
           </div>
         </div>
-        <div class="a4-table-wrap a4-recent">
-          <table class="a4-table">
-            <thead>
-              <tr>
-                <th>Booth / Tenant</th>
-                <th>Nama pengunjung</th>
-                <th>Instansi</th>
-                <th>Telepon</th>
-                <th>Waktu</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php if (empty($recent)): ?>
+
+        <!-- FORM FILTER & PENCARIAN -->
+        <form method="get" action="<?php echo esc_url(admin_url('admin.php')); ?>" class="a4-filter-bar">
+          <input type="hidden" name="page" value="assie4-presensi">
+          <?php if ($range !== 'all'): ?>
+            <input type="hidden" name="range" value="<?php echo esc_attr($range); ?>">
+          <?php endif; ?>
+
+          <div class="a4-filter-inputs">
+            <input type="text" name="s" value="<?php echo esc_attr($search_query); ?>" placeholder="Cari Nama / Instansi / No HP…" style="width:230px;">
+            <select name="filter_booth" style="max-width:260px;">
+              <option value="">— Semua Booth (120 Booth) —</option>
+              <?php foreach ($booth_dir as $b_num => $b_data):
+                $b_code = $b_data['code'] ?? str_pad((string)$b_num, 3, '0', STR_PAD_LEFT);
+                $b_name = $b_data['name'] ?? '';
+                $selected = ($filter_booth === (int)$b_num) ? 'selected' : '';
+              ?>
+                <option value="<?php echo esc_attr($b_num); ?>" <?php echo $selected; ?>>
+                  Booth <?php echo esc_html($b_code); ?><?php echo !empty($b_name) ? ' — ' . esc_html($b_name) : ''; ?>
+                </option>
+              <?php endforeach; ?>
+            </select>
+            <button type="submit" class="button">Filter & Cari</button>
+            <?php if (!empty($search_query) || $filter_booth > 0): ?>
+              <a href="<?php echo esc_url(add_query_arg(['page' => 'assie4-presensi', 'range' => $range], admin_url('admin.php'))); ?>" class="button button-link-delete" style="font-size:12px;margin-left:4px;">Reset Filter</a>
+            <?php endif; ?>
+          </div>
+
+          <div style="font-size:12px;color:#64748b;">
+            Halaman <?php echo esc_html($paged); ?> dari <?php echo esc_html($total_pages); ?>
+          </div>
+        </form>
+
+        <!-- FORM BULK DELETE & TABEL -->
+        <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" id="a4-bulk-form">
+          <?php wp_nonce_field('assie4_bulk_delete'); ?>
+          <input type="hidden" name="action" value="assie4_bulk_delete">
+
+          <div class="a4-bulk-bar" style="margin-bottom:10px;">
+            <select name="bulk_action_type" id="a4-bulk-select" style="height:32px;font-size:12px;border-radius:6px;">
+              <option value="">— Tindakan Massal —</option>
+              <option value="delete">Hapus Data yang Dicentang</option>
+            </select>
+            <button type="submit" class="button" style="height:32px;line-height:30px;font-size:12px;">Terapkan</button>
+            <span style="font-size:11px;color:#94a3b8;margin-left:6px;">(Centang baris data di bawah yang ingin dihapus)</span>
+          </div>
+
+          <div class="a4-table-wrap a4-recent">
+            <table class="a4-table">
+              <thead>
                 <tr>
-                  <td colspan="5" class="a4-empty">Belum ada data presensi pada periode ini.</td>
+                  <th style="width:36px;text-align:center;">
+                    <input type="checkbox" id="a4-check-all" title="Pilih Semua">
+                  </th>
+                  <th style="width:50px;">ID</th>
+                  <th>Booth / Tenant</th>
+                  <th>Nama Pengunjung</th>
+                  <th>Instansi</th>
+                  <th>Telepon</th>
+                  <th>Waktu Presensi</th>
+                  <th style="width:80px;text-align:center;">Aksi</th>
                 </tr>
-              <?php else:
-                foreach ($recent as $entry):
-                  $booth_number = (int) $entry['booth'];
-                  $booth_info = $tenant_directory[$booth_number] ?? [];
-                  $booth_code = $booth_info['code'] ?? str_pad((string) $booth_number, 3, '0', STR_PAD_LEFT);
-                  $b_area = assie4_get_booth_area($booth_number);
-                  $b_meta = $area_meta[$b_area] ?? null;
-                  $b_color = $b_meta['color'] ?? '#1f62a7';
-                  $b_bg = $b_meta['badge'] ?? '#edf5ff';
-                  ?>
+              </thead>
+              <tbody>
+                <?php if (empty($recent)): ?>
                   <tr>
-                    <td>
-                      <span class="a4-booth-code"
-                        style="background:<?php echo esc_attr($b_bg); ?>;color:<?php echo esc_attr($b_color); ?>;border:1px solid <?php echo esc_attr($b_color); ?>30">
-                        <?php echo esc_html($booth_code); ?> · Area <?php echo esc_html($b_area); ?>
-                      </span>
-                      <?php if (!empty($booth_info['name'])): ?><span
-                          class="a4-tenant-name"><?php echo esc_html($booth_info['name']); ?></span><?php endif; ?>
+                    <td colspan="8" class="a4-empty">
+                      <strong>Tidak ada data presensi yang ditemukan.</strong>
+                      <?php if (!empty($search_query) || $filter_booth > 0): ?>
+                        <p style="margin:4px 0 0;font-size:12px;">Coba ubah kata kunci pencarian atau reset filter booth.</p>
+                      <?php else: ?>
+                        <p style="margin:4px 0 0;font-size:12px;">Belum ada pengunjung yang mengisi presensi pada periode ini.</p>
+                      <?php endif; ?>
                     </td>
-                    <td><?php echo esc_html($entry['nama']); ?></td>
-                    <td><?php echo esc_html($entry['instansi']); ?></td>
-                    <td class="a4-phone"><?php echo esc_html($entry['telp']); ?></td>
-                    <td><?php echo esc_html($entry['waktu_fmt']); ?></td>
                   </tr>
-                <?php endforeach; endif; ?>
-            </tbody>
-          </table>
+                <?php else:
+                  foreach ($recent as $entry):
+                    $entry_id = (int) ($entry['id'] ?? 0);
+                    $booth_number = (int) $entry['booth'];
+                    $booth_info = $tenant_directory[$booth_number] ?? [];
+                    $booth_code = $booth_info['code'] ?? str_pad((string) $booth_number, 3, '0', STR_PAD_LEFT);
+                    $b_area = assie4_get_booth_area($booth_number);
+                    $b_meta = $area_meta[$b_area] ?? null;
+                    $b_color = $b_meta['color'] ?? '#1f62a7';
+                    $b_bg = $b_meta['badge'] ?? '#edf5ff';
+                    $delete_url = wp_nonce_url(
+                      add_query_arg([
+                        'action' => 'assie4_delete_entry',
+                        'id'     => $entry_id,
+                      ], admin_url('admin-post.php')),
+                      'assie4_delete_entry_' . $entry_id
+                    );
+                    ?>
+                    <tr id="a4-row-<?php echo esc_attr($entry_id); ?>">
+                      <td style="text-align:center;">
+                        <input type="checkbox" name="entry_ids[]" value="<?php echo esc_attr($entry_id); ?>" class="a4-entry-cb">
+                      </td>
+                      <td style="color:#94a3b8;font-size:11px;font-variant-numeric:tabular-nums;">
+                        #<?php echo esc_html($entry_id); ?>
+                      </td>
+                      <td>
+                        <span class="a4-booth-code"
+                          style="background:<?php echo esc_attr($b_bg); ?>;color:<?php echo esc_attr($b_color); ?>;border:1px solid <?php echo esc_attr($b_color); ?>30">
+                          <?php echo esc_html($booth_code); ?> · Area <?php echo esc_html($b_area); ?>
+                        </span>
+                        <?php if (!empty($booth_info['name'])): ?>
+                          <span class="a4-tenant-name"><?php echo esc_html($booth_info['name']); ?></span>
+                        <?php endif; ?>
+                      </td>
+                      <td><strong><?php echo esc_html($entry['nama']); ?></strong></td>
+                      <td><?php echo esc_html($entry['instansi']); ?></td>
+                      <td class="a4-phone"><?php echo esc_html($entry['telp']); ?></td>
+                      <td><?php echo esc_html($entry['waktu_fmt']); ?></td>
+                      <td style="text-align:center;">
+                        <a href="<?php echo esc_url($delete_url); ?>" 
+                           class="a4-btn-row-del"
+                           onclick="return confirm('Apakah Anda yakin ingin menghapus data presensi dari <?php echo esc_js($entry['nama']); ?> di Booth <?php echo esc_js($booth_code); ?>? Tindakan ini tidak dapat dibatalkan.');"
+                           title="Hapus data presensi ini">
+                          <span class="dashicons dashicons-trash" style="font-size:14px;width:14px;height:14px;line-height:14px;vertical-align:middle;"></span>
+                          Hapus
+                        </a>
+                      </td>
+                    </tr>
+                  <?php endforeach; endif; ?>
+              </tbody>
+            </table>
+          </div>
+        </form>
+
+        <!-- PAGINATION -->
+        <?php if ($total_pages > 1): ?>
+          <div class="a4-pagination">
+            <div>
+              Menampilkan <?php echo esc_html($offset + 1); ?>–<?php echo esc_html(min($total_table_entries, $offset + $per_page)); ?> dari <?php echo esc_html(number_format_i18n($total_table_entries)); ?> presensi
+            </div>
+            <div class="a4-page-links">
+              <?php
+              $base_page_url = add_query_arg([
+                'page'         => 'assie4-presensi',
+                'range'        => $range,
+                's'            => $search_query ?: null,
+                'filter_booth' => $filter_booth ?: null,
+              ], admin_url('admin.php'));
+
+              if ($paged > 1): ?>
+                <a href="<?php echo esc_url(add_query_arg('paged', 1, $base_page_url)); ?>">« Pertama</a>
+                <a href="<?php echo esc_url(add_query_arg('paged', $paged - 1, $base_page_url)); ?>">‹ Sebelumnya</a>
+              <?php endif;
+
+              $start_p = max(1, $paged - 2);
+              $end_p = min($total_pages, $paged + 2);
+              for ($p = $start_p; $p <= $end_p; $p++):
+                if ($p === $paged): ?>
+                  <span class="current"><?php echo $p; ?></span>
+                <?php else: ?>
+                  <a href="<?php echo esc_url(add_query_arg('paged', $p, $base_page_url)); ?>"><?php echo $p; ?></a>
+                <?php endif;
+              endfor;
+
+              if ($paged < $total_pages): ?>
+                <a href="<?php echo esc_url(add_query_arg('paged', $paged + 1, $base_page_url)); ?>">Berikutnya ›</a>
+                <a href="<?php echo esc_url(add_query_arg('paged', $total_pages, $base_page_url)); ?>">Terakhir »</a>
+              <?php endif; ?>
+            </div>
+          </div>
+        <?php endif; ?>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════ -->
+      <!--  ZONA BAHAYA / KELOLA DATABASE PRESENSI             -->
+      <!-- ═══════════════════════════════════════════════════ -->
+      <section class="a4-panel a4-danger-panel" id="a4-danger-zone">
+        <div class="a4-section-head">
+          <div>
+            <h2 style="display:flex;align-items:center;gap:8px;color:#b91c1c;">
+              <span class="dashicons dashicons-warning" style="font-size:22px;color:#dc2626;"></span>
+              Pengelolaan & Pembersihan Database Presensi
+            </h2>
+            <p>Fitur untuk membersihkan data uji coba (testing) sebelum hari pelaksanaan pameran dibuka untuk umum.</p>
+          </div>
+          <div>
+            <a href="<?php echo esc_url($export_all_url); ?>" class="button a4-btn-backup">
+              <span class="dashicons dashicons-download" style="vertical-align:middle;margin-top:-2px"></span>
+              Unduh Seluruh Data (Backup CSV)
+            </a>
+          </div>
+        </div>
+
+        <div class="a4-danger-grid">
+          <!-- KARTU 1: HAPUS PER TANGGAL -->
+          <div class="a4-danger-card">
+            <div>
+              <h3>
+                <span class="dashicons dashicons-calendar-alt"></span>
+                Hapus Data Berdasarkan Tanggal
+              </h3>
+              <p>Hapus semua rekaman presensi pada 1 tanggal tertentu saja (misal data uji coba pada tanggal sebelum pameran dibuka).</p>
+            </div>
+            <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" id="a4-delete-date-form">
+              <?php wp_nonce_field('assie4_delete_date'); ?>
+              <input type="hidden" name="action" value="assie4_delete_by_date">
+              <div style="margin-bottom:12px;">
+                <select name="target_date" id="a4-select-delete-date" style="width:100%;height:38px;border-radius:8px;border:1px solid #fca5a5;font-size:13px;" required>
+                  <option value="">— Pilih Tanggal yang Ingin Dihapus —</option>
+                  <?php foreach ($recorded_dates as $r_date):
+                    $d_label = $days[$r_date] ?? $r_date;
+                    $d_cnt = (int) $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM {$table} WHERE DATE(waktu) = %s", $r_date));
+                  ?>
+                    <option value="<?php echo esc_attr($r_date); ?>">
+                      <?php echo esc_html($d_label); ?> (<?php echo esc_html($d_cnt); ?> presensi)
+                    </option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+              <button type="submit" class="button" style="background:#fee2e2;color:#991b1b;border:1px solid #f87171;font-weight:700;border-radius:8px;height:38px;width:100%;">
+                <span class="dashicons dashicons-trash" style="vertical-align:middle;margin-top:-2px"></span>
+                Hapus Presensi Tanggal Terpilih
+              </button>
+            </form>
+          </div>
+
+          <!-- KARTU 2: RESET TOTAL SELURUH DATABASE -->
+          <div class="a4-danger-card" style="border-color:#f87171;background:#fff5f5;">
+            <div>
+              <h3 style="color:#7f1d1d;">
+                <span class="dashicons dashicons-trash"></span>
+                Kosongkan Seluruh Database (Reset Total)
+              </h3>
+              <p>Menghapus <strong>SEMUA</strong> entri di tabel <code><?php echo esc_html($table); ?></code> dan me-reset nomor ID kembali ke 1. Sangat disarankan mengunduh backup CSV terlebih dahulu.</p>
+            </div>
+            <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" id="a4-reset-db-form">
+              <?php wp_nonce_field('assie4_reset_database'); ?>
+              <input type="hidden" name="action" value="assie4_reset_database">
+              <div style="margin-bottom:12px;">
+                <label for="a4-confirm-reset-input" style="display:block;font-size:12px;font-weight:700;color:#991b1b;margin-bottom:5px;">
+                  Ketik kata <code style="background:#fecaca;color:#7f1d1d;font-weight:800;padding:2px 6px;border-radius:4px;">RESET</code> untuk konfirmasi:
+                </label>
+                <input type="text" id="a4-confirm-reset-input" name="confirm_keyword" placeholder="Ketik RESET di sini" style="width:100%;height:38px;border-radius:8px;border:1px solid #f87171;font-size:13px;" autocomplete="off" required>
+              </div>
+              <button type="submit" id="a4-btn-reset-db" class="button a4-btn-danger" style="width:100%;" disabled>
+                <span class="dashicons dashicons-warning" style="vertical-align:middle;margin-top:-2px"></span>
+                Kosongkan Seluruh Database Presensi
+              </button>
+            </form>
+          </div>
         </div>
       </section>
     </div>
@@ -2636,6 +3256,78 @@ function assie4_admin_page()
       }
 
       renderDaily();
+
+      // ─── INTERAKSI TABEL PRESENSI & RESET DATABASE ───
+      const checkAll = document.getElementById('a4-check-all');
+      if (checkAll) {
+        checkAll.addEventListener('change', function () {
+          document.querySelectorAll('.a4-entry-cb').forEach(cb => {
+            cb.checked = checkAll.checked;
+          });
+        });
+      }
+
+      const bulkForm = document.getElementById('a4-bulk-form');
+      if (bulkForm) {
+        bulkForm.addEventListener('submit', function (e) {
+          const actionSelect = document.getElementById('a4-bulk-select');
+          if (!actionSelect || actionSelect.value !== 'delete') {
+            e.preventDefault();
+            alert('Silakan pilih tindakan "Hapus Data yang Dicentang".');
+            return false;
+          }
+          const checked = document.querySelectorAll('.a4-entry-cb:checked');
+          if (checked.length === 0) {
+            e.preventDefault();
+            alert('Silakan centang setidaknya satu baris data presensi yang ingin dihapus.');
+            return false;
+          }
+          if (!confirm('Apakah Anda yakin ingin menghapus ' + checked.length + ' data presensi yang dipilih? Tindakan ini tidak dapat dibatalkan.')) {
+            e.preventDefault();
+            return false;
+          }
+        });
+      }
+
+      const resetInput = document.getElementById('a4-confirm-reset-input');
+      const resetBtn = document.getElementById('a4-btn-reset-db');
+      if (resetInput && resetBtn) {
+        resetInput.addEventListener('input', function () {
+          resetBtn.disabled = (this.value.trim().toUpperCase() !== 'RESET');
+        });
+      }
+
+      const resetForm = document.getElementById('a4-reset-db-form');
+      if (resetForm) {
+        resetForm.addEventListener('submit', function (e) {
+          if (!resetInput || resetInput.value.trim().toUpperCase() !== 'RESET') {
+            e.preventDefault();
+            alert('Silakan ketik kata RESET untuk konfirmasi pengosongan database.');
+            return false;
+          }
+          if (!confirm('⚠️ PERINGATAN TERAKHIR!\n\nSeluruh data presensi di tabel database akan DIHAPUS PERMANEN dan nomor ID di-reset ke 1.\n\nApakah Anda benar-benar yakin ingin melanjutkan?')) {
+            e.preventDefault();
+            return false;
+          }
+        });
+      }
+
+      const dateForm = document.getElementById('a4-delete-date-form');
+      if (dateForm) {
+        dateForm.addEventListener('submit', function (e) {
+          const sel = document.getElementById('a4-select-delete-date');
+          if (!sel || !sel.value) {
+            e.preventDefault();
+            alert('Silakan pilih tanggal yang ingin dihapus.');
+            return false;
+          }
+          const selText = sel.options[sel.selectedIndex].text;
+          if (!confirm('Apakah Anda yakin ingin menghapus SELURUH data presensi pada:\n' + selText + '?\n\nTindakan ini tidak dapat dibatalkan.')) {
+            e.preventDefault();
+            return false;
+          }
+        });
+      }
     })();
   </script>
   <?php
@@ -2646,11 +3338,46 @@ function assie4_export_csv()
   global $wpdb;
   $table = $wpdb->prefix . ASSIE4_TABLE;
 
-  $rows = $wpdb->get_results(
-    "SELECT booth, nama, instansi, telp, DATE_FORMAT(waktu,'%d/%m/%Y %H:%i') AS waktu_fmt
-         FROM {$table} ORDER BY booth ASC, waktu ASC",
-    ARRAY_A
-  );
+  $range = sanitize_text_field(wp_unslash($_GET['range'] ?? 'all'));
+  $search = sanitize_text_field(wp_unslash($_GET['s'] ?? ''));
+  $booth_filter = isset($_GET['filter_booth']) && $_GET['filter_booth'] !== '' ? (int) $_GET['filter_booth'] : 0;
+
+  $where = ["1=1"];
+  $params = [];
+
+  if ($range !== 'all' && preg_match('/^\d{4}-\d{2}-\d{2}$/', $range)) {
+    $where[] = "waktu >= %s AND waktu < %s";
+    $params[] = $range . ' 00:00:00';
+    $params[] = date('Y-m-d 00:00:00', strtotime($range . ' +1 day'));
+  }
+  if (!empty($search)) {
+    $like = '%' . $wpdb->esc_like($search) . '%';
+    $where[] = "(nama LIKE %s OR instansi LIKE %s OR telp LIKE %s)";
+    $params[] = $like;
+    $params[] = $like;
+    $params[] = $like;
+  }
+  if ($booth_filter > 0) {
+    $where[] = "booth = %d";
+    $params[] = $booth_filter;
+  }
+
+  $where_sql = implode(' AND ', $where);
+  if (!empty($params)) {
+    $rows = $wpdb->get_results($wpdb->prepare(
+      "SELECT id, booth, nama, instansi, telp, DATE_FORMAT(waktu,'%d/%m/%Y %H:%i') AS waktu_fmt
+       FROM {$table} WHERE {$where_sql} ORDER BY booth ASC, waktu ASC",
+      ...$params
+    ), ARRAY_A);
+  } else {
+    $rows = $wpdb->get_results(
+      "SELECT id, booth, nama, instansi, telp, DATE_FORMAT(waktu,'%d/%m/%Y %H:%i') AS waktu_fmt
+       FROM {$table} WHERE {$where_sql} ORDER BY booth ASC, waktu ASC",
+      ARRAY_A
+    );
+  }
+
+  $booth_dir = function_exists('assie4_presensi_booth_directory') ? assie4_presensi_booth_directory() : [];
 
   $filename = 'presensi-assie4-' . wp_date('Ymd-His') . '.csv';
   while (ob_get_level() > 0) {
@@ -2660,16 +3387,23 @@ function assie4_export_csv()
   header('Content-Type: text/csv; charset=UTF-8');
   header('Content-Disposition: attachment; filename="' . $filename . '"');
   header('X-Content-Type-Options: nosniff');
-  echo "\xEF\xBB\xBF"; // BOM UTF-8 agar Excel terbaca dengan benar
+  echo "\xEF\xBB\xBF"; // BOM UTF-8 agar Excel membaca karakter dengan benar
 
   $out = fopen('php://output', 'w');
   if (false === $out) {
     wp_die('File CSV tidak dapat dibuat.');
   }
-  fputcsv($out, ['Booth', 'Nama', 'Instansi', 'Telepon', 'Waktu']);
+  fputcsv($out, ['ID', 'No Booth', 'Kode Booth', 'Nama Booth / Tenant', 'Nama Pengunjung', 'Instansi', 'Telepon', 'Waktu']);
   foreach ($rows as $r) {
+    $b_num = (int) $r['booth'];
+    $b_info = $booth_dir[$b_num] ?? [];
+    $b_code = $b_info['code'] ?? str_pad((string) $b_num, 3, '0', STR_PAD_LEFT);
+    $b_name = $b_info['name'] ?? '';
     fputcsv($out, [
-      'Booth ' . str_pad((string) $r['booth'], 3, '0', STR_PAD_LEFT),
+      $r['id'],
+      'Booth ' . str_pad((string) $b_num, 3, '0', STR_PAD_LEFT),
+      $b_code,
+      $b_name,
       $r['nama'],
       $r['instansi'],
       $r['telp'],

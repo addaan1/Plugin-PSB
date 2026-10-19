@@ -161,9 +161,10 @@ Contoh body untuk `POST /presensi`:
 
 - Data presensi disimpan di tabel WordPress `wp_assie4_presensi` (sesuaikan awalan `wp_` dengan konfigurasi situs).
 - Endpoint publik hanya mengirim nama yang sudah disamarkan untuk daftar kunjungan.
-- Data lengkap presensi dan export CSV tersedia melalui dashboard admin.
+- Data lengkap presensi, pencarian, filter per booth, penghapusan data uji coba (satuan, massal, per tanggal), reset database, dan export CSV tersedia melalui dashboard admin.
 - Validasi lokasi menggunakan titik venue Grand City Surabaya dengan radius 300 meter.
-- Menonaktifkan plugin tidak menghapus data presensi. Penghapusan tabel perlu dilakukan secara sengaja oleh administrator.
+- Menonaktifkan plugin tidak menghapus data presensi. Administrator dapat menghapus per entri, menghapus massal, menghapus per tanggal uji coba, atau mengosongkan seluruh tabel presensi secara aman langsung dari menu admin dengan proteksi kata kunci konfirmasi.
+- Script `uninstall.php` membersihkan tabel database dan halaman presensi hanya saat plugin di-uninstall secara eksplisit dari menu Plugins WordPress.
 
 ## Kontribusi
 
