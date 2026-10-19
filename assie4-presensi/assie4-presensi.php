@@ -2591,6 +2591,207 @@ function assie4_admin_page()
       border-color: #1e40af;
       font-weight: 700;
     }
+
+    /* ════ MODERN ANIMATED CONFIRMATION MODAL ════ */
+    .a4-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 999999;
+      background: rgba(15, 23, 42, 0.68);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .a4-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .a4-modal-dialog {
+      background: #ffffff;
+      width: 100%;
+      max-width: 450px;
+      border-radius: 20px;
+      box-shadow: 0 25px 60px -12px rgba(15, 23, 42, 0.35), 0 0 0 1px rgba(226, 232, 240, 0.9);
+      padding: 28px 26px 24px;
+      transform: scale(0.92) translateY(12px);
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease;
+      position: relative;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    .a4-modal-overlay.active .a4-modal-dialog {
+      transform: scale(1) translateY(0);
+    }
+    
+    .a4-modal-icon-glow {
+      position: relative;
+      width: 66px;
+      height: 66px;
+      margin: 0 auto 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .a4-modal-icon-inner {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #fee2e2;
+      border: 2px solid #fecaca;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+      transition: all 0.2s;
+    }
+    .a4-modal-icon-glow.warning .a4-modal-icon-inner {
+      background: #ffedd5;
+      border-color: #fed7aa;
+    }
+    .a4-modal-icon-pulse {
+      position: absolute;
+      inset: -5px;
+      border-radius: 50%;
+      background: rgba(239, 68, 68, 0.22);
+      animation: a4ModalPulse 2s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+      z-index: 1;
+    }
+    .a4-modal-icon-glow.warning .a4-modal-icon-pulse {
+      background: rgba(249, 115, 22, 0.22);
+    }
+    @keyframes a4ModalPulse {
+      0% { transform: scale(0.96); opacity: 0.8; }
+      50% { transform: scale(1.18); opacity: 0.2; }
+      100% { transform: scale(0.96); opacity: 0.8; }
+    }
+
+    .a4-modal-title {
+      margin: 0 0 6px;
+      font-size: 19px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.3px;
+      line-height: 1.3;
+    }
+    .a4-modal-desc {
+      margin: 0 0 16px;
+      font-size: 13.5px;
+      color: #64748b;
+      line-height: 1.5;
+    }
+    
+    .a4-modal-info-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px 15px;
+      margin-bottom: 16px;
+      text-align: left;
+    }
+    .a4-modal-info-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 5px 0;
+      font-size: 12.5px;
+      border-bottom: 1px dashed #e2e8f0;
+    }
+    .a4-modal-info-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .a4-modal-info-row:first-child {
+      padding-top: 0;
+    }
+    .a4-modal-info-lbl {
+      color: #64748b;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .a4-modal-info-val {
+      color: #0f172a;
+      font-weight: 700;
+      text-align: right;
+      word-break: break-word;
+    }
+
+    .a4-modal-warning {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #fffbeb;
+      border: 1px solid #fef3c7;
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 20px;
+      font-size: 12px;
+      color: #92400e;
+      text-align: left;
+      line-height: 1.4;
+    }
+    .a4-modal-warning svg {
+      flex-shrink: 0;
+    }
+
+    .a4-modal-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .a4-modal-btn {
+      flex: 1;
+      height: 42px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: all 0.18s ease;
+      line-height: 1;
+      border: none;
+      text-decoration: none;
+      box-sizing: border-box;
+    }
+    .a4-modal-btn-cancel {
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #e2e8f0;
+    }
+    .a4-modal-btn-cancel:hover {
+      background: #e2e8f0;
+      color: #1e293b;
+    }
+    .a4-modal-btn-confirm {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      color: #ffffff;
+      border: 1px solid #b91c1c;
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.28);
+    }
+    .a4-modal-btn-confirm:hover {
+      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(220, 38, 38, 0.38);
+    }
+    .a4-modal-btn-confirm.warning {
+      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+      border-color: #c2410c;
+      box-shadow: 0 4px 12px rgba(234, 88, 12, 0.28);
+    }
+    .a4-modal-btn-confirm.warning:hover {
+      background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
+      box-shadow: 0 6px 16px rgba(234, 88, 12, 0.38);
+    }
   </style>
   <div class="wrap">
     <h1 class="wp-heading-inline" style="display:none"></h1>
@@ -3116,7 +3317,9 @@ function assie4_admin_page()
                         <div class="a4-row-actions">
                           <a href="<?php echo esc_url($delete_url); ?>" 
                              class="a4-btn-action-del"
-                             onclick="return confirm('Hapus baris data presensi ini?\n\nPengunjung: <?php echo esc_js($entry['nama']); ?>\nBooth: <?php echo esc_js($booth_code); ?> (<?php echo esc_js($booth_info['name'] ?? ''); ?>)\nWaktu: <?php echo esc_js($entry['waktu_fmt']); ?>\n\nTindakan ini hanya menghapus rekaman kunjungan di booth ini saja.');"
+                             data-name="<?php echo esc_attr($entry['nama']); ?>"
+                             data-booth="<?php echo esc_attr($booth_code . (!empty($booth_info['name']) ? ' — ' . $booth_info['name'] : '')); ?>"
+                             data-waktu="<?php echo esc_attr($entry['waktu_fmt']); ?>"
                              title="Hapus rekaman kunjungan di booth ini saja">
                             <?php echo assie4_svg_icon('trash', 12); ?>
                             <span>Hapus Baris</span>
@@ -3133,7 +3336,9 @@ function assie4_admin_page()
                           ?>
                             <a href="<?php echo esc_url($del_user_url); ?>" 
                                class="a4-btn-action-user"
-                               onclick="return confirm('⚠️ HAPUS SEMUA DATA PENGUNJUNG INI?\n\nNama: <?php echo esc_js($entry['nama']); ?>\nTelepon: <?php echo esc_js($entry['telp']); ?>\nTotal Kunjungan: <?php echo (int) $u_visits_count; ?> booth\n\nSeluruh data presensi milik pengunjung ini di SEMUA booth akan dihapus permanen. Lanjutkan?');"
+                               data-name="<?php echo esc_attr($entry['nama']); ?>"
+                               data-telp="<?php echo esc_attr($entry['telp']); ?>"
+                               data-visits="<?php echo (int) $u_visits_count; ?>"
                                title="Hapus seluruh riwayat presensi milik pengunjung ini (<?php echo (int) $u_visits_count; ?> kunjungan)">
                               <?php echo assie4_svg_icon('user-x', 12); ?>
                               <span>Hapus User (<?php echo (int) $u_visits_count; ?>)</span>
@@ -3310,6 +3515,40 @@ function assie4_admin_page()
           </div>
         </div>
       </section>
+
+      <!-- ═══════════════════════════════════════════════════ -->
+      <!--  MODAL KONFIRMASI MODERN & BERANIMASI              -->
+      <!-- ═══════════════════════════════════════════════════ -->
+      <div id="a4-confirm-modal" class="a4-modal-overlay" aria-hidden="true">
+        <div class="a4-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="a4-modal-title">
+          <div class="a4-modal-header">
+            <div class="a4-modal-icon-glow" id="a4-modal-icon-glow">
+              <div class="a4-modal-icon-pulse"></div>
+              <div class="a4-modal-icon-inner" id="a4-modal-icon-inner">
+                <?php echo assie4_svg_icon('alert', 28, 'stroke:#dc2626;'); ?>
+              </div>
+            </div>
+            <h3 class="a4-modal-title" id="a4-modal-title">Konfirmasi Tindakan</h3>
+            <p class="a4-modal-desc" id="a4-modal-desc">Apakah Anda yakin ingin melanjutkan tindakan ini?</p>
+          </div>
+
+          <div class="a4-modal-info-card" id="a4-modal-info-card" style="display:none;"></div>
+
+          <div class="a4-modal-warning" id="a4-modal-warning">
+            <?php echo assie4_svg_icon('alert', 14, 'stroke:#b45309;margin-top:1px;'); ?>
+            <span>Tindakan ini bersifat permanen dan data yang dihapus tidak dapat dipulihkan.</span>
+          </div>
+
+          <div class="a4-modal-actions">
+            <button type="button" class="a4-modal-btn a4-modal-btn-cancel" id="a4-modal-btn-cancel">
+              Batal
+            </button>
+            <button type="button" class="a4-modal-btn a4-modal-btn-confirm" id="a4-modal-btn-confirm">
+              <span id="a4-modal-btn-confirm-text">Ya, Hapus Data</span>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -3584,7 +3823,150 @@ function assie4_admin_page()
 
       renderDaily();
 
-      // ─── INTERAKSI TABEL PRESENSI & RESET DATABASE ───
+      // ════ MODAL KONFIRMASI MODERN & BERANIMASI ════
+      const confirmModal = document.getElementById('a4-confirm-modal');
+      const modalIconGlow = document.getElementById('a4-modal-icon-glow');
+      const modalIconInner = document.getElementById('a4-modal-icon-inner');
+      const modalTitle = document.getElementById('a4-modal-title');
+      const modalDesc = document.getElementById('a4-modal-desc');
+      const modalInfoCard = document.getElementById('a4-modal-info-card');
+      const modalWarning = document.getElementById('a4-modal-warning');
+      const modalCancelBtn = document.getElementById('a4-modal-btn-cancel');
+      const modalConfirmBtn = document.getElementById('a4-modal-btn-confirm');
+      const modalConfirmText = document.getElementById('a4-modal-btn-confirm-text');
+
+      let currentModalResolve = null;
+
+      function openA4ConfirmModal(options) {
+        return new Promise((resolve) => {
+          currentModalResolve = resolve;
+
+          const theme = options.theme || 'danger'; // 'danger' | 'warning'
+          modalTitle.textContent = options.title || 'Konfirmasi Tindakan';
+          modalDesc.textContent = options.desc || '';
+          modalConfirmText.textContent = options.confirmText || 'Ya, Lanjutkan';
+
+          if (theme === 'warning') {
+            modalIconGlow.className = 'a4-modal-icon-glow warning';
+            modalConfirmBtn.className = 'a4-modal-btn a4-modal-btn-confirm warning';
+            modalIconInner.innerHTML = '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="18" y1="8" x2="23" y2="13"></line><line x1="23" y1="8" x2="18" y2="13"></line></svg>';
+          } else {
+            modalIconGlow.className = 'a4-modal-icon-glow';
+            modalConfirmBtn.className = 'a4-modal-btn a4-modal-btn-confirm';
+            modalIconInner.innerHTML = '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>';
+          }
+
+          if (options.warningText) {
+            modalWarning.querySelector('span').textContent = options.warningText;
+            modalWarning.style.display = 'flex';
+          } else {
+            modalWarning.style.display = 'none';
+          }
+
+          if (Array.isArray(options.rows) && options.rows.length > 0) {
+            let rowsHtml = '';
+            options.rows.forEach(r => {
+              rowsHtml += `
+                <div class="a4-modal-info-row">
+                  <span class="a4-modal-info-lbl">${r.label}</span>
+                  <span class="a4-modal-info-val">${r.value}</span>
+                </div>
+              `;
+            });
+            modalInfoCard.innerHTML = rowsHtml;
+            modalInfoCard.style.display = 'block';
+          } else {
+            modalInfoCard.style.display = 'none';
+          }
+
+          confirmModal.classList.add('active');
+          confirmModal.setAttribute('aria-hidden', 'false');
+          modalConfirmBtn.focus();
+        });
+      }
+
+      function closeA4ConfirmModal(result) {
+        if (!confirmModal || !confirmModal.classList.contains('active')) return;
+        confirmModal.classList.remove('active');
+        confirmModal.setAttribute('aria-hidden', 'true');
+        if (currentModalResolve) {
+          currentModalResolve(result);
+          currentModalResolve = null;
+        }
+      }
+
+      if (modalCancelBtn) modalCancelBtn.addEventListener('click', () => closeA4ConfirmModal(false));
+      if (modalConfirmBtn) modalConfirmBtn.addEventListener('click', () => closeA4ConfirmModal(true));
+
+      if (confirmModal) {
+        confirmModal.addEventListener('click', (e) => {
+          if (e.target === confirmModal) closeA4ConfirmModal(false);
+        });
+      }
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && confirmModal && confirmModal.classList.contains('active')) {
+          closeA4ConfirmModal(false);
+        }
+      });
+
+      // ─── AKSI TOMBOL TABEL: HAPUS BARIS ───
+      document.querySelectorAll('.a4-btn-action-del').forEach(btn => {
+        btn.addEventListener('click', async function (e) {
+          e.preventDefault();
+          const href = this.href;
+          const name = this.dataset.name || 'Pengunjung';
+          const booth = this.dataset.booth || '-';
+          const waktu = this.dataset.waktu || '-';
+
+          const confirmed = await openA4ConfirmModal({
+            title: 'Hapus Baris Kunjungan?',
+            desc: 'Anda akan menghapus satu rekaman presensi kunjungan di booth ini.',
+            theme: 'danger',
+            confirmText: 'Ya, Hapus Baris Ini',
+            warningText: 'Tindakan ini hanya menghapus data presensi pada booth ini.',
+            rows: [
+              { label: 'Pengunjung', value: name },
+              { label: 'Booth', value: booth },
+              { label: 'Waktu Presensi', value: waktu }
+            ]
+          });
+
+          if (confirmed) {
+            window.location.href = href;
+          }
+        });
+      });
+
+      // ─── AKSI TOMBOL TABEL: HAPUS USER ───
+      document.querySelectorAll('.a4-btn-action-user').forEach(btn => {
+        btn.addEventListener('click', async function (e) {
+          e.preventDefault();
+          const href = this.href;
+          const name = this.dataset.name || 'Pengunjung';
+          const telp = this.dataset.telp || '-';
+          const visits = this.dataset.visits || '1';
+
+          const confirmed = await openA4ConfirmModal({
+            title: 'Hapus Seluruh Data Pengunjung?',
+            desc: 'Seluruh riwayat presensi milik pengunjung ini di semua booth akan dibersihkan.',
+            theme: 'warning',
+            confirmText: 'Ya, Hapus Seluruh User',
+            warningText: 'Seluruh riwayat kunjungan ' + visits + ' booth milik nomor telepon ini akan dihapus permanen.',
+            rows: [
+              { label: 'Nama Pengunjung', value: name },
+              { label: 'Nomor Telepon', value: telp },
+              { label: 'Total Kunjungan', value: visits + ' booth' }
+            ]
+          });
+
+          if (confirmed) {
+            window.location.href = href;
+          }
+        });
+      });
+
+      // ─── INTERAKSI TABEL PRESENSI & BULK DELETE ───
       const checkAll = document.getElementById('a4-check-all');
       if (checkAll) {
         checkAll.addEventListener('change', function () {
@@ -3596,26 +3978,49 @@ function assie4_admin_page()
 
       const bulkForm = document.getElementById('a4-bulk-form');
       if (bulkForm) {
-        bulkForm.addEventListener('submit', function (e) {
+        bulkForm.addEventListener('submit', async function (e) {
+          e.preventDefault();
           const actionSelect = document.getElementById('a4-bulk-select');
           if (!actionSelect || actionSelect.value !== 'delete') {
-            e.preventDefault();
-            alert('Silakan pilih tindakan "Hapus Data yang Dicentang".');
-            return false;
+            await openA4ConfirmModal({
+              title: 'Pilih Tindakan Massal',
+              desc: 'Silakan pilih opsi "Hapus Data yang Dicentang" pada menu dropdown tindakan massal terlebih dahulu.',
+              theme: 'warning',
+              confirmText: 'Mengerti',
+              warningText: ''
+            });
+            return;
           }
           const checked = document.querySelectorAll('.a4-entry-cb:checked');
           if (checked.length === 0) {
-            e.preventDefault();
-            alert('Silakan centang setidaknya satu baris data presensi yang ingin dihapus.');
-            return false;
+            await openA4ConfirmModal({
+              title: 'Tidak Ada Data Terpilih',
+              desc: 'Silakan centang setidaknya satu baris data presensi di tabel yang ingin dihapus.',
+              theme: 'warning',
+              confirmText: 'Mengerti',
+              warningText: ''
+            });
+            return;
           }
-          if (!confirm('Apakah Anda yakin ingin menghapus ' + checked.length + ' data presensi yang dipilih? Tindakan ini tidak dapat dibatalkan.')) {
-            e.preventDefault();
-            return false;
+
+          const confirmed = await openA4ConfirmModal({
+            title: 'Hapus Data yang Dicentang?',
+            desc: 'Sebanyak ' + checked.length + ' baris presensi yang dipilih akan dihapus secara massal dari database.',
+            theme: 'danger',
+            confirmText: 'Ya, Hapus ' + checked.length + ' Data',
+            warningText: 'Tindakan ini permanen dan baris data terpilih tidak dapat dipulihkan.',
+            rows: [
+              { label: 'Jumlah Baris', value: checked.length + ' presensi' }
+            ]
+          });
+
+          if (confirmed) {
+            bulkForm.submit();
           }
         });
       }
 
+      // ─── DANGER ZONE: RESET TOTAL DATABASE ───
       const resetInput = document.getElementById('a4-confirm-reset-input');
       const resetBtn = document.getElementById('a4-btn-reset-db');
       if (resetInput && resetBtn) {
@@ -3626,36 +4031,73 @@ function assie4_admin_page()
 
       const resetForm = document.getElementById('a4-reset-db-form');
       if (resetForm) {
-        resetForm.addEventListener('submit', function (e) {
+        resetForm.addEventListener('submit', async function (e) {
+          e.preventDefault();
           if (!resetInput || resetInput.value.trim().toUpperCase() !== 'RESET') {
-            e.preventDefault();
-            alert('Silakan ketik kata RESET untuk konfirmasi pengosongan database.');
-            return false;
+            await openA4ConfirmModal({
+              title: 'Konfirmasi Kata Kunci',
+              desc: 'Silakan ketik kata RESET (huruf kapital) pada kolom yang tersedia untuk konfirmasi pengosongan database.',
+              theme: 'danger',
+              confirmText: 'Mengerti',
+              warningText: ''
+            });
+            return;
           }
-          if (!confirm('⚠️ PERINGATAN TERAKHIR!\n\nSeluruh data presensi di tabel database akan DIHAPUS PERMANEN dan nomor ID di-reset ke 1.\n\nApakah Anda benar-benar yakin ingin melanjutkan?')) {
-            e.preventDefault();
-            return false;
+
+          const confirmed = await openA4ConfirmModal({
+            title: '⚠️ KOSONGKAN SELURUH DATABASE?',
+            desc: 'Anda akan menghapus SELURUH rekaman presensi di tabel database dan me-reset nomor ID kembali ke 1.',
+            theme: 'danger',
+            confirmText: 'KOSONGKAN DATABASE SEKARANG',
+            warningText: 'PERINGATAN SANGAT KRUSIAL: Seluruh riwayat presensi semua pengunjung dan semua booth akan musnah. Pastikan Anda telah mengunduh Backup CSV terlebih dahulu!',
+            rows: [
+              { label: 'Operasi', value: 'Truncate / Reset Total' },
+              { label: 'Status Verifikasi', value: 'Kata RESET Terpenuhi' }
+            ]
+          });
+
+          if (confirmed) {
+            resetForm.submit();
           }
         });
       }
 
+      // ─── DANGER ZONE: HAPUS PER TANGGAL ───
       const dateForm = document.getElementById('a4-delete-date-form');
       if (dateForm) {
-        dateForm.addEventListener('submit', function (e) {
+        dateForm.addEventListener('submit', async function (e) {
+          e.preventDefault();
           const sel = document.getElementById('a4-select-delete-date');
           if (!sel || !sel.value) {
-            e.preventDefault();
-            alert('Silakan pilih tanggal yang ingin dihapus.');
-            return false;
+            await openA4ConfirmModal({
+              title: 'Pilih Tanggal',
+              desc: 'Silakan pilih tanggal yang ingin dihapus terlebih dahulu.',
+              theme: 'warning',
+              confirmText: 'Mengerti',
+              warningText: ''
+            });
+            return;
           }
           const selText = sel.options[sel.selectedIndex].text;
-          if (!confirm('Apakah Anda yakin ingin menghapus SELURUH data presensi pada:\n' + selText + '?\n\nTindakan ini tidak dapat dibatalkan.')) {
-            e.preventDefault();
-            return false;
+
+          const confirmed = await openA4ConfirmModal({
+            title: 'Hapus Presensi Tanggal Terpilih?',
+            desc: 'Seluruh rekaman presensi pada tanggal tersebut akan dihapus dari database.',
+            theme: 'danger',
+            confirmText: 'Ya, Hapus Presensi Tanggal Ini',
+            warningText: 'Seluruh rekaman presensi pengunjung pada hari tersebut akan dibersihkan.',
+            rows: [
+              { label: 'Tanggal Terpilih', value: selText }
+            ]
+          });
+
+          if (confirmed) {
+            dateForm.submit();
           }
         });
       }
 
+      // ─── DANGER ZONE: HAPUS PER PENGUNJUNG (USER) ───
       const selectDeleteUser = document.getElementById('a4-select-delete-user');
       const inputDeleteUserTelp = document.getElementById('a4-input-delete-user-telp');
       if (selectDeleteUser && inputDeleteUserTelp) {
@@ -3668,24 +4110,42 @@ function assie4_admin_page()
 
       const userForm = document.getElementById('a4-delete-user-form');
       if (userForm) {
-        userForm.addEventListener('submit', function (e) {
+        userForm.addEventListener('submit', async function (e) {
+          e.preventDefault();
           const telp = inputDeleteUserTelp ? inputDeleteUserTelp.value.trim() : '';
           if (!telp) {
-            e.preventDefault();
-            alert('Silakan pilih atau masukkan nomor telepon pengunjung yang ingin dihapus.');
-            return false;
+            await openA4ConfirmModal({
+              title: 'Nomor Telepon Kosong',
+              desc: 'Silakan pilih dari dropdown atau masukkan nomor telepon pengunjung yang ingin dihapus.',
+              theme: 'warning',
+              confirmText: 'Mengerti',
+              warningText: ''
+            });
+            return;
           }
-          let extraInfo = '';
+          let name = 'Pengunjung';
+          let visits = '-';
           if (selectDeleteUser && selectDeleteUser.value === telp) {
             const opt = selectDeleteUser.options[selectDeleteUser.selectedIndex];
-            const uName = opt.getAttribute('data-nama') || '';
-            const uVisits = opt.getAttribute('data-visits') || '';
-            if (uName) extraInfo += '\nNama: ' + uName;
-            if (uVisits) extraInfo += '\nTotal: ' + uVisits + ' kunjungan';
+            name = opt.getAttribute('data-nama') || 'Pengunjung';
+            visits = (opt.getAttribute('data-visits') || '-') + ' booth';
           }
-          if (!confirm('⚠️ HAPUS SEMUA DATA PENGUNJUNG INI?' + extraInfo + '\nNomor Telepon: ' + telp + '\n\nSeluruh riwayat presensi pengunjung ini di SEMUA booth akan dihapus secara permanen.\n\nApakah Anda benar-benar yakin ingin melanjutkan?')) {
-            e.preventDefault();
-            return false;
+
+          const confirmed = await openA4ConfirmModal({
+            title: 'Hapus Seluruh Data Pengunjung?',
+            desc: 'Seluruh riwayat presensi pengunjung ini di SEMUA booth akan dihapus secara permanen.',
+            theme: 'warning',
+            confirmText: 'Ya, Hapus Data User Ini',
+            warningText: 'Data presensi milik nomor telepon ini di seluruh booth pameran akan dibersihkan.',
+            rows: [
+              { label: 'Nama Pengunjung', value: name },
+              { label: 'Nomor Telepon', value: telp },
+              { label: 'Total Kunjungan', value: visits }
+            ]
+          });
+
+          if (confirmed) {
+            userForm.submit();
           }
         });
       }
