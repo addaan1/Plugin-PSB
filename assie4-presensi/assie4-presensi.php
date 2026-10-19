@@ -400,7 +400,7 @@ function assie4_save_presensi(WP_REST_Request $req)
   if ($duplicate > 0) {
     return new WP_Error(
       'duplicate_today',
-      'Nomor telepon ini sudah presensi di booth ini hari ini. Anda baru dapat presensi kembali di booth ini besok. Silakan kunjungi booth lainnya!',
+      'Anda sudah tercatat presensi di booth ini hari ini. Anda baru dapat presensi kembali di booth ini besok. Silakan kunjungi booth lainnya!',
       ['status' => 409]
     );
   }
