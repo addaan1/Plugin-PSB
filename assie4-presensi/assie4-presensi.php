@@ -148,8 +148,11 @@ function assie4_register_routes()
       'nama' => ['required' => true, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field'],
       'instansi' => ['required' => true, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field'],
       'telp' => ['required' => true, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field'],
-      'lat' => ['required' => true, 'type' => 'number'],
-      'lng' => ['required' => true, 'type' => 'number'],
+      // lat/lng: tidak pakai 'type' => 'number' karena WP REST API akan memvalidasi null sebelum callback dipanggil
+      // sehingga menyebabkan "Invalid parameter(s): lat, lng" ketika geofence dinonaktifkan.
+      // Konversi ke float dilakukan manual di dalam assie4_save_presensi().
+      'lat' => ['required' => false, 'default' => 0, 'validate_callback' => '__return_true', 'sanitize_callback' => function($v) { return is_numeric($v) ? (float)$v : 0.0; }],
+      'lng' => ['required' => false, 'default' => 0, 'validate_callback' => '__return_true', 'sanitize_callback' => function($v) { return is_numeric($v) ? (float)$v : 0.0; }],
     ],
   ]);
 
@@ -183,24 +186,67 @@ function assie4_register_routes()
   ]);
 }
 
-// ─── Validasi Koordinat Grand City Surabaya ───
-// Grand City Mall Surabaya: Jl. Kusuma Gubeng, Ketabang, Genteng, Surabaya
-// Koordinat: -7.262113648386964, 112.75013597795723
-// Radius toleransi: 300 meter (mencakup seluruh kompleks Grand City)
+// ═══════════════════════════════════════════════════
+//  VALIDASI GEOLOKASI (GEOFENCING) GRAND CITY SURABAYA
+// ═══════════════════════════════════════════════════
+define('ASSIE4_OPT_GEOFENCE', 'assie4_presensi_geofence');
+
+/**
+ * Mengambil konfigurasi validasi lokasi presensi (geofencing).
+ * Default: Aktif, lokasi di Grand City Surabaya dengan radius 300 meter.
+ */
+function assie4_get_geofence_settings()
+{
+  $default = [
+    'enabled'    => 1, // 1 = Aktif (Wajib di Grand City Surabaya), 0 = Nonaktif (Mode Bebas)
+    'venue_name' => 'Grand City Surabaya',
+    'lat'        => -7.262113648386964,
+    'lng'        => 112.75013597795723,
+    'radius'     => 300, // radius toleransi dalam meter
+  ];
+  $saved = get_option(ASSIE4_OPT_GEOFENCE, null);
+  if (!is_array($saved)) {
+    return $default;
+  }
+  return wp_parse_args($saved, $default);
+}
+
+/**
+ * Menghitung jarak antara koordinat pengunjung dengan venue (Haversine formula).
+ * Mengembalikan jarak dalam satuan meter.
+ */
+function assie4_get_distance_to_venue($lat, $lng, $venue_lat = null, $venue_lng = null)
+{
+  if ($venue_lat === null || $venue_lng === null) {
+    $settings  = assie4_get_geofence_settings();
+    $venue_lat = (float) $settings['lat'];
+    $venue_lng = (float) $settings['lng'];
+  }
+
+  $earth_r = 6371000; // meter
+  $d_lat = deg2rad((float)$lat - (float)$venue_lat);
+  $d_lng = deg2rad((float)$lng - (float)$venue_lng);
+  $a = sin($d_lat / 2) * sin($d_lat / 2)
+    + cos(deg2rad((float)$venue_lat)) * cos(deg2rad((float)$lat))
+    * sin($d_lng / 2) * sin($d_lng / 2);
+  return $earth_r * 2 * atan2(sqrt($a), sqrt(1 - $a));
+}
+
+/**
+ * Validasi apakah pengunjung berada di area venue yang ditentukan.
+ * Jika fitur dinonaktifkan oleh admin, fungsi ini selalu mengembalikan true.
+ */
 function assie4_is_in_grand_city($lat, $lng)
 {
-  $center_lat = -7.262113648386964;
-  $center_lng = 112.75013597795723;
-  $radius_m = 300;
+  $settings = assie4_get_geofence_settings();
 
-  // Haversine formula
-  $earth_r = 6371000; // meter
-  $d_lat = deg2rad($lat - $center_lat);
-  $d_lng = deg2rad($lng - $center_lng);
-  $a = sin($d_lat / 2) * sin($d_lat / 2)
-    + cos(deg2rad($center_lat)) * cos(deg2rad($lat))
-    * sin($d_lng / 2) * sin($d_lng / 2);
-  $distance = $earth_r * 2 * atan2(sqrt($a), sqrt(1 - $a));
+  // Jika fitur validasi lokasi dimatikan oleh admin, selalu izinkan presensi
+  if (empty($settings['enabled'])) {
+    return true;
+  }
+
+  $radius_m = (int) $settings['radius'];
+  $distance = assie4_get_distance_to_venue($lat, $lng, $settings['lat'], $settings['lng']);
 
   return $distance <= $radius_m;
 }
@@ -315,14 +361,29 @@ function assie4_save_presensi(WP_REST_Request $req)
     return new WP_Error('invalid_telp', 'Nomor telepon tidak valid (min. 8 angka).', ['status' => 400]);
   }
 
-  // Validasi koordinat GPS — harus berada di dalam area Grand City Surabaya
+  // Validasi koordinat GPS — tergantung status fitur validasi lokasi
+  $geo_settings = assie4_get_geofence_settings();
+  $geo_enabled  = !empty($geo_settings['enabled']);
   $lat = (float) $req->get_param('lat');
   $lng = (float) $req->get_param('lng');
-  if ($lat == 0 && $lng == 0) {
-    return new WP_Error('location_required', 'Izin lokasi diperlukan untuk presensi. Aktifkan GPS dan coba lagi.', ['status' => 403]);
-  }
-  if (!assie4_is_in_grand_city($lat, $lng)) {
-    return new WP_Error('outside_venue', 'Presensi hanya dapat dilakukan di dalam area Grand City Surabaya.', ['status' => 403]);
+
+  if ($geo_enabled) {
+    if ($lat == 0.0 && $lng == 0.0) {
+      return new WP_Error(
+        'location_required',
+        'Izin lokasi GPS diperlukan untuk verifikasi kehadiran. Aktifkan GPS pada perangkat Anda dan coba lagi.',
+        ['status' => 403]
+      );
+    }
+    if (!assie4_is_in_grand_city($lat, $lng)) {
+      $venue_name = !empty($geo_settings['venue_name']) ? $geo_settings['venue_name'] : 'Grand City Surabaya';
+      $dist = round(assie4_get_distance_to_venue($lat, $lng));
+      return new WP_Error(
+        'outside_venue',
+        sprintf('Presensi ditolak: Anda terdeteksi berada ±%s meter di luar area %s. Presensi hanya dapat dilakukan jika Anda berada di dalam venue acara.', number_format_i18n($dist), esc_html($venue_name)),
+        ['status' => 403]
+      );
+    }
   }
 
   // Aturan Presensi:
@@ -339,7 +400,7 @@ function assie4_save_presensi(WP_REST_Request $req)
   if ($duplicate > 0) {
     return new WP_Error(
       'duplicate_today',
-      'Nomor telepon ini sudah presensi di booth ini hari ini. Anda baru dapat presensi kembali di booth ini besok. Silakan kunjungi booth lainnya!',
+      'Anda sudah tercatat presensi di booth ini hari ini. Anda baru dapat presensi kembali di booth ini besok. Silakan kunjungi booth lainnya!',
       ['status' => 409]
     );
   }
@@ -534,8 +595,6 @@ function assie4_presensi_get_stats()
 }
 
 // ═══════════════════════════════════════════════════
-//  HELPER: IKON SVG TINGKAT TINGGI & PRESISI TINGGI
-// ═══════════════════════════════════════════════════
 function assie4_svg_icon($name, $size = 15, $extra_style = '')
 {
   $common_style = "display:inline-block;vertical-align:middle;flex-shrink:0;width:{$size}px;height:{$size}px;" . $extra_style;
@@ -564,10 +623,13 @@ function assie4_svg_icon($name, $size = 15, $extra_style = '')
 }
 
 // ═══════════════════════════════════════════════════
-//  ADMIN MENU — Halaman Rekapitulasi
+//  ADMIN MENU — Halaman Rekapitulasi & Pengaturan
 // ═══════════════════════════════════════════════════
 add_action('admin_menu', 'assie4_admin_menu');
 add_action('admin_post_assie4_export_csv', 'assie4_handle_export_csv');
+add_action('admin_post_assie4_save_geofence', 'assie4_handle_save_geofence');
+add_action('wp_ajax_assie4_toggle_geofence_ajax', 'assie4_handle_toggle_geofence_ajax');
+
 function assie4_admin_menu()
 {
   add_menu_page(
@@ -579,6 +641,24 @@ function assie4_admin_menu()
     'dashicons-groups',
     30
   );
+
+  add_submenu_page(
+    'assie4-presensi',
+    'Dashboard Rekapitulasi Presensi',
+    'Dashboard',
+    'manage_options',
+    'assie4-presensi',
+    'assie4_admin_page'
+  );
+
+  add_submenu_page(
+    'assie4-presensi',
+    'Pengaturan Lokasi Presensi (Geofencing)',
+    'Pengaturan Lokasi',
+    'manage_options',
+    'assie4-presensi-settings',
+    'assie4_admin_geofence_page'
+  );
 }
 
 function assie4_handle_export_csv()
@@ -589,6 +669,63 @@ function assie4_handle_export_csv()
   check_admin_referer('assie4_export_csv');
   assie4_export_csv();
   exit;
+}
+
+function assie4_handle_save_geofence()
+{
+  if (!current_user_can('manage_options')) {
+    wp_die('Anda tidak memiliki izin untuk mengubah pengaturan ini.', '', ['response' => 403]);
+  }
+  check_admin_referer('assie4_save_geofence');
+
+  $enabled    = isset($_POST['geofence_enabled']) ? 1 : 0;
+  $venue_name = sanitize_text_field(wp_unslash($_POST['venue_name'] ?? 'Grand City Surabaya'));
+  $lat_input  = str_replace(',', '.', sanitize_text_field(wp_unslash($_POST['venue_lat'] ?? '')));
+  $lng_input  = str_replace(',', '.', sanitize_text_field(wp_unslash($_POST['venue_lng'] ?? '')));
+  $lat        = is_numeric($lat_input) ? (float) $lat_input : -7.262113648386964;
+  $lng        = is_numeric($lng_input) ? (float) $lng_input : 112.75013597795723;
+  $radius     = max(50, min(10000, (int) ($_POST['venue_radius'] ?? 300)));
+
+  $settings = [
+    'enabled'    => $enabled,
+    'venue_name' => $venue_name !== '' ? $venue_name : 'Grand City Surabaya',
+    'lat'        => $lat != 0.0 ? $lat : -7.262113648386964,
+    'lng'        => $lng != 0.0 ? $lng : 112.75013597795723,
+    'radius'     => $radius,
+  ];
+
+  update_option(ASSIE4_OPT_GEOFENCE, $settings);
+
+  $redirect = wp_get_referer();
+  if (!$redirect) {
+    $redirect = admin_url('admin.php?page=assie4-presensi-settings');
+  }
+  $redirect = add_query_arg('geofence_saved', '1', $redirect);
+  wp_safe_redirect($redirect);
+  exit;
+}
+
+function assie4_handle_toggle_geofence_ajax()
+{
+  if (!current_user_can('manage_options')) {
+    wp_send_json_error(['message' => 'Unauthorized'], 403);
+  }
+  check_ajax_referer('assie4_geofence_nonce', 'nonce');
+
+  $settings = assie4_get_geofence_settings();
+  $new_state = isset($_POST['enabled']) ? (int) $_POST['enabled'] : ($settings['enabled'] ? 0 : 1);
+  $settings['enabled'] = $new_state ? 1 : 0;
+
+  update_option(ASSIE4_OPT_GEOFENCE, $settings);
+
+  wp_send_json_success([
+    'enabled'    => $settings['enabled'],
+    'venue_name' => $settings['venue_name'],
+    'radius'     => $settings['radius'],
+    'message'    => $settings['enabled'] 
+      ? 'Fitur validasi lokasi AKTIF: Pengunjung wajib berada di ' . $settings['venue_name'] . ' untuk presensi.' 
+      : 'Fitur validasi lokasi NONAKTIF: Pengunjung dapat presensi dari mana saja (Mode Bebas).',
+  ]);
 }
 
 // ─── HANDLER: HAPUS 1 DATA PRESENSI (SINGLE DELETE) ───
@@ -2821,6 +2958,52 @@ function assie4_admin_page()
         </div>
       </div>
 
+      <?php
+      $geo_cfg = assie4_get_geofence_settings();
+      $is_geo_on = !empty($geo_cfg['enabled']);
+      $geofence_nonce = wp_create_nonce('assie4_geofence_nonce');
+      $settings_url = admin_url('admin.php?page=assie4-presensi-settings');
+      ?>
+
+      <?php if (isset($_GET['geofence_saved'])): ?>
+        <div class="notice notice-success is-dismissible" style="margin:16px 0 0;padding:12px 18px;border-radius:12px;border-left:4px solid #10b981;background:#f0fdf4;color:#166534;font-size:13px;font-weight:600;box-shadow:0 4px 14px rgba(16,185,129,.08)">
+          <p style="margin:0">Pengaturan lokasi presensi (Geofencing) berhasil diperbarui!</p>
+        </div>
+      <?php endif; ?>
+
+      <!-- ─── CARD VALIDASI LOKASI (GEOFENCING) ─── -->
+      <div class="a4-panel a4-geofence-banner" id="a4GeofenceCard" style="background:#fff;border:1px solid <?php echo $is_geo_on ? '#bbf7d0' : '#fde68a'; ?>;border-radius:16px;padding:22px 26px;margin-top:19px;box-shadow:0 6px 20px rgba(15,23,42,.04);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:18px;min-width:280px;flex:1">
+          <div id="a4GeoIconBox" style="width:50px;height:50px;border-radius:14px;background:<?php echo $is_geo_on ? '#ecfdf5' : '#fffbeb'; ?>;color:<?php echo $is_geo_on ? '#059669' : '#d97706'; ?>;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;box-shadow:inset 0 0 0 1px <?php echo $is_geo_on ? '#a7f3d0' : '#fde68a'; ?>">
+            <?php echo $is_geo_on ? '📍' : '🔓'; ?>
+          </div>
+          <div>
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+              <h3 style="margin:0;font-size:16px;font-weight:800;color:#0f172a">Validasi Lokasi Presensi (Geofencing)</h3>
+              <span id="a4GeoBadge" style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:.3px;background:<?php echo $is_geo_on ? '#d1fae5' : '#fef3c7'; ?>;color:<?php echo $is_geo_on ? '#065f46' : '#92400e'; ?>">
+                <span id="a4GeoDot" style="width:7px;height:7px;border-radius:50%;background:<?php echo $is_geo_on ? '#10b981' : '#f59e0b'; ?>;display:inline-block"></span>
+                <span id="a4GeoBadgeText"><?php echo $is_geo_on ? 'AKTIF — WAJIB DI VENUE' : 'NONAKTIF — MODE BEBAS'; ?></span>
+              </span>
+            </div>
+            <p id="a4GeoDesc" style="margin:5px 0 0;font-size:13px;color:#475569;line-height:1.45">
+              <?php if ($is_geo_on): ?>
+                Pengunjung <strong>hanya dapat absen</strong> jika berada di dalam area <strong><?php echo esc_html($geo_cfg['venue_name']); ?></strong> (radius <?php echo esc_html($geo_cfg['radius']); ?> meter). Pengunjung di luar venue otomatis ditolak.
+              <?php else: ?>
+                Validasi lokasi GPS sedang <strong>dinonaktifkan</strong>. Siapa saja dari mana saja dapat melakukan presensi (Mode Uji Coba / Darurat).
+              <?php endif; ?>
+            </p>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <button type="button" id="a4BtnQuickToggleGeo" onclick="a4ToggleGeofence()" style="min-height:38px;padding:0 16px;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;border:1px solid <?php echo $is_geo_on ? '#f87171' : '#10b981'; ?>;background:<?php echo $is_geo_on ? '#fef2f2' : '#ecfdf5'; ?>;color:<?php echo $is_geo_on ? '#b91c1c' : '#047857'; ?>">
+            <?php echo $is_geo_on ? 'Matikan Validasi Lokasi' : 'Aktifkan Validasi Lokasi'; ?>
+          </button>
+          <a href="<?php echo esc_url($settings_url); ?>" class="button" style="min-height:38px;display:inline-flex;align-items:center;padding:0 14px;border-radius:9px;font-size:13px;font-weight:600">
+            Atur Koordinat & Radius →
+          </a>
+        </div>
+      </div>
+
       <div class="a4-kpis">
         <div class="a4-kpi" style="--kpi-color:#1766b1;--kpi-soft:#eaf3ff">
           <div class="a4-kpi-label">Total kunjungan booth</div>
@@ -4150,6 +4333,87 @@ function assie4_admin_page()
         });
       }
     })();
+
+    function a4ToggleGeofence() {
+      const btn = document.getElementById('a4BtnQuickToggleGeo');
+      if (!btn || btn.disabled) return;
+      btn.disabled = true;
+      btn.style.opacity = '0.6';
+      const originalText = btn.textContent;
+      btn.textContent = 'Menyimpan…';
+
+      const data = new FormData();
+      data.append('action', 'assie4_toggle_geofence_ajax');
+      data.append('nonce', '<?php echo esc_js($geofence_nonce); ?>');
+
+      fetch(ajaxurl, {
+        method: 'POST',
+        body: data
+      })
+      .then(res => res.json())
+      .then(res => {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        if (res.success && res.data) {
+          const isEnabled = !!res.data.enabled;
+          const card = document.getElementById('a4GeofenceCard');
+          const iconBox = document.getElementById('a4GeoIconBox');
+          const badge = document.getElementById('a4GeoBadge');
+          const dot = document.getElementById('a4GeoDot');
+          const badgeText = document.getElementById('a4GeoBadgeText');
+          const desc = document.getElementById('a4GeoDesc');
+
+          if (isEnabled) {
+            if (card) card.style.borderColor = '#bbf7d0';
+            if (iconBox) {
+              iconBox.style.background = '#ecfdf5';
+              iconBox.style.color = '#059669';
+              iconBox.style.boxShadow = 'inset 0 0 0 1px #a7f3d0';
+              iconBox.textContent = '📍';
+            }
+            if (badge) {
+              badge.style.background = '#d1fae5';
+              badge.style.color = '#065f46';
+            }
+            if (dot) dot.style.background = '#10b981';
+            if (badgeText) badgeText.textContent = 'AKTIF — WAJIB DI VENUE';
+            if (desc) desc.innerHTML = 'Pengunjung <strong>hanya dapat absen</strong> jika berada di dalam area <strong>' + res.data.venue_name + '</strong> (radius ' + res.data.radius + ' meter). Pengunjung di luar venue otomatis ditolak.';
+            btn.textContent = 'Matikan Validasi Lokasi';
+            btn.style.borderColor = '#f87171';
+            btn.style.background = '#fef2f2';
+            btn.style.color = '#b91c1c';
+          } else {
+            if (card) card.style.borderColor = '#fde68a';
+            if (iconBox) {
+              iconBox.style.background = '#fffbeb';
+              iconBox.style.color = '#d97706';
+              iconBox.style.boxShadow = 'inset 0 0 0 1px #fde68a';
+              iconBox.textContent = '🔓';
+            }
+            if (badge) {
+              badge.style.background = '#fef3c7';
+              badge.style.color = '#92400e';
+            }
+            if (dot) dot.style.background = '#f59e0b';
+            if (badgeText) badgeText.textContent = 'NONAKTIF — MODE BEBAS';
+            if (desc) desc.innerHTML = 'Validasi lokasi GPS sedang <strong>dinonaktifkan</strong>. Siapa saja dari mana saja dapat melakukan presensi (Mode Uji Coba / Darurat).';
+            btn.textContent = 'Aktifkan Validasi Lokasi';
+            btn.style.borderColor = '#10b981';
+            btn.style.background = '#ecfdf5';
+            btn.style.color = '#047857';
+          }
+        } else {
+          btn.textContent = originalText;
+          alert('Gagal mengubah pengaturan lokasi. Silakan coba lagi.');
+        }
+      })
+      .catch(() => {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        btn.textContent = originalText;
+        alert('Koneksi terputus. Silakan coba lagi.');
+      });
+    }
   </script>
   <?php
 }
@@ -4232,4 +4496,279 @@ function assie4_export_csv()
     ]);
   }
   fclose($out);
+}
+
+/**
+ * Halaman Pengaturan Validasi Lokasi Presensi (Geofencing)
+ */
+function assie4_admin_geofence_page()
+{
+  if (!current_user_can('manage_options')) {
+    wp_die('Anda tidak memiliki izin untuk mengakses halaman ini.');
+  }
+
+  $settings = assie4_get_geofence_settings();
+  $is_enabled = !empty($settings['enabled']);
+  $venue_name = $settings['venue_name'];
+  $lat = $settings['lat'];
+  $lng = $settings['lng'];
+  $radius = $settings['radius'];
+
+  $default_lat = -7.262113648386964;
+  $default_lng = 112.75013597795723;
+  $default_venue = 'Grand City Surabaya';
+  ?>
+  <div class="wrap" style="max-width:960px;margin:20px 20px 40px 0;">
+    <h1 style="display:none"></h1>
+
+    <div style="background:linear-gradient(115deg, #13243d, #1d4672 70%, #216da4);color:#fff;border-radius:18px;padding:26px 30px;box-shadow:0 12px 30px rgba(16,43,78,.14);display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap">
+      <div>
+        <div style="font-size:24px;font-weight:800;letter-spacing:-.4px;display:flex;align-items:center;gap:10px">
+          <span>📍 Pengaturan Lokasi Presensi</span>
+          <span style="font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.18);color:#fff;letter-spacing:1px">GEOFENCING</span>
+        </div>
+        <p style="margin:8px 0 0;color:#d5e4f4;font-size:13px;max-width:600px;line-height:1.5">
+          Atur pembatasan wilayah kehadiran agar pengunjung <strong>hanya dapat mengisi presensi saat berada di lokasi acara (<?php echo esc_html($venue_name); ?>)</strong>.
+        </p>
+      </div>
+      <div style="display:flex;gap:10px">
+        <a href="<?php echo esc_url(admin_url('admin.php?page=assie4-presensi')); ?>" class="button" style="background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.3);border-radius:9px;min-height:38px;display:inline-flex;align-items:center">
+          ← Kembali ke Dashboard
+        </a>
+      </div>
+    </div>
+
+    <?php if (isset($_GET['geofence_saved'])): ?>
+      <div class="notice notice-success is-dismissible" style="margin:20px 0 0;padding:14px 18px;border-radius:12px;border-left:4px solid #10b981;background:#f0fdf4;box-shadow:0 4px 14px rgba(16,185,129,.08)">
+        <p style="margin:0;font-size:13px;font-weight:700;color:#166534">
+          ✓ Pengaturan lokasi presensi berhasil disimpan dan langsung aktif!
+        </p>
+      </div>
+    <?php endif; ?>
+
+    <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="margin-top:22px">
+      <?php wp_nonce_field('assie4_save_geofence'); ?>
+      <input type="hidden" name="action" value="assie4_save_geofence">
+
+      <!-- CARD 1: SAKLAR ON / OFF FITUR LOKASI -->
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:26px 28px;box-shadow:0 4px 18px rgba(15,23,42,.04);margin-bottom:20px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap">
+          <div style="flex:1;min-width:260px">
+            <h3 style="margin:0 0 6px;font-size:17px;font-weight:800;color:#0f172a">1. Saklar Validasi Lokasi (Aktifkan / Matikan)</h3>
+            <p style="margin:0;color:#64748b;font-size:13px;line-height:1.5">
+              Bila <strong>AKTIF</strong>, pengunjung di luar venue tidak bisa absen. Bila <strong>NONAKTIF</strong>, siapa pun bisa absen dari mana saja (Mode Bebas).
+            </p>
+          </div>
+          <div>
+            <label style="display:inline-flex;align-items:center;cursor:pointer;gap:12px;background:#f8fafc;padding:8px 16px;border-radius:12px;border:1px solid #cbd5e1;user-select:none">
+              <input type="checkbox" name="geofence_enabled" id="geofence_enabled" value="1" <?php checked($is_enabled, true); ?> style="width:20px;height:20px;accent-color:#2563eb;cursor:pointer">
+              <span style="font-size:14px;font-weight:800;color:#1e293b" id="geofenceToggleLabel">
+                <?php echo $is_enabled ? 'Fitur Lokasi: AKTIF' : 'Fitur Lokasi: NONAKTIF'; ?>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div style="margin-top:16px;padding:14px 18px;border-radius:12px;background:<?php echo $is_enabled ? '#eff6ff' : '#fefce8'; ?>;border:1px solid <?php echo $is_enabled ? '#bfdbfe' : '#fef08a'; ?>;color:<?php echo $is_enabled ? '#1e40af' : '#854d0e'; ?>;font-size:13px;display:flex;align-items:center;gap:10px" id="geofenceStateNotice">
+          <span style="font-size:18px"><?php echo $is_enabled ? '🔒' : '🔓'; ?></span>
+          <div>
+            <strong><?php echo $is_enabled ? 'Mode Kehadiran Fisik Aktif' : 'Mode Bebas (Bypass Lokasi)'; ?>:</strong>
+            <?php if ($is_enabled): ?>
+              Presensi terkunci khusus di area Grand City Surabaya. Pengunjung wajib menyalakan GPS perangkat.
+            <?php else: ?>
+              Presensi dapat dilakukan dari mana saja tanpa validasi lokasi GPS.
+            <?php endif; ?>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 2: VENUE & KOORDINAT -->
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:26px 28px;box-shadow:0 4px 18px rgba(15,23,42,.04);margin-bottom:20px">
+        <h3 style="margin:0 0 6px;font-size:17px;font-weight:800;color:#0f172a">2. Informasi & Koordinat Target Venue</h3>
+        <p style="margin:0 0 18px;color:#64748b;font-size:13px">
+          Tentukan nama lokasi acara serta titik koordinat GPS pusat venue.
+        </p>
+
+        <div style="display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:18px">
+          <div>
+            <label for="venue_name" style="display:block;font-size:13px;font-weight:700;color:#334155;margin-bottom:6px">Nama Lokasi Acara</label>
+            <input type="text" name="venue_name" id="venue_name" value="<?php echo esc_attr($venue_name); ?>" required style="width:100%;max-width:500px;min-height:42px;border:1px solid #cbd5e1;border-radius:8px;padding:8px 12px;font-size:14px">
+            <span style="display:block;color:#64748b;font-size:11px;margin-top:4px">Nama ini akan ditampilkan pada pesan status dan peringatan pengunjung.</span>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(230px, 1fr));gap:16px;align-items:flex-start">
+          <div>
+            <label for="venue_lat" style="display:block;font-size:13px;font-weight:700;color:#334155;margin-bottom:6px">Latitude</label>
+            <input type="text" name="venue_lat" id="venue_lat" value="<?php echo esc_attr($lat); ?>" required style="width:100%;min-height:42px;border:1px solid #cbd5e1;border-radius:8px;padding:8px 12px;font-size:14px;font-family:monospace">
+            <span style="display:block;color:#64748b;font-size:11px;margin-top:4px">Contoh: -7.262113648386964</span>
+          </div>
+          <div>
+            <label for="venue_lng" style="display:block;font-size:13px;font-weight:700;color:#334155;margin-bottom:6px">Longitude</label>
+            <input type="text" name="venue_lng" id="venue_lng" value="<?php echo esc_attr($lng); ?>" required style="width:100%;min-height:42px;border:1px solid #cbd5e1;border-radius:8px;padding:8px 12px;font-size:14px;font-family:monospace">
+            <span style="display:block;color:#64748b;font-size:11px;margin-top:4px">Contoh: 112.75013597795723</span>
+          </div>
+        </div>
+
+        <div style="margin-top:14px">
+          <button type="button" class="button" onclick="a4ResetToGrandCity()" style="font-size:12px;min-height:34px">
+            ↺ Gunakan Koordinat Asli Grand City Surabaya
+          </button>
+        </div>
+      </div>
+
+      <!-- CARD 3: RADIUS TOLERANSI -->
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:26px 28px;box-shadow:0 4px 18px rgba(15,23,42,.04);margin-bottom:20px">
+        <h3 style="margin:0 0 6px;font-size:17px;font-weight:800;color:#0f172a">3. Radius Toleransi Lokasi (Meter)</h3>
+        <p style="margin:0 0 16px;color:#64748b;font-size:13px;line-height:1.5">
+          Jarak maksimal dari titik pusat venue di mana pengunjung masih diizinkan melakukan presensi.
+        </p>
+
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap">
+          <div style="display:flex;align-items:center;gap:8px">
+            <input type="number" name="venue_radius" id="venue_radius" value="<?php echo esc_attr($radius); ?>" min="50" max="10000" step="10" required style="width:120px;min-height:42px;border:1px solid #cbd5e1;border-radius:8px;padding:8px 12px;font-size:16px;font-weight:800;text-align:right">
+            <span style="font-weight:700;color:#475569">meter</span>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <button type="button" class="button" onclick="a4SetRadius(100)">100 m</button>
+            <button type="button" class="button" onclick="a4SetRadius(200)">200 m</button>
+            <button type="button" class="button" onclick="a4SetRadius(300)" style="font-weight:700;border-color:#2563eb;color:#1e40af">300 m (Rekomendasi)</button>
+            <button type="button" class="button" onclick="a4SetRadius(500)">500 m</button>
+            <button type="button" class="button" onclick="a4SetRadius(1000)">1.000 m (1 Km)</button>
+          </div>
+        </div>
+        <p style="margin:0;font-size:12px;color:#64748b">
+          * Radius <strong>300 meter</strong> sangat direkomendasikan karena mencakup seluruh Exhibition Hall, Convention Hall, Mall, dan area parkir Grand City Surabaya dengan akurasi GPS smartphone yang optimal.
+        </p>
+      </div>
+
+      <!-- CARD 4: WIDGET LIVE GPS DIAGNOSTIC -->
+      <div style="background:#f8fafc;border:1px dashed #94a3b8;border-radius:16px;padding:22px 26px;margin-bottom:24px">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:10px">
+          <div>
+            <h4 style="margin:0;font-size:15px;font-weight:800;color:#1e293b">🛰️ Uji Coba GPS Posisi Anda Saat Ini</h4>
+            <p style="margin:4px 0 0;font-size:12px;color:#64748b">Cek secara langsung apakah posisi laptop/ponsel Anda saat ini dianggap berada di dalam atau di luar venue.</p>
+          </div>
+          <button type="button" id="a4BtnTestGps" class="button button-secondary" onclick="a4TestCurrentLocation()" style="min-height:36px;font-weight:700">
+            Cek Lokasi Saya Sekarang
+          </button>
+        </div>
+        <div id="a4GpsTestResult" style="display:none;margin-top:14px;padding:14px;border-radius:10px;background:#fff;border:1px solid #e2e8f0;font-size:13px"></div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:15px">
+        <button type="submit" class="button button-primary button-hero" style="min-height:46px;padding:0 28px;border-radius:10px;font-size:15px;font-weight:700">
+          Simpan Pengaturan Lokasi
+        </button>
+        <a href="<?php echo esc_url(admin_url('admin.php?page=assie4-presensi')); ?>" class="button" style="min-height:46px;display:inline-flex;align-items:center;padding:0 20px;border-radius:10px;font-size:14px">
+          Batal
+        </a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+  function a4ResetToGrandCity() {
+    document.getElementById('venue_name').value = '<?php echo esc_js($default_venue); ?>';
+    document.getElementById('venue_lat').value = '<?php echo esc_js($default_lat); ?>';
+    document.getElementById('venue_lng').value = '<?php echo esc_js($default_lng); ?>';
+    document.getElementById('venue_radius').value = '300';
+  }
+
+  function a4SetRadius(r) {
+    document.getElementById('venue_radius').value = r;
+  }
+
+  const toggleCb = document.getElementById('geofence_enabled');
+  if (toggleCb) {
+    toggleCb.addEventListener('change', function(){
+      const lbl = document.getElementById('geofenceToggleLabel');
+      const box = document.getElementById('geofenceStateNotice');
+      if (this.checked) {
+        lbl.textContent = 'Fitur Lokasi: AKTIF';
+        box.style.background = '#eff6ff';
+        box.style.borderColor = '#bfdbfe';
+        box.style.color = '#1e40af';
+        box.innerHTML = '<span style="font-size:18px">🔒</span><div><strong>Mode Kehadiran Fisik Aktif:</strong> Presensi terkunci khusus di area Grand City Surabaya. Pengunjung wajib menyalakan GPS perangkat.</div>';
+      } else {
+        lbl.textContent = 'Fitur Lokasi: NONAKTIF';
+        box.style.background = '#fefce8';
+        box.style.borderColor = '#fef08a';
+        box.style.color = '#854d0e';
+        box.innerHTML = '<span style="font-size:18px">🔓</span><div><strong>Mode Bebas (Bypass Lokasi):</strong> Presensi dapat dilakukan dari mana saja tanpa validasi lokasi GPS.</div>';
+      }
+    });
+  }
+
+  function a4HaversineM(lat1, lon1, lat2, lon2) {
+    const R = 6371000;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLon/2) * Math.sin(dLon/2);
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  }
+
+  function a4TestCurrentLocation() {
+    const btn = document.getElementById('a4BtnTestGps');
+    const resultBox = document.getElementById('a4GpsTestResult');
+    if (!navigator.geolocation) {
+      alert('Browser Anda tidak mendukung Geolocation.');
+      return;
+    }
+    btn.disabled = true;
+    btn.textContent = 'Mengambil GPS…';
+    resultBox.style.display = 'block';
+    resultBox.innerHTML = '<div style="color:#64748b">Sedang menyambungkan ke satelit GPS browser…</div>';
+
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        btn.disabled = false;
+        btn.textContent = 'Cek Lokasi Saya Sekarang';
+        const uLat = pos.coords.latitude;
+        const uLng = pos.coords.longitude;
+        const acc = Math.round(pos.coords.accuracy || 0);
+
+        const vLat = parseFloat(document.getElementById('venue_lat').value) || <?php echo (float)$default_lat; ?>;
+        const vLng = parseFloat(document.getElementById('venue_lng').value) || <?php echo (float)$default_lng; ?>;
+        const vRad = parseInt(document.getElementById('venue_radius').value) || 300;
+        const dist = Math.round(a4HaversineM(uLat, uLng, vLat, vLng));
+
+        const isInside = dist <= vRad;
+        const badgeColor = isInside ? '#059669' : '#dc2626';
+        const badgeBg = isInside ? '#ecfdf5' : '#fef2f2';
+        const statusText = isInside ? '✅ DI DALAM VENUE (BISA ABSEN)' : '⚠️ DI LUAR VENUE (TIDAK BISA ABSEN)';
+
+        resultBox.innerHTML = `
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;flex-wrap:wrap">
+            <span style="font-weight:800;font-size:12px;padding:3px 10px;border-radius:20px;background:${badgeBg};color:${badgeColor}">
+              ${statusText}
+            </span>
+            <span style="font-size:12px;color:#64748b">Akurasi GPS: ±${acc} meter</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;color:#334155;font-size:13px">
+            <div><strong>Jarak ke Grand City:</strong> <span style="font-size:15px;font-weight:800;color:${badgeColor}">${dist.toLocaleString()} meter</span></div>
+            <div><strong>Radius Izin:</strong> ${vRad} meter</div>
+            <div><strong>Posisi Anda:</strong> <span style="font-family:monospace">${uLat.toFixed(6)}, ${uLng.toFixed(6)}</span></div>
+          </div>
+          <p style="margin:8px 0 0;font-size:12px;color:#64748b">
+            ${isInside ? 'Posisi Anda memenuhi syarat untuk presensi jika fitur lokasi diaktifkan.' : 'Jika fitur lokasi diaktifkan, presensi dari perangkat Anda saat ini akan dicegat karena berada di luar radius venue.'}
+          </p>
+        `;
+      },
+      err => {
+        btn.disabled = false;
+        btn.textContent = 'Cek Lokasi Saya Sekarang';
+        resultBox.innerHTML = `
+          <div style="color:#b91c1c;font-weight:700">
+            Gagal mendapatkan GPS (${err.message || 'Izin ditolak'}). Pastikan GPS aktif dan izin lokasi diizinkan di browser Anda.
+          </div>
+        `;
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
+  }
+  </script>
+  <?php
 }
