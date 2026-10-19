@@ -11,6 +11,17 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 $exhibition_slug = defined( 'ASSIE4_PAMERAN_SLUG' ) ? ASSIE4_PAMERAN_SLUG : 'pameran-assie4';
 $exhibition_page = get_page_by_path( $exhibition_slug );
 $exhibition_url = $exhibition_page ? get_permalink( $exhibition_page ) : home_url( '/' . $exhibition_slug . '/' );
+
+$geo_settings = function_exists('assie4_get_geofence_settings') 
+    ? assie4_get_geofence_settings() 
+    : [
+        'enabled'    => 1,
+        'venue_name' => 'Grand City Surabaya',
+        'lat'        => -7.262113648386964,
+        'lng'        => 112.75013597795723,
+        'radius'     => 300,
+    ];
+$geo_enabled = !empty($geo_settings['enabled']);
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -86,6 +97,8 @@ $exhibition_url = $exhibition_page ? get_permalink( $exhibition_page ) : home_ur
   .btn-submit:active { transform:translateY(1px) scale(.985); box-shadow:none; }
   .btn-submit.is-success { background:#7cdbb3; }
   .btn-submit.is-invalid { animation:button-nudge .28s ease; }
+  .btn-submit.is-locked { opacity:.8; background:#475569; color:#cbd5e1; cursor:not-allowed; }
+  .btn-submit.is-locked:hover { background:#475569; box-shadow:none; transform:none; }
   .btn-submit:disabled { opacity:.6; cursor:wait; }
   .btn-submit.is-success:disabled { opacity:1; cursor:default; }
   .form-note { font-size:11px; color:var(--muted); margin:13px 0 0; text-align:center; }
@@ -102,6 +115,7 @@ $exhibition_url = $exhibition_page ? get_permalink( $exhibition_page ) : home_ur
   .loc-granted { background:#122c22; border-color:#245744; color:var(--success); }
   .loc-denied { background:#331a22; border-color:#612f3e; color:var(--error); cursor:pointer; }
   .loc-outside { background:#332714; border-color:#64491c; color:#f5c056; cursor:pointer; }
+  .loc-disabled { background:#141f32; border-color:#2a3e5c; color:#9db2ce; cursor:default; }
   .loc-loading .loc-icon { display:inline-block; animation:spin .7s linear infinite; }
   .side-column { min-width:0; }
   .leaderboard-section { background:var(--surface); border:1px solid var(--border); border-radius:14px; overflow:hidden; }
@@ -206,9 +220,9 @@ $exhibition_url = $exhibition_page ? get_permalink( $exhibition_page ) : home_ur
   </div>
 
   <!-- Status Lokasi -->
-  <div class="location-banner loc-idle" id="locationBanner" onclick="if(locationStatus==='idle'||locationStatus==='denied'||locationStatus==='outside')requestLocation()" role="status" aria-live="polite">
-    <span class="loc-icon">📍</span>
-    <span class="loc-text">Ketuk untuk verifikasi lokasi Anda di Grand City Surabaya.</span>
+  <div class="location-banner <?php echo $geo_enabled ? 'loc-idle' : 'loc-disabled'; ?>" id="locationBanner" onclick="if(GEOFENCE.enabled && (locationStatus==='idle'||locationStatus==='denied'||locationStatus==='outside'))requestLocation()" role="status" aria-live="polite">
+    <span class="loc-icon"><?php echo $geo_enabled ? '📍' : '🔓'; ?></span>
+    <span class="loc-text"><?php echo $geo_enabled ? 'Ketuk untuk verifikasi lokasi Anda di ' . esc_html($geo_settings['venue_name']) . '.' : 'Mode Presensi Bebas: Pembatasan lokasi GPS dinonaktifkan oleh administrator.'; ?></span>
   </div>
 
   <!-- Form Presensi -->
@@ -266,13 +280,19 @@ $exhibition_url = $exhibition_page ? get_permalink( $exhibition_page ) : home_ur
 <script>
 const NONCE    = <?php echo json_encode( wp_create_nonce('wp_rest') ); ?>;
 
+// ─── GEOFENCE CONFIG DARI SERVER ───
+const GEOFENCE = <?php echo wp_json_encode([
+  'enabled'   => $geo_enabled,
+  'venueName' => $geo_settings['venue_name'] ?: 'Grand City Surabaya',
+  'lat'       => (float) $geo_settings['lat'],
+  'lng'       => (float) $geo_settings['lng'],
+  'radiusM'   => (int) $geo_settings['radius'],
+]); ?>;
+
 // ─── GPS STATE ───
 let userLat = null;
 let userLng = null;
-let locationStatus = 'idle'; // idle | loading | granted | denied | outside
-
-// Koordinat & radius Grand City Surabaya (Jl. Kusuma Gubeng, Ketabang, Genteng)
-const VENUE = { lat: -7.262113648386964, lng: 112.75013597795723, radiusM: 300 };
+let locationStatus = GEOFENCE.enabled ? 'idle' : 'disabled'; // disabled | idle | loading | granted | denied | outside
 
 // ─── HAVERSINE (client-side preview, validasi final di server) ───
 function haversineM(lat1, lng1, lat2, lng2) {
@@ -285,10 +305,40 @@ function haversineM(lat1, lng1, lat2, lng2) {
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 }
 
+// ─── UPDATE SUBMIT BUTTON LOCK STATUS ───
+function updateSubmitLock(isLocked) {
+  const btn = document.getElementById('btnSubmit');
+  if (!btn) return;
+  // Jika geofence dinonaktifkan, tombol tidak pernah dikunci
+  if (!GEOFENCE.enabled) {
+    btn.classList.remove('is-locked');
+    btn.removeAttribute('aria-disabled');
+    btn.removeAttribute('title');
+    return;
+  }
+  if (isLocked) {
+    btn.classList.add('is-locked');
+    btn.setAttribute('aria-disabled', 'true');
+    btn.title = `Presensi hanya dapat dilakukan di dalam area ${GEOFENCE.venueName}`;
+  } else {
+    btn.classList.remove('is-locked');
+    btn.removeAttribute('aria-disabled');
+    btn.removeAttribute('title');
+  }
+}
+
 // ─── REQUEST LOKASI ───
 function requestLocation() {
+  if (!GEOFENCE.enabled) {
+    locationStatus = 'disabled';
+    setLocationBanner('disabled');
+    updateSubmitLock(false);
+    return;
+  }
   if (!navigator.geolocation) {
+    locationStatus = 'unsupported';
     setLocationBanner('unsupported');
+    updateSubmitLock(true);
     return;
   }
   setLocationBanner('loading');
@@ -296,18 +346,21 @@ function requestLocation() {
     pos => {
       userLat = pos.coords.latitude;
       userLng = pos.coords.longitude;
-      const dist = haversineM(userLat, userLng, VENUE.lat, VENUE.lng);
-      if (dist <= VENUE.radiusM) {
+      const dist = haversineM(userLat, userLng, GEOFENCE.lat, GEOFENCE.lng);
+      if (dist <= GEOFENCE.radiusM) {
         locationStatus = 'granted';
-        setLocationBanner('granted');
+        setLocationBanner('granted', Math.round(dist));
+        updateSubmitLock(false);
       } else {
         locationStatus = 'outside';
         setLocationBanner('outside', Math.round(dist));
+        updateSubmitLock(true);
       }
     },
     err => {
       locationStatus = 'denied';
       setLocationBanner('denied');
+      updateSubmitLock(true);
     },
     { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
   );
@@ -317,19 +370,24 @@ function requestLocation() {
 function setLocationBanner(state, dist) {
   const banner = document.getElementById('locationBanner');
   if (!banner) return;
+  const venue = GEOFENCE.venueName || 'Grand City Surabaya';
   const configs = {
-    idle:        { cls: 'loc-idle',     icon: '📍', msg: 'Ketuk untuk verifikasi lokasi Anda di Grand City Surabaya.' },
-    loading:     { cls: 'loc-loading',  icon: '🔄', msg: 'Mendapatkan lokasi GPS…' },
-    granted:     { cls: 'loc-granted',  icon: '✅', msg: 'Lokasi terverifikasi — Anda berada di Grand City Surabaya.' },
-    denied:      { cls: 'loc-denied',   icon: '🚫', msg: 'Akses lokasi ditolak. Aktifkan GPS/izin lokasi di browser lalu ketuk untuk coba lagi.' },
-    outside:     { cls: 'loc-outside',  icon: '⚠️', msg: `Anda berada ±${dist}m dari Grand City. Presensi hanya bisa dilakukan di dalam venue.` },
-    unsupported: { cls: 'loc-denied',   icon: '❌', msg: 'Browser Anda tidak mendukung GPS. Gunakan browser lain.' },
+    disabled:    { cls: 'loc-disabled', icon: '🔓', msg: 'Mode Presensi Bebas: Pembatasan lokasi GPS dinonaktifkan oleh administrator.' },
+    idle:        { cls: 'loc-idle',     icon: '📍', msg: `Ketuk untuk verifikasi lokasi Anda di ${venue}.` },
+    loading:     { cls: 'loc-loading',  icon: '🔄', msg: `Mendapatkan lokasi GPS untuk verifikasi di ${venue}…` },
+    granted:     { cls: 'loc-granted',  icon: '✅', msg: `Lokasi terverifikasi — Anda berada di ${venue}${dist !== undefined ? ' (~' + dist + 'm)' : ''}. Presensi dibuka!` },
+    denied:      { cls: 'loc-denied',   icon: '🚫', msg: `Akses lokasi ditolak. Aktifkan GPS dan izinkan browser untuk presensi di ${venue}. Ketuk untuk coba lagi.` },
+    outside:     { cls: 'loc-outside',  icon: '⚠️', msg: `Anda berada ±${dist}m dari ${venue}. Presensi HANYA BISA dilakukan di dalam venue.` },
+    unsupported: { cls: 'loc-denied',   icon: '❌', msg: 'Browser Anda tidak mendukung GPS. Gunakan browser modern lain.' },
   };
   const cfg = configs[state] || configs.idle;
   banner.className = 'location-banner ' + cfg.cls;
   banner.innerHTML = `<span class="loc-icon">${cfg.icon}</span><span class="loc-text">${cfg.msg}</span>`;
-  if (state === 'idle' || state === 'denied' || state === 'outside') banner.style.cursor = 'pointer';
-  else banner.style.cursor = 'default';
+  if (GEOFENCE.enabled && (state === 'idle' || state === 'denied' || state === 'outside')) {
+    banner.style.cursor = 'pointer';
+  } else {
+    banner.style.cursor = 'default';
+  }
 }
 
 // Kode dan nama booth diambil dari pemetaan resmi serta data tenant plugin pameran.
@@ -575,28 +633,34 @@ function setError(field, hasError, msg) {
 async function submitPresensi() {
   if (document.getElementById('btnSubmit').disabled) return;
 
-  // Cek status lokasi dulu
-  if (locationStatus === 'idle') {
-    requestLocation();
-    showToast('error-toast', 'Ketuk banner verifikasi lokasi terlebih dahulu.');
-    return;
-  }
-  if (locationStatus === 'loading') {
-    showToast('error-toast', 'Sedang memverifikasi lokasi GPS, mohon tunggu sebentar.');
-    return;
-  }
-  if (locationStatus === 'denied' || locationStatus === 'unsupported') {
-    showToast('error-toast', 'Izin lokasi GPS diperlukan untuk presensi di Grand City.');
-    return;
-  }
-  if (locationStatus === 'outside') {
-    showToast('error-toast', 'Presensi hanya dapat dilakukan di dalam area Grand City Surabaya.');
-    return;
-  }
-  if (userLat === null || userLng === null) {
-    requestLocation();
-    showToast('error-toast', 'Koordinat lokasi belum didapatkan. Silakan coba lagi.');
-    return;
+  // Cek status lokasi jika fitur validasi lokasi aktif
+  if (GEOFENCE.enabled) {
+    if (locationStatus === 'idle') {
+      requestLocation();
+      showToast('error-toast', 'Ketuk banner verifikasi lokasi terlebih dahulu.');
+      return;
+    }
+    if (locationStatus === 'loading') {
+      showToast('error-toast', 'Sedang memverifikasi lokasi GPS, mohon tunggu sebentar.');
+      return;
+    }
+    if (locationStatus === 'denied' || locationStatus === 'unsupported') {
+      showToast('error-toast', `Izin lokasi GPS diperlukan untuk presensi di ${GEOFENCE.venueName}. Aktifkan GPS pada perangkat Anda.`);
+      return;
+    }
+    if (locationStatus === 'outside') {
+      showToast('error-toast', `Presensi ditolak: Anda terdeteksi berada di luar area ${GEOFENCE.venueName}. Presensi hanya dapat dilakukan jika Anda hadir di venue.`);
+      const btn = document.getElementById('btnSubmit');
+      btn.classList.remove('is-invalid');
+      void btn.offsetWidth;
+      btn.classList.add('is-invalid');
+      return;
+    }
+    if (userLat === null || userLng === null) {
+      requestLocation();
+      showToast('error-toast', 'Koordinat lokasi belum didapatkan. Silakan coba lagi.');
+      return;
+    }
   }
 
   if (!validate()) {
@@ -621,12 +685,15 @@ async function submitPresensi() {
   const telp     = document.getElementById('telp').value.trim();
 
   try {
+    // Saat geofence dinonaktifkan, userLat/userLng = null → kirim 0 agar tidak gagal validasi tipe number di REST API
+    const sendLat = (userLat !== null && userLat !== undefined) ? userLat : 0;
+    const sendLng = (userLng !== null && userLng !== undefined) ? userLng : 0;
     const res = await fetch(apiUrl('presensi'), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ booth, nama, instansi, telp, lat: userLat, lng: userLng }),
+      body: JSON.stringify({ booth, nama, instansi, telp, lat: sendLat, lng: sendLng }),
     });
 
     const data = await res.json();
@@ -711,7 +778,14 @@ document.getElementById('attendanceForm').addEventListener('submit', event => {
 restoreVisitorData();
 onBoothChange();
 fetchLeaderboard();
-requestLocation();
+
+if (GEOFENCE.enabled) {
+  requestLocation();
+} else {
+  locationStatus = 'disabled';
+  setLocationBanner('disabled');
+  updateSubmitLock(false);
+}
 </script>
 
 <?php wp_footer(); ?>
