@@ -902,7 +902,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "",
+        "logo": "assets/tenant-logos/toekoe-dimsum.jpg",
         "contact": "dtoekoedimsum@gmail.com",
         "whatsapp": "081217448923",
         "web": "",
@@ -1111,7 +1111,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "https://lh3.googleusercontent.com/d/1XmUIE1ZdFZmjd-BhLkRAgNIDczYXVTuZ",
+        "logo": "assets/tenant-logos/azura-umroh.jpg",
         "contact": "vechoirunnisa10@gmail.com",
         "whatsapp": "085161377131",
         "web": "",
@@ -1161,7 +1161,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "",
+        "logo": "assets/tenant-logos/japonindo.jpg",
         "contact": "arifrahmania11@gmail.com",
         "whatsapp": "08563185856",
         "web": "",
@@ -1661,7 +1661,7 @@
             "Kreatif",
             "Transaksi Booth"
         ],
-        "logo": "https://lh3.googleusercontent.com/d/1zgr3Mof7v_fwd7RFdGc6vdLrd8obiHd9",
+        "logo": "assets/tenant-logos/tjakrawala-batik.jpg",
         "contact": "azzafadilah14@gmail.com",
         "whatsapp": "087850720142",
         "web": "https://www.tjakrawalabatik.com",
@@ -1686,7 +1686,7 @@
             "Kreatif",
             "Transaksi Booth"
         ],
-        "logo": "",
+        "logo": "assets/tenant-logos/botega.jpg",
         "contact": "Evelinnewijaya@gmail.com",
         "whatsapp": "081333309993",
         "web": "",
@@ -2440,6 +2440,26 @@
         tInstansi = 'Fakultas Teknologi Maju dan Multidisiplin Universitas Airlangga';
       }
 
+      var tLogo = t.logo || '';
+      var localLogoMap = {
+        'E2':  'assets/tenant-logos/toekoe-dimsum.jpg',
+        'F7':  'assets/tenant-logos/azura-umroh.jpg',
+        'F9':  'assets/tenant-logos/japonindo.jpg',
+        'H3':  'assets/tenant-logos/tjakrawala-batik.jpg',
+        'H4':  'assets/tenant-logos/botega.jpg',
+        'D3':  'assets/tenant-logos/d3_ulp.png',
+        'D6':  'assets/tenant-logos/d6_cocobloom.png',
+        'D14': 'assets/tenant-logos/d14_unesa_saga_carita.png',
+        'C4':  'assets/tenant-logos/jamkrindo.png',
+        'A9':  'assets/tenant-logos/feb_unair.png',
+        'A18': 'assets/tenant-logos/dormitory_center.png'
+      };
+      if (localLogoMap[cdeUpper]) {
+        if (!tLogo || /googleusercontent|drive\.google|canva\.link|f7_azura|h3_tjakrawala/i.test(tLogo)) {
+          tLogo = localLogoMap[cdeUpper];
+        }
+      }
+
       return {
         id:        t.id || (cde ? cde.toLowerCase() : ''),
         booth_no:  bNo,
@@ -2452,7 +2472,7 @@
         cat:       t.cat || '',
         desc:      t.desc || '',
         tags:      Array.isArray(t.tags) ? t.tags : (t.tags || '').split(',').map(function(s){return s.trim();}).filter(Boolean),
-        logo:      resolveLogo(t.logo || ''),
+        logo:      resolveLogo(tLogo),
         contact:   t.contact || '',
         whatsapp:  t.whatsapp || '',
         web:       t.web || '',

@@ -66,6 +66,27 @@ function assie4_normalize_tenant( $t ) {
         $instansi = 'Fakultas Teknologi Maju dan Multidisiplin Universitas Airlangga';
     }
 
+    $final_logo = $logo_url ?: trim( (string) ( $t['logo'] ?? '' ) );
+    $local_logo_files = [
+        'e2'  => 'toekoe-dimsum.jpg',
+        'f7'  => 'azura-umroh.jpg',
+        'f9'  => 'japonindo.jpg',
+        'h3'  => 'tjakrawala-batik.jpg',
+        'h4'  => 'botega.jpg',
+        'd3'  => 'd3_ulp.png',
+        'd6'  => 'd6_cocobloom.png',
+        'd14' => 'd14_unesa_saga_carita.png',
+        'c4'  => 'jamkrindo.png',
+        'a9'  => 'feb_unair.png',
+        'a18' => 'dormitory_center.png',
+    ];
+    $tid = strtolower( $code );
+    if ( isset( $local_logo_files[$tid] ) ) {
+        if ( empty( $final_logo ) || stripos( $final_logo, 'googleusercontent' ) !== false || stripos( $final_logo, 'drive.google' ) !== false || stripos( $final_logo, 'canva.link' ) !== false || stripos( $final_logo, 'f7_azura' ) !== false || stripos( $final_logo, 'h3_tjakrawala' ) !== false ) {
+            $final_logo = ASSIE4_PAMERAN_URL . 'assets/tenant-logos/' . $local_logo_files[$tid];
+        }
+    }
+
     return [
         'id'              => sanitize_key( trim( $t['id']              ?? '' ) ),
         'booth_no'        => $location['booth_no'] ?? intval( $t['booth_no'] ?? 0 ),
@@ -85,7 +106,7 @@ function assie4_normalize_tenant( $t ) {
                               ? array_map('sanitize_text_field', $t['tags'])
                               : array_values( array_filter( array_map( 'trim', explode( ',', sanitize_text_field($t['tags'] ?? '') ) ) ) ),
         'logo_id'         => $logo_id,
-        'logo'            => esc_url_raw( $logo_url ?: trim( $t['logo'] ?? '' ) ),
+        'logo'            => esc_url_raw( $final_logo ),
         'contact'         => sanitize_text_field( trim( $t['contact']   ?? '' ) ),
         'whatsapp'        => sanitize_text_field( trim( $t['whatsapp']  ?? '' ) ),
         'web'             => esc_url_raw( trim( $t['web']       ?? '' ) ),
@@ -2207,6 +2228,7 @@ function assie4_default_tenant_logos() {
         'd15' => 'bangga_evcs.png',
         'd16' => 'markaswalet.png',
         'e1'  => 'sahabat_spondan.png',
+        'e2'  => 'toekoe-dimsum.jpg',
         'e3'  => 'Logo.jpg',
         'f1'  => 'MULIA SAMUDRA MAJU ABADI.jpg',
         'f19' => 'petime-animal-care.png',
@@ -2233,8 +2255,9 @@ function assie4_default_tenant_logos() {
         'f4'  => 'JOBHUN HITAM border.png',
         'f5'  => 'Logo Serasa Djiwa.png',
         'f6'  => 'Logo Rexgo.png',
-        'f7'  => 'f7_azura_umroh_private.png',
+        'f7'  => 'azura-umroh.jpg',
         'f8'  => 'Logo Lokasi Nusantara.png',
+        'f9'  => 'japonindo.jpg',
         'f10' => 'Logo + Tulisan Tempat Tumbuh.png',
         'f11' => 'logo Fast Track Edu.png',
         'f12' => 'vitalic.png',
@@ -2250,7 +2273,8 @@ function assie4_default_tenant_logos() {
         'g7'  => 'Logo Ayam Ungkep Teh Nisa.jpg',
         'h1'  => 'Logo Gyarus.jpeg',
         'h2'  => 'Logo Leastra.png',
-        'h3'  => 'h3_tjakrawala.png',
+        'h3'  => 'tjakrawala-batik.jpg',
+        'h4'  => 'botega.jpg',
         'h6'  => 'logo-300-x-300 Etna Praya.png',
         'h11' => 'anka_minilab.png',
         'h12' => 'LOGO ByLaw Nails.png',
@@ -2613,7 +2637,7 @@ function assie4_get_tenants() {
     $raw = assie4_seed_demo_tenant( $raw );
 
     // Repair bundled booth logos once while preserving media-library uploads.
-    if ( get_option( 'assie4_local_tenant_logos_version' ) !== '10' ) {
+    if ( get_option( 'assie4_local_tenant_logos_version' ) !== '11' ) {
         $local_logos = assie4_default_tenant_logos();
         $site_host = wp_parse_url( home_url( '/' ), PHP_URL_HOST );
         $asset_path = wp_parse_url( ASSIE4_PAMERAN_URL . 'assets/tenant-logos/', PHP_URL_PATH );
@@ -2623,6 +2647,8 @@ function assie4_get_tenants() {
             'g2'  => 'https://canva.link/3hu3b3qr4623vm5',
             'g5'  => 'https://canva.link/rpy259ds74snjea',
             'h13' => 'https://canva.link/01bdnzrdocrhl0u',
+            'f7'  => 'https://lh3.googleusercontent.com/d/1XmUIE1ZdFZmjd-BhLkRAgNIDczYXVTuZ',
+            'h3'  => 'https://lh3.googleusercontent.com/d/1zgr3Mof7v_fwd7RFdGc6vdLrd8obiHd9',
         ];
         $legacy_non_image_urls = [
             'd8'  => 'https://www.instagram.com/muliasamudra?stkn=MWV3eTFneGxhdHk1Zw==',
@@ -2641,8 +2667,14 @@ function assie4_get_tenants() {
             $logo_path = $current_logo !== '' ? wp_parse_url( $current_logo, PHP_URL_PATH ) : '';
             $is_plugin_asset = $logo_host && $site_host && strcasecmp( $logo_host, $site_host ) === 0
                 && $asset_path && $logo_path && strpos( $logo_path, $asset_path ) !== false;
+            $is_broken_remote = stripos( $current_logo, 'googleusercontent' ) !== false
+                || stripos( $current_logo, 'drive.google' ) !== false
+                || stripos( $current_logo, 'canva.link' ) !== false
+                || stripos( $current_logo, '1drv.ms' ) !== false
+                || stripos( $current_logo, 'f7_azura' ) !== false
+                || stripos( $current_logo, 'h3_tjakrawala' ) !== false;
 
-            if ( isset( $local_logos[$tenant_id] ) && ( $is_plugin_asset || ( isset( $logo_repair_blank_ids[$tenant_id] ) && $current_logo === '' ) || ( isset( $legacy_remote_logos[$tenant_id] ) && $current_logo === $legacy_remote_logos[$tenant_id] ) || ( isset( $legacy_non_image_urls[$tenant_id] ) && $current_logo === $legacy_non_image_urls[$tenant_id] ) ) ) {
+            if ( isset( $local_logos[$tenant_id] ) && ( $is_plugin_asset || $is_broken_remote || ( isset( $logo_repair_blank_ids[$tenant_id] ) && $current_logo === '' ) || ( isset( $legacy_remote_logos[$tenant_id] ) && $current_logo === $legacy_remote_logos[$tenant_id] ) || ( isset( $legacy_non_image_urls[$tenant_id] ) && $current_logo === $legacy_non_image_urls[$tenant_id] ) ) ) {
                 if ( $current_logo !== $local_logos[$tenant_id] ) {
                     $tenant['logo'] = $local_logos[$tenant_id];
                     $logos_changed = true;
@@ -2655,7 +2687,7 @@ function assie4_get_tenants() {
         unset( $tenant );
 
         if ( $logos_changed ) update_option( ASSIE4_OPT_TENANTS, $raw, false );
-        update_option( 'assie4_local_tenant_logos_version', '10', false );
+        update_option( 'assie4_local_tenant_logos_version', '11', false );
         if ( $logos_changed ) assie4_rebuild_js_data();
     }
 
