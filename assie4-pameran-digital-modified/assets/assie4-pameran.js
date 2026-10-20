@@ -18,38 +18,45 @@
     rundown: {
       days:   [{ label:'Jumat, 6 November 2026' },{ label:'Sabtu, 7 November 2026' },{ label:'Minggu, 8 November 2026' }],
       events: [
+        // Hari 1: Jumat, 6 November 2026
         { day:0,time:'12.00',end:'13.00',name:'Preparation',type:'break',loc:'Atrium Grand City' },
         { day:0,time:'13.00',end:'14.20',name:'Opening Ceremony',type:'keynote',loc:'Main Stage' },
         { day:0,time:'14.20',end:'14.50',name:'Launching Produk Inovasi',type:'keynote',loc:'Main Stage' },
         { day:0,time:'14.50',end:'15.20',name:'Industry Matching',type:'workshop',loc:'Ruang Industri Matching' },
-        { day:0,time:'15.20',end:'17.20',name:'Lomba Mobile Legend',type:'networking',loc:'Main Stage' },
+        { day:0,time:'15.20',end:'18.20',name:'Lomba Mobile Legend',type:'networking',loc:'Main Stage' },
         { day:0,time:'16.00',end:'18.00',name:'Olimnesia Demo Games',type:'workshop',loc:'Stage 2' },
-        { day:0,time:'17.20',end:'17.35',name:'Break',type:'break',loc:'-' },
-        { day:0,time:'17.35',end:'18.35',name:'Band Akustik',type:'networking',loc:'Main Stage' },
+        { day:0,time:'18.20',end:'18.35',name:'Break',type:'break',loc:'Main Stage' },
+        { day:0,time:'18.35',end:'19.35',name:'Band Akustik',type:'networking',loc:'Main Stage' },
+        { day:0,time:'19.35',end:'20.00',name:'Closing Day 1',type:'keynote',loc:'Main Stage' },
+
+        // Hari 2: Sabtu, 7 November 2026
         { day:1,time:'09.00',end:'10.00',name:'Preparation',type:'break',loc:'Atrium Grand City' },
-        { day:1,time:'10.00',end:'10.10',name:'Opening',type:'keynote',loc:'Main Stage' },
+        { day:1,time:'10.00',end:'10.10',name:'Opening MC',type:'keynote',loc:'Main Stage' },
         { day:1,time:'10.00',end:'12.00',name:'FGD Forum Inkubator Bisnis Jatim',type:'panel',loc:'Ruang FGD' },
         { day:1,time:'10.10',end:'12.40',name:'Talkshow PUI-PT SCT : Dari Riset, jadi Kosmetik : Kenali Produk Kosmetik Inovatif hasil penelitian Universitas Airlangga Bersama PUI-PT Skin and Cosmetic Technology',type:'workshop',loc:'Main Stage' },
         { day:1,time:'11.00',end:'15.00',name:'Beauty Class by Studio Inkubator MUA',type:'keynote',loc:'Stage 2' },
         { day:1,time:'12.40',end:'13.00',name:'Break',type:'break',loc:'Atrium Grand City' },
-        { day:1,time:'13.00',end:'13.30',name:'Opening Business Matching',type:'keynote',loc:'Main Stage' },
-        { day:1,time:'13.30',end:'15.00',name:'Business Matching',type:'keynote',loc:'Ruang Business Matching' },
-        { day:1,time:'13.30',end:'18.30',name:'Lomba ASSIE GOTTALENT',type:'keynote',loc:'Main Stage' },
+        { day:1,time:'13.00',end:'14.15',name:'Opening & Mekanisme Business Matching 2026',type:'keynote',loc:'Main Stage' },
+        { day:1,time:'13.30',end:'15.00',name:'Business Matching',type:'workshop',loc:'Ruang Business Matching' },
+        { day:1,time:'14.15',end:'19.15',name:'Lomba ASSIE GOT TALENT',type:'keynote',loc:'Main Stage' },
         { day:1,time:'15.20',end:'22.00',name:'BEM Universitas Airlangga',type:'keynote',loc:'Stage 2' },
-        { day:1,time:'18.30',end:'18.35',name:'Break',type:'break',loc:'Main Stage' },
-        { day:1,time:'18.35',end:'19.35',name:'Band Akustik',type:'keynote',loc:'Main Stage' },
-        { day:1,time:'19.35',end:'20.05',name:'Closing',type:'keynote',loc:'Main Stage' },
+        { day:1,time:'19.15',end:'19.20',name:'Break',type:'break',loc:'Main Stage' },
+        { day:1,time:'19.20',end:'20.20',name:'Band Akustik',type:'keynote',loc:'Main Stage' },
+        { day:1,time:'20.20',end:'20.50',name:'Closing Day 2',type:'keynote',loc:'Main Stage' },
+
+        // Hari 3: Minggu, 8 November 2026
         { day:2,time:'09.00',end:'10.00',name:'Preparation',type:'break',loc:'Main Stage' },
-        { day:2,time:'10.00',end:'10.05',name:'Opening',type:'keynote',loc:'Main Stage' },
-        { day:2,time:'10.00',end:'10.05',name:'Opening',type:'keynote',loc:'Main Stage' },
+        { day:2,time:'10.00',end:'10.05',name:'Opening MC',type:'keynote',loc:'Main Stage' },
         { day:2,time:'10.05',end:'12.35',name:'Lomba Line Dance Competition',type:'networking',loc:'Main Stage' },
-        { day:2,time:'12.20',end:'17.00',name:'ayo bermain coding',type:'workshop',loc:'Stage 2' },
+        { day:2,time:'12.20',end:'17.00',name:'Ayo Bermain Coding',type:'workshop',loc:'Stage 2' },
         { day:2,time:'12.35',end:'13.05',name:'Break',type:'networking',loc:'Main Stage' },
-        { day:2,time:'13.05',end:'15.05',name:'"Talkshow BPOM "UMKM Aman, UMKM Naik Kelas : Kenali perizinan, keamanan pangan , dan standar mutu produk agar usahamu makin dipercaya dan siap bersaing""',type:'workshop',loc:'Main Stage' },
+        { day:2,time:'13.05',end:'15.05',name:'Talkshow BPOM : UMKM Aman, UMKM Naik Kelas : Kenali perizinan, keamanan pangan, dan standar mutu produk agar usahamu makin dipercaya dan siap bersaing',type:'workshop',loc:'Main Stage' },
         { day:2,time:'15.05',end:'17.05',name:'Lomba ASSIE IV Got Talent - Final',type:'workshop',loc:'Main Stage' },
         { day:2,time:'17.05',end:'17.35',name:'Break',type:'break',loc:'Main Stage' },
         { day:2,time:'17.35',end:'18.35',name:'Band Akustik',type:'networking',loc:'Main Stage' },
-        { day:2,time:'18.35',end:'19.55',name:'Rangkaian Closing dan Pengumuman Juara',type:'award',loc:'Main Stage' },
+        { day:2,time:'18.35',end:'18.55',name:'Laporan Panitia & Sambutan Closing',type:'keynote',loc:'Main Stage' },
+        { day:2,time:'18.55',end:'19.55',name:'Pengumuman Pemenang',type:'award',loc:'Main Stage' },
+        { day:2,time:'19.55',end:'20.00',name:'Closing Ceremony',type:'keynote',loc:'Main Stage' },
         { day:2,time:'22.00',end:'Selesai',name:'Peserta Meninggalkan Booth Pameran',type:'keynote',loc:'Atrium Grand City' },
       ]
     },
@@ -62,7 +69,7 @@
         "cluster": 1,
         "area": "A",
         "name": "Fakultas Kedokteran",
-        "instansi": "Fakultas Kedokteran",
+        "instansi": "Fakultas Kedokteran Universitas Airlangga",
         "pic": "Reny I'tishom",
         "cat": "Internal UNAIR",
         "desc": "Fakultas Kedokteran Universitas Airlangga (FK Unair) di Surabaya merupakan salah satu fakultas kedokteran tertua dan paling bersejarah di Indonesia. Sejarahnya berakar dari tradisi pendidikan medis era Hindia Belanda yang diawali oleh pencerahan Sekolah Dokter Jawa pada pertengahan abad ke-19.\r\n\r\nSecara resmi, cikal bakal FK Unair berdiri pada 1 November 1913 di Surabaya dengan nama NIAS (Nederlandsch Indische Artsen School). Lembaga ini mencetak para dokter pribumi yang berperan besar dalam pelayanan kesehatan dan pergerakan nasional. Memasuki masa pendudukan Jepang, NIAS berganti nama menjadi Surabaya Ika Daigaku. Setelah kemerdekaan, sekolah ini sempat berstatus sebagai cabang Fakultas Kedokteran Universitas Indonesia (FK UI) sebelum akhirnya diresmikan oleh Presiden Soekarno menjadi bagian dari Universitas Airlangga pada 10 November 1954.\r\n\r\nSaat ini, FK Unair menjadi salah satu pusat pendidikan kedokteran unggulan berakreditasi internasional di Indonesia. Didukung oleh jaringan rumah sakit pendidikan utama seperti RSUD Dr. Soetomo dan Rumah Sakit Universitas Airlangga (RSUA), FK Unair terus melahirkan tenaga medis bertaraf global, memperkuat riset kesehatan, dan menjaga warisan sejarahnya sebagai pilar kedokteran tanah air.",
@@ -86,7 +93,7 @@
         "code": "A2",
         "cluster": 1,
         "area": "A",
-        "name": "Fakultas Kedokteran Gigi Universitas Airlangga",
+        "name": "Fakultas Kedokteran Gigi",
         "instansi": "Fakultas Kedokteran Gigi Universitas Airlangga",
         "pic": "Dr. Andari Sarasati drg.",
         "cat": "Internal UNAIR",
@@ -111,8 +118,8 @@
         "code": "A3",
         "cluster": 1,
         "area": "A",
-        "name": "Fakultas Farmasi UNAIR",
-        "instansi": "Fakultas Farmasi UNAIR",
+        "name": "Fakultas Farmasi",
+        "instansi": "Fakultas Farmasi Universitas Airlangga",
         "pic": "Yusuf Alif Pratama",
         "cat": "Internal UNAIR",
         "desc": "Produk inovasi FF UNAIR",
@@ -136,7 +143,7 @@
         "code": "A4",
         "cluster": 1,
         "area": "A",
-        "name": "Fakultas Kedokteran Hewan Universitas Airlangga",
+        "name": "Fakultas Kedokteran Hewan",
         "instansi": "Fakultas Kedokteran Hewan Universitas Airlangga",
         "pic": "Dhandy Koesoemo Wardhana, drh.,M.Vet.,Ph.D",
         "cat": "Internal UNAIR",
@@ -161,8 +168,8 @@
         "code": "A5",
         "cluster": 1,
         "area": "A",
-        "name": "FaST_Booth",
-        "instansi": "Fakultas Sains dan Teknologi UNAIR",
+        "name": "Fakultas Sains dan Teknologi",
+        "instansi": "Fakultas Sains dan Teknologi Universitas Airlangga",
         "pic": "Dr. M. Fariz Fadillah Mardianto, M.Si",
         "cat": "Internal UNAIR",
         "desc": "Booth memamerkan karya inovasi dosen Fakultas Sains dan Teknologi Universitas Airlangga dari hasil riset dan pengabdian masyarakat yang berpotensi untuk dikembangkan dalam hilirisasi untuk keberlanjutan",
@@ -187,7 +194,7 @@
         "cluster": 1,
         "area": "A",
         "name": "FTMM UNAIR",
-        "instansi": "FTMM UNAIR",
+        "instansi": "Fakultas Teknologi Maju dan Multidisiplin Universitas Airlangga",
         "pic": "Vinanci Intan Widriani, S.M.",
         "cat": "Internal UNAIR",
         "desc": "Produk inovasi dari Fakultas Teknologi Maju dan Multidisiplin",
@@ -571,7 +578,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/farmasi_unair.png",
+        "logo": "assets/tenant-logos/d3_ulp.png",
         "contact": "ulpffunair@gmail.com",
         "whatsapp": "082234079377",
         "web": "https://ff.unair.ac.id/pgs/418/contact",
@@ -637,22 +644,22 @@
         "code": "D6",
         "cluster": 2,
         "area": "D",
-        "name": "Espresso by Kopi Setengah Serious",
-        "instansi": "Espresso by Kopi Setengah Serious",
-        "pic": "Eka",
-        "cat": "Food & Beverage",
-        "desc": "Kopi Setengah Serious adalah produsen espresso literan dari Surabaya, yang menjadi solusi simpel dan mudah untuk membuat kopi enak ala kafe tanpa harus investasi alat. \r\n‎\r\n‎Praktis tinggal tuang dan campur dengan air atau susu, produk kami telah terjual ribuan liter di e-commerce dan digunakan oleh pemilik kafe, umkm, kedai makanan maupun kopi keliling yang sedang merintis usaha dan ingin membuat menu kopi susu yang cepat namun tetap nikmat karena 1 Liter Espresso bisa untuk membuat 25-30 gelas kopi kekinian.\r\n‎ \r\n‎Kami berbagi ide resep dan konsultasi resep kopi kekinian di Instagram & Tiktok @kopisetengahserious.",
+        "name": "Cocobloom — Inkubator Universitas Trunojoyo Madura",
+        "instansi": "Inkubator Universitas Trunojoyo Madura",
+        "pic": "Mardiyah Hayati",
+        "cat": "Agrikultur",
+        "desc": "Cocobloom: Pupuk Organik dari Limbah Sabut dan Batok Kelapa, inovasi produk binaan Inkubator Universitas Trunojoyo Madura.",
         "tags": [
-            "Food & Beverage",
+            "Agrikultur",
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/kopi_serious.png",
-        "contact": "kopisetengahserious@gmail.com",
-        "whatsapp": "087722617299",
-        "web": "https://linktr.ee/kopisetengahserious",
-        "instagram": "instagram.com/kopisetengahserious",
-        "facebook": "facebook.com/kopisetengahserious",
+        "logo": "assets/tenant-logos/d6_cocobloom.png",
+        "contact": "mardiyah@trunojoyo.a.id",
+        "whatsapp": "081357571062",
+        "web": "",
+        "instagram": "https://www.instagram.com/cocobloom__official",
+        "facebook": "",
         "twitter": "",
         "transaksi": "Ya"
     },
@@ -895,7 +902,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "",
+        "logo": "assets/tenant-logos/toekoe-dimsum.jpg",
         "contact": "dtoekoedimsum@gmail.com",
         "whatsapp": "081217448923",
         "web": "",
@@ -1104,7 +1111,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "https://lh3.googleusercontent.com/d/1XmUIE1ZdFZmjd-BhLkRAgNIDczYXVTuZ",
+        "logo": "assets/tenant-logos/azura-umroh.jpg",
         "contact": "vechoirunnisa10@gmail.com",
         "whatsapp": "085161377131",
         "web": "",
@@ -1154,7 +1161,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "",
+        "logo": "assets/tenant-logos/japonindo.jpg",
         "contact": "arifrahmania11@gmail.com",
         "whatsapp": "08563185856",
         "web": "",
@@ -1654,7 +1661,7 @@
             "Kreatif",
             "Transaksi Booth"
         ],
-        "logo": "https://lh3.googleusercontent.com/d/1zgr3Mof7v_fwd7RFdGc6vdLrd8obiHd9",
+        "logo": "assets/tenant-logos/tjakrawala-batik.jpg",
         "contact": "azzafadilah14@gmail.com",
         "whatsapp": "087850720142",
         "web": "https://www.tjakrawalabatik.com",
@@ -1679,7 +1686,7 @@
             "Kreatif",
             "Transaksi Booth"
         ],
-        "logo": "",
+        "logo": "assets/tenant-logos/botega.jpg",
         "contact": "Evelinnewijaya@gmail.com",
         "whatsapp": "081333309993",
         "web": "",
@@ -2409,19 +2416,63 @@
       var bNo = (t.booth_no !== undefined && t.booth_no !== null && t.booth_no !== '') ? parseInt(t.booth_no, 10) : '';
       var cde = t.code || (t.id ? String(t.id).toUpperCase() : '');
       var ara = t.area || (cde ? cde.charAt(0).toUpperCase() : 'A');
+      var cdeUpper = String(cde).toUpperCase();
+      var tName = t.name || '';
+      var tInstansi = t.instansi || '';
+
+      if (cdeUpper === 'A1') {
+        tName = 'Fakultas Kedokteran';
+        tInstansi = 'Fakultas Kedokteran Universitas Airlangga';
+      } else if (cdeUpper === 'A2') {
+        tName = 'Fakultas Kedokteran Gigi';
+        tInstansi = 'Fakultas Kedokteran Gigi Universitas Airlangga';
+      } else if (cdeUpper === 'A3') {
+        tName = 'Fakultas Farmasi';
+        tInstansi = 'Fakultas Farmasi Universitas Airlangga';
+      } else if (cdeUpper === 'A4') {
+        tName = 'Fakultas Kedokteran Hewan';
+        tInstansi = 'Fakultas Kedokteran Hewan Universitas Airlangga';
+      } else if (cdeUpper === 'A5' || /fast_booth/i.test(tName)) {
+        tName = 'Fakultas Sains dan Teknologi';
+        tInstansi = 'Fakultas Sains dan Teknologi Universitas Airlangga';
+      } else if (cdeUpper === 'A6') {
+        if (!tName || /fast/i.test(tName)) tName = 'FTMM UNAIR';
+        tInstansi = 'Fakultas Teknologi Maju dan Multidisiplin Universitas Airlangga';
+      }
+
+      var tLogo = t.logo || '';
+      var localLogoMap = {
+        'E2':  'assets/tenant-logos/toekoe-dimsum.jpg',
+        'F7':  'assets/tenant-logos/azura-umroh.jpg',
+        'F9':  'assets/tenant-logos/japonindo.jpg',
+        'H3':  'assets/tenant-logos/tjakrawala-batik.jpg',
+        'H4':  'assets/tenant-logos/botega.jpg',
+        'D3':  'assets/tenant-logos/d3_ulp.png',
+        'D6':  'assets/tenant-logos/d6_cocobloom.png',
+        'D14': 'assets/tenant-logos/d14_unesa_saga_carita.png',
+        'C4':  'assets/tenant-logos/jamkrindo.png',
+        'A9':  'assets/tenant-logos/feb_unair.png',
+        'A18': 'assets/tenant-logos/dormitory_center.png'
+      };
+      if (localLogoMap[cdeUpper]) {
+        if (!tLogo || /googleusercontent|drive\.google|canva\.link|f7_azura|h3_tjakrawala/i.test(tLogo)) {
+          tLogo = localLogoMap[cdeUpper];
+        }
+      }
+
       return {
         id:        t.id || (cde ? cde.toLowerCase() : ''),
         booth_no:  bNo,
         code:      cde,
         cluster:   t.cluster || 1,
         area:      ara,
-        name:      t.name || '',
-        instansi:  t.instansi || '',
+        name:      tName,
+        instansi:  tInstansi,
         pic:       t.pic || '',
         cat:       t.cat || '',
         desc:      t.desc || '',
         tags:      Array.isArray(t.tags) ? t.tags : (t.tags || '').split(',').map(function(s){return s.trim();}).filter(Boolean),
-        logo:      resolveLogo(t.logo || ''),
+        logo:      resolveLogo(tLogo),
         contact:   t.contact || '',
         whatsapp:  t.whatsapp || '',
         web:       t.web || '',

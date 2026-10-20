@@ -41,14 +41,60 @@ function assie4_normalize_tenant( $t ) {
     $location = assie4_booth_location( $code );
     $logo_id = absint( $t['logo_id'] ?? 0 );
     $logo_url = $logo_id ? wp_get_attachment_url( $logo_id ) : '';
+    $name = sanitize_text_field( trim( $t['name'] ?? '' ) );
+    $instansi = sanitize_text_field( trim( $t['instansi'] ?? '' ) );
+
+    if ( $code === 'A1' ) {
+        $name = 'Fakultas Kedokteran';
+        $instansi = 'Fakultas Kedokteran Universitas Airlangga';
+    } elseif ( $code === 'A2' ) {
+        $name = 'Fakultas Kedokteran Gigi';
+        $instansi = 'Fakultas Kedokteran Gigi Universitas Airlangga';
+    } elseif ( $code === 'A3' ) {
+        $name = 'Fakultas Farmasi';
+        $instansi = 'Fakultas Farmasi Universitas Airlangga';
+    } elseif ( $code === 'A4' ) {
+        $name = 'Fakultas Kedokteran Hewan';
+        $instansi = 'Fakultas Kedokteran Hewan Universitas Airlangga';
+    } elseif ( $code === 'A5' || strcasecmp( $name, 'FaST_Booth' ) === 0 || stripos( $name, 'FaST_Booth' ) !== false ) {
+        $name = 'Fakultas Sains dan Teknologi';
+        $instansi = 'Fakultas Sains dan Teknologi Universitas Airlangga';
+    } elseif ( $code === 'A6' ) {
+        if ( empty( $name ) || stripos( $name, 'fast' ) !== false ) {
+            $name = 'FTMM UNAIR';
+        }
+        $instansi = 'Fakultas Teknologi Maju dan Multidisiplin Universitas Airlangga';
+    }
+
+    $final_logo = $logo_url ?: trim( (string) ( $t['logo'] ?? '' ) );
+    $local_logo_files = [
+        'e2'  => 'toekoe-dimsum.jpg',
+        'f7'  => 'azura-umroh.jpg',
+        'f9'  => 'japonindo.jpg',
+        'h3'  => 'tjakrawala-batik.jpg',
+        'h4'  => 'botega.jpg',
+        'd3'  => 'd3_ulp.png',
+        'd6'  => 'd6_cocobloom.png',
+        'd14' => 'd14_unesa_saga_carita.png',
+        'c4'  => 'jamkrindo.png',
+        'a9'  => 'feb_unair.png',
+        'a18' => 'dormitory_center.png',
+    ];
+    $tid = strtolower( $code );
+    if ( isset( $local_logo_files[$tid] ) ) {
+        if ( empty( $final_logo ) || stripos( $final_logo, 'googleusercontent' ) !== false || stripos( $final_logo, 'drive.google' ) !== false || stripos( $final_logo, 'canva.link' ) !== false || stripos( $final_logo, 'f7_azura' ) !== false || stripos( $final_logo, 'h3_tjakrawala' ) !== false ) {
+            $final_logo = ASSIE4_PAMERAN_URL . 'assets/tenant-logos/' . $local_logo_files[$tid];
+        }
+    }
+
     return [
         'id'              => sanitize_key( trim( $t['id']              ?? '' ) ),
         'booth_no'        => $location['booth_no'] ?? intval( $t['booth_no'] ?? 0 ),
         'code'            => $code,
         'cluster'         => $location['cluster'] ?? intval( $t['cluster'] ?? 0 ),
         'area'            => strtoupper( sanitize_text_field( trim( $t['area']     ?? 'A' ) ) ),
-        'name'            => sanitize_text_field( trim( $t['name']      ?? '' ) ),
-        'instansi'        => sanitize_text_field( trim( $t['instansi']  ?? '' ) ),
+        'name'            => $name,
+        'instansi'        => $instansi,
         'pic'             => sanitize_text_field( trim( $t['pic']       ?? '' ) ),
         'cat'             => sanitize_text_field( trim( $t['cat']       ?? '' ) ),
         'tipe_usaha'      => sanitize_text_field( trim( $t['tipe_usaha']     ?? '' ) ),
@@ -60,7 +106,7 @@ function assie4_normalize_tenant( $t ) {
                               ? array_map('sanitize_text_field', $t['tags'])
                               : array_values( array_filter( array_map( 'trim', explode( ',', sanitize_text_field($t['tags'] ?? '') ) ) ) ),
         'logo_id'         => $logo_id,
-        'logo'            => esc_url_raw( $logo_url ?: trim( $t['logo'] ?? '' ) ),
+        'logo'            => esc_url_raw( $final_logo ),
         'contact'         => sanitize_text_field( trim( $t['contact']   ?? '' ) ),
         'whatsapp'        => sanitize_text_field( trim( $t['whatsapp']  ?? '' ) ),
         'web'             => esc_url_raw( trim( $t['web']       ?? '' ) ),
@@ -127,7 +173,7 @@ function assie4_default_tenants() {
             'cluster' => 1,
             'area' => 'A',
             'name' => 'Fakultas Kedokteran',
-            'instansi' => 'Fakultas Kedokteran',
+            'instansi' => 'Fakultas Kedokteran Universitas Airlangga',
             'pic' => 'Reny I\'tishom',
             'cat' => 'Internal UNAIR',
             'desc' => 'Fakultas Kedokteran Universitas Airlangga (FK Unair) di Surabaya merupakan salah satu fakultas kedokteran tertua dan paling bersejarah di Indonesia. Sejarahnya berakar dari tradisi pendidikan medis era Hindia Belanda yang diawali oleh pencerahan Sekolah Dokter Jawa pada pertengahan abad ke-19.
@@ -151,7 +197,7 @@ Saat ini, FK Unair menjadi salah satu pusat pendidikan kedokteran unggulan berak
             'code' => 'A2',
             'cluster' => 1,
             'area' => 'A',
-            'name' => 'Fakultas Kedokteran Gigi Universitas Airlangga',
+            'name' => 'Fakultas Kedokteran Gigi',
             'instansi' => 'Fakultas Kedokteran Gigi Universitas Airlangga',
             'pic' => 'Dr. Andari Sarasati drg.',
             'cat' => 'Internal UNAIR',
@@ -172,8 +218,8 @@ Saat ini, FK Unair menjadi salah satu pusat pendidikan kedokteran unggulan berak
             'code' => 'A3',
             'cluster' => 1,
             'area' => 'A',
-            'name' => 'Fakultas Farmasi UNAIR',
-            'instansi' => 'Fakultas Farmasi UNAIR',
+            'name' => 'Fakultas Farmasi',
+            'instansi' => 'Fakultas Farmasi Universitas Airlangga',
             'pic' => 'Yusuf Alif Pratama',
             'cat' => 'Internal UNAIR',
             'desc' => 'Produk inovasi FF UNAIR',
@@ -193,7 +239,7 @@ Saat ini, FK Unair menjadi salah satu pusat pendidikan kedokteran unggulan berak
             'code' => 'A4',
             'cluster' => 1,
             'area' => 'A',
-            'name' => 'Fakultas Kedokteran Hewan Universitas Airlangga',
+            'name' => 'Fakultas Kedokteran Hewan',
             'instansi' => 'Fakultas Kedokteran Hewan Universitas Airlangga',
             'pic' => 'Dhandy Koesoemo Wardhana, drh.,M.Vet.,Ph.D',
             'cat' => 'Internal UNAIR',
@@ -214,8 +260,8 @@ Saat ini, FK Unair menjadi salah satu pusat pendidikan kedokteran unggulan berak
             'code' => 'A5',
             'cluster' => 1,
             'area' => 'A',
-            'name' => 'FaST_Booth',
-            'instansi' => 'Fakultas Sains dan Teknologi UNAIR',
+            'name' => 'Fakultas Sains dan Teknologi',
+            'instansi' => 'Fakultas Sains dan Teknologi Universitas Airlangga',
             'pic' => 'Dr. M. Fariz Fadillah Mardianto, M.Si',
             'cat' => 'Internal UNAIR',
             'desc' => 'Booth memamerkan karya inovasi dosen Fakultas Sains dan Teknologi Universitas Airlangga dari hasil riset dan pengabdian masyarakat yang berpotensi untuk dikembangkan dalam hilirisasi untuk keberlanjutan',
@@ -236,7 +282,7 @@ Saat ini, FK Unair menjadi salah satu pusat pendidikan kedokteran unggulan berak
             'cluster' => 1,
             'area' => 'A',
             'name' => 'FTMM UNAIR',
-            'instansi' => 'FTMM UNAIR',
+            'instansi' => 'Fakultas Teknologi Maju dan Multidisiplin Universitas Airlangga',
             'pic' => 'Vinanci Intan Widriani, S.M.',
             'cat' => 'Internal UNAIR',
             'desc' => 'Produk inovasi dari Fakultas Teknologi Maju dan Multidisiplin',
@@ -571,7 +617,7 @@ Didukung oleh staf pengajar berpengalaman, kurikulum berkualitas, dan fasilitas 
 
 Untuk Menjamin Kualitas Layanan pengujiannya ULP-FFUA pada tahun 2005 mulai mengajukan sertifikasi ISO 17025 dengan no LD-325-IDN. Untuk meningkatkan performa Unit Layanan Pengujian lebih lanjut, maka dilakukan penataan manajemen dan restruksi organisasi berdasarkan SK Dekan Fakultas Farmasi Unair no.2284/JO3.1.20/PP/2008 tertanggal 31 Oktober 2008.',
             'tags' => ['Internal UNAIR', 'Startup', 'Transaksi Booth'],
-            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/farmasi_unair.png',
+            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/d3_ulp.png',
             'contact' => 'ulpffunair@gmail.com',
             'whatsapp' => '082234079377',
             'web' => 'https://ff.unair.ac.id/pgs/418/contact',
@@ -629,22 +675,18 @@ Untuk Menjamin Kualitas Layanan pengujiannya ULP-FFUA pada tahun 2005 mulai meng
             'code' => 'D6',
             'cluster' => 2,
             'area' => 'D',
-            'name' => 'Espresso by Kopi Setengah Serious',
-            'instansi' => 'Espresso by Kopi Setengah Serious',
-            'pic' => 'Eka',
-            'cat' => 'Food & Beverage',
-            'desc' => 'Kopi Setengah Serious adalah produsen espresso literan dari Surabaya, yang menjadi solusi simpel dan mudah untuk membuat kopi enak ala kafe tanpa harus investasi alat. 
-‎
-‎Praktis tinggal tuang dan campur dengan air atau susu, produk kami telah terjual ribuan liter di e-commerce dan digunakan oleh pemilik kafe, umkm, kedai makanan maupun kopi keliling yang sedang merintis usaha dan ingin membuat menu kopi susu yang cepat namun tetap nikmat karena 1 Liter Espresso bisa untuk membuat 25-30 gelas kopi kekinian.
-‎ 
-‎Kami berbagi ide resep dan konsultasi resep kopi kekinian di Instagram & Tiktok @kopisetengahserious.',
-            'tags' => ['Food & Beverage', 'Startup', 'Transaksi Booth'],
-            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/kopi_serious.png',
-            'contact' => 'kopisetengahserious@gmail.com',
-            'whatsapp' => '087722617299',
-            'web' => 'https://linktr.ee/kopisetengahserious',
-            'instagram' => 'instagram.com/kopisetengahserious',
-            'facebook' => 'facebook.com/kopisetengahserious',
+            'name' => 'Cocobloom — Inkubator Universitas Trunojoyo Madura',
+            'instansi' => 'Inkubator Universitas Trunojoyo Madura',
+            'pic' => 'Mardiyah Hayati',
+            'cat' => 'Agrikultur',
+            'desc' => 'Cocobloom: Pupuk Organik dari Limbah Sabut dan Batok Kelapa, inovasi produk binaan Inkubator Universitas Trunojoyo Madura.',
+            'tags' => ['Agrikultur', 'Startup', 'Transaksi Booth'],
+            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/d6_cocobloom.png',
+            'contact' => 'mardiyah@trunojoyo.a.id',
+            'whatsapp' => '081357571062',
+            'web' => '',
+            'instagram' => 'https://www.instagram.com/cocobloom__official',
+            'facebook' => '',
             'twitter' => '',
             'transaksi' => 'Ya',
         ],
@@ -850,7 +892,7 @@ Untuk Menjamin Kualitas Layanan pengujiannya ULP-FFUA pada tahun 2005 mulai meng
             'cat' => 'Food & Beverage',
             'desc' => "D'toekoe Dimsum merupakan UMKM kuliner asal Surabaya yang bergerak di bidang produksi dan pengolahan dimsum premium homemade dengan bahan baku berkualitas dan halal. D'toekoe Dimsum hadir untuk memberikan pengalaman menikmati dimsum lezat, higienis, dan terjangkau bagi semua kalangan, baik untuk konsumsi harian, frozen food, maupun kebutuhan acara khusus.",
             'tags' => ['Food & Beverage', 'Startup', 'Transaksi Booth'],
-            'logo' => '',
+            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/toekoe-dimsum.jpg',
             'contact' => 'dtoekoedimsum@gmail.com',
             'whatsapp' => '081217448923',
             'web' => '',
@@ -1033,7 +1075,7 @@ Dengan demikian, pameran Serasa Djiwa dapat menjadi ruang untuk “mengenal diri
             'cat' => 'Jasa',
             'desc' => 'Azura menemani perjalanan ibadah umroh secara private dan prioritas dengan hotel dekat masjid, mobil pribadi dan muthawif pribadi.',
             'tags' => ['Jasa', 'Startup', 'Transaksi Booth'],
-            'logo' => 'https://lh3.googleusercontent.com/d/1XmUIE1ZdFZmjd-BhLkRAgNIDczYXVTuZ',
+            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/azura-umroh.jpg',
             'contact' => 'vechoirunnisa10@gmail.com',
             'whatsapp' => '085161377131',
             'web' => '',
@@ -1075,7 +1117,7 @@ Dengan demikian, pameran Serasa Djiwa dapat menjadi ruang untuk “mengenal diri
             'cat' => 'Edutech',
             'desc' => 'Kursus Bahasa Jepang untuk membantu peserta menguasai Bahasa Jepang secara praktris, komunikatif, dan menyenangkan sesuai dengan moto kami itsudemo, dokodemo manabou!',
             'tags' => ['Edutech', 'Startup', 'Transaksi Booth'],
-            'logo' => '',
+            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/japonindo.jpg',
             'contact' => 'arifrahmania11@gmail.com',
             'whatsapp' => '08563185856',
             'web' => '',
@@ -1513,7 +1555,7 @@ Dengan mengutamakan kualitas produk, desain yang menarik dan available custom de
             'cat' => 'Fashion',
             'desc' => 'Tjakrawala Batik & Crafts adalah rumah batik yang berfokus pada batik tulis khas Madura dan aneka kerajinan anyaman dari daun agel. Kami memproduksi berbagai macam batik tulis dengan motif tradisional dan kontemporer, serta memanfaatkan perca kain batik dan daun agel untuk menciptakan produk fashion dan home decor yang unik dan berkelanjutan.',
             'tags' => ['Fashion', 'Kreatif', 'Transaksi Booth'],
-            'logo' => 'https://lh3.googleusercontent.com/d/1zgr3Mof7v_fwd7RFdGc6vdLrd8obiHd9',
+            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/tjakrawala-batik.jpg',
             'contact' => 'azzafadilah14@gmail.com',
             'whatsapp' => '087850720142',
             'web' => 'https://www.tjakrawalabatik.com',
@@ -1534,7 +1576,7 @@ Dengan mengutamakan kualitas produk, desain yang menarik dan available custom de
             'cat' => 'Craft',
             'desc' => 'Botega is a wellness brand creating sensory experiences through candles, soaps, perfumes, massage oils, and reed diffusers. We support emotional well-being, encourage self-care, and empower women through meaningful products and positive impact.',
             'tags' => ['Craft', 'Kreatif', 'Transaksi Booth'],
-            'logo' => '',
+            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/botega.jpg',
             'contact' => 'Evelinnewijaya@gmail.com',
             'whatsapp' => '081333309993',
             'web' => '',
@@ -1949,6 +1991,25 @@ Berbagai produk dan layanan tersebut merupakan bagian dari upaya PUI-PT CoE-PSQ 
 /** Apply the latest official booth map while keeping the existing tenant records. */
 function assie4_apply_updated_official_roster( $tenants ) {
     foreach ( $tenants as &$tenant ) {
+        if ( sanitize_key( $tenant['id'] ?? '' ) === 'a5' ) {
+            $tenant['name'] = 'Fakultas Sains dan Teknologi';
+            $tenant['instansi'] = 'Fakultas Sains dan Teknologi UNAIR';
+        }
+
+        if ( sanitize_key( $tenant['id'] ?? '' ) === 'd6' ) {
+            $tenant['name'] = 'Cocobloom — Inkubator Universitas Trunojoyo Madura';
+            $tenant['instansi'] = 'Inkubator Universitas Trunojoyo Madura';
+            $tenant['pic'] = 'Mardiyah Hayati';
+            $tenant['cat'] = 'Agrikultur';
+            $tenant['desc'] = 'Cocobloom: Pupuk Organik dari Limbah Sabut dan Batok Kelapa, inovasi produk binaan Inkubator Universitas Trunojoyo Madura.';
+            $tenant['tags'] = ['Agrikultur', 'Startup', 'Transaksi Booth'];
+            $tenant['contact'] = 'mardiyah@trunojoyo.a.id';
+            $tenant['whatsapp'] = '081357571062';
+            $tenant['instagram'] = 'https://www.instagram.com/cocobloom__official';
+            $tenant['logo'] = ASSIE4_PAMERAN_URL . 'assets/tenant-logos/d6_cocobloom.png';
+            $tenant['transaksi'] = 'Ya';
+        }
+
         if ( sanitize_key( $tenant['id'] ?? '' ) === 'd4' ) {
             $tenant['name'] = 'Inkubator Bisnis STP LPPM UPN "Veteran" Jawa Timur';
             $tenant['instansi'] = 'Inkubator Bisnis STP LPPM UPN "Veteran" Jawa Timur';
@@ -2078,9 +2139,9 @@ function assie4_apply_updated_official_roster( $tenants ) {
         ],
         [
             'id'=>'d14', 'booth_no'=>35, 'code'=>'D14', 'cluster'=>2, 'area'=>'D',
-            'name'=>'Inkubator Universitas Negeri Surabaya', 'instansi'=>'Universitas Negeri Surabaya',
-            'pic'=>'', 'cat'=>'Startup', 'desc'=>'', 'tags'=>['Startup', 'Inkubasi'], 'logo'=>'', 'contact'=>'', 'whatsapp'=>'',
-            'web'=>'', 'instagram'=>'', 'facebook'=>'', 'twitter'=>'', 'transaksi'=>'',
+            'name'=>'Inkubator Universitas Negeri Surabaya — Batik Saga Carita', 'instansi'=>'Universitas Negeri Surabaya',
+            'pic'=>'', 'cat'=>'Startup', 'desc'=>'Batik Saga Carita adalah produk batik inovasi bernilai budaya dan estetika binaan Inkubator Universitas Negeri Surabaya (UNESA).', 'tags'=>['Startup', 'Inkubasi', 'Fashion', 'Transaksi Booth'], 'logo'=>$base . 'd14_unesa_saga_carita.png', 'contact'=>'', 'whatsapp'=>'',
+            'web'=>'', 'instagram'=>'', 'facebook'=>'', 'twitter'=>'', 'transaksi'=>'Ya',
         ],
         [
             'id'=>'d15', 'booth_no'=>36, 'code'=>'D15', 'cluster'=>2, 'area'=>'D',
@@ -2167,6 +2228,7 @@ function assie4_default_tenant_logos() {
         'd15' => 'bangga_evcs.png',
         'd16' => 'markaswalet.png',
         'e1'  => 'sahabat_spondan.png',
+        'e2'  => 'toekoe-dimsum.jpg',
         'e3'  => 'Logo.jpg',
         'f1'  => 'MULIA SAMUDRA MAJU ABADI.jpg',
         'f19' => 'petime-animal-care.png',
@@ -2178,17 +2240,24 @@ function assie4_default_tenant_logos() {
         'g3'  => 'partner_sehatin.png',
         'g8'  => 'sahabat_spondan.png',
         'd2'  => 'Logo CESGS.png',
+        'd3'  => 'd3_ulp.png',
         'd5'  => 'Logo Madu Onggu Recreate-03.png',
-        'd6'  => 'Logo Kopi Setengah Serius.jpg',
+        'd6'  => 'd6_cocobloom.png',
         'd9'  => 'LOGO FLORDEQUEEN OFFICIAL.png',
         'd11' => 'logo ulul albab uin malang.png',
+        'd14' => 'd14_unesa_saga_carita.png',
         'c1'  => 'Badan POM White Outline.png',
+        'c4'  => 'jamkrindo.png',
+        'a9'  => 'feb_unair.png',
+        'a18' => 'dormitory_center.png',
         'f2'  => 'Copy of Kinara Industries-Logo 2.png',
         'f3'  => 'Logo Olimnesia.jpg',
         'f4'  => 'JOBHUN HITAM border.png',
         'f5'  => 'Logo Serasa Djiwa.png',
         'f6'  => 'Logo Rexgo.png',
+        'f7'  => 'azura-umroh.jpg',
         'f8'  => 'Logo Lokasi Nusantara.png',
+        'f9'  => 'japonindo.jpg',
         'f10' => 'Logo + Tulisan Tempat Tumbuh.png',
         'f11' => 'logo Fast Track Edu.png',
         'f12' => 'vitalic.png',
@@ -2204,6 +2273,8 @@ function assie4_default_tenant_logos() {
         'g7'  => 'Logo Ayam Ungkep Teh Nisa.jpg',
         'h1'  => 'Logo Gyarus.jpeg',
         'h2'  => 'Logo Leastra.png',
+        'h3'  => 'tjakrawala-batik.jpg',
+        'h4'  => 'botega.jpg',
         'h6'  => 'logo-300-x-300 Etna Praya.png',
         'h11' => 'anka_minilab.png',
         'h12' => 'LOGO ByLaw Nails.png',
@@ -2220,6 +2291,11 @@ function assie4_default_tenant_logos() {
         'b1'  => 'p3ua.png',
         'd10' => 'inbis_ppns.jpg',
         'h5'  => 'allbouquets.png',
+        'e2'  => 'toekoe-dimsum.jpg',
+        'f7'  => 'azura-umroh.jpg',
+        'f9'  => 'japonindo.jpg',
+        'h3'  => 'tjakrawala-batik.jpg',
+        'h4'  => 'botega.jpg',
         'f16' => 'SRIWIJAYA KONTRAKTOR.png',
         'h14' => 'Zaruna Gift.jpg',
     ];
@@ -2238,38 +2314,45 @@ function assie4_default_rundown() {
     return [
         'days'   => [['label'=>'Jumat, 6 November 2026'],['label'=>'Sabtu, 7 November 2026'],['label'=>'Minggu, 8 November 2026']],
         'events' => [
+            // Hari 1: Jumat, 6 November 2026
             ['day'=>0,'time'=>'12.00','end'=>'13.00','name'=>'Preparation','type'=>'break','loc'=>'Atrium Grand City'],
             ['day'=>0,'time'=>'13.00','end'=>'14.20','name'=>'Opening Ceremony','type'=>'keynote','loc'=>'Main Stage'],
             ['day'=>0,'time'=>'14.20','end'=>'14.50','name'=>'Launching Produk Inovasi','type'=>'keynote','loc'=>'Main Stage'],
             ['day'=>0,'time'=>'14.50','end'=>'15.20','name'=>'Industry Matching','type'=>'workshop','loc'=>'Ruang Industri Matching'],
-            ['day'=>0,'time'=>'15.20','end'=>'17.20','name'=>'Lomba Mobile Legend','type'=>'networking','loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'15.20','end'=>'18.20','name'=>'Lomba Mobile Legend','type'=>'networking','loc'=>'Main Stage'],
             ['day'=>0,'time'=>'16.00','end'=>'18.00','name'=>'Olimnesia Demo Games','type'=>'workshop','loc'=>'Stage 2'],
-            ['day'=>0,'time'=>'17.20','end'=>'17.35','name'=>'Break','type'=>'break','loc'=>'-'],
-            ['day'=>0,'time'=>'17.35','end'=>'18.35','name'=>'Band Akustik','type'=>'networking','loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'18.20','end'=>'18.35','name'=>'Break','type'=>'break','loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'18.35','end'=>'19.35','name'=>'Band Akustik','type'=>'networking','loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'19.35','end'=>'20.00','name'=>'Closing Day 1','type'=>'keynote','loc'=>'Main Stage'],
+
+            // Hari 2: Sabtu, 7 November 2026
             ['day'=>1,'time'=>'09.00','end'=>'10.00','name'=>'Preparation','type'=>'break','loc'=>'Atrium Grand City'],
-            ['day'=>1,'time'=>'10.00','end'=>'10.10','name'=>'Opening','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>1,'time'=>'10.00','end'=>'10.10','name'=>'Opening MC','type'=>'keynote','loc'=>'Main Stage'],
             ['day'=>1,'time'=>'10.00','end'=>'12.00','name'=>'FGD Forum Inkubator Bisnis Jatim','type'=>'panel','loc'=>'Ruang FGD'],
             ['day'=>1,'time'=>'10.10','end'=>'12.40','name'=>'Talkshow PUI-PT SCT : Dari Riset, jadi Kosmetik : Kenali Produk Kosmetik Inovatif hasil penelitian Universitas Airlangga Bersama PUI-PT Skin and Cosmetic Technology','type'=>'workshop','loc'=>'Main Stage'],
             ['day'=>1,'time'=>'11.00','end'=>'15.00','name'=>'Beauty Class by Studio Inkubator MUA','type'=>'keynote','loc'=>'Stage 2'],
             ['day'=>1,'time'=>'12.40','end'=>'13.00','name'=>'Break','type'=>'break','loc'=>'Atrium Grand City'],
-            ['day'=>1,'time'=>'13.00','end'=>'13.30','name'=>'Opening Business Matching','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>1,'time'=>'13.30','end'=>'15.00','name'=>'Business Matching','type'=>'keynote','loc'=>'Ruang Business Matching'],
-            ['day'=>1,'time'=>'13.30','end'=>'18.30','name'=>'Lomba ASSIE GOTTALENT','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>1,'time'=>'13.00','end'=>'14.15','name'=>'Opening & Mekanisme Business Matching 2026','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>1,'time'=>'13.30','end'=>'15.00','name'=>'Business Matching','type'=>'workshop','loc'=>'Ruang Business Matching'],
+            ['day'=>1,'time'=>'14.15','end'=>'19.15','name'=>'Lomba ASSIE GOT TALENT','type'=>'keynote','loc'=>'Main Stage'],
             ['day'=>1,'time'=>'15.20','end'=>'22.00','name'=>'BEM Universitas Airlangga','type'=>'keynote','loc'=>'Stage 2'],
-            ['day'=>1,'time'=>'18.30','end'=>'18.35','name'=>'Break','type'=>'break','loc'=>'Main Stage'],
-            ['day'=>1,'time'=>'18.35','end'=>'19.35','name'=>'Band Akustik','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>1,'time'=>'19.35','end'=>'20.05','name'=>'Closing','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>1,'time'=>'19.15','end'=>'19.20','name'=>'Break','type'=>'break','loc'=>'Main Stage'],
+            ['day'=>1,'time'=>'19.20','end'=>'20.20','name'=>'Band Akustik','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>1,'time'=>'20.20','end'=>'20.50','name'=>'Closing Day 2','type'=>'keynote','loc'=>'Main Stage'],
+
+            // Hari 3: Minggu, 8 November 2026
             ['day'=>2,'time'=>'09.00','end'=>'10.00','name'=>'Preparation','type'=>'break','loc'=>'Main Stage'],
-            ['day'=>2,'time'=>'10.00','end'=>'10.05','name'=>'Opening','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>2,'time'=>'10.00','end'=>'10.05','name'=>'Opening','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'10.00','end'=>'10.05','name'=>'Opening MC','type'=>'keynote','loc'=>'Main Stage'],
             ['day'=>2,'time'=>'10.05','end'=>'12.35','name'=>'Lomba Line Dance Competition','type'=>'networking','loc'=>'Main Stage'],
-            ['day'=>2,'time'=>'12.20','end'=>'17.00','name'=>'ayo bermain coding','type'=>'workshop','loc'=>'Stage 2'],
+            ['day'=>2,'time'=>'12.20','end'=>'17.00','name'=>'Ayo Bermain Coding','type'=>'workshop','loc'=>'Stage 2'],
             ['day'=>2,'time'=>'12.35','end'=>'13.05','name'=>'Break','type'=>'networking','loc'=>'Main Stage'],
-            ['day'=>2,'time'=>'13.05','end'=>'15.05','name'=>'"Talkshow BPOM "UMKM Aman, UMKM Naik Kelas : Kenali perizinan, keamanan pangan , dan standar mutu produk agar usahamu makin dipercaya dan siap bersaing""','type'=>'workshop','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'13.05','end'=>'15.05','name'=>'Talkshow BPOM : UMKM Aman, UMKM Naik Kelas : Kenali perizinan, keamanan pangan, dan standar mutu produk agar usahamu makin dipercaya dan siap bersaing','type'=>'workshop','loc'=>'Main Stage'],
             ['day'=>2,'time'=>'15.05','end'=>'17.05','name'=>'Lomba ASSIE IV Got Talent - Final','type'=>'workshop','loc'=>'Main Stage'],
             ['day'=>2,'time'=>'17.05','end'=>'17.35','name'=>'Break','type'=>'break','loc'=>'Main Stage'],
             ['day'=>2,'time'=>'17.35','end'=>'18.35','name'=>'Band Akustik','type'=>'networking','loc'=>'Main Stage'],
-            ['day'=>2,'time'=>'18.35','end'=>'19.55','name'=>'Rangkaian Closing dan Pengumuman Juara','type'=>'award','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'18.35','end'=>'18.55','name'=>'Laporan Panitia & Sambutan Closing','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'18.55','end'=>'19.55','name'=>'Pengumuman Pemenang','type'=>'award','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'19.55','end'=>'20.00','name'=>'Closing Ceremony','type'=>'keynote','loc'=>'Main Stage'],
             ['day'=>2,'time'=>'22.00','end'=>'Selesai','name'=>'Peserta Meninggalkan Booth Pameran','type'=>'keynote','loc'=>'Atrium Grand City'],
         ],
     ];
@@ -2280,7 +2363,7 @@ function assie4_default_rundown() {
 function assie4_official_booth_assignments() {
     return [
         'A1'=>'Fakultas Kedokteran','A2'=>'Fakultas Kedokteran Gigi','A3'=>'Fakultas Farmasi','A4'=>'Fakultas Kedokteran Hewan',
-        'A5'=>'Fakultas Sains dan Tekonologi','A6'=>'Fakultas Teknologi Maju dan Multidisiplin','A7'=>'Fakultas Vokasi',
+        'A5'=>'Fakultas Sains dan Teknologi','A6'=>'Fakultas Teknologi Maju dan Multidisiplin','A7'=>'Fakultas Vokasi',
         'A8'=>'Fakultas perikanan dan kelautan','A9'=>'Fakultas Ekonomi dan Bisnis','A10'=>'Fakultas Kesehatan Masyarakat',
         'A11'=>'Fakultas Ilmu Budaya','A12'=>'FIKKIA','A13'=>'Fakultas Ilmu Sosial dan Politik','A14'=>'Fakultas Hukum',
         'A15'=>'Fakultas Keperawatan','A16'=>'Lembaga Penyakit Tropis','A17'=>'Airlangga Enterprise',
@@ -2318,9 +2401,9 @@ function assie4_roster_text_key( $value ) {
 function assie4_roster_entry_matches( $tenant, $code, $official_name, $same_code = true ) {
     // Keep brand names where the plot uses an umbrella institution or shortened name.
     $aliases = [
-        'A5'=>['fastbooth','fstunair'],'A6'=>['ftmmunair'],'A8'=>['fpkunair'],'A10'=>['publichealthunair'],'A11'=>['fibunair'],
+        'A5'=>['fastbooth','fstunair','fakultassainsdanteknologi'],'A6'=>['ftmmunair'],'A8'=>['fpkunair'],'A10'=>['publichealthunair'],'A11'=>['fibunair'],
         'A12'=>['fikkiaunair'],'A16'=>['lembagapenyakittropis'],'D1'=>['airlanggabilirubinsun','airlanggabilirubinnesting'],
-        'D3'=>['ulp','ulpffua'],'D5'=>['ongguhoney'],'D9'=>['flordequeenscalpandhairbotanicals'],'D10'=>['inbisppns'],'D15'=>['banggaevcs'],
+        'D3'=>['ulp','ulpffua'],'D5'=>['ongguhoney'],'D6'=>['trunojoyo','cocobloom','inkubatortrunojoyomadura'],'D9'=>['flordequeenscalpandhairbotanicals'],'D10'=>['inbisppns'],'D15'=>['banggaevcs'],
         'E1'=>['sahabatspondan'],'E3'=>['kopisetengahserious'],'F1'=>['muliasamudramajuabadi'],'G1'=>['deorans','minumdanmekar','weubiubibakarcilembu','chewyslime','ghettoghetti','rasenspace','theava'],
         'G8'=>['sahabatspondan'],'B1'=>['p3ua','airlanggauniversitypress'],'B6'=>['sct'],'F15'=>['brajaelektrik'],'F17'=>['appatech'],
         'B2'=>['stemcell'],'B10'=>['rsua','rumahsakituniversitasairlangga'],'C1'=>['balaibesarpom','bpomsurabaya'],'H4'=>['botegaindonesia'],
@@ -2405,6 +2488,27 @@ function assie4_reconcile_official_roster( $tenants, $fallback = [] ) {
         $tenant['code'] = $code;
         $tenant['name'] = sanitize_text_field( trim( (string) ( $tenant['name'] ?? '' ) ) ) ?: $official_name;
         $tenant['instansi'] = sanitize_text_field( trim( (string) ( $tenant['instansi'] ?? '' ) ) ) ?: $official_name;
+        if ( $code === 'A1' ) {
+            $tenant['name'] = 'Fakultas Kedokteran';
+            $tenant['instansi'] = 'Fakultas Kedokteran Universitas Airlangga';
+        } elseif ( $code === 'A2' ) {
+            $tenant['name'] = 'Fakultas Kedokteran Gigi';
+            $tenant['instansi'] = 'Fakultas Kedokteran Gigi Universitas Airlangga';
+        } elseif ( $code === 'A3' ) {
+            $tenant['name'] = 'Fakultas Farmasi';
+            $tenant['instansi'] = 'Fakultas Farmasi Universitas Airlangga';
+        } elseif ( $code === 'A4' ) {
+            $tenant['name'] = 'Fakultas Kedokteran Hewan';
+            $tenant['instansi'] = 'Fakultas Kedokteran Hewan Universitas Airlangga';
+        } elseif ( $code === 'A5' || strcasecmp( $tenant['name'], 'FaST_Booth' ) === 0 || stripos( $tenant['name'], 'FaST_Booth' ) !== false ) {
+            $tenant['name'] = 'Fakultas Sains dan Teknologi';
+            $tenant['instansi'] = 'Fakultas Sains dan Teknologi Universitas Airlangga';
+        } elseif ( $code === 'A6' ) {
+            if ( empty( $tenant['name'] ) || stripos( $tenant['name'], 'fast' ) !== false ) {
+                $tenant['name'] = 'FTMM UNAIR';
+            }
+            $tenant['instansi'] = 'Fakultas Teknologi Maju dan Multidisiplin Universitas Airlangga';
+        }
         if ( $location ) {
             $tenant['booth_no'] = $location['booth_no'];
             $tenant['area'] = $location['area'];
@@ -2423,7 +2527,7 @@ function assie4_reconcile_official_roster( $tenants, $fallback = [] ) {
 }
 
 function assie4_get_rundown() {
-    $version = '2026-10-12-rundown-3gambar';
+    $version = '2026-10-20-rundown-sync';
     $saved = get_option( ASSIE4_OPT_RUNDOWN, null );
     if ( get_option( 'assie4_official_rundown_version' ) !== $version ) {
         $saved = assie4_default_rundown();
@@ -2514,26 +2618,26 @@ function assie4_get_tenants() {
     if ( $raw === null ) {
         $raw = assie4_default_tenants();
         update_option( ASSIE4_OPT_TENANTS, $raw, false );
-        update_option( 'assie4_official_booth_roster_version', '2026-10-07', false );
+        update_option( 'assie4_official_booth_roster_version', '2026-10-20-v2', false );
         assie4_rebuild_js_data();
     }
     if ( ! is_array($raw) ) $raw = [];
 
-    if ( get_option( 'assie4_official_booth_roster_version' ) !== '2026-10-07' ) {
+    if ( get_option( 'assie4_official_booth_roster_version' ) !== '2026-10-20-v2' ) {
         $updated_roster = assie4_upgrade_official_roster( $raw );
         update_option( ASSIE4_OPT_TENANTS, $updated_roster, false );
         if ( get_option( ASSIE4_OPT_TENANTS ) !== $updated_roster ) {
             return array_values( array_map( 'assie4_normalize_tenant', $raw ) );
         }
         $raw = $updated_roster;
-        update_option( 'assie4_official_booth_roster_version', '2026-10-07', false );
+        update_option( 'assie4_official_booth_roster_version', '2026-10-20-v2', false );
         assie4_rebuild_js_data();
     }
 
     $raw = assie4_seed_demo_tenant( $raw );
 
     // Repair bundled booth logos once while preserving media-library uploads.
-    if ( get_option( 'assie4_local_tenant_logos_version' ) !== '8' ) {
+    if ( get_option( 'assie4_local_tenant_logos_version' ) !== '11' ) {
         $local_logos = assie4_default_tenant_logos();
         $site_host = wp_parse_url( home_url( '/' ), PHP_URL_HOST );
         $asset_path = wp_parse_url( ASSIE4_PAMERAN_URL . 'assets/tenant-logos/', PHP_URL_PATH );
@@ -2543,6 +2647,8 @@ function assie4_get_tenants() {
             'g2'  => 'https://canva.link/3hu3b3qr4623vm5',
             'g5'  => 'https://canva.link/rpy259ds74snjea',
             'h13' => 'https://canva.link/01bdnzrdocrhl0u',
+            'f7'  => 'https://lh3.googleusercontent.com/d/1XmUIE1ZdFZmjd-BhLkRAgNIDczYXVTuZ',
+            'h3'  => 'https://lh3.googleusercontent.com/d/1zgr3Mof7v_fwd7RFdGc6vdLrd8obiHd9',
         ];
         $legacy_non_image_urls = [
             'd8'  => 'https://www.instagram.com/muliasamudra?stkn=MWV3eTFneGxhdHk1Zw==',
@@ -2551,7 +2657,7 @@ function assie4_get_tenants() {
             'h10' => 'https://drive.google.com/drive/folders/12gH6jh1EaibV_DayJiJn8dzNg928eNcS',
             'h14' => 'https://id.shp.ee/SHug2F2W',
         ];
-        $logo_repair_blank_ids = [ 'b1' => true, 'd10' => true, 'f16' => true, 'h5' => true, 'h14' => true ];
+        $logo_repair_blank_ids = [ 'b1' => true, 'd10' => true, 'f16' => true, 'h5' => true, 'h14' => true, 'c4' => true, 'a9' => true, 'a18' => true, 'd3' => true, 'd6' => true, 'h3' => true, 'd14' => true, 'f7' => true, 'e2' => true, 'h4' => true, 'f9' => true ];
         $logos_changed = false;
 
         foreach ( $raw as &$tenant ) {
@@ -2561,8 +2667,14 @@ function assie4_get_tenants() {
             $logo_path = $current_logo !== '' ? wp_parse_url( $current_logo, PHP_URL_PATH ) : '';
             $is_plugin_asset = $logo_host && $site_host && strcasecmp( $logo_host, $site_host ) === 0
                 && $asset_path && $logo_path && strpos( $logo_path, $asset_path ) !== false;
+            $is_broken_remote = stripos( $current_logo, 'googleusercontent' ) !== false
+                || stripos( $current_logo, 'drive.google' ) !== false
+                || stripos( $current_logo, 'canva.link' ) !== false
+                || stripos( $current_logo, '1drv.ms' ) !== false
+                || stripos( $current_logo, 'f7_azura' ) !== false
+                || stripos( $current_logo, 'h3_tjakrawala' ) !== false;
 
-            if ( isset( $local_logos[$tenant_id] ) && ( $is_plugin_asset || ( isset( $logo_repair_blank_ids[$tenant_id] ) && $current_logo === '' ) || ( isset( $legacy_remote_logos[$tenant_id] ) && $current_logo === $legacy_remote_logos[$tenant_id] ) || ( isset( $legacy_non_image_urls[$tenant_id] ) && $current_logo === $legacy_non_image_urls[$tenant_id] ) ) ) {
+            if ( isset( $local_logos[$tenant_id] ) && ( $is_plugin_asset || $is_broken_remote || ( isset( $logo_repair_blank_ids[$tenant_id] ) && $current_logo === '' ) || ( isset( $legacy_remote_logos[$tenant_id] ) && $current_logo === $legacy_remote_logos[$tenant_id] ) || ( isset( $legacy_non_image_urls[$tenant_id] ) && $current_logo === $legacy_non_image_urls[$tenant_id] ) ) ) {
                 if ( $current_logo !== $local_logos[$tenant_id] ) {
                     $tenant['logo'] = $local_logos[$tenant_id];
                     $logos_changed = true;
@@ -2575,7 +2687,7 @@ function assie4_get_tenants() {
         unset( $tenant );
 
         if ( $logos_changed ) update_option( ASSIE4_OPT_TENANTS, $raw, false );
-        update_option( 'assie4_local_tenant_logos_version', '8', false );
+        update_option( 'assie4_local_tenant_logos_version', '11', false );
         if ( $logos_changed ) assie4_rebuild_js_data();
     }
 
