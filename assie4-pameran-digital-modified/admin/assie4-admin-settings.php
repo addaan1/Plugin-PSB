@@ -571,7 +571,7 @@ Didukung oleh staf pengajar berpengalaman, kurikulum berkualitas, dan fasilitas 
 
 Untuk Menjamin Kualitas Layanan pengujiannya ULP-FFUA pada tahun 2005 mulai mengajukan sertifikasi ISO 17025 dengan no LD-325-IDN. Untuk meningkatkan performa Unit Layanan Pengujian lebih lanjut, maka dilakukan penataan manajemen dan restruksi organisasi berdasarkan SK Dekan Fakultas Farmasi Unair no.2284/JO3.1.20/PP/2008 tertanggal 31 Oktober 2008.',
             'tags' => ['Internal UNAIR', 'Startup', 'Transaksi Booth'],
-            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/farmasi_unair.png',
+            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/d3_ulp.png',
             'contact' => 'ulpffunair@gmail.com',
             'whatsapp' => '082234079377',
             'web' => 'https://ff.unair.ac.id/pgs/418/contact',
@@ -635,7 +635,7 @@ Untuk Menjamin Kualitas Layanan pengujiannya ULP-FFUA pada tahun 2005 mulai meng
             'cat' => 'Agrikultur',
             'desc' => 'Cocobloom: Pupuk Organik dari Limbah Sabut dan Batok Kelapa, inovasi produk binaan Inkubator Universitas Trunojoyo Madura.',
             'tags' => ['Agrikultur', 'Startup', 'Transaksi Booth'],
-            'logo' => '',
+            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/d6_cocobloom.png',
             'contact' => 'mardiyah@trunojoyo.a.id',
             'whatsapp' => '081357571062',
             'web' => '',
@@ -1029,7 +1029,7 @@ Dengan demikian, pameran Serasa Djiwa dapat menjadi ruang untuk “mengenal diri
             'cat' => 'Jasa',
             'desc' => 'Azura menemani perjalanan ibadah umroh secara private dan prioritas dengan hotel dekat masjid, mobil pribadi dan muthawif pribadi.',
             'tags' => ['Jasa', 'Startup', 'Transaksi Booth'],
-            'logo' => 'https://lh3.googleusercontent.com/d/1XmUIE1ZdFZmjd-BhLkRAgNIDczYXVTuZ',
+            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/f7_azura_umroh_private.png',
             'contact' => 'vechoirunnisa10@gmail.com',
             'whatsapp' => '085161377131',
             'web' => '',
@@ -1509,7 +1509,7 @@ Dengan mengutamakan kualitas produk, desain yang menarik dan available custom de
             'cat' => 'Fashion',
             'desc' => 'Tjakrawala Batik & Crafts adalah rumah batik yang berfokus pada batik tulis khas Madura dan aneka kerajinan anyaman dari daun agel. Kami memproduksi berbagai macam batik tulis dengan motif tradisional dan kontemporer, serta memanfaatkan perca kain batik dan daun agel untuk menciptakan produk fashion dan home decor yang unik dan berkelanjutan.',
             'tags' => ['Fashion', 'Kreatif', 'Transaksi Booth'],
-            'logo' => 'https://lh3.googleusercontent.com/d/1zgr3Mof7v_fwd7RFdGc6vdLrd8obiHd9',
+            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/h3_tjakrawala.png',
             'contact' => 'azzafadilah14@gmail.com',
             'whatsapp' => '087850720142',
             'web' => 'https://www.tjakrawalabatik.com',
@@ -1960,6 +1960,7 @@ function assie4_apply_updated_official_roster( $tenants ) {
             $tenant['contact'] = 'mardiyah@trunojoyo.a.id';
             $tenant['whatsapp'] = '081357571062';
             $tenant['instagram'] = 'https://www.instagram.com/cocobloom__official';
+            $tenant['logo'] = ASSIE4_PAMERAN_URL . 'assets/tenant-logos/d6_cocobloom.png';
             $tenant['transaksi'] = 'Ya';
         }
 
@@ -2092,9 +2093,9 @@ function assie4_apply_updated_official_roster( $tenants ) {
         ],
         [
             'id'=>'d14', 'booth_no'=>35, 'code'=>'D14', 'cluster'=>2, 'area'=>'D',
-            'name'=>'Inkubator Universitas Negeri Surabaya', 'instansi'=>'Universitas Negeri Surabaya',
-            'pic'=>'', 'cat'=>'Startup', 'desc'=>'', 'tags'=>['Startup', 'Inkubasi'], 'logo'=>'', 'contact'=>'', 'whatsapp'=>'',
-            'web'=>'', 'instagram'=>'', 'facebook'=>'', 'twitter'=>'', 'transaksi'=>'',
+            'name'=>'Inkubator Universitas Negeri Surabaya — Batik Saga Carita', 'instansi'=>'Universitas Negeri Surabaya',
+            'pic'=>'', 'cat'=>'Startup', 'desc'=>'Batik Saga Carita adalah produk batik inovasi bernilai budaya dan estetika binaan Inkubator Universitas Negeri Surabaya (UNESA).', 'tags'=>['Startup', 'Inkubasi', 'Fashion', 'Transaksi Booth'], 'logo'=>$base . 'd14_unesa_saga_carita.png', 'contact'=>'', 'whatsapp'=>'',
+            'web'=>'', 'instagram'=>'', 'facebook'=>'', 'twitter'=>'', 'transaksi'=>'Ya',
         ],
         [
             'id'=>'d15', 'booth_no'=>36, 'code'=>'D15', 'cluster'=>2, 'area'=>'D',
@@ -2192,16 +2193,22 @@ function assie4_default_tenant_logos() {
         'g3'  => 'partner_sehatin.png',
         'g8'  => 'sahabat_spondan.png',
         'd2'  => 'Logo CESGS.png',
+        'd3'  => 'd3_ulp.png',
         'd5'  => 'Logo Madu Onggu Recreate-03.png',
-        'd6'  => 'Logo Kopi Setengah Serius.jpg',
+        'd6'  => 'd6_cocobloom.png',
         'd9'  => 'LOGO FLORDEQUEEN OFFICIAL.png',
         'd11' => 'logo ulul albab uin malang.png',
+        'd14' => 'd14_unesa_saga_carita.png',
         'c1'  => 'Badan POM White Outline.png',
+        'c4'  => 'jamkrindo.png',
+        'a9'  => 'feb_unair.png',
+        'a18' => 'dormitory_center.png',
         'f2'  => 'Copy of Kinara Industries-Logo 2.png',
         'f3'  => 'Logo Olimnesia.jpg',
         'f4'  => 'JOBHUN HITAM border.png',
         'f5'  => 'Logo Serasa Djiwa.png',
         'f6'  => 'Logo Rexgo.png',
+        'f7'  => 'f7_azura_umroh_private.png',
         'f8'  => 'Logo Lokasi Nusantara.png',
         'f10' => 'Logo + Tulisan Tempat Tumbuh.png',
         'f11' => 'logo Fast Track Edu.png',
@@ -2218,6 +2225,7 @@ function assie4_default_tenant_logos() {
         'g7'  => 'Logo Ayam Ungkep Teh Nisa.jpg',
         'h1'  => 'Logo Gyarus.jpeg',
         'h2'  => 'Logo Leastra.png',
+        'h3'  => 'h3_tjakrawala.png',
         'h6'  => 'logo-300-x-300 Etna Praya.png',
         'h11' => 'anka_minilab.png',
         'h12' => 'LOGO ByLaw Nails.png',
@@ -2547,7 +2555,7 @@ function assie4_get_tenants() {
     $raw = assie4_seed_demo_tenant( $raw );
 
     // Repair bundled booth logos once while preserving media-library uploads.
-    if ( get_option( 'assie4_local_tenant_logos_version' ) !== '8' ) {
+    if ( get_option( 'assie4_local_tenant_logos_version' ) !== '9' ) {
         $local_logos = assie4_default_tenant_logos();
         $site_host = wp_parse_url( home_url( '/' ), PHP_URL_HOST );
         $asset_path = wp_parse_url( ASSIE4_PAMERAN_URL . 'assets/tenant-logos/', PHP_URL_PATH );
@@ -2565,7 +2573,7 @@ function assie4_get_tenants() {
             'h10' => 'https://drive.google.com/drive/folders/12gH6jh1EaibV_DayJiJn8dzNg928eNcS',
             'h14' => 'https://id.shp.ee/SHug2F2W',
         ];
-        $logo_repair_blank_ids = [ 'b1' => true, 'd10' => true, 'f16' => true, 'h5' => true, 'h14' => true ];
+        $logo_repair_blank_ids = [ 'b1' => true, 'd10' => true, 'f16' => true, 'h5' => true, 'h14' => true, 'c4' => true, 'a9' => true, 'a18' => true, 'd3' => true, 'd6' => true, 'h3' => true, 'd14' => true, 'f7' => true ];
         $logos_changed = false;
 
         foreach ( $raw as &$tenant ) {
@@ -2589,7 +2597,7 @@ function assie4_get_tenants() {
         unset( $tenant );
 
         if ( $logos_changed ) update_option( ASSIE4_OPT_TENANTS, $raw, false );
-        update_option( 'assie4_local_tenant_logos_version', '8', false );
+        update_option( 'assie4_local_tenant_logos_version', '9', false );
         if ( $logos_changed ) assie4_rebuild_js_data();
     }
 

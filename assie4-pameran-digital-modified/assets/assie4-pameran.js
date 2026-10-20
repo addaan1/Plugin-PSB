@@ -571,7 +571,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "assets/tenant-logos/farmasi_unair.png",
+        "logo": "assets/tenant-logos/d3_ulp.png",
         "contact": "ulpffunair@gmail.com",
         "whatsapp": "082234079377",
         "web": "https://ff.unair.ac.id/pgs/418/contact",
@@ -647,7 +647,7 @@
             "Startup",
             "Transaksi Booth"
         ],
-        "logo": "",
+        "logo": "assets/tenant-logos/d6_cocobloom.png",
         "contact": "mardiyah@trunojoyo.a.id",
         "whatsapp": "081357571062",
         "web": "",
