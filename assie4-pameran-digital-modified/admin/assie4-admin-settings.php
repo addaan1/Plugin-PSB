@@ -871,7 +871,7 @@ Untuk Menjamin Kualitas Layanan pengujiannya ULP-FFUA pada tahun 2005 mulai meng
             'cat' => 'Food & Beverage',
             'desc' => "D'toekoe Dimsum merupakan UMKM kuliner asal Surabaya yang bergerak di bidang produksi dan pengolahan dimsum premium homemade dengan bahan baku berkualitas dan halal. D'toekoe Dimsum hadir untuk memberikan pengalaman menikmati dimsum lezat, higienis, dan terjangkau bagi semua kalangan, baik untuk konsumsi harian, frozen food, maupun kebutuhan acara khusus.",
             'tags' => ['Food & Beverage', 'Startup', 'Transaksi Booth'],
-            'logo' => '',
+            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/toekoe-dimsum.jpg',
             'contact' => 'dtoekoedimsum@gmail.com',
             'whatsapp' => '081217448923',
             'web' => '',
@@ -1054,7 +1054,7 @@ Dengan demikian, pameran Serasa Djiwa dapat menjadi ruang untuk “mengenal diri
             'cat' => 'Jasa',
             'desc' => 'Azura menemani perjalanan ibadah umroh secara private dan prioritas dengan hotel dekat masjid, mobil pribadi dan muthawif pribadi.',
             'tags' => ['Jasa', 'Startup', 'Transaksi Booth'],
-            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/f7_azura_umroh_private.png',
+            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/azura-umroh.jpg',
             'contact' => 'vechoirunnisa10@gmail.com',
             'whatsapp' => '085161377131',
             'web' => '',
@@ -1096,7 +1096,7 @@ Dengan demikian, pameran Serasa Djiwa dapat menjadi ruang untuk “mengenal diri
             'cat' => 'Edutech',
             'desc' => 'Kursus Bahasa Jepang untuk membantu peserta menguasai Bahasa Jepang secara praktris, komunikatif, dan menyenangkan sesuai dengan moto kami itsudemo, dokodemo manabou!',
             'tags' => ['Edutech', 'Startup', 'Transaksi Booth'],
-            'logo' => '',
+            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/japonindo.jpg',
             'contact' => 'arifrahmania11@gmail.com',
             'whatsapp' => '08563185856',
             'web' => '',
@@ -1534,7 +1534,7 @@ Dengan mengutamakan kualitas produk, desain yang menarik dan available custom de
             'cat' => 'Fashion',
             'desc' => 'Tjakrawala Batik & Crafts adalah rumah batik yang berfokus pada batik tulis khas Madura dan aneka kerajinan anyaman dari daun agel. Kami memproduksi berbagai macam batik tulis dengan motif tradisional dan kontemporer, serta memanfaatkan perca kain batik dan daun agel untuk menciptakan produk fashion dan home decor yang unik dan berkelanjutan.',
             'tags' => ['Fashion', 'Kreatif', 'Transaksi Booth'],
-            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/h3_tjakrawala.png',
+            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/tjakrawala-batik.jpg',
             'contact' => 'azzafadilah14@gmail.com',
             'whatsapp' => '087850720142',
             'web' => 'https://www.tjakrawalabatik.com',
@@ -1555,7 +1555,7 @@ Dengan mengutamakan kualitas produk, desain yang menarik dan available custom de
             'cat' => 'Craft',
             'desc' => 'Botega is a wellness brand creating sensory experiences through candles, soaps, perfumes, massage oils, and reed diffusers. We support emotional well-being, encourage self-care, and empower women through meaningful products and positive impact.',
             'tags' => ['Craft', 'Kreatif', 'Transaksi Booth'],
-            'logo' => '',
+            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/botega.jpg',
             'contact' => 'Evelinnewijaya@gmail.com',
             'whatsapp' => '081333309993',
             'web' => '',
@@ -2267,6 +2267,11 @@ function assie4_default_tenant_logos() {
         'b1'  => 'p3ua.png',
         'd10' => 'inbis_ppns.jpg',
         'h5'  => 'allbouquets.png',
+        'e2'  => 'toekoe-dimsum.jpg',
+        'f7'  => 'azura-umroh.jpg',
+        'f9'  => 'japonindo.jpg',
+        'h3'  => 'tjakrawala-batik.jpg',
+        'h4'  => 'botega.jpg',
         'f16' => 'SRIWIJAYA KONTRAKTOR.png',
         'h14' => 'Zaruna Gift.jpg',
     ];
@@ -2285,38 +2290,45 @@ function assie4_default_rundown() {
     return [
         'days'   => [['label'=>'Jumat, 6 November 2026'],['label'=>'Sabtu, 7 November 2026'],['label'=>'Minggu, 8 November 2026']],
         'events' => [
+            // Hari 1: Jumat, 6 November 2026
             ['day'=>0,'time'=>'12.00','end'=>'13.00','name'=>'Preparation','type'=>'break','loc'=>'Atrium Grand City'],
             ['day'=>0,'time'=>'13.00','end'=>'14.20','name'=>'Opening Ceremony','type'=>'keynote','loc'=>'Main Stage'],
             ['day'=>0,'time'=>'14.20','end'=>'14.50','name'=>'Launching Produk Inovasi','type'=>'keynote','loc'=>'Main Stage'],
             ['day'=>0,'time'=>'14.50','end'=>'15.20','name'=>'Industry Matching','type'=>'workshop','loc'=>'Ruang Industri Matching'],
-            ['day'=>0,'time'=>'15.20','end'=>'17.20','name'=>'Lomba Mobile Legend','type'=>'networking','loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'15.20','end'=>'18.20','name'=>'Lomba Mobile Legend','type'=>'networking','loc'=>'Main Stage'],
             ['day'=>0,'time'=>'16.00','end'=>'18.00','name'=>'Olimnesia Demo Games','type'=>'workshop','loc'=>'Stage 2'],
-            ['day'=>0,'time'=>'17.20','end'=>'17.35','name'=>'Break','type'=>'break','loc'=>'-'],
-            ['day'=>0,'time'=>'17.35','end'=>'18.35','name'=>'Band Akustik','type'=>'networking','loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'18.20','end'=>'18.35','name'=>'Break','type'=>'break','loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'18.35','end'=>'19.35','name'=>'Band Akustik','type'=>'networking','loc'=>'Main Stage'],
+            ['day'=>0,'time'=>'19.35','end'=>'20.00','name'=>'Closing Day 1','type'=>'keynote','loc'=>'Main Stage'],
+
+            // Hari 2: Sabtu, 7 November 2026
             ['day'=>1,'time'=>'09.00','end'=>'10.00','name'=>'Preparation','type'=>'break','loc'=>'Atrium Grand City'],
-            ['day'=>1,'time'=>'10.00','end'=>'10.10','name'=>'Opening','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>1,'time'=>'10.00','end'=>'10.10','name'=>'Opening MC','type'=>'keynote','loc'=>'Main Stage'],
             ['day'=>1,'time'=>'10.00','end'=>'12.00','name'=>'FGD Forum Inkubator Bisnis Jatim','type'=>'panel','loc'=>'Ruang FGD'],
             ['day'=>1,'time'=>'10.10','end'=>'12.40','name'=>'Talkshow PUI-PT SCT : Dari Riset, jadi Kosmetik : Kenali Produk Kosmetik Inovatif hasil penelitian Universitas Airlangga Bersama PUI-PT Skin and Cosmetic Technology','type'=>'workshop','loc'=>'Main Stage'],
             ['day'=>1,'time'=>'11.00','end'=>'15.00','name'=>'Beauty Class by Studio Inkubator MUA','type'=>'keynote','loc'=>'Stage 2'],
             ['day'=>1,'time'=>'12.40','end'=>'13.00','name'=>'Break','type'=>'break','loc'=>'Atrium Grand City'],
-            ['day'=>1,'time'=>'13.00','end'=>'13.30','name'=>'Opening Business Matching','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>1,'time'=>'13.30','end'=>'15.00','name'=>'Business Matching','type'=>'keynote','loc'=>'Ruang Business Matching'],
-            ['day'=>1,'time'=>'13.30','end'=>'18.30','name'=>'Lomba ASSIE GOTTALENT','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>1,'time'=>'13.00','end'=>'14.15','name'=>'Opening & Mekanisme Business Matching 2026','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>1,'time'=>'13.30','end'=>'15.00','name'=>'Business Matching','type'=>'workshop','loc'=>'Ruang Business Matching'],
+            ['day'=>1,'time'=>'14.15','end'=>'19.15','name'=>'Lomba ASSIE GOT TALENT','type'=>'keynote','loc'=>'Main Stage'],
             ['day'=>1,'time'=>'15.20','end'=>'22.00','name'=>'BEM Universitas Airlangga','type'=>'keynote','loc'=>'Stage 2'],
-            ['day'=>1,'time'=>'18.30','end'=>'18.35','name'=>'Break','type'=>'break','loc'=>'Main Stage'],
-            ['day'=>1,'time'=>'18.35','end'=>'19.35','name'=>'Band Akustik','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>1,'time'=>'19.35','end'=>'20.05','name'=>'Closing','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>1,'time'=>'19.15','end'=>'19.20','name'=>'Break','type'=>'break','loc'=>'Main Stage'],
+            ['day'=>1,'time'=>'19.20','end'=>'20.20','name'=>'Band Akustik','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>1,'time'=>'20.20','end'=>'20.50','name'=>'Closing Day 2','type'=>'keynote','loc'=>'Main Stage'],
+
+            // Hari 3: Minggu, 8 November 2026
             ['day'=>2,'time'=>'09.00','end'=>'10.00','name'=>'Preparation','type'=>'break','loc'=>'Main Stage'],
-            ['day'=>2,'time'=>'10.00','end'=>'10.05','name'=>'Opening','type'=>'keynote','loc'=>'Main Stage'],
-            ['day'=>2,'time'=>'10.00','end'=>'10.05','name'=>'Opening','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'10.00','end'=>'10.05','name'=>'Opening MC','type'=>'keynote','loc'=>'Main Stage'],
             ['day'=>2,'time'=>'10.05','end'=>'12.35','name'=>'Lomba Line Dance Competition','type'=>'networking','loc'=>'Main Stage'],
-            ['day'=>2,'time'=>'12.20','end'=>'17.00','name'=>'ayo bermain coding','type'=>'workshop','loc'=>'Stage 2'],
+            ['day'=>2,'time'=>'12.20','end'=>'17.00','name'=>'Ayo Bermain Coding','type'=>'workshop','loc'=>'Stage 2'],
             ['day'=>2,'time'=>'12.35','end'=>'13.05','name'=>'Break','type'=>'networking','loc'=>'Main Stage'],
-            ['day'=>2,'time'=>'13.05','end'=>'15.05','name'=>'"Talkshow BPOM "UMKM Aman, UMKM Naik Kelas : Kenali perizinan, keamanan pangan , dan standar mutu produk agar usahamu makin dipercaya dan siap bersaing""','type'=>'workshop','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'13.05','end'=>'15.05','name'=>'Talkshow BPOM : UMKM Aman, UMKM Naik Kelas : Kenali perizinan, keamanan pangan, dan standar mutu produk agar usahamu makin dipercaya dan siap bersaing','type'=>'workshop','loc'=>'Main Stage'],
             ['day'=>2,'time'=>'15.05','end'=>'17.05','name'=>'Lomba ASSIE IV Got Talent - Final','type'=>'workshop','loc'=>'Main Stage'],
             ['day'=>2,'time'=>'17.05','end'=>'17.35','name'=>'Break','type'=>'break','loc'=>'Main Stage'],
             ['day'=>2,'time'=>'17.35','end'=>'18.35','name'=>'Band Akustik','type'=>'networking','loc'=>'Main Stage'],
-            ['day'=>2,'time'=>'18.35','end'=>'19.55','name'=>'Rangkaian Closing dan Pengumuman Juara','type'=>'award','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'18.35','end'=>'18.55','name'=>'Laporan Panitia & Sambutan Closing','type'=>'keynote','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'18.55','end'=>'19.55','name'=>'Pengumuman Pemenang','type'=>'award','loc'=>'Main Stage'],
+            ['day'=>2,'time'=>'19.55','end'=>'20.00','name'=>'Closing Ceremony','type'=>'keynote','loc'=>'Main Stage'],
             ['day'=>2,'time'=>'22.00','end'=>'Selesai','name'=>'Peserta Meninggalkan Booth Pameran','type'=>'keynote','loc'=>'Atrium Grand City'],
         ],
     ];
@@ -2491,7 +2503,7 @@ function assie4_reconcile_official_roster( $tenants, $fallback = [] ) {
 }
 
 function assie4_get_rundown() {
-    $version = '2026-10-12-rundown-3gambar';
+    $version = '2026-10-20-rundown-sync';
     $saved = get_option( ASSIE4_OPT_RUNDOWN, null );
     if ( get_option( 'assie4_official_rundown_version' ) !== $version ) {
         $saved = assie4_default_rundown();
@@ -2601,7 +2613,7 @@ function assie4_get_tenants() {
     $raw = assie4_seed_demo_tenant( $raw );
 
     // Repair bundled booth logos once while preserving media-library uploads.
-    if ( get_option( 'assie4_local_tenant_logos_version' ) !== '9' ) {
+    if ( get_option( 'assie4_local_tenant_logos_version' ) !== '10' ) {
         $local_logos = assie4_default_tenant_logos();
         $site_host = wp_parse_url( home_url( '/' ), PHP_URL_HOST );
         $asset_path = wp_parse_url( ASSIE4_PAMERAN_URL . 'assets/tenant-logos/', PHP_URL_PATH );
@@ -2619,7 +2631,7 @@ function assie4_get_tenants() {
             'h10' => 'https://drive.google.com/drive/folders/12gH6jh1EaibV_DayJiJn8dzNg928eNcS',
             'h14' => 'https://id.shp.ee/SHug2F2W',
         ];
-        $logo_repair_blank_ids = [ 'b1' => true, 'd10' => true, 'f16' => true, 'h5' => true, 'h14' => true, 'c4' => true, 'a9' => true, 'a18' => true, 'd3' => true, 'd6' => true, 'h3' => true, 'd14' => true, 'f7' => true ];
+        $logo_repair_blank_ids = [ 'b1' => true, 'd10' => true, 'f16' => true, 'h5' => true, 'h14' => true, 'c4' => true, 'a9' => true, 'a18' => true, 'd3' => true, 'd6' => true, 'h3' => true, 'd14' => true, 'f7' => true, 'e2' => true, 'h4' => true, 'f9' => true ];
         $logos_changed = false;
 
         foreach ( $raw as &$tenant ) {
@@ -2643,7 +2655,7 @@ function assie4_get_tenants() {
         unset( $tenant );
 
         if ( $logos_changed ) update_option( ASSIE4_OPT_TENANTS, $raw, false );
-        update_option( 'assie4_local_tenant_logos_version', '9', false );
+        update_option( 'assie4_local_tenant_logos_version', '10', false );
         if ( $logos_changed ) assie4_rebuild_js_data();
     }
 
