@@ -62,7 +62,7 @@
         "cluster": 1,
         "area": "A",
         "name": "Fakultas Kedokteran",
-        "instansi": "Fakultas Kedokteran",
+        "instansi": "Fakultas Kedokteran Universitas Airlangga",
         "pic": "Reny I'tishom",
         "cat": "Internal UNAIR",
         "desc": "Fakultas Kedokteran Universitas Airlangga (FK Unair) di Surabaya merupakan salah satu fakultas kedokteran tertua dan paling bersejarah di Indonesia. Sejarahnya berakar dari tradisi pendidikan medis era Hindia Belanda yang diawali oleh pencerahan Sekolah Dokter Jawa pada pertengahan abad ke-19.\r\n\r\nSecara resmi, cikal bakal FK Unair berdiri pada 1 November 1913 di Surabaya dengan nama NIAS (Nederlandsch Indische Artsen School). Lembaga ini mencetak para dokter pribumi yang berperan besar dalam pelayanan kesehatan dan pergerakan nasional. Memasuki masa pendudukan Jepang, NIAS berganti nama menjadi Surabaya Ika Daigaku. Setelah kemerdekaan, sekolah ini sempat berstatus sebagai cabang Fakultas Kedokteran Universitas Indonesia (FK UI) sebelum akhirnya diresmikan oleh Presiden Soekarno menjadi bagian dari Universitas Airlangga pada 10 November 1954.\r\n\r\nSaat ini, FK Unair menjadi salah satu pusat pendidikan kedokteran unggulan berakreditasi internasional di Indonesia. Didukung oleh jaringan rumah sakit pendidikan utama seperti RSUD Dr. Soetomo dan Rumah Sakit Universitas Airlangga (RSUA), FK Unair terus melahirkan tenaga medis bertaraf global, memperkuat riset kesehatan, dan menjaga warisan sejarahnya sebagai pilar kedokteran tanah air.",
@@ -86,7 +86,7 @@
         "code": "A2",
         "cluster": 1,
         "area": "A",
-        "name": "Fakultas Kedokteran Gigi Universitas Airlangga",
+        "name": "Fakultas Kedokteran Gigi",
         "instansi": "Fakultas Kedokteran Gigi Universitas Airlangga",
         "pic": "Dr. Andari Sarasati drg.",
         "cat": "Internal UNAIR",
@@ -111,8 +111,8 @@
         "code": "A3",
         "cluster": 1,
         "area": "A",
-        "name": "Fakultas Farmasi UNAIR",
-        "instansi": "Fakultas Farmasi UNAIR",
+        "name": "Fakultas Farmasi",
+        "instansi": "Fakultas Farmasi Universitas Airlangga",
         "pic": "Yusuf Alif Pratama",
         "cat": "Internal UNAIR",
         "desc": "Produk inovasi FF UNAIR",
@@ -136,7 +136,7 @@
         "code": "A4",
         "cluster": 1,
         "area": "A",
-        "name": "Fakultas Kedokteran Hewan Universitas Airlangga",
+        "name": "Fakultas Kedokteran Hewan",
         "instansi": "Fakultas Kedokteran Hewan Universitas Airlangga",
         "pic": "Dhandy Koesoemo Wardhana, drh.,M.Vet.,Ph.D",
         "cat": "Internal UNAIR",
@@ -162,7 +162,7 @@
         "cluster": 1,
         "area": "A",
         "name": "Fakultas Sains dan Teknologi",
-        "instansi": "Fakultas Sains dan Teknologi UNAIR",
+        "instansi": "Fakultas Sains dan Teknologi Universitas Airlangga",
         "pic": "Dr. M. Fariz Fadillah Mardianto, M.Si",
         "cat": "Internal UNAIR",
         "desc": "Booth memamerkan karya inovasi dosen Fakultas Sains dan Teknologi Universitas Airlangga dari hasil riset dan pengabdian masyarakat yang berpotensi untuk dikembangkan dalam hilirisasi untuk keberlanjutan",
@@ -187,7 +187,7 @@
         "cluster": 1,
         "area": "A",
         "name": "FTMM UNAIR",
-        "instansi": "FTMM UNAIR",
+        "instansi": "Fakultas Teknologi Maju dan Multidisiplin Universitas Airlangga",
         "pic": "Vinanci Intan Widriani, S.M.",
         "cat": "Internal UNAIR",
         "desc": "Produk inovasi dari Fakultas Teknologi Maju dan Multidisiplin",
@@ -2409,14 +2409,38 @@
       var bNo = (t.booth_no !== undefined && t.booth_no !== null && t.booth_no !== '') ? parseInt(t.booth_no, 10) : '';
       var cde = t.code || (t.id ? String(t.id).toUpperCase() : '');
       var ara = t.area || (cde ? cde.charAt(0).toUpperCase() : 'A');
+      var cdeUpper = String(cde).toUpperCase();
+      var tName = t.name || '';
+      var tInstansi = t.instansi || '';
+
+      if (cdeUpper === 'A1') {
+        tName = 'Fakultas Kedokteran';
+        tInstansi = 'Fakultas Kedokteran Universitas Airlangga';
+      } else if (cdeUpper === 'A2') {
+        tName = 'Fakultas Kedokteran Gigi';
+        tInstansi = 'Fakultas Kedokteran Gigi Universitas Airlangga';
+      } else if (cdeUpper === 'A3') {
+        tName = 'Fakultas Farmasi';
+        tInstansi = 'Fakultas Farmasi Universitas Airlangga';
+      } else if (cdeUpper === 'A4') {
+        tName = 'Fakultas Kedokteran Hewan';
+        tInstansi = 'Fakultas Kedokteran Hewan Universitas Airlangga';
+      } else if (cdeUpper === 'A5' || /fast_booth/i.test(tName)) {
+        tName = 'Fakultas Sains dan Teknologi';
+        tInstansi = 'Fakultas Sains dan Teknologi Universitas Airlangga';
+      } else if (cdeUpper === 'A6') {
+        if (!tName || /fast/i.test(tName)) tName = 'FTMM UNAIR';
+        tInstansi = 'Fakultas Teknologi Maju dan Multidisiplin Universitas Airlangga';
+      }
+
       return {
         id:        t.id || (cde ? cde.toLowerCase() : ''),
         booth_no:  bNo,
         code:      cde,
         cluster:   t.cluster || 1,
         area:      ara,
-        name:      t.name || '',
-        instansi:  t.instansi || '',
+        name:      tName,
+        instansi:  tInstansi,
         pic:       t.pic || '',
         cat:       t.cat || '',
         desc:      t.desc || '',

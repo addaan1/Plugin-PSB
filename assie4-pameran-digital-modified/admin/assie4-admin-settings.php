@@ -41,14 +41,39 @@ function assie4_normalize_tenant( $t ) {
     $location = assie4_booth_location( $code );
     $logo_id = absint( $t['logo_id'] ?? 0 );
     $logo_url = $logo_id ? wp_get_attachment_url( $logo_id ) : '';
+    $name = sanitize_text_field( trim( $t['name'] ?? '' ) );
+    $instansi = sanitize_text_field( trim( $t['instansi'] ?? '' ) );
+
+    if ( $code === 'A1' ) {
+        $name = 'Fakultas Kedokteran';
+        $instansi = 'Fakultas Kedokteran Universitas Airlangga';
+    } elseif ( $code === 'A2' ) {
+        $name = 'Fakultas Kedokteran Gigi';
+        $instansi = 'Fakultas Kedokteran Gigi Universitas Airlangga';
+    } elseif ( $code === 'A3' ) {
+        $name = 'Fakultas Farmasi';
+        $instansi = 'Fakultas Farmasi Universitas Airlangga';
+    } elseif ( $code === 'A4' ) {
+        $name = 'Fakultas Kedokteran Hewan';
+        $instansi = 'Fakultas Kedokteran Hewan Universitas Airlangga';
+    } elseif ( $code === 'A5' || strcasecmp( $name, 'FaST_Booth' ) === 0 || stripos( $name, 'FaST_Booth' ) !== false ) {
+        $name = 'Fakultas Sains dan Teknologi';
+        $instansi = 'Fakultas Sains dan Teknologi Universitas Airlangga';
+    } elseif ( $code === 'A6' ) {
+        if ( empty( $name ) || stripos( $name, 'fast' ) !== false ) {
+            $name = 'FTMM UNAIR';
+        }
+        $instansi = 'Fakultas Teknologi Maju dan Multidisiplin Universitas Airlangga';
+    }
+
     return [
         'id'              => sanitize_key( trim( $t['id']              ?? '' ) ),
         'booth_no'        => $location['booth_no'] ?? intval( $t['booth_no'] ?? 0 ),
         'code'            => $code,
         'cluster'         => $location['cluster'] ?? intval( $t['cluster'] ?? 0 ),
         'area'            => strtoupper( sanitize_text_field( trim( $t['area']     ?? 'A' ) ) ),
-        'name'            => sanitize_text_field( trim( $t['name']      ?? '' ) ),
-        'instansi'        => sanitize_text_field( trim( $t['instansi']  ?? '' ) ),
+        'name'            => $name,
+        'instansi'        => $instansi,
         'pic'             => sanitize_text_field( trim( $t['pic']       ?? '' ) ),
         'cat'             => sanitize_text_field( trim( $t['cat']       ?? '' ) ),
         'tipe_usaha'      => sanitize_text_field( trim( $t['tipe_usaha']     ?? '' ) ),
@@ -127,7 +152,7 @@ function assie4_default_tenants() {
             'cluster' => 1,
             'area' => 'A',
             'name' => 'Fakultas Kedokteran',
-            'instansi' => 'Fakultas Kedokteran',
+            'instansi' => 'Fakultas Kedokteran Universitas Airlangga',
             'pic' => 'Reny I\'tishom',
             'cat' => 'Internal UNAIR',
             'desc' => 'Fakultas Kedokteran Universitas Airlangga (FK Unair) di Surabaya merupakan salah satu fakultas kedokteran tertua dan paling bersejarah di Indonesia. Sejarahnya berakar dari tradisi pendidikan medis era Hindia Belanda yang diawali oleh pencerahan Sekolah Dokter Jawa pada pertengahan abad ke-19.
@@ -151,7 +176,7 @@ Saat ini, FK Unair menjadi salah satu pusat pendidikan kedokteran unggulan berak
             'code' => 'A2',
             'cluster' => 1,
             'area' => 'A',
-            'name' => 'Fakultas Kedokteran Gigi Universitas Airlangga',
+            'name' => 'Fakultas Kedokteran Gigi',
             'instansi' => 'Fakultas Kedokteran Gigi Universitas Airlangga',
             'pic' => 'Dr. Andari Sarasati drg.',
             'cat' => 'Internal UNAIR',
@@ -172,8 +197,8 @@ Saat ini, FK Unair menjadi salah satu pusat pendidikan kedokteran unggulan berak
             'code' => 'A3',
             'cluster' => 1,
             'area' => 'A',
-            'name' => 'Fakultas Farmasi UNAIR',
-            'instansi' => 'Fakultas Farmasi UNAIR',
+            'name' => 'Fakultas Farmasi',
+            'instansi' => 'Fakultas Farmasi Universitas Airlangga',
             'pic' => 'Yusuf Alif Pratama',
             'cat' => 'Internal UNAIR',
             'desc' => 'Produk inovasi FF UNAIR',
@@ -193,7 +218,7 @@ Saat ini, FK Unair menjadi salah satu pusat pendidikan kedokteran unggulan berak
             'code' => 'A4',
             'cluster' => 1,
             'area' => 'A',
-            'name' => 'Fakultas Kedokteran Hewan Universitas Airlangga',
+            'name' => 'Fakultas Kedokteran Hewan',
             'instansi' => 'Fakultas Kedokteran Hewan Universitas Airlangga',
             'pic' => 'Dhandy Koesoemo Wardhana, drh.,M.Vet.,Ph.D',
             'cat' => 'Internal UNAIR',
@@ -215,7 +240,7 @@ Saat ini, FK Unair menjadi salah satu pusat pendidikan kedokteran unggulan berak
             'cluster' => 1,
             'area' => 'A',
             'name' => 'Fakultas Sains dan Teknologi',
-            'instansi' => 'Fakultas Sains dan Teknologi UNAIR',
+            'instansi' => 'Fakultas Sains dan Teknologi Universitas Airlangga',
             'pic' => 'Dr. M. Fariz Fadillah Mardianto, M.Si',
             'cat' => 'Internal UNAIR',
             'desc' => 'Booth memamerkan karya inovasi dosen Fakultas Sains dan Teknologi Universitas Airlangga dari hasil riset dan pengabdian masyarakat yang berpotensi untuk dikembangkan dalam hilirisasi untuk keberlanjutan',
@@ -236,7 +261,7 @@ Saat ini, FK Unair menjadi salah satu pusat pendidikan kedokteran unggulan berak
             'cluster' => 1,
             'area' => 'A',
             'name' => 'FTMM UNAIR',
-            'instansi' => 'FTMM UNAIR',
+            'instansi' => 'Fakultas Teknologi Maju dan Multidisiplin Universitas Airlangga',
             'pic' => 'Vinanci Intan Widriani, S.M.',
             'cat' => 'Internal UNAIR',
             'desc' => 'Produk inovasi dari Fakultas Teknologi Maju dan Multidisiplin',
@@ -2427,6 +2452,27 @@ function assie4_reconcile_official_roster( $tenants, $fallback = [] ) {
         $tenant['code'] = $code;
         $tenant['name'] = sanitize_text_field( trim( (string) ( $tenant['name'] ?? '' ) ) ) ?: $official_name;
         $tenant['instansi'] = sanitize_text_field( trim( (string) ( $tenant['instansi'] ?? '' ) ) ) ?: $official_name;
+        if ( $code === 'A1' ) {
+            $tenant['name'] = 'Fakultas Kedokteran';
+            $tenant['instansi'] = 'Fakultas Kedokteran Universitas Airlangga';
+        } elseif ( $code === 'A2' ) {
+            $tenant['name'] = 'Fakultas Kedokteran Gigi';
+            $tenant['instansi'] = 'Fakultas Kedokteran Gigi Universitas Airlangga';
+        } elseif ( $code === 'A3' ) {
+            $tenant['name'] = 'Fakultas Farmasi';
+            $tenant['instansi'] = 'Fakultas Farmasi Universitas Airlangga';
+        } elseif ( $code === 'A4' ) {
+            $tenant['name'] = 'Fakultas Kedokteran Hewan';
+            $tenant['instansi'] = 'Fakultas Kedokteran Hewan Universitas Airlangga';
+        } elseif ( $code === 'A5' || strcasecmp( $tenant['name'], 'FaST_Booth' ) === 0 || stripos( $tenant['name'], 'FaST_Booth' ) !== false ) {
+            $tenant['name'] = 'Fakultas Sains dan Teknologi';
+            $tenant['instansi'] = 'Fakultas Sains dan Teknologi Universitas Airlangga';
+        } elseif ( $code === 'A6' ) {
+            if ( empty( $tenant['name'] ) || stripos( $tenant['name'], 'fast' ) !== false ) {
+                $tenant['name'] = 'FTMM UNAIR';
+            }
+            $tenant['instansi'] = 'Fakultas Teknologi Maju dan Multidisiplin Universitas Airlangga';
+        }
         if ( $location ) {
             $tenant['booth_no'] = $location['booth_no'];
             $tenant['area'] = $location['area'];
@@ -2536,19 +2582,19 @@ function assie4_get_tenants() {
     if ( $raw === null ) {
         $raw = assie4_default_tenants();
         update_option( ASSIE4_OPT_TENANTS, $raw, false );
-        update_option( 'assie4_official_booth_roster_version', '2026-10-20', false );
+        update_option( 'assie4_official_booth_roster_version', '2026-10-20-v2', false );
         assie4_rebuild_js_data();
     }
     if ( ! is_array($raw) ) $raw = [];
 
-    if ( get_option( 'assie4_official_booth_roster_version' ) !== '2026-10-20' ) {
+    if ( get_option( 'assie4_official_booth_roster_version' ) !== '2026-10-20-v2' ) {
         $updated_roster = assie4_upgrade_official_roster( $raw );
         update_option( ASSIE4_OPT_TENANTS, $updated_roster, false );
         if ( get_option( ASSIE4_OPT_TENANTS ) !== $updated_roster ) {
             return array_values( array_map( 'assie4_normalize_tenant', $raw ) );
         }
         $raw = $updated_roster;
-        update_option( 'assie4_official_booth_roster_version', '2026-10-20', false );
+        update_option( 'assie4_official_booth_roster_version', '2026-10-20-v2', false );
         assie4_rebuild_js_data();
     }
 
