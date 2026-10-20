@@ -214,7 +214,7 @@ Saat ini, FK Unair menjadi salah satu pusat pendidikan kedokteran unggulan berak
             'code' => 'A5',
             'cluster' => 1,
             'area' => 'A',
-            'name' => 'FaST_Booth',
+            'name' => 'Fakultas Sains dan Teknologi',
             'instansi' => 'Fakultas Sains dan Teknologi UNAIR',
             'pic' => 'Dr. M. Fariz Fadillah Mardianto, M.Si',
             'cat' => 'Internal UNAIR',
@@ -629,22 +629,18 @@ Untuk Menjamin Kualitas Layanan pengujiannya ULP-FFUA pada tahun 2005 mulai meng
             'code' => 'D6',
             'cluster' => 2,
             'area' => 'D',
-            'name' => 'Espresso by Kopi Setengah Serious',
-            'instansi' => 'Espresso by Kopi Setengah Serious',
-            'pic' => 'Eka',
-            'cat' => 'Food & Beverage',
-            'desc' => 'Kopi Setengah Serious adalah produsen espresso literan dari Surabaya, yang menjadi solusi simpel dan mudah untuk membuat kopi enak ala kafe tanpa harus investasi alat. 
-‎
-‎Praktis tinggal tuang dan campur dengan air atau susu, produk kami telah terjual ribuan liter di e-commerce dan digunakan oleh pemilik kafe, umkm, kedai makanan maupun kopi keliling yang sedang merintis usaha dan ingin membuat menu kopi susu yang cepat namun tetap nikmat karena 1 Liter Espresso bisa untuk membuat 25-30 gelas kopi kekinian.
-‎ 
-‎Kami berbagi ide resep dan konsultasi resep kopi kekinian di Instagram & Tiktok @kopisetengahserious.',
-            'tags' => ['Food & Beverage', 'Startup', 'Transaksi Booth'],
-            'logo' => ASSIE4_PAMERAN_URL . 'assets/tenant-logos/kopi_serious.png',
-            'contact' => 'kopisetengahserious@gmail.com',
-            'whatsapp' => '087722617299',
-            'web' => 'https://linktr.ee/kopisetengahserious',
-            'instagram' => 'instagram.com/kopisetengahserious',
-            'facebook' => 'facebook.com/kopisetengahserious',
+            'name' => 'Cocobloom — Inkubator Universitas Trunojoyo Madura',
+            'instansi' => 'Inkubator Universitas Trunojoyo Madura',
+            'pic' => 'Mardiyah Hayati',
+            'cat' => 'Agrikultur',
+            'desc' => 'Cocobloom: Pupuk Organik dari Limbah Sabut dan Batok Kelapa, inovasi produk binaan Inkubator Universitas Trunojoyo Madura.',
+            'tags' => ['Agrikultur', 'Startup', 'Transaksi Booth'],
+            'logo' => '',
+            'contact' => 'mardiyah@trunojoyo.a.id',
+            'whatsapp' => '081357571062',
+            'web' => '',
+            'instagram' => 'https://www.instagram.com/cocobloom__official',
+            'facebook' => '',
             'twitter' => '',
             'transaksi' => 'Ya',
         ],
@@ -1949,6 +1945,24 @@ Berbagai produk dan layanan tersebut merupakan bagian dari upaya PUI-PT CoE-PSQ 
 /** Apply the latest official booth map while keeping the existing tenant records. */
 function assie4_apply_updated_official_roster( $tenants ) {
     foreach ( $tenants as &$tenant ) {
+        if ( sanitize_key( $tenant['id'] ?? '' ) === 'a5' ) {
+            $tenant['name'] = 'Fakultas Sains dan Teknologi';
+            $tenant['instansi'] = 'Fakultas Sains dan Teknologi UNAIR';
+        }
+
+        if ( sanitize_key( $tenant['id'] ?? '' ) === 'd6' ) {
+            $tenant['name'] = 'Cocobloom — Inkubator Universitas Trunojoyo Madura';
+            $tenant['instansi'] = 'Inkubator Universitas Trunojoyo Madura';
+            $tenant['pic'] = 'Mardiyah Hayati';
+            $tenant['cat'] = 'Agrikultur';
+            $tenant['desc'] = 'Cocobloom: Pupuk Organik dari Limbah Sabut dan Batok Kelapa, inovasi produk binaan Inkubator Universitas Trunojoyo Madura.';
+            $tenant['tags'] = ['Agrikultur', 'Startup', 'Transaksi Booth'];
+            $tenant['contact'] = 'mardiyah@trunojoyo.a.id';
+            $tenant['whatsapp'] = '081357571062';
+            $tenant['instagram'] = 'https://www.instagram.com/cocobloom__official';
+            $tenant['transaksi'] = 'Ya';
+        }
+
         if ( sanitize_key( $tenant['id'] ?? '' ) === 'd4' ) {
             $tenant['name'] = 'Inkubator Bisnis STP LPPM UPN "Veteran" Jawa Timur';
             $tenant['instansi'] = 'Inkubator Bisnis STP LPPM UPN "Veteran" Jawa Timur';
@@ -2280,7 +2294,7 @@ function assie4_default_rundown() {
 function assie4_official_booth_assignments() {
     return [
         'A1'=>'Fakultas Kedokteran','A2'=>'Fakultas Kedokteran Gigi','A3'=>'Fakultas Farmasi','A4'=>'Fakultas Kedokteran Hewan',
-        'A5'=>'Fakultas Sains dan Tekonologi','A6'=>'Fakultas Teknologi Maju dan Multidisiplin','A7'=>'Fakultas Vokasi',
+        'A5'=>'Fakultas Sains dan Teknologi','A6'=>'Fakultas Teknologi Maju dan Multidisiplin','A7'=>'Fakultas Vokasi',
         'A8'=>'Fakultas perikanan dan kelautan','A9'=>'Fakultas Ekonomi dan Bisnis','A10'=>'Fakultas Kesehatan Masyarakat',
         'A11'=>'Fakultas Ilmu Budaya','A12'=>'FIKKIA','A13'=>'Fakultas Ilmu Sosial dan Politik','A14'=>'Fakultas Hukum',
         'A15'=>'Fakultas Keperawatan','A16'=>'Lembaga Penyakit Tropis','A17'=>'Airlangga Enterprise',
@@ -2318,9 +2332,9 @@ function assie4_roster_text_key( $value ) {
 function assie4_roster_entry_matches( $tenant, $code, $official_name, $same_code = true ) {
     // Keep brand names where the plot uses an umbrella institution or shortened name.
     $aliases = [
-        'A5'=>['fastbooth','fstunair'],'A6'=>['ftmmunair'],'A8'=>['fpkunair'],'A10'=>['publichealthunair'],'A11'=>['fibunair'],
+        'A5'=>['fastbooth','fstunair','fakultassainsdanteknologi'],'A6'=>['ftmmunair'],'A8'=>['fpkunair'],'A10'=>['publichealthunair'],'A11'=>['fibunair'],
         'A12'=>['fikkiaunair'],'A16'=>['lembagapenyakittropis'],'D1'=>['airlanggabilirubinsun','airlanggabilirubinnesting'],
-        'D3'=>['ulp','ulpffua'],'D5'=>['ongguhoney'],'D9'=>['flordequeenscalpandhairbotanicals'],'D10'=>['inbisppns'],'D15'=>['banggaevcs'],
+        'D3'=>['ulp','ulpffua'],'D5'=>['ongguhoney'],'D6'=>['trunojoyo','cocobloom','inkubatortrunojoyomadura'],'D9'=>['flordequeenscalpandhairbotanicals'],'D10'=>['inbisppns'],'D15'=>['banggaevcs'],
         'E1'=>['sahabatspondan'],'E3'=>['kopisetengahserious'],'F1'=>['muliasamudramajuabadi'],'G1'=>['deorans','minumdanmekar','weubiubibakarcilembu','chewyslime','ghettoghetti','rasenspace','theava'],
         'G8'=>['sahabatspondan'],'B1'=>['p3ua','airlanggauniversitypress'],'B6'=>['sct'],'F15'=>['brajaelektrik'],'F17'=>['appatech'],
         'B2'=>['stemcell'],'B10'=>['rsua','rumahsakituniversitasairlangga'],'C1'=>['balaibesarpom','bpomsurabaya'],'H4'=>['botegaindonesia'],
@@ -2514,19 +2528,19 @@ function assie4_get_tenants() {
     if ( $raw === null ) {
         $raw = assie4_default_tenants();
         update_option( ASSIE4_OPT_TENANTS, $raw, false );
-        update_option( 'assie4_official_booth_roster_version', '2026-10-07', false );
+        update_option( 'assie4_official_booth_roster_version', '2026-10-20', false );
         assie4_rebuild_js_data();
     }
     if ( ! is_array($raw) ) $raw = [];
 
-    if ( get_option( 'assie4_official_booth_roster_version' ) !== '2026-10-07' ) {
+    if ( get_option( 'assie4_official_booth_roster_version' ) !== '2026-10-20' ) {
         $updated_roster = assie4_upgrade_official_roster( $raw );
         update_option( ASSIE4_OPT_TENANTS, $updated_roster, false );
         if ( get_option( ASSIE4_OPT_TENANTS ) !== $updated_roster ) {
             return array_values( array_map( 'assie4_normalize_tenant', $raw ) );
         }
         $raw = $updated_roster;
-        update_option( 'assie4_official_booth_roster_version', '2026-10-07', false );
+        update_option( 'assie4_official_booth_roster_version', '2026-10-20', false );
         assie4_rebuild_js_data();
     }
 
