@@ -106,7 +106,7 @@ $a4_brand_logo_url = !empty($a4_info_data['logo']) ? $a4_info_data['logo'] : (AS
       <div class="a4-map-svg-wrap" id="a4MapWrap" aria-label="Denah booth pameran interaktif">
         <div class="a4-map-stage" id="a4MapStage">
           <img id="a4FloorMapImage" src="" alt="Denah venue IM ASSIE IV 2026 di Grand City Atrium dengan Main Stage, Stage 2, Ruang Business Matching, dan Booth PASINBIS">
-          <svg id="a4FloorMap" viewBox="0 0 1820 1024" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="Hotspot booth, panggung, ruang Business Matching, dan booth PASINBIS"></svg>
+          <svg id="a4FloorMap" viewBox="0 0 2048 1024" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="Hotspot booth, panggung, ruang Business Matching, dan booth PASINBIS"></svg>
         </div>
       </div>
       <p class="a4-map-note"><strong>Penanda lokasi:</strong> Main Stage dan Stage 2 membuka agenda panggung, Ruang Business Matching membuka agenda ruang, dan Booth PASINBIS membuka profil penyelenggara.</p>

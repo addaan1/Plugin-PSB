@@ -2695,20 +2695,17 @@
     var el=document.getElementById('a4AreaFilters'); if(!el) return;
     var areas=[
       {key:'all',lbl:'Semua',cls:'a4-af-all'},
-      {key:'A',lbl:'Area A – UNAIR',cls:'a4-af-a'},
-      {key:'B',lbl:'Area B – Riset & Unit',cls:'a4-af-b'},
-      {key:'C',lbl:'Area C – Sponsor',cls:'a4-af-c'},
-      {key:'D',lbl:'Area D – Startup/Mitra',cls:'a4-af-d'},
-      {key:'E',lbl:'Area E – Inkubasi',cls:'a4-af-e'},
-      {key:'F',lbl:'Area F – Inovasi',cls:'a4-af-f'},
-      {key:'G',lbl:'Area G – Kuliner/Bisnis',cls:'a4-af-g'},
-      {key:'H',lbl:'Area H – Craft/Fashion',cls:'a4-af-h'}
+      {key:'A',lbl:'Area A – Internal UNAIR',cls:'a4-af-a'},
+      {key:'B',lbl:'Area B – Riset & Layanan',cls:'a4-af-b'},
+      {key:'C',lbl:'Area C – Startup & Bisnis',cls:'a4-af-c'},
+      {key:'D',lbl:'Area D – Jejaring Inkubator',cls:'a4-af-d'},
+      {key:'E',lbl:'Area E – Wirausaha & Kreatif',cls:'a4-af-e'}
     ];
     el.innerHTML=areas.map(function(a){return '<button class="a4-af '+a.cls+(activeArea===a.key?' on':'')+'" onclick="a4FilterArea(\''+a.key+'\')">'+a.lbl+'</button>';}).join('');
   }
   window.a4FilterArea=function(area){activeArea=area;tenantListExpanded=false;renderAreaFilters();renderTenants();};
 
-  var tenantAreaColors={A:'#3888ff',B:'#11bf8c',C:'#f7bf3b',D:'#a878ff',E:'#23c1e6',F:'#f47962',G:'#9fc943',H:'#ec6cb5'};
+  var tenantAreaColors={A:'#3888ff',B:'#11bf8c',C:'#f7bf3b',D:'#a878ff',E:'#23c1e6'};
   var tenantListExpanded=false;
   function tenantIconSvg(t){
     var details=((t.cat||'')+' '+(t.name||'')).toLowerCase(),paths;
@@ -2764,14 +2761,11 @@
      DENAH SVG — area-grouped, sinkron dari tenant DB + PASINBIS
      ═══════════════════════════════════════════════════════ */
   var areaClr={
-    A:{fill:'#1e3a6e',stroke:'#3b82f6',label:'Area A — UNAIR'},
-    B:{fill:'#14532d',stroke:'#22c55e',label:'Area B — Mitra'},
-    C:{fill:'#78350f',stroke:'#f59e0b',label:'Area C — Eksternal'},
-    D:{fill:'#4c1d95',stroke:'#a855f7',label:'Area D — Startup'},
-    E:{fill:'#0c4a6e',stroke:'#06b6d4',label:'Area E — PGN & Makanan'},
-    F:{fill:'#7c2d12',stroke:'#f47962',label:'Area F — Usaha & Bisnis'},
-    G:{fill:'#365314',stroke:'#9fc943',label:'Area G — Komunitas & UMKM'},
-    H:{fill:'#831843',stroke:'#ec6cb5',label:'Area H — Kreatif & Inovasi'},
+    A:{fill:'#1e3a6e',stroke:'#3b82f6',label:'Area A — Internal UNAIR'},
+    B:{fill:'#14532d',stroke:'#22c55e',label:'Area B — Sponsorship, Riset & Layanan'},
+    C:{fill:'#78350f',stroke:'#f59e0b',label:'Area C — Startup & Industri'},
+    D:{fill:'#4c1d95',stroke:'#a855f7',label:'Area D — Jejaring Inkubator'},
+    E:{fill:'#0c4a6e',stroke:'#06b6d4',label:'Area E — Wirausaha, Kuliner & Fashion'},
   };
   var denahActiveArea='all';
 
@@ -2805,13 +2799,13 @@
 
     // Kelompokkan tenant per area
     var tenants=DATA.tenants||[];
-    var byArea={A:[],B:[],C:[],D:[],E:[],F:[],G:[],H:[]};
+    var byArea={A:[],B:[],C:[],D:[],E:[]};
     tenants.forEach(function(t){
       if(byArea[t.area]!==undefined&&(denahActiveArea==='all'||t.area===denahActiveArea)) byArea[t.area].push(t);
     });
 
     var BW=58,BH=42,GAP=6,PAD=14;
-    var AREA_ORDER=['A','B','C','D','E','F','G','H'];
+    var AREA_ORDER=['A','B','C','D','E'];
     var areaLayouts={};
     var totalH=PAD;
     AREA_ORDER.forEach(function(area){
@@ -3070,17 +3064,15 @@
 
   var boothNumToCode = {
     1:'A1', 2:'A2', 3:'A3', 4:'A4', 5:'A5', 6:'A6', 7:'A7', 8:'A8', 9:'A9', 10:'A10',
-    11:'A11', 12:'A12', 13:'A13', 14:'A14', 15:'A15', 16:'A16', 17:'A17', 18:'A18', 19:'A19', 20:'A20', 21:'A21',
-    22:'D1', 23:'D2', 24:'D3', 25:'D4', 26:'D5', 27:'D6', 28:'D7', 29:'D8', 30:'D9', 31:'D10',
-    32:'D11', 33:'D12', 34:'D13', 35:'D14', 36:'D15', 37:'D16',
-    38:'C1', 39:'C2', 40:'C3', 41:'C4', 42:'C5', 43:'C6', 44:'C7',
-    45:'E1', 46:'E2', 47:'E3', 48:'E4', 49:'E5', 50:'E6',
-    51:'F1', 52:'F2', 53:'F3', 54:'F4', 55:'F5', 56:'F6', 57:'F7', 58:'F8', 59:'F9', 60:'F10',
-    61:'F11', 62:'F12', 63:'F13', 64:'F14', 65:'F15', 66:'F16', 67:'F17', 68:'F18', 69:'F19', 70:'F20', 71:'F21', 72:'F22',
-    73:'G1', 74:'G2', 75:'G3', 76:'G4', 77:'G5', 78:'G6', 79:'G7', 80:'G8',
-    81:'H1', 82:'H2', 83:'H3', 84:'H4', 85:'H5', 86:'H6', 87:'H7', 88:'H8', 89:'H9', 90:'H10',
-    91:'H11', 92:'H12', 93:'H13', 94:'H14', 95:'H15', 96:'H16',
-    97:'B1', 98:'B2', 99:'B3', 100:'B4', 101:'B5', 102:'B6', 103:'B7', 104:'B8', 105:'B9', 106:'B10'
+    11:'A11', 12:'A12', 13:'A13', 14:'A14', 15:'A15', 16:'A16', 17:'A17', 18:'A18', 19:'A19', 20:'A20',
+    21:'A21', 22:'A22', 23:'B1', 24:'B2', 25:'B3', 26:'B4', 27:'B5', 28:'B6', 29:'B7', 30:'B8',
+    31:'B9', 32:'B10', 33:'B11', 34:'B12', 35:'B13', 36:'B14', 37:'B15', 38:'B16', 39:'C1', 40:'C2',
+    41:'C3', 42:'C4', 43:'C5', 44:'C6', 45:'C7', 46:'C8', 47:'C9', 48:'C10', 49:'C11', 50:'C12',
+    51:'C13', 52:'C14', 53:'C15', 54:'C16', 55:'C17', 56:'C18', 57:'C19', 58:'C20', 59:'C21', 60:'C22',
+    61:'C23', 62:'C24', 63:'C25', 64:'C26', 65:'C27', 66:'C28', 67:'C29', 68:'C30', 69:'D1', 70:'D2',
+    71:'D3', 72:'D4', 73:'D5', 74:'D6', 75:'D7', 76:'D8', 77:'D9', 78:'D10', 79:'E1', 80:'E2',
+    81:'E3', 82:'E4', 83:'E5', 84:'E6', 85:'E7', 86:'E8', 87:'E9', 88:'E10', 89:'E11', 90:'E12',
+    91:'E13', 92:'E14', 93:'E15', 94:'E16', 95:'E17', 96:'E18', 97:'E19', 98:'E20', 99:'E21', 100:'E22'
   };
 
   function boothTenant(no){
@@ -3257,47 +3249,139 @@
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.getElementById('a4Modal')?.classList.contains('on'))window.a4CloseModal();});
 
   /* ── DENAH VENUE ASLI + HOTSPOT BOOTH ────────────────────
-     Koordinat mengikuti slide 5 (1820 × 1024). Nomor booth sengaja
-     mengikuti kode Area A–H pada spreadsheet pembagian booth. */
+     Koordinat presisi mengikuti denah revisi V2 (2048 × 1024).
+     Nomor booth mengikuti kepengisian resmi Area A–E (100 booth). */
   var denahActiveArea='all',denahSelectedBooth=null;
-  var areaMeta='ABCDEFGH'.split('').map(function(area){
-    return {key:area,label:'Area '+area,color:tenantAreaColors[area]};
+  var areaLabels = {
+    A: 'Area A — Internal UNAIR',
+    B: 'Area B — Sponsorship, Riset & Layanan',
+    C: 'Area C — Startup & Industri',
+    D: 'Area D — Jejaring Inkubator',
+    E: 'Area E — Wirausaha, Kuliner & Fashion'
+  };
+  var areaMeta=['A','B','C','D','E'].map(function(area){
+    return {key:area,label:areaLabels[area]||('Area '+area),color:tenantAreaColors[area]};
   });
-  var boothShapes=[];
-  var boothCodeToNo={};
-  Object.keys(boothNumToCode).forEach(function(no){boothCodeToNo[boothNumToCode[no]]=Number(no);});
-  /* Gambar berlabel pada sheet Ploting Booth adalah potongan denah yang diperbesar.
-     Konversi koordinatnya ke gambar dasar 1820x1024, lalu ikat ke kode booth resmi. */
-  function addCodeBooth(code,rx,ry,rw,rh,angle){
-    var scale=1.466,cx=210+rx/scale,cy=167+ry/scale,w=rw/scale,h=rh/scale;
-    boothShapes.push({n:boothCodeToNo[code],area:code.charAt(0),code:code,x:cx-w/2,y:cy-h/2,cx:cx,cy:cy,w:w,h:h,angle:angle||0});
-  }
-  /* F dan H: dua sisi meja, nomor bawah naik ke kanan; nomor atas turun ke kanan. */
-  var fXs=[459,507,555,603,677,726,775,824,894,944,994];
-  fXs.forEach(function(x,i){addCodeBooth('F'+(i+1),x,181,39,30);addCodeBooth('F'+(22-i),x,151,39,30);});
-  var hXs=[1400,1449,1499,1548,1600,1650,1700,1748];
-  hXs.forEach(function(x,i){addCodeBooth('H'+(i+1),x,181,39,30);addCodeBooth('H'+(16-i),x,151,39,30);});
-  /* E: enam booth di lengkung kiri rotunda barat. G: delapan di lengkung tengah rotunda. */
-  [[1,354,359,46],[2,376,331,31],[3,391,297,16],[4,396,261,1],[5,392,225,-14],[6,379,190,-29]].forEach(function(p){addCodeBooth('E'+p[0],p[1],p[2],31,32,p[3]);});
-  [[1,1107,285,32],[2,1141,300,17],[3,1177,305,1],[4,1214,301,-14],[5,1248,288,-29],[6,1296,243,-57],[7,1312,210,-72],[8,1320,132,0,34,31]].forEach(function(p){addCodeBooth('G'+p[0],p[1],p[2],p[4]||31,p[5]||31,p[3]);});
-  /* D: dua kelompok meja diagonal. C: tujuh booth di kiri panggung. */
-  [[9,354,459],[8,383,435],[10,385,496],[7,414,472],[11,416,532],[6,445,508],[12,446,569],[5,476,545],
-   [13,497,630],[4,527,606],[14,528,667],[3,558,642],[15,559,703],[2,588,679],[16,589,740],[1,619,715]].forEach(function(p){addCodeBooth('D'+p[0],p[1],p[2],33,37,-40);});
-  [[7,696,696],[1,725,696],[6,696,741],[2,725,741],[5,696,785],[3,725,785],[4,711,825]].forEach(function(p){addCodeBooth('C'+p[0],p[1],p[2],30,36);});
-  /* B: lima pasang booth vertikal di tengah kanan. */
-  [[10,1097,388],[9,1127,388],[7,1097,462],[8,1127,462],[6,1097,511],[5,1127,511],
-   [3,1097,584],[4,1127,584],[2,1097,625],[1,1127,625]].forEach(function(p){addCodeBooth('B'+p[0],p[1],p[2],29,35);});
-  /* A: tiga blok, masing-masing tujuh booth (enam sisi + satu ujung). */
-  [[1197,1227],[1297,1327],[1399,1429]].forEach(function(xs,block){
-    var start=block*7+1;
-    [[0,748],[1,789],[2,832]].forEach(function(row){
-      addCodeBooth('A'+(start+row[0]),xs[0],row[1],31,35);
-      addCodeBooth('A'+(start+6-row[0]),xs[1],row[1],31,35);
-    });
-    addCodeBooth('A'+(start+3),(xs[0]+xs[1])/2,871,32,35);
-  });
+  var boothShapes = [];
+  var boothCodeToNo = {};
+  Object.keys(boothNumToCode).forEach(function(no){ boothCodeToNo[boothNumToCode[no]] = Number(no); });
 
-  
+  function addCodeBooth(code, cx, cy, w, h, angle) {
+    boothShapes.push({
+      n: boothCodeToNo[code],
+      area: code.charAt(0),
+      code: code,
+      x: Math.round((cx - w / 2) * 10) / 10,
+      y: Math.round((cy - h / 2) * 10) / 10,
+      cx: Math.round(cx * 10) / 10,
+      cy: Math.round(cy * 10) / 10,
+      w: Math.round(w * 10) / 10,
+      h: Math.round(h * 10) / 10,
+      angle: angle || 0
+    });
+  }
+
+  addCodeBooth('A1', 972.2, 738.5, 31.5, 45.0);
+  addCodeBooth('A2', 972.2, 783.5, 31.5, 45.0);
+  addCodeBooth('A3', 972.2, 829.0, 31.5, 46.0);
+  addCodeBooth('A4', 940.8, 829.0, 31.5, 46.0);
+  addCodeBooth('A5', 940.8, 783.5, 31.5, 45.0);
+  addCodeBooth('A6', 940.8, 738.5, 31.5, 45.0);
+  addCodeBooth('A7', 881.2, 738.5, 31.5, 45.0);
+  addCodeBooth('A8', 881.2, 783.5, 31.5, 45.0);
+  addCodeBooth('A9', 881.2, 829.0, 31.5, 46.0);
+  addCodeBooth('A10', 849.8, 829.0, 31.5, 46.0);
+  addCodeBooth('A11', 849.8, 783.5, 31.5, 45.0);
+  addCodeBooth('A12', 849.8, 738.5, 31.5, 45.0);
+  addCodeBooth('A13', 791.2, 738.5, 31.5, 45.0);
+  addCodeBooth('A14', 791.2, 783.5, 31.5, 45.0);
+  addCodeBooth('A15', 791.2, 829.0, 31.5, 46.0);
+  addCodeBooth('A16', 759.8, 829.0, 31.5, 46.0);
+  addCodeBooth('A17', 759.8, 783.5, 31.5, 45.0);
+  addCodeBooth('A18', 759.8, 738.5, 31.5, 45.0);
+  addCodeBooth('A19', 702.2, 738.5, 31.5, 45.0);
+  addCodeBooth('A20', 702.2, 784.0, 31.5, 46.0);
+  addCodeBooth('A21', 670.8, 784.0, 31.5, 46.0);
+  addCodeBooth('A22', 670.8, 738.5, 31.5, 45.0);
+  addCodeBooth('B1', 602.0, 690.9, 43.0, 30.0, 48.63);
+  addCodeBooth('B2', 571.9, 656.7, 43.0, 30.0, 48.63);
+  addCodeBooth('B3', 541.8, 622.5, 43.0, 30.0, 48.63);
+  addCodeBooth('B4', 511.6, 588.3, 43.0, 30.0, 48.63);
+  addCodeBooth('B5', 462.7, 532.9, 43.0, 30.0, 48.63);
+  addCodeBooth('B6', 432.6, 498.7, 43.0, 30.0, 48.63);
+  addCodeBooth('B7', 402.5, 464.5, 43.0, 30.0, 48.63);
+  addCodeBooth('B8', 372.3, 430.3, 43.0, 30.0, 48.63);
+  addCodeBooth('B9', 348.7, 451.1, 43.0, 30.0, 48.63);
+  addCodeBooth('B10', 378.8, 485.3, 43.0, 30.0, 48.63);
+  addCodeBooth('B11', 408.9, 519.5, 43.0, 30.0, 48.63);
+  addCodeBooth('B12', 439.1, 553.7, 43.0, 30.0, 48.63);
+  addCodeBooth('B13', 488.0, 609.1, 43.0, 30.0, 48.63);
+  addCodeBooth('B14', 518.1, 643.3, 43.0, 30.0, 48.63);
+  addCodeBooth('B15', 548.2, 677.5, 43.0, 30.0, 48.63);
+  addCodeBooth('B16', 578.4, 711.7, 43.0, 30.0, 48.63);
+  addCodeBooth('C1', 435.7, 203.5, 25.3, 35.0);
+  addCodeBooth('C2', 461.0, 203.5, 25.3, 35.0);
+  addCodeBooth('C3', 486.3, 203.5, 25.3, 35.0);
+  addCodeBooth('C4', 558.2, 203.5, 30.5, 35.0);
+  addCodeBooth('C5', 588.8, 203.5, 30.5, 35.0);
+  addCodeBooth('C6', 619.2, 203.5, 30.5, 35.0);
+  addCodeBooth('C7', 649.8, 203.5, 30.5, 35.0);
+  addCodeBooth('C8', 709.2, 203.5, 30.5, 35.0);
+  addCodeBooth('C9', 739.8, 203.5, 30.5, 35.0);
+  addCodeBooth('C10', 770.2, 203.5, 30.5, 35.0);
+  addCodeBooth('C11', 800.8, 203.5, 30.5, 35.0);
+  addCodeBooth('C12', 860.1, 203.5, 30.2, 35.0);
+  addCodeBooth('C13', 890.4, 203.5, 30.2, 35.0);
+  addCodeBooth('C14', 920.6, 203.5, 30.2, 35.0);
+  addCodeBooth('C15', 950.9, 203.5, 30.2, 35.0);
+  addCodeBooth('C16', 950.9, 169.0, 30.2, 34.0);
+  addCodeBooth('C17', 920.6, 169.0, 30.2, 34.0);
+  addCodeBooth('C18', 890.4, 169.0, 30.2, 34.0);
+  addCodeBooth('C19', 860.1, 169.0, 30.2, 34.0);
+  addCodeBooth('C20', 800.8, 169.0, 30.5, 34.0);
+  addCodeBooth('C21', 770.2, 169.0, 30.5, 34.0);
+  addCodeBooth('C22', 739.8, 169.0, 30.5, 34.0);
+  addCodeBooth('C23', 709.2, 169.0, 30.5, 34.0);
+  addCodeBooth('C24', 649.8, 169.0, 30.5, 34.0);
+  addCodeBooth('C25', 619.2, 169.0, 30.5, 34.0);
+  addCodeBooth('C26', 588.8, 169.0, 30.5, 34.0);
+  addCodeBooth('C27', 558.2, 169.0, 30.5, 34.0);
+  addCodeBooth('C28', 486.3, 169.0, 25.3, 34.0);
+  addCodeBooth('C29', 461.0, 169.0, 25.3, 34.0);
+  addCodeBooth('C30', 435.7, 169.0, 25.3, 34.0);
+  addCodeBooth('D1', 1033.0, 496.8, 32.0, 30.4);
+  addCodeBooth('D2', 1033.0, 466.4, 32.0, 30.4);
+  addCodeBooth('D3', 1033.0, 436.0, 32.0, 30.4);
+  addCodeBooth('D4', 1033.0, 405.6, 32.0, 30.4);
+  addCodeBooth('D5', 1033.0, 375.2, 32.0, 30.4);
+  addCodeBooth('D6', 1107.0, 375.2, 32.0, 30.4);
+  addCodeBooth('D7', 1107.0, 405.6, 32.0, 30.4);
+  addCodeBooth('D8', 1107.0, 436.0, 32.0, 30.4);
+  addCodeBooth('D9', 1107.0, 466.4, 32.0, 30.4);
+  addCodeBooth('D10', 1107.0, 496.8, 32.0, 30.4);
+  addCodeBooth('E1', 1304.2, 203.5, 30.5, 35.0);
+  addCodeBooth('E2', 1334.8, 203.5, 30.5, 35.0);
+  addCodeBooth('E3', 1365.2, 203.5, 30.5, 35.0);
+  addCodeBooth('E4', 1395.8, 203.5, 30.5, 35.0);
+  addCodeBooth('E5', 1455.1, 203.5, 30.2, 35.0);
+  addCodeBooth('E6', 1485.4, 203.5, 30.2, 35.0);
+  addCodeBooth('E7', 1515.6, 203.5, 30.2, 35.0);
+  addCodeBooth('E8', 1545.9, 203.5, 30.2, 35.0);
+  addCodeBooth('E9', 1605.3, 203.5, 30.7, 35.0);
+  addCodeBooth('E10', 1636.0, 203.5, 30.7, 35.0);
+  addCodeBooth('E11', 1666.7, 203.5, 30.7, 35.0);
+  addCodeBooth('E12', 1666.7, 169.0, 30.7, 34.0);
+  addCodeBooth('E13', 1636.0, 169.0, 30.7, 34.0);
+  addCodeBooth('E14', 1605.3, 169.0, 30.7, 34.0);
+  addCodeBooth('E15', 1545.9, 169.0, 30.2, 34.0);
+  addCodeBooth('E16', 1515.6, 169.0, 30.2, 34.0);
+  addCodeBooth('E17', 1485.4, 169.0, 30.2, 34.0);
+  addCodeBooth('E18', 1455.1, 169.0, 30.2, 34.0);
+  addCodeBooth('E19', 1395.8, 169.0, 30.5, 34.0);
+  addCodeBooth('E20', 1365.2, 169.0, 30.5, 34.0);
+  addCodeBooth('E21', 1334.8, 169.0, 30.5, 34.0);
+  addCodeBooth('E22', 1304.2, 169.0, 30.5, 34.0);
+
   function renderDenahFilters(){
     var el=document.getElementById('a4DenahFilters');if(!el) return;
     var filters=[{key:'all',label:'Semua Area'}].concat(areaMeta);
@@ -3361,41 +3445,40 @@
     var svg=document.getElementById('a4FloorMap'),image=document.getElementById('a4FloorMapImage');if(!svg||!image) return;
     var src=DATA.denahBaseImage||DATA.denahDefaultImage||'';
     if(image.getAttribute('src')!==src) image.setAttribute('src',src);
-    svg.setAttribute('viewBox','0 0 1820 1024');
+    svg.setAttribute('viewBox','0 0 2048 1024');
     var html=boothShapes.map(function(booth){
       var dim=denahActiveArea!=='all'&&booth.area!==denahActiveArea;
       var title='Booth '+booth.code+' (nomor '+booth.n+') — '+boothStatus(booth.n);
       var color=tenantAreaColors[booth.area]||'#d4a843';
-      return '<g class="a4-map-booth'+(dim?' is-dim':'')+(String(booth.n)===denahSelectedBooth?' is-selected':'')+'" style="--a4-cluster:'+color+'" data-booth="'+booth.n+'" data-area="'+booth.area+'" data-code="'+booth.code+'" role="button" tabindex="'+(dim?'-1':'0')+'" aria-hidden="'+dim+'" aria-label="'+escH(title)+'" onmouseenter="a4MapTip(event,'+booth.n+')" onmouseleave="a4HideTip()"><title>'+escH(title)+'</title><rect x="'+booth.x+'" y="'+booth.y+'" width="'+booth.w+'" height="'+booth.h+'" rx="2"'+(booth.angle?' transform="rotate('+booth.angle+' '+booth.cx+' '+booth.cy+')"':'')+'></rect><text x="'+booth.cx+'" y="'+(booth.cy+3)+'" text-anchor="middle" pointer-events="none">'+escH(booth.code.substring(1))+'</text></g>';
+      return '<g class="a4-map-booth'+(dim?' is-dim':'')+(String(booth.n)===denahSelectedBooth?' is-selected':'')+'" style="--a4-cluster:'+color+'" data-booth="'+booth.n+'" data-area="'+booth.area+'" data-code="'+booth.code+'" role="button" tabindex="'+(dim?'-1':'0')+'" aria-hidden="'+dim+'" aria-label="'+escH(title)+'" onmouseenter="a4MapTip(event,'+booth.n+')" onmouseleave="a4HideTip()"><title>'+escH(title)+'</title><rect x="'+booth.x+'" y="'+booth.y+'" width="'+booth.w+'" height="'+booth.h+'" rx="2"'+(booth.angle?' transform="rotate('+booth.angle+' '+booth.cx+' '+booth.cy+')"':'')+'></rect></g>';
     }).join('');
-    // Main Stage follows the physical blue platform beside Area C, not East Stage.
-    // Keep venue/booth coordinates unchanged; SVG labels stay sharp at every zoom.
-    html+='<g class="a4-map-stage-hotspot" data-fn="stage" role="button" tabindex="0" aria-label="Main Stage, area bawah tengah di samping Area C. Buka jadwal acara"><title>Main Stage — di samping Area C · klik untuk jadwal acara</title>'+
-      '<rect class="a4-stage-outline" x="738" y="647" width="94" height="129" rx="8"></rect>'+
-      '<rect class="a4-stage-label" x="744" y="682" width="82" height="58" rx="5"></rect>'+
-      '<text class="a4-stage-title" x="785" y="705" text-anchor="middle" pointer-events="none">MAIN</text>'+
-      '<text class="a4-stage-title" x="785" y="724" text-anchor="middle" pointer-events="none">STAGE</text>'+
+    // Main Stage di samping Area A
+    html+='<g class="a4-map-stage-hotspot" data-fn="stage" role="button" tabindex="0" aria-label="Main Stage, area bawah kanan di samping Area A. Buka jadwal acara"><title>Main Stage — di samping Area A · klik untuk jadwal acara</title>'+
+      '<rect class="a4-stage-outline" x="1255" y="705" width="100" height="155" rx="8"></rect>'+
+      '<rect class="a4-stage-label" x="1263" y="755" width="84" height="58" rx="5"></rect>'+
+      '<text class="a4-stage-title" x="1305" y="778" text-anchor="middle" pointer-events="none">MAIN</text>'+
+      '<text class="a4-stage-title" x="1305" y="797" text-anchor="middle" pointer-events="none">STAGE</text>'+
       '</g>';
-    // Stage 2 — East STAGE pada denah (sisi kanan). Mengikuti kurva panggung D-stage rotunda asli.
+    // Stage 2 — East STAGE pada denah (sisi kanan)
     html+='<g class="a4-map-location-hotspot a4-location-stage2" data-fn="schedule" data-location="Stage 2" data-location-id="stage-2" role="button" tabindex="0" aria-label="Stage 2 di sisi kanan denah. Buka jadwal Stage 2"><title>Stage 2 · East Stage (sisi kanan denah) · klik untuk jadwal</title>'+
-      '<path class="a4-location-outline" d="M 1588 175 A 110 83 0 0 0 1588 341 Z"></path>'+
-      '<rect class="a4-location-label" x="1494" y="250" width="96" height="56" rx="6"></rect>'+
-      '<text class="a4-location-title" x="1542" y="274" text-anchor="middle" pointer-events="none">STAGE 2</text>'+
-      '<text class="a4-location-subtitle" x="1542" y="291" text-anchor="middle" pointer-events="none">JADWAL PANGGUNG</text>'+
+      '<circle class="a4-location-outline" cx="1860" cy="180" r="70"></circle>'+
+      '<rect class="a4-location-label" x="1812" y="152" width="96" height="56" rx="6"></rect>'+
+      '<text class="a4-location-title" x="1860" y="176" text-anchor="middle" pointer-events="none">STAGE 2</text>'+
+      '<text class="a4-location-subtitle" x="1860" y="193" text-anchor="middle" pointer-events="none">JADWAL PANGGUNG</text>'+
       '</g>';
-    // Ruang Business Matching — kontur presisi mengikuti dinding arsitektural ruangan di kiri bawah.
-    html+='<g class="a4-map-location-hotspot a4-location-business" data-fn="schedule" data-location="Ruang Business Matching" data-location-id="business-matching" role="button" tabindex="0" aria-label="Ruang Business Matching di sisi kiri bawah denah. Buka jadwal"><title>Ruang Business Matching · sisi kiri bawah denah · klik untuk jadwal</title>'+
-      '<polygon class="a4-location-outline" points="294,691 468,563 518,630 422,703 410,690 385,715 395,725 368,745"></polygon>'+
-      '<rect class="a4-location-label" x="327" y="618" width="156" height="50" rx="6"></rect>'+
-      '<text class="a4-location-title" x="405" y="640" text-anchor="middle" pointer-events="none">BUSINESS MATCHING</text>'+
-      '<text class="a4-location-subtitle" x="405" y="655" text-anchor="middle" pointer-events="none">RUANG KONSULTASI &amp; JADWAL</text>'+
+    // Ruang Business Matching — di area koridor samping Area B (sesuai denah)
+    html+='<g class="a4-map-location-hotspot a4-location-business" data-fn="schedule" data-location="Ruang Business Matching" data-location-id="business-matching" role="button" tabindex="0" aria-label="Ruang Business Matching di samping Area B. Buka jadwal"><title>Ruang Business Matching · samping Area B · klik untuk jadwal</title>'+
+      '<polygon class="a4-location-outline" points="365,575 455,680 310,772 235,820 155,820 125,765 155,735"></polygon>'+
+      '<rect class="a4-location-label" x="205" y="665" width="156" height="50" rx="6"></rect>'+
+      '<text class="a4-location-title" x="283" y="688" text-anchor="middle" pointer-events="none">BUSINESS MATCHING</text>'+
+      '<text class="a4-location-subtitle" x="283" y="703" text-anchor="middle" pointer-events="none">RUANG KONSULTASI &amp; JADWAL</text>'+
       '</g>';
-    // Booth PASINBIS — platform booth presisi di antara area tempat duduk dan Booth A.
+    // Booth PASINBIS — di antara Area A dan Main Stage
     html+='<g class="a4-map-location-hotspot a4-location-pasinbis" data-fn="pasinbis" data-location-id="pasinbis" role="button" tabindex="0" aria-label="Booth PASINBIS. Buka profil penyelenggara"><title>Booth PASINBIS · klik untuk profil penyelenggara</title>'+
-      '<rect class="a4-location-outline" x="946" y="646" width="70" height="122" rx="7"></rect>'+
-      '<rect class="a4-location-label" x="947" y="682" width="68" height="48" rx="6"></rect>'+
-      '<text class="a4-location-subtitle" x="981" y="702" text-anchor="middle" pointer-events="none">BOOTH</text>'+
-      '<text class="a4-location-title" x="981" y="719" text-anchor="middle" pointer-events="none">PASINBIS</text>'+
+      '<rect class="a4-location-outline" x="1010" y="730" width="80" height="95" rx="7"></rect>'+
+      '<rect class="a4-location-label" x="1016" y="755" width="68" height="48" rx="6"></rect>'+
+      '<text class="a4-location-subtitle" x="1050" y="775" text-anchor="middle" pointer-events="none">BOOTH</text>'+
+      '<text class="a4-location-title" x="1050" y="792" text-anchor="middle" pointer-events="none">PASINBIS</text>'+
       '</g>';
     svg.innerHTML=html;renderMobileBoothList();renderMapLegend();
     var wrap=document.getElementById('a4MapWrap');

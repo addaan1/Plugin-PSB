@@ -144,7 +144,7 @@ function assie4_register_routes()
     'callback' => 'assie4_save_presensi',
     'permission_callback' => '__return_true',
     'args' => [
-      'booth' => ['required' => true, 'type' => 'integer', 'minimum' => 1, 'maximum' => 106],
+      'booth' => ['required' => true, 'type' => 'integer', 'minimum' => 1, 'maximum' => 100],
       'nama' => ['required' => true, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field'],
       'instansi' => ['required' => true, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field'],
       'telp' => ['required' => true, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field'],
@@ -254,19 +254,16 @@ function assie4_is_in_grand_city($lat, $lng)
 
 /**
  * Return official booth-number, area-code, and tenant labels for presensi.
- * Numeric booth IDs stay aligned with the published floor plan (1–106).
+ * Numeric booth IDs stay aligned with the published floor plan (1–100).
  */
 function assie4_presensi_booth_directory()
 {
   $ranges = [
-    ['first' => 1, 'last' => 21, 'prefix' => 'A', 'area' => 'Area A'],
-    ['first' => 22, 'last' => 37, 'prefix' => 'D', 'area' => 'Area D'],
-    ['first' => 38, 'last' => 44, 'prefix' => 'C', 'area' => 'Area C'],
-    ['first' => 45, 'last' => 50, 'prefix' => 'E', 'area' => 'Area E'],
-    ['first' => 51, 'last' => 72, 'prefix' => 'F', 'area' => 'Area F'],
-    ['first' => 73, 'last' => 80, 'prefix' => 'G', 'area' => 'Area G'],
-    ['first' => 81, 'last' => 96, 'prefix' => 'H', 'area' => 'Area H'],
-    ['first' => 97, 'last' => 106, 'prefix' => 'B', 'area' => 'Area B'],
+    ['first' => 1, 'last' => 22, 'prefix' => 'A', 'area' => 'Area A'],
+    ['first' => 23, 'last' => 38, 'prefix' => 'B', 'area' => 'Area B'],
+    ['first' => 39, 'last' => 68, 'prefix' => 'C', 'area' => 'Area C'],
+    ['first' => 69, 'last' => 78, 'prefix' => 'D', 'area' => 'Area D'],
+    ['first' => 79, 'last' => 100, 'prefix' => 'E', 'area' => 'Area E'],
   ];
 
   $tenant_source = get_option('assie4_pameran_tenants', null);
@@ -280,7 +277,7 @@ function assie4_presensi_booth_directory()
   foreach ($tenant_source as $tenant) {
     $booth_no = absint($tenant['booth_no'] ?? 0);
     $name = sanitize_text_field($tenant['name'] ?? '');
-    if ($booth_no >= 1 && $booth_no <= 106 && $name !== '') {
+    if ($booth_no >= 1 && $booth_no <= 100 && $name !== '') {
       $tenants_by_booth[$booth_no] = $name;
     }
   }
@@ -304,44 +301,35 @@ function assie4_presensi_booth_directory()
 }
 
 /**
- * Mengembalikan kode prefix area (A-H) berdasarkan nomor booth
+ * Mengembalikan kode prefix area (A-E) berdasarkan nomor booth
  */
 function assie4_get_booth_area($b)
 {
   $b = (int) $b;
-  if ($b >= 1 && $b <= 21)
+  if ($b >= 1 && $b <= 22)
     return 'A';
-  if ($b >= 22 && $b <= 37)
-    return 'D';
-  if ($b >= 38 && $b <= 44)
-    return 'C';
-  if ($b >= 45 && $b <= 50)
-    return 'E';
-  if ($b >= 51 && $b <= 72)
-    return 'F';
-  if ($b >= 73 && $b <= 80)
-    return 'G';
-  if ($b >= 81 && $b <= 96)
-    return 'H';
-  if ($b >= 97 && $b <= 106)
+  if ($b >= 23 && $b <= 38)
     return 'B';
+  if ($b >= 39 && $b <= 68)
+    return 'C';
+  if ($b >= 69 && $b <= 78)
+    return 'D';
+  if ($b >= 79 && $b <= 100)
+    return 'E';
   return 'A';
 }
 
 /**
- * Mengembalikan metadata warna dan label untuk setiap Area A-H
+ * Mengembalikan metadata warna dan label untuk setiap Area A-E
  */
 function assie4_get_area_meta()
 {
   return [
-    'A' => ['label' => 'Area A — UNAIR', 'color' => '#2563eb', 'bg' => '#eff6ff', 'badge' => '#dbeafe', 'border' => '#93c5fd'],
-    'B' => ['label' => 'Area B — Riset & Unit', 'color' => '#059669', 'bg' => '#ecfdf5', 'badge' => '#d1fae5', 'border' => '#6ee7b7'],
-    'C' => ['label' => 'Area C — Sponsor', 'color' => '#d97706', 'bg' => '#fffbeb', 'badge' => '#fef3c7', 'border' => '#fcd34d'],
-    'D' => ['label' => 'Area D — Startup', 'color' => '#7c3aed', 'bg' => '#f5f3ff', 'badge' => '#ede9fe', 'border' => '#c4b5fd'],
-    'E' => ['label' => 'Area E — Inkubasi', 'color' => '#0891b2', 'bg' => '#ecfeff', 'badge' => '#cffafe', 'border' => '#67e8f9'],
-    'F' => ['label' => 'Area F — Inovasi', 'color' => '#4f46e5', 'bg' => '#eef2ff', 'badge' => '#e0e7ff', 'border' => '#a5b4fc'],
-    'G' => ['label' => 'Area G — Kuliner', 'color' => '#e11d48', 'bg' => '#fff1f2', 'badge' => '#ffe4e6', 'border' => '#fda4af'],
-    'H' => ['label' => 'Area H — Craft', 'color' => '#ca8a04', 'bg' => '#fefce8', 'badge' => '#fef9c3', 'border' => '#fde047'],
+    'A' => ['label' => 'Area A — Internal UNAIR', 'color' => '#2563eb', 'bg' => '#eff6ff', 'badge' => '#dbeafe', 'border' => '#93c5fd'],
+    'B' => ['label' => 'Area B — Sponsorship, Riset & Layanan', 'color' => '#059669', 'bg' => '#ecfdf5', 'badge' => '#d1fae5', 'border' => '#6ee7b7'],
+    'C' => ['label' => 'Area C — Startup & Industri', 'color' => '#d97706', 'bg' => '#fffbeb', 'badge' => '#fef3c7', 'border' => '#fcd34d'],
+    'D' => ['label' => 'Area D — Jejaring Inkubator', 'color' => '#7c3aed', 'bg' => '#f5f3ff', 'badge' => '#ede9fe', 'border' => '#c4b5fd'],
+    'E' => ['label' => 'Area E — Wirausaha, Kuliner & Fashion', 'color' => '#0891b2', 'bg' => '#ecfeff', 'badge' => '#cffafe', 'border' => '#67e8f9'],
   ];
 }
 

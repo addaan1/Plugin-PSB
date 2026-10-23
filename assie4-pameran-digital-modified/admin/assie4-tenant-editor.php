@@ -3,8 +3,14 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 /** Keep numeric IDs for existing presensi records, deriving them from the official booth code. */
 function assie4_booth_location( $code ) {
-    $ranges = [ 'A'=>[1,21,1], 'D'=>[22,16,2], 'C'=>[38,7,2], 'E'=>[45,6,3], 'F'=>[51,22,4], 'G'=>[73,8,5], 'H'=>[81,16,6], 'B'=>[97,10,7] ];
-    if ( ! preg_match( '/^([A-H])([1-9][0-9]*)$/', $code, $matches ) ) return null;
+    $ranges = [
+        'A' => [1, 22, 1],   // A1..A22: booth 1..22
+        'B' => [23, 16, 2],  // B1..B16: booth 23..38
+        'C' => [39, 30, 3],  // C1..C30: booth 39..68
+        'D' => [69, 10, 4],  // D1..D10: booth 69..78
+        'E' => [79, 22, 5],  // E1..E22: booth 79..100
+    ];
+    if ( ! preg_match( '/^([A-E])([1-9][0-9]*)$/', $code, $matches ) ) return null;
     $range = $ranges[$matches[1]];
     if ( (int) $matches[2] > $range[1] ) return null;
     return [ 'area'=>$matches[1], 'booth_no'=>$range[0] + (int) $matches[2] - 1, 'cluster'=>$range[2] ];
