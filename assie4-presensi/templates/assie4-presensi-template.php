@@ -210,7 +210,7 @@ $geo_enabled = !empty($geo_settings['enabled']);
       <p class="picker-empty" id="pickerEmpty" hidden>Booth tidak ditemukan.</p>
     </div>
     <select id="boothSelect" hidden aria-hidden="true" tabindex="-1">
-      <!-- 106 booth resmi diisi via JavaScript -->
+      <!-- 100 booth resmi diisi via JavaScript -->
     </select>
   </div>
 
@@ -462,7 +462,7 @@ const PICKER_TRIGGER = document.getElementById('pickerTrigger');
 const PICKER_PANEL = document.getElementById('pickerPanel');
 const PICKER_SEARCH = document.getElementById('pickerSearch');
 const PICKER_OPTIONS = document.getElementById('pickerOptions');
-for (let i = 1; i <= 106; i++) {
+for (let i = 1; i <= 100; i++) {
   const opt = document.createElement('option');
   opt.value = i;
   opt.textContent = boothLabel(i);
@@ -473,7 +473,7 @@ function renderPickerOptions(query = '') {
   const needle = query.trim().toLocaleLowerCase('id');
   const fragment = document.createDocumentFragment();
   let count = 0;
-  for (let i = 1; i <= 106; i++) {
+  for (let i = 1; i <= 100; i++) {
     const details = boothInfo(i);
     if (!details) continue;
     const searchText = `${i} ${String(i).padStart(3, '0')} ${details.code} ${details.area} ${details.name}`.toLocaleLowerCase('id');
