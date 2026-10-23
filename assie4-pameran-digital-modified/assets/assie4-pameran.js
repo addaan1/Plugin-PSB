@@ -3466,12 +3466,12 @@
       '<text class="a4-location-title" x="1860" y="176" text-anchor="middle" pointer-events="none">STAGE 2</text>'+
       '<text class="a4-location-subtitle" x="1860" y="193" text-anchor="middle" pointer-events="none">JADWAL PANGGUNG</text>'+
       '</g>';
-    // Ruang Business Matching — di area koridor samping Area B (sesuai denah)
+    // Ruang Business Matching — di area koridor samping Area B mencakup seluruh ruangan & kotak bawah (sesuai denah)
     html+='<g class="a4-map-location-hotspot a4-location-business" data-fn="schedule" data-location="Ruang Business Matching" data-location-id="business-matching" role="button" tabindex="0" aria-label="Ruang Business Matching di samping Area B. Buka jadwal"><title>Ruang Business Matching · samping Area B · klik untuk jadwal</title>'+
-      '<polygon class="a4-location-outline" points="365,575 455,680 310,772 235,820 155,820 125,765 155,735"></polygon>'+
-      '<rect class="a4-location-label" x="205" y="665" width="156" height="50" rx="6"></rect>'+
-      '<text class="a4-location-title" x="283" y="688" text-anchor="middle" pointer-events="none">BUSINESS MATCHING</text>'+
-      '<text class="a4-location-subtitle" x="283" y="703" text-anchor="middle" pointer-events="none">RUANG KONSULTASI &amp; JADWAL</text>'+
+      '<polygon class="a4-location-outline" points="372,578 444,676 310,774 384,875 341,906 308,910 275,885 134,755"></polygon>'+
+      '<rect class="a4-location-label" x="205" y="685" width="156" height="50" rx="6"></rect>'+
+      '<text class="a4-location-title" x="283" y="708" text-anchor="middle" pointer-events="none">BUSINESS MATCHING</text>'+
+      '<text class="a4-location-subtitle" x="283" y="723" text-anchor="middle" pointer-events="none">RUANG KONSULTASI &amp; JADWAL</text>'+
       '</g>';
     // Booth PASINBIS — di antara Area A dan Main Stage
     html+='<g class="a4-map-location-hotspot a4-location-pasinbis" data-fn="pasinbis" data-location-id="pasinbis" role="button" tabindex="0" aria-label="Booth PASINBIS. Buka profil penyelenggara"><title>Booth PASINBIS · klik untuk profil penyelenggara</title>'+
