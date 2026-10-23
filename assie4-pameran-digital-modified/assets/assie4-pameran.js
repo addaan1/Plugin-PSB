@@ -3319,9 +3319,9 @@
   addCodeBooth('B14', 518.1, 643.3, 43.0, 30.0, 48.63);
   addCodeBooth('B15', 548.2, 677.5, 43.0, 30.0, 48.63);
   addCodeBooth('B16', 578.4, 711.7, 43.0, 30.0, 48.63);
-  addCodeBooth('C1', 435.7, 203.5, 25.3, 35.0);
-  addCodeBooth('C2', 461.0, 203.5, 25.3, 35.0);
-  addCodeBooth('C3', 486.3, 203.5, 25.3, 35.0);
+  addCodeBooth('C1', 439.7, 203.5, 29.3, 35.0);
+  addCodeBooth('C2', 469.0, 203.5, 29.3, 35.0);
+  addCodeBooth('C3', 498.3, 203.5, 29.3, 35.0);
   addCodeBooth('C4', 558.2, 203.5, 30.5, 35.0);
   addCodeBooth('C5', 588.8, 203.5, 30.5, 35.0);
   addCodeBooth('C6', 619.2, 203.5, 30.5, 35.0);
@@ -3346,9 +3346,9 @@
   addCodeBooth('C25', 619.2, 169.0, 30.5, 34.0);
   addCodeBooth('C26', 588.8, 169.0, 30.5, 34.0);
   addCodeBooth('C27', 558.2, 169.0, 30.5, 34.0);
-  addCodeBooth('C28', 486.3, 169.0, 25.3, 34.0);
-  addCodeBooth('C29', 461.0, 169.0, 25.3, 34.0);
-  addCodeBooth('C30', 435.7, 169.0, 25.3, 34.0);
+  addCodeBooth('C28', 498.3, 169.0, 29.3, 34.0);
+  addCodeBooth('C29', 469.0, 169.0, 29.3, 34.0);
+  addCodeBooth('C30', 439.7, 169.0, 29.3, 34.0);
   addCodeBooth('D1', 1033.0, 496.8, 32.0, 30.4);
   addCodeBooth('D2', 1033.0, 466.4, 32.0, 30.4);
   addCodeBooth('D3', 1033.0, 436.0, 32.0, 30.4);
@@ -3461,7 +3461,7 @@
       '</g>';
     // Stage 2 — East STAGE pada denah (sisi kanan)
     html+='<g class="a4-map-location-hotspot a4-location-stage2" data-fn="schedule" data-location="Stage 2" data-location-id="stage-2" role="button" tabindex="0" aria-label="Stage 2 di sisi kanan denah. Buka jadwal Stage 2"><title>Stage 2 · East Stage (sisi kanan denah) · klik untuk jadwal</title>'+
-      '<circle class="a4-location-outline" cx="1860" cy="180" r="70"></circle>'+
+      '<path class="a4-location-outline" d="M 1921,43 A 147 114 0 0 0 1921,271 Z"></path>'+
       '<rect class="a4-location-label" x="1812" y="152" width="96" height="56" rx="6"></rect>'+
       '<text class="a4-location-title" x="1860" y="176" text-anchor="middle" pointer-events="none">STAGE 2</text>'+
       '<text class="a4-location-subtitle" x="1860" y="193" text-anchor="middle" pointer-events="none">JADWAL PANGGUNG</text>'+
