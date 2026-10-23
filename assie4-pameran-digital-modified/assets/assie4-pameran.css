@@ -491,7 +491,8 @@ body.assie4-fullpage ::-webkit-scrollbar-thumb { background: var(--a4-gold); bor
 .a4-location-business { --a4-location-color:#34d399 }
 .a4-location-pasinbis { --a4-location-color:#d4a843 }
 .a4-map-location-hotspot .a4-location-outline { fill:var(--a4-location-color); fill-opacity:.12; stroke:var(--a4-location-color); stroke-width:2.5; vector-effect:non-scaling-stroke; transition:fill-opacity .18s ease,stroke .18s ease,stroke-width .18s ease,filter .18s ease }
-.a4-location-business .a4-location-outline { stroke-linejoin:round; stroke-linecap:round }
+.a4-location-business .a4-location-outline,
+.a4-location-stage2 .a4-location-outline { stroke-linejoin:round; stroke-linecap:round }
 .a4-map-location-hotspot .a4-location-label { fill:#0c1524; fill-opacity:1; stroke:var(--a4-location-color); stroke-width:1.5; filter:drop-shadow(0 4px 10px rgba(0,0,0,.55)); vector-effect:non-scaling-stroke; transition:fill .18s ease,stroke-width .18s ease,filter .18s ease }
 .a4-map-location-hotspot .a4-location-title { fill:#f8fafc; font:800 13px 'Plus Jakarta Sans',sans-serif; letter-spacing:.04em }
 .a4-location-stage2 .a4-location-title { font-size:13.5px; letter-spacing:.07em }
