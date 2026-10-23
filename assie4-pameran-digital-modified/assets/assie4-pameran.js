@@ -3466,9 +3466,9 @@
       '<text class="a4-location-title" x="1860" y="176" text-anchor="middle" pointer-events="none">STAGE 2</text>'+
       '<text class="a4-location-subtitle" x="1860" y="193" text-anchor="middle" pointer-events="none">JADWAL PANGGUNG</text>'+
       '</g>';
-    // Ruang Business Matching — di area koridor samping Area B (sesuai denah)
+    // Ruang Business Matching — di area koridor samping Area B (hanya ruang utama, kotak bawah dikecualikan)
     html+='<g class="a4-map-location-hotspot a4-location-business" data-fn="schedule" data-location="Ruang Business Matching" data-location-id="business-matching" role="button" tabindex="0" aria-label="Ruang Business Matching di samping Area B. Buka jadwal"><title>Ruang Business Matching · samping Area B · klik untuk jadwal</title>'+
-      '<polygon class="a4-location-outline" points="365,575 455,680 310,772 235,820 155,820 125,765 155,735"></polygon>'+
+      '<polygon class="a4-location-outline" points="372,580 441,676 311,770 296,754 256,783 263,804 235,826 266,849 233,849 134,755"></polygon>'+
       '<rect class="a4-location-label" x="205" y="665" width="156" height="50" rx="6"></rect>'+
       '<text class="a4-location-title" x="283" y="688" text-anchor="middle" pointer-events="none">BUSINESS MATCHING</text>'+
       '<text class="a4-location-subtitle" x="283" y="703" text-anchor="middle" pointer-events="none">RUANG KONSULTASI &amp; JADWAL</text>'+
